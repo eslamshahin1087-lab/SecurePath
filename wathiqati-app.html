@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>SecurePath — تطبيق متابعة وثائق التأمين</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF7F0;
+    --navy:#16223D;
+    --navy-2:#1F3358;
+    --gold:#BE9B4A;
+    --gold-soft:#EBDFC0;
+    --green:#2F6F4E;
+    --rust:#B5482D;
+    --slate:#3D4552;
+    --line:#E4DCC8;
+    --card:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Cairo',sans-serif;
+    background:#0000;
+    color:var(--slate);
+    display:flex;
+    justify-content:center;
+    padding:24px 8px;
+  }
+  .phone{
+    width:390px;
+    max-width:100%;
+    height:820px;
+    background:var(--paper);
+    border-radius:38px;
+    border:10px solid var(--navy);
+    box-shadow:0 30px 60px rgba(22,34,61,.35);
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+  .notch{
+    position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width:120px; height:22px; background:var(--navy); border-radius:0 0 16px 16px; z-index:30;
+  }
+  .screen{ flex:1; display:none; flex-direction:column; overflow-y:auto; padding-bottom:78px;}
+  .screen.active{display:flex;}
+  .screen::-webkit-scrollbar{display:none;}
+
+  /* ---------- LOGIN ---------- */
+  #login{
+    background:linear-gradient(180deg,var(--navy) 0%, var(--navy) 46%, var(--paper) 46%);
+    justify-content:flex-start;
+    padding-bottom:0;
+  }
+  .brand{ text-align:center; padding:64px 0 18px; }
+  .seal{
+    width:78px;height:78px;margin:0 auto 14px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #d8bc73, var(--gold) 60%, #9c7c31 100%);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 14px rgba(0,0,0,.35), inset 0 0 0 3px rgba(255,255,255,.25);
+    position:relative;
+  }
+  .seal::after{
+    content:"";position:absolute;inset:-8px;border-radius:50%;
+    border:2px dashed rgba(255,255,255,.35);
+  }
+  .seal svg{width:36px;height:36px;fill:var(--navy);}
+  .brand h1{color:var(--paper);font-family:'Tajawal',sans-serif;font-weight:900;font-size:26px;margin:0;}
+  .brand p{color:var(--gold-soft);font-size:13px;margin:6px 0 0;letter-spacing:.3px;}
+
+  .login-card{
+    background:var(--card); margin:0 22px; border-radius:20px; padding:26px 22px;
+    box-shadow:0 12px 30px rgba(22,34,61,.15); border:1px solid var(--line);
+  }
+  .login-card h2{font-family:'Tajawal',sans-serif;font-size:17px;color:var(--navy);margin:0 0 18px;font-weight:700;}
+  .field{margin-bottom:14px;}
+  .field label{font-size:12px;color:#8a8370;display:block;margin-bottom:6px;font-weight:600;}
+  .field input{
+    width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);
+    font-family:'Cairo',sans-serif;font-size:14px;background:#fdfcf9;color:var(--navy);
+  }
+  .field input:focus{outline:none;border-color:var(--gold);}
+  .btn-primary{
+    width:100%;padding:13px;border:none;border-radius:12px;background:var(--navy);
+    color:var(--gold-soft);font-family:'Tajawal',sans-serif;font-weight:700;font-size:15px;
+    cursor:pointer;margin-top:6px;letter-spacing:.3px;
+  }
+  .btn-primary:hover{background:var(--navy-2);}
+  .forgot{text-align:center;font-size:12px;color:var(--navy-2);margin-top:14px;cursor:pointer;text-decoration:underline;}
+  .switch-auth{text-align:center;font-size:12.5px;color:#8a8370;margin-top:16px;}
+  .switch-auth b{color:var(--navy-2);cursor:pointer;text-decoration:underline;}
+  .login-foot{text-align:center;font-size:11px;color:#a8a190;margin-top:26px;}
+
+  /* ---------- HOME ---------- */
+  .topbar{
+    background:var(--navy); color:var(--paper); padding:30px 20px 20px;
+    border-radius:0 0 26px 26px;
+  }
+  .topbar .row{display:flex;justify-content:space-between;align-items:center;}
+  .topbar .hi{font-size:13px;color:var(--gold-soft);margin:0;}
+  .topbar .name{font-family:'Tajawal',sans-serif;font-weight:900;font-size:20px;margin:2px 0 0;}
+  .bell{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;}
+  .bell svg{width:18px;height:18px;fill:var(--gold-soft);}
+  .bell .dot{position:absolute;top:6px;left:8px;width:8px;height:8px;background:var(--rust);border-radius:50%;border:2px solid var(--navy);}
+
+  .stats{display:flex;gap:10px;margin-top:20px;}
+  .stat{
+    flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+    border-radius:14px;padding:12px 10px;text-align:center;
+  }
+  .stat b{display:block;font-family:'Tajawal',sans-serif;font-size:18px;color:var(--gold-soft);}
+  .stat span{font-size:10.5px;color:#c9d0dd;}
+
+  .chips{display:flex;gap:8px;padding:16px 20px 6px;overflow-x:auto;}
+  .chips::-webkit-scrollbar{display:none;}
+  .chip{
+    flex:0 0 auto;padding:8px 16px;border-radius:20px;font-size:12.5px;font-weight:600;
+    background:#fff;border:1.5px solid var(--line);color:var(--slate);cursor:pointer;white-space:nowrap;
+  }
+  .chip.active{background:var(--navy);color:var(--gold-soft);border-color:var(--navy);}
+
+  .section-title{padding:14px 20px 4px;font-family:'Tajawal',sans-serif;font-weight:700;color:var(--navy);font-size:14.5px;}
+
+  .policies{padding:8px 16px 20px;display:flex;flex-direction:column;gap:12px;}
+  .p-card{
+    background:var(--card);border-radius:16px;border:1px solid var(--line);
+    display:flex;overflow:hidden;box-shadow:0 4px 12px rgba(22,34,61,.06);cursor:pointer;
+  }
+  .p-seal{
+    width:64px;flex:0 0 64px;display:flex;align-items:center;justify-content:center;
+    background:var(--gold-soft);position:relative;border-left:2px dashed var(--line);
+  }
+  .p-seal .ring{
+    width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    border:3px solid var(--green);
+  }
+  .p-seal .ring svg{width:18px;height:18px;fill:var(--navy);}
+  .p-seal.warn .ring{border-color:var(--rust);}
+  .p-body{padding:12px 14px;flex:1;}
+  .p-body .top{display:flex;justify-content:space-between;align-items:flex-start;}
+  .p-body h3{margin:0;font-family:'Tajawal',sans-serif;font-size:14.5px;color:var(--navy);font-weight:700;}
+  .p-body .co{font-size:11.5px;color:#8a8370;margin-top:2px;}
+  .badge{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:700;white-space:nowrap;}
+  .badge.ok{background:#e4f0e9;color:var(--green);}
+  .badge.warn{background:#f7e4dd;color:var(--rust);}
+  .p-foot{display:flex;justify-content:space-between;margin-top:10px;font-size:11.5px;color:#8a8370;}
+  .p-foot b{color:var(--navy-2);}
+
+  /* ---------- BOTTOM NAV ---------- */
+  .navbar{
+    position:absolute;bottom:0;left:0;right:0;height:70px;background:#fff;
+    border-top:1px solid var(--line);display:flex;z-index:20;
+  }
+  .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;color:#b3ab97;}
+  .nav-item svg{width:21px;height:21px;fill:#b3ab97;}
+  .nav-item span{font-size:10.5px;font-weight:600;}
+  .nav-item.on, .nav-item.on svg{color:var(--navy);fill:var(--navy);}
+
+  /* ---------- NOTIFICATIONS ---------- */
+  #notifs .topbar{border-radius:0 0 26px 26px;}
+  .notif{
+    margin:10px 16px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;
+    display:flex;gap:12px;align-items:flex-start;
+  }
+  .notif .ic{width:36px;height:36px;border-radius:10px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;flex:0 0 36px;}
+  .notif .ic svg{width:17px;height:17px;fill:var(--navy);}
+  .notif h4{margin:0;font-size:13px;color:var(--navy);font-weight:700;}
+  .notif p{margin:4px 0 0;font-size:12px;color:#8a8370;line-height:1.5;}
+
+  /* ---------- ACCOUNT ---------- */
+  .acc-head{text-align:center;padding:36px 20px 20px;background:var(--navy);border-radius:0 0 26px 26px;color:#fff;}
+  .avatar{width:70px;height:70px;border-radius:50%;background:var(--gold);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-family:'Tajawal',sans-serif;font-weight:900;font-size:24px;color:var(--navy);}
+  .acc-head h2{margin:0;font-family:'Tajawal',sans-serif;}
+  .acc-head p{margin:4px 0 0;font-size:12px;color:var(--gold-soft);}
+  .acc-list{padding:16px;display:flex;flex-direction:column;gap:10px;}
+  .acc-row{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;font-size:13.5px;color:var(--navy-2);cursor:pointer;}
+  .acc-row span{font-weight:600;}
+
+  /* ---------- MODAL ---------- */
+  .overlay{
+    position:absolute;inset:0;background:rgba(22,34,61,.55);display:none;align-items:flex-end;z-index:40;
+  }
+  .overlay.show{display:flex;}
+  .sheet{
+    background:var(--paper);width:100%;border-radius:24px 24px 0 0;padding:22px 22px 26px;
+    max-height:82%;overflow-y:auto;
+  }
+  .sheet .grabber{width:40px;height:4px;background:var(--line);border-radius:4px;margin:0 auto 16px;}
+  .sheet h2{font-family:'Tajawal',sans-serif;color:var(--navy);margin:0 0 2px;font-size:18px;}
+  .sheet .sub{font-size:12px;color:#8a8370;margin-bottom:16px;}
+  .detail-row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px dashed var(--line);font-size:13px;}
+  .detail-row span:first-child{color:#8a8370;}
+  .detail-row span:last-child{color:var(--navy);font-weight:700;}
+  .sheet .actions{display:flex;gap:10px;margin-top:18px;}
+  .sheet .actions button{flex:1;padding:12px;border-radius:12px;border:none;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13.5px;cursor:pointer;}
+  .btn-gold{background:var(--gold);color:var(--navy);}
+  .btn-outline{background:#fff;border:1.5px solid var(--navy)!important;color:var(--navy);}
+  .close-x{position:absolute;top:16px;left:20px;width:28px;height:28px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--navy);}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="notch"></div>
+
+  <!-- LOGIN -->
+  <div class="screen active" id="login">
+    <div class="brand">
+      <div class="seal"><svg viewBox="0 0 24 24"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4z"/></svg></div>
+      <h1 style="letter-spacing:.5px;">SecurePath</h1>
+      <p>كل وثائق التأمين... في مكان واحد</p>
+    </div>
+    <div class="login-card">
+      <h2>تسجيل الدخول لحسابك</h2>
+      <div class="field">
+        <label>اسم المستخدم</label>
+        <input type="text" id="li-username" placeholder="مثال: mohamed.ali">
+      </div>
+      <div class="field">
+        <label>كلمة المرور</label>
+        <input type="password" id="li-password" placeholder="••••••••">
+      </div>
+      <p id="li-error" style="color:#B5482D;font-size:12px;margin:0 0 4px;"></p>
+      <button class="btn-primary" onclick="handleLogin()">دخول</button>
+      <div class="forgot">نسيت كلمة المرور؟</div>
+      <div class="switch-auth">مالكش حساب؟ <b onclick="go('signup')">أنشئ حساب جديد</b></div>
+    </div>
+    <div class="login-foot">حساب خاص بكل عميل — بيانات موثّقة وآمنة</div>
+  </div>
+
+  <!-- SIGN UP -->
+  <div class="screen" id="signup">
+    <div class="brand" style="padding-top:44px;">
+      <div class="seal"><svg viewBox="0 0 24 24"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4z"/></svg></div>
+      <h1 style="letter-spacing:.5px;">SecurePath</h1>
+      <p>إنشاء حساب جديد في دقيقة واحدة</p>
+    </div>
+    <div class="login-card">
+      <h2>بيانات التسجيل</h2>
+      <div class="field"><label>الاسم بالكامل</label><input type="text" id="su-name" placeholder="مثال: أحمد إبراهيم"></div>
+      <div class="field"><label>رقم الهاتف</label><input type="text" id="su-phone" placeholder="01xxxxxxxxx"></div>
+      <div class="field"><label>اسم المستخدم</label><input type="text" id="su-username" placeholder="اختر اسم مستخدم"></div>
+      <div class="field"><label>كلمة المرور</label><input type="password" id="su-password" placeholder="6 حروف/أرقام على الأقل"></div>
+      <div class="field"><label>تأكيد كلمة المرور</label><input type="password" id="su-confirm" placeholder="••••••••"></div>
+      <p id="su-error" style="color:#B5482D;font-size:12px;margin:0 0 4px;"></p>
+      <button class="btn-primary" onclick="handleSignup()">إنشاء الحساب</button>
+      <div class="switch-auth">عندك حساب بالفعل؟ <b onclick="go('login')">تسجيل الدخول</b></div>
+    </div>
+  </div>
+
+  <!-- SYNCING -->
+  <div class="screen" id="link">
+    <div class="brand" style="padding-top:80px;">
+      <div class="seal"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg></div>
+      <h1 style="letter-spacing:.5px;font-size:20px;">تم إنشاء حسابك بنجاح</h1>
+      <p>جاري التحقق من وثائقك المسجّلة عند وكيلك...</p>
+    </div>
+    <div class="login-card" style="text-align:center;">
+      <p style="font-size:12.5px;color:#8a8370;margin-bottom:16px;">لو وكيلك سبق وسجّل أي وثيقة برقم هاتفك، هتظهرلك تلقائيًا دلوقتي في صفحتك الرئيسية.</p>
+      <button class="btn-primary" onclick="go('home')">متابعة لحسابي</button>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div class="screen" id="home">
+    <div class="topbar">
+      <div class="row">
+        <div>
+          <p class="hi">أهلاً بعودتك 👋</p>
+          <p class="name" id="home-name">—</p>
+        </div>
+        <div class="bell" onclick="go('notifs')"><svg viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6v-5c0-3.1-1.9-5.7-5-6.4V4a2 2 0 1 0-4 0v.6C6.9 5.3 5 7.9 5 11v5l-2 2v1h18v-1l-2-2z"/></svg><div class="dot"></div></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>0</b><span>وثائق سارية</span></div>
+        <div class="stat"><b>0</b><span>قريبة الانتهاء</span></div>
+        <div class="stat"><b>0</b><span>إجمالي الأقساط (ج.م)</span></div>
+      </div>
+    </div>
+
+    <div class="chips">
+      <div class="chip active" onclick="filterCat(this,'all')">الكل</div>
+      <div class="chip" onclick="filterCat(this,'car')">سيارات</div>
+      <div class="chip" onclick="filterCat(this,'health')">صحي</div>
+      <div class="chip" onclick="filterCat(this,'life')">حياة</div>
+      <div class="chip" onclick="filterCat(this,'home')">ممتلكات</div>
+      <div class="chip" onclick="filterCat(this,'travel')">سفر</div>
+      <div class="chip" onclick="filterCat(this,'other')">أخرى</div>
+    </div>
+
+    <div class="section-title">وثائقك</div>
+    <div class="policies" id="policyList">
+      <div style="text-align:center;padding:40px 20px;color:#a8a190;font-size:13px;">جاري تحميل وثائقك...</div>
+    </div>
+  </div>
+
+  <!-- NOTIFICATIONS -->
+  <div class="screen" id="notifs">
+    <div class="topbar" style="padding-bottom:16px;">
+      <div class="row"><p class="name">الإشعارات</p></div>
+    </div>
+    <div class="notif">
+      <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2C6 2 2 7 2 12s4 10 10 10 10-4.5 10-10S18 2 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z"/></svg></div>
+      <div><h4>التأمين الصحي العائلي على وشك الانتهاء</h4><p>تنتهي وثيقتك مع AXA مصر خلال 12 يوم. جدّد الآن لتجنب انقطاع التغطية.</p></div>
+    </div>
+    <div class="notif">
+      <div class="ic"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <div><h4>تم تجديد وثيقة السيارة بنجاح</h4><p>تم تجديد وثيقة تأمين السيارة الشامل مع مصر للتأمين لمدة عام إضافي.</p></div>
+    </div>
+    <div class="notif">
+      <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4z"/></svg></div>
+      <div><h4>مستند جديد متاح</h4><p>رفع وكيلك نسخة إلكترونية من وثيقة تأمين السفر — يمكنك تحميلها الآن.</p></div>
+    </div>
+  </div>
+
+  <!-- ACCOUNT -->
+  <div class="screen" id="account">
+    <div class="acc-head">
+      <div class="avatar" id="acc-avatar">؟</div>
+      <h2 id="acc-name">—</h2>
+      <p id="acc-username">—</p>
+    </div>
+    <div class="acc-list">
+      <div class="acc-row"><span>بياناتي الشخصية</span>›</div>
+      <div class="acc-row"><span>المستندات المرفوعة</span>›</div>
+      <div class="acc-row"><span>سجل المدفوعات</span>›</div>
+      <div class="acc-row"><span>التواصل مع الوكيل</span>›</div>
+      <div class="acc-row"><span>الإشعارات والتنبيهات</span>›</div>
+      <div class="acc-row"><span>تغيير كلمة المرور</span>›</div>
+      <div class="acc-row" onclick="handleLogout()" style="color:var(--rust);"><span>تسجيل الخروج</span>›</div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="navbar" id="navbar">
+    <div class="nav-item on" data-t="home" onclick="go('home')">
+      <svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3z"/></svg><span>الرئيسية</span>
+    </div>
+    <div class="nav-item" data-t="notifs" onclick="go('notifs')">
+      <svg viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6v-5c0-3.1-1.9-5.7-5-6.4V4a2 2 0 1 0-4 0v.6C6.9 5.3 5 7.9 5 11v5l-2 2v1h18v-1l-2-2z"/></svg><span>الإشعارات</span>
+    </div>
+    <div class="nav-item" data-t="account" onclick="go('account')">
+      <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5z"/></svg><span>حسابي</span>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="overlay" id="overlay" onclick="if(event.target===this)closeSheet()">
+    <div class="sheet">
+      <div class="close-x" onclick="closeSheet()">✕</div>
+      <div class="grabber"></div>
+      <h2 id="m-title">—</h2>
+      <p class="sub" id="m-co">—</p>
+      <div class="detail-row"><span>رقم الوثيقة</span><span id="m-num">—</span></div>
+      <div class="detail-row"><span>نوع التغطية</span><span id="m-cov">—</span></div>
+      <div class="detail-row"><span>تاريخ البداية</span><span id="m-start">—</span></div>
+      <div class="detail-row"><span>تاريخ الانتهاء</span><span id="m-end">—</span></div>
+      <div class="detail-row"><span>قيمة القسط</span><span id="m-premium">—</span></div>
+      <div class="detail-row" style="border-bottom:none;"><span>الحالة</span><span id="m-status">—</span></div>
+      <div class="actions">
+        <button class="btn-outline" style="background:#fff;">تحميل المستند</button>
+        <button class="btn-gold">تجديد الوثيقة</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+/* ============== Firebase setup ============== */
+const firebaseConfig = {
+  apiKey: "AIzaSyCkRYPffAEBRivC2Si5T-ILL99ZrSq-dWM",
+  authDomain: "path-1a672.firebaseapp.com",
+  projectId: "path-1a672",
+  storageBucket: "path-1a672.firebasestorage.app",
+  messagingSenderId: "616651183121",
+  appId: "1:616651183121:web:ba7f3cdec65a9df8014db0"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+function usernameToEmail(u){ return u.trim().toLowerCase() + '@securepath.app'; }
+
+const CATEGORY_MAP = {
+  "تأمين السيارات (شامل / ضد الغير)":{cat:'car', icon:'M5 11l6 6L20 6'},
+  "التأمين الصحي":{cat:'health', icon:'M12 2C6 2 2 7 2 12s4 10 10 10 10-4.5 10-10S18 2 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z'},
+  "التأمين على الحياة":{cat:'life', icon:'M12 21s-7-4.3-9.5-9C1 8.5 2.7 5 6.2 5c2 0 3.4 1 4.8 2.7C12.4 6 13.8 5 15.8 5 19.3 5 21 8.5 19.5 12 17 16.7 12 21 12 21z'},
+  "تأمين الممتلكات (الحريق)":{cat:'home', icon:'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'},
+  "تأمين السفر":{cat:'travel', icon:'M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2.5 1.5V22l4-1 4 1v-1.5L13 19v-5.5z'},
+};
+const DEFAULT_ICON = 'M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4z';
+
+function policyStatus(endDateStr){
+  if(!endDateStr) return {label:'سارية', cls:'ok', days:null};
+  const end = new Date(endDateStr);
+  const today = new Date();
+  const diffDays = Math.ceil((end - today)/(1000*60*60*24));
+  if(diffDays < 0) return {label:'منتهية', cls:'warn', days:diffDays};
+  if(diffDays <= 30) return {label:'تنتهي بعد '+diffDays+' يوم', cls:'warn', days:diffDays};
+  return {label:'سارية', cls:'ok', days:diffDays};
+}
+
+function fmtDate(d){
+  if(!d) return '—';
+  const dt = new Date(d);
+  return dt.toLocaleDateString('ar-EG',{day:'numeric',month:'long',year:'numeric'});
+}
+
+async function reconcileByPhone(uid, phone){
+  if(!phone) return;
+  try{
+    const snap = await db.collection('policies').where('clientId','==',phone).get();
+    const batch = db.batch();
+    snap.forEach(doc=>batch.update(doc.ref,{clientId:uid}));
+    if(!snap.empty) await batch.commit();
+  }catch(e){ console.error('reconcile error', e); }
+}
+
+let CURRENT_POLICIES = [];
+
+async function loadPolicies(){
+  const uid = auth.currentUser.uid;
+  const snap = await db.collection('policies').where('clientId','==',uid).get();
+  CURRENT_POLICIES = snap.docs.map(d=>({id:d.id, ...d.data()}));
+  renderPolicies(CURRENT_POLICIES);
+  renderStats(CURRENT_POLICIES);
+}
+
+function renderStats(list){
+  const active = list.filter(p=>policyStatus(p.endDate).cls==='ok').length;
+  const warn = list.filter(p=>policyStatus(p.endDate).cls==='warn').length;
+  const total = list.reduce((s,p)=>s + (parseFloat(p.premium)||0), 0);
+  document.querySelectorAll('.stats .stat b')[0].textContent = active;
+  document.querySelectorAll('.stats .stat b')[1].textContent = warn;
+  document.querySelectorAll('.stats .stat b')[2].textContent = total.toLocaleString('en-US');
+}
+
+function renderPolicies(list){
+  const wrap = document.getElementById('policyList');
+  if(list.length===0){
+    wrap.innerHTML = '<div style="text-align:center;padding:40px 20px;color:#a8a190;font-size:13px;">لسه معندكش وثائق مضافة.<br>وكيلك هيضيفها وهتظهر هنا أول ما تتسجل.</div>';
+    return;
+  }
+  wrap.innerHTML = list.map(p=>{
+    const meta = CATEGORY_MAP[p.type] || {cat:'other', icon:DEFAULT_ICON};
+    const st = policyStatus(p.endDate);
+    return `
+      <div class="p-card" data-cat="${meta.cat}" onclick='openPolicyData(${JSON.stringify(p).replace(/'/g,"&apos;")})'>
+        <div class="p-seal ${st.cls==='warn'?'warn':''}"><div class="ring"><svg viewBox="0 0 24 24"><path d="${meta.icon}"/></svg></div></div>
+        <div class="p-body">
+          <div class="top"><h3>${p.type}</h3><span class="badge ${st.cls}">${st.label}</span></div>
+          <p class="co">${p.company||''}</p>
+          <div class="p-foot"><span>ينتهي: <b>${fmtDate(p.endDate)}</b></span><span>القسط: <b>${p.premium||'—'} ج.م</b></span></div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function openPolicyData(p){
+  const st = policyStatus(p.endDate);
+  document.getElementById('m-title').textContent = p.type;
+  document.getElementById('m-co').textContent = p.company||'—';
+  document.getElementById('m-num').textContent = p.policyNumber||'—';
+  document.getElementById('m-cov').textContent = p.coverage||p.type;
+  document.getElementById('m-start').textContent = fmtDate(p.startDate);
+  document.getElementById('m-end').textContent = fmtDate(p.endDate);
+  document.getElementById('m-premium').textContent = (p.premium||'—')+' ج.م / سنويًا';
+  document.getElementById('m-status').textContent = st.label;
+  document.getElementById('overlay').classList.add('show');
+}
+
+async function handleSignup(){
+  const name = document.getElementById('su-name').value.trim();
+  const phone = document.getElementById('su-phone').value.trim();
+  const username = document.getElementById('su-username').value.trim();
+  const pass = document.getElementById('su-password').value;
+  const confirm = document.getElementById('su-confirm').value;
+  const err = document.getElementById('su-error');
+  err.textContent = '';
+  if(!name || !phone || !username || !pass){ err.textContent = 'من فضلك املأ كل الحقول'; return; }
+  if(pass !== confirm){ err.textContent = 'كلمة المرور وتأكيدها مش متطابقين'; return; }
+  if(pass.length < 6){ err.textContent = 'كلمة المرور لازم تكون 6 حروف/أرقام على الأقل'; return; }
+  try{
+    const cred = await auth.createUserWithEmailAndPassword(usernameToEmail(username), pass);
+    await db.collection('clients').doc(cred.user.uid).set({
+      fullName:name, phone:phone, username:username.toLowerCase(), createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    document.getElementById('acc-name').textContent = name;
+    document.getElementById('acc-username').textContent = username.toLowerCase()+'@securepath.app';
+    document.getElementById('home-name').textContent = name;
+    go('link');
+    await reconcileByPhone(cred.user.uid, phone);
+    await loadPolicies();
+  }catch(e){
+    err.textContent = firebaseErrorAr(e);
+  }
+}
+
+async function handleLogin(){
+  const username = document.getElementById('li-username').value.trim();
+  const pass = document.getElementById('li-password').value;
+  const err = document.getElementById('li-error');
+  err.textContent = '';
+  if(!username || !pass){ err.textContent = 'من فضلك ادخل اسم المستخدم وكلمة المرور'; return; }
+  try{
+    const cred = await auth.signInWithEmailAndPassword(usernameToEmail(username), pass);
+    const profile = await db.collection('clients').doc(cred.user.uid).get();
+    const data = profile.data() || {};
+    document.getElementById('acc-name').textContent = data.fullName||username;
+    document.getElementById('acc-username').textContent = username.toLowerCase()+'@securepath.app';
+    document.getElementById('home-name').textContent = data.fullName||username;
+    if(data.phone) await reconcileByPhone(cred.user.uid, data.phone);
+    await loadPolicies();
+    go('home');
+  }catch(e){
+    err.textContent = firebaseErrorAr(e);
+  }
+}
+
+function firebaseErrorAr(e){
+  const code = e.code||'';
+  if(code.includes('user-not-found') || code.includes('invalid-credential') || code.includes('wrong-password')) return 'اسم المستخدم أو كلمة المرور غلط';
+  if(code.includes('email-already-in-use')) return 'اسم المستخدم ده مستخدم قبل كده، جرّب اسم تاني';
+  if(code.includes('network')) return 'مفيش اتصال بالإنترنت';
+  return 'حصل خطأ، جرّب تاني';
+}
+
+function handleLogout(){
+  auth.signOut().then(()=>go('login'));
+}
+
+auth.onAuthStateChanged(function(user){
+  if(user && document.getElementById('login').classList.contains('active')){
+    db.collection('clients').doc(user.uid).get().then(profile=>{
+      const data = profile.data() || {};
+      document.getElementById('acc-name').textContent = data.fullName||'';
+      document.getElementById('acc-username').textContent = (data.username||'')+'@securepath.app';
+      document.getElementById('home-name').textContent = data.fullName||'';
+      loadPolicies();
+      go('home');
+    });
+  }
+});
+
+function go(screen){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(screen).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('on', n.dataset.t===screen));
+  document.getElementById('navbar').style.display = ['login','signup','link'].includes(screen) ? 'none' : 'flex';
+}
+function filterCat(el,cat){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.p-card').forEach(card=>{
+    card.style.display = (cat==='all' || card.dataset.cat===cat) ? 'flex' : 'none';
+  });
+}
+function closeSheet(){ document.getElementById('overlay').classList.remove('show'); }
+document.getElementById('navbar').style.display='none';
+</script>
+
+</body>
+</html>
