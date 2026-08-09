@@ -2,7 +2,16 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>SecurePath — تطبيق متابعة وثائق التأمين</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#16223D">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SecurePath">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -44,6 +53,18 @@
   .notch{
     position:absolute; top:0; left:50%; transform:translateX(-50%);
     width:120px; height:22px; background:var(--navy); border-radius:0 0 16px 16px; z-index:30;
+  }
+  @media (max-width:480px){
+    body{ padding:0; background:var(--paper); }
+    .phone{
+      width:100%; height:100vh; height:100dvh; border:none; border-radius:0; box-shadow:none;
+      padding-top:env(safe-area-inset-top); padding-bottom:env(safe-area-inset-bottom);
+    }
+    .notch{ display:none; }
+  }
+  @media (display-mode: standalone){
+    .notch{ display:none; }
+    .phone{ border:none; border-radius:0; box-shadow:none; }
   }
   .screen{ flex:1; display:none; flex-direction:column; overflow-y:auto; padding-bottom:78px;}
   .screen.active{display:flex;}
@@ -548,6 +569,10 @@ function firebaseErrorAr(e){
 
 function handleLogout(){
   auth.signOut().then(()=>go('login'));
+}
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
 }
 
 auth.onAuthStateChanged(function(user){
