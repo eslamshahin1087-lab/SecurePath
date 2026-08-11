@@ -210,8 +210,10 @@
         </div>
 
         <div class="panel" style="margin-bottom:20px;">
-          <div class="panel-head"><h3>المستندات المرفوعة من العميل</h3></div>
+          <div class="panel-head"><h3>المستندات</h3><button class="btn-gold" style="padding:8px 14px;font-size:12px;" onclick="document.getElementById('ad-doc-file').click()">+ رفع مستند</button></div>
           <div id="client-documents-list" style="padding:16px 20px;display:flex;flex-direction:column;gap:8px;"></div>
+          <input type="file" id="ad-doc-file" accept="image/*,.pdf" style="display:none" onchange="handleAdminUploadDocument()">
+          <p id="ad-doc-error" style="color:#B5482D;font-size:12px;padding:0 20px 14px;"></p>
         </div>
 
         <div class="panel">
@@ -492,10 +494,38 @@ async function loadClientDocuments(uid){
     return `
     <div style="display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:9px 12px;">
       ${isImg ? `<img src="${doc.dataUrl}" style="width:34px;height:34px;object-fit:cover;border-radius:6px;">` : `<div style="width:34px;height:34px;border-radius:6px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;">📄</div>`}
-      <span style="flex:1;font-size:12.5px;color:var(--navy-2);">${doc.fileName}</span>
+      <span style="flex:1;font-size:12.5px;color:var(--navy-2);">${doc.fileName} ${doc.uploadedBy==='agent' ? '<span style=\"color:#a8a190;font-size:10.5px;\">(رفعتها إنت)</span>' : ''}</span>
       <a href="${doc.dataUrl}" download="${doc.fileName}" style="font-size:11px;color:var(--navy-2);font-weight:700;text-decoration:underline;">فتح</a>
     </div>`;
   }).join('');
+}
+
+const MAX_DOC_BYTES = 700 * 1024;
+function handleAdminUploadDocument(){
+  const input = document.getElementById('ad-doc-file');
+  const file = input.files[0];
+  const err = document.getElementById('ad-doc-error');
+  err.textContent = '';
+  if(!file || !CURRENT_CLIENT_UID) return;
+  if(file.size > MAX_DOC_BYTES){
+    err.textContent = 'الملف كبير قوي (الحد الأقصى 700 كيلوبايت). جرّب صورة أصغر أو بجودة أقل.';
+    input.value = '';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = async function(){
+    try{
+      await db.collection('documents').add({
+        clientId: CURRENT_CLIENT_UID, fileName: file.name, fileType: file.type,
+        dataUrl: reader.result, uploadedBy:'agent', createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      input.value = '';
+      await loadClientDocuments(CURRENT_CLIENT_UID);
+    }catch(e){
+      err.textContent = 'حصل خطأ أثناء الرفع، جرّب تاني';
+    }
+  };
+  reader.readAsDataURL(file);
 }
 
 let AGENT_CHAT_UNSUB = null;
