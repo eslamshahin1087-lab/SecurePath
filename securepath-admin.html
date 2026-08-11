@@ -193,12 +193,34 @@
           </div>
           <button class="btn-gold" onclick="openModal('m-policy')"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg>إضافة وثيقة</button>
         </div>
-        <div class="panel">
+        <div class="panel" style="margin-bottom:20px;">
           <div class="panel-head"><h3>وثائق العميل</h3></div>
           <table>
             <tr><th>نوع التأمين</th><th>شركة التأمين</th><th>رقم الوثيقة</th><th>تاريخ الانتهاء</th><th>القسط</th><th>الحالة</th></tr>
             <tbody id="client-policies-tbody"></tbody>
           </table>
+        </div>
+
+        <div class="panel" style="margin-bottom:20px;">
+          <div class="panel-head"><h3>سجل المدفوعات</h3><button class="btn-gold" style="padding:8px 14px;font-size:12px;" onclick="openModal('m-payment')">+ إضافة دفعة</button></div>
+          <table>
+            <tr><th>التاريخ</th><th>المبلغ</th><th>طريقة الدفع</th><th>ملاحظة</th></tr>
+            <tbody id="client-payments-tbody"></tbody>
+          </table>
+        </div>
+
+        <div class="panel" style="margin-bottom:20px;">
+          <div class="panel-head"><h3>المستندات المرفوعة من العميل</h3></div>
+          <div id="client-documents-list" style="padding:16px 20px;display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h3>المحادثة مع العميل</h3></div>
+          <div id="chat-list" style="height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:16px 20px;"></div>
+          <div style="display:flex;gap:10px;padding:16px 20px;border-top:1px solid var(--line);">
+            <input type="text" id="chat-input" placeholder="اكتب ردًا للعميل..." style="flex:1;padding:10px 14px;border-radius:20px;border:1.5px solid var(--line);font-family:'Cairo',sans-serif;font-size:13px;">
+            <button class="btn-gold" style="padding:10px 20px;" onclick="handleSendAgentMessage()">إرسال</button>
+          </div>
         </div>
       </div>
 
@@ -313,6 +335,33 @@
   </div>
 </div>
 
+<!-- MODAL: ADD PAYMENT -->
+<div class="overlay" id="m-payment" onclick="if(event.target===this)closeModal('m-payment')">
+  <div class="modal">
+    <h2>إضافة دفعة</h2>
+    <p class="sub">هتتضاف لسجل مدفوعات العميل ويقدر يشوفها من حسابه</p>
+    <div class="grid2">
+      <div class="field"><label>المبلغ (جنيه)</label><input id="pay-amount" placeholder="مثال: 5000"></div>
+      <div class="field"><label>تاريخ الدفع</label><input type="date" id="pay-date"></div>
+    </div>
+    <div class="field">
+      <label>طريقة الدفع</label>
+      <select id="pay-method">
+        <option>كاش</option>
+        <option>تحويل بنكي</option>
+        <option>فودافون كاش</option>
+        <option>بطاقة ائتمان</option>
+      </select>
+    </div>
+    <div class="field"><label>ملاحظة (اختياري)</label><input id="pay-note" placeholder="مثال: دفعة قسط تأمين السيارة"></div>
+    <p id="pay-error" style="color:#B5482D;font-size:12px;margin:0 0 4px;"></p>
+    <div class="actions">
+      <button class="btn-outline" onclick="closeModal('m-payment')">إلغاء</button>
+      <button class="btn-gold" onclick="handleAddPayment()">حفظ الدفعة</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -352,6 +401,7 @@ function handleAgentLogout(){
   auth.signOut().then(()=>location.reload());
 }
 
+function tsMillis(ts){ return (ts && ts.toMillis) ? ts.toMillis() : 0; }
 function fmtDate(d){ if(!d) return '—'; return new Date(d).toLocaleDateString('ar-EG',{day:'numeric',month:'long',year:'numeric'}); }
 function daysLeft(endDateStr){ return Math.ceil((new Date(endDateStr)-new Date())/(1000*60*60*24)); }
 function statusPill(endDate){
@@ -417,6 +467,83 @@ async function openClient(uid){
   document.getElementById('client-policies-tbody').innerHTML = rows.map(p=>`
     <tr><td>${p.type}</td><td>${p.company}</td><td>${p.policyNumber||''}</td><td>${fmtDate(p.endDate)}</td><td>${p.premium||''} ج.م</td><td>${statusPill(p.endDate)}</td></tr>
   `).join('') || '<tr><td colspan="6" style="text-align:center;color:#a8a190;">مفيش وثائق للعميل ده لسه</td></tr>';
+  await loadClientPayments(uid);
+  await loadClientDocuments(uid);
+  openAgentChat(uid);
+}
+
+async function loadClientPayments(uid){
+  const snap = await db.collection('payments').where('clientId','==',uid).get();
+  const rows = snap.docs.slice().sort((a,b)=>(b.data().date||'').localeCompare(a.data().date||''));
+  document.getElementById('client-payments-tbody').innerHTML = rows.map(d=>{
+    const p = d.data();
+    return `<tr><td>${fmtDate(p.date)}</td><td>${p.amount} ج.م</td><td>${p.method||''}</td><td>${p.note||''}</td></tr>`;
+  }).join('') || '<tr><td colspan="4" style="text-align:center;color:#a8a190;">مفيش مدفوعات مسجّلة لسه</td></tr>';
+}
+
+async function loadClientDocuments(uid){
+  const wrap = document.getElementById('client-documents-list');
+  const snap = await db.collection('documents').where('clientId','==',uid).get();
+  const rows = snap.docs.slice().sort((a,b)=>tsMillis(b.data().createdAt)-tsMillis(a.data().createdAt));
+  if(rows.length===0){ wrap.innerHTML = '<p style="color:#a8a190;font-size:12.5px;">العميل لسه مرفعش أي مستندات.</p>'; return; }
+  wrap.innerHTML = rows.map(d=>{
+    const doc = d.data();
+    const isImg = (doc.fileType||'').startsWith('image/');
+    return `
+    <div style="display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:9px 12px;">
+      ${isImg ? `<img src="${doc.dataUrl}" style="width:34px;height:34px;object-fit:cover;border-radius:6px;">` : `<div style="width:34px;height:34px;border-radius:6px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;">📄</div>`}
+      <span style="flex:1;font-size:12.5px;color:var(--navy-2);">${doc.fileName}</span>
+      <a href="${doc.dataUrl}" download="${doc.fileName}" style="font-size:11px;color:var(--navy-2);font-weight:700;text-decoration:underline;">فتح</a>
+    </div>`;
+  }).join('');
+}
+
+let AGENT_CHAT_UNSUB = null;
+function openAgentChat(uid){
+  const list = document.getElementById('chat-list');
+  list.innerHTML = '<p style="color:#a8a190;font-size:12.5px;text-align:center;">جاري التحميل...</p>';
+  if(AGENT_CHAT_UNSUB) AGENT_CHAT_UNSUB();
+  AGENT_CHAT_UNSUB = db.collection('messages').where('clientId','==',uid)
+    .onSnapshot(snap=>{
+      const docs = snap.docs.slice().sort((a,b)=>tsMillis(a.data().createdAt)-tsMillis(b.data().createdAt));
+      if(docs.length===0){ list.innerHTML = '<p style="color:#a8a190;font-size:12.5px;text-align:center;">لسه مفيش رسائل مع العميل ده.</p>'; return; }
+      list.innerHTML = docs.map(d=>{
+        const m = d.data();
+        const fromAgent = m.sender === 'agent';
+        return `<div style="align-self:${fromAgent?'flex-start':'flex-end'};max-width:75%;background:${fromAgent?'var(--navy)':'var(--gold-soft)'};color:${fromAgent?'#fff':'var(--navy)'};padding:8px 12px;border-radius:12px;font-size:12.5px;">${m.text}</div>`;
+      }).join('');
+      list.scrollTop = list.scrollHeight;
+    });
+}
+async function handleSendAgentMessage(){
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if(!text || !CURRENT_CLIENT_UID) return;
+  input.value = '';
+  await db.collection('messages').add({
+    clientId: CURRENT_CLIENT_UID, sender:'agent', text, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  });
+}
+async function handleAddPayment(){
+  const amount = document.getElementById('pay-amount').value.trim();
+  const date = document.getElementById('pay-date').value;
+  const method = document.getElementById('pay-method').value;
+  const note = document.getElementById('pay-note').value.trim();
+  const err = document.getElementById('pay-error');
+  err.textContent = '';
+  if(!amount || !date){ err.textContent = 'من فضلك ادخل المبلغ والتاريخ'; return; }
+  try{
+    await db.collection('payments').add({
+      clientId: CURRENT_CLIENT_UID, amount, date, method, note,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    closeModal('m-payment');
+    document.getElementById('pay-amount').value='';
+    document.getElementById('pay-note').value='';
+    await loadClientPayments(CURRENT_CLIENT_UID);
+  }catch(e){
+    err.textContent = 'حصل خطأ، جرّب تاني';
+  }
 }
 
 async function handleAddClient(){

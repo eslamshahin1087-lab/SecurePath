@@ -346,9 +346,9 @@
     </div>
     <div class="acc-list">
       <div class="acc-row" onclick="openEditProfile()"><span>بياناتي الشخصية</span>›</div>
-      <div class="acc-row" onclick="showNotice('المستندات المرفوعة','هتقدر ترفع وتشوف مستنداتك من هنا قريبًا — الميزة دي لسه بتتجهّز.')"><span>المستندات المرفوعة</span>›</div>
-      <div class="acc-row" onclick="showNotice('سجل المدفوعات','سجل مدفوعاتك هيظهر هنا قريبًا.')"><span>سجل المدفوعات</span>›</div>
-      <div class="acc-row" onclick="showNotice('التواصل مع الوكيل','خاصية التواصل المباشر مع وكيلك هتضاف قريبًا. لحد ما تتاح، تقدر تتواصل معاه بأي وسيلة اعتدت عليها.')"><span>التواصل مع الوكيل</span>›</div>
+      <div class="acc-row" onclick="openDocuments()"><span>المستندات المرفوعة</span>›</div>
+      <div class="acc-row" onclick="openPayments()"><span>سجل المدفوعات</span>›</div>
+      <div class="acc-row" onclick="openChat()"><span>التواصل مع الوكيل</span>›</div>
       <div class="acc-row" onclick="showNotice('الإشعارات والتنبيهات','ضبط تفضيلات الإشعارات هيتاح هنا قريبًا. دلوقتي بتوصلك التنبيهات تلقائيًا في صفحة الإشعارات.')"><span>الإشعارات والتنبيهات</span>›</div>
       <div class="acc-row" onclick="openChangePassword()"><span>تغيير كلمة المرور</span>›</div>
       <div class="acc-row" onclick="handleLogout()" style="color:var(--rust);"><span>تسجيل الخروج</span>›</div>
@@ -394,6 +394,43 @@
       <div class="actions">
         <button class="btn-outline" onclick="closeModalSheet('password-overlay')">إلغاء</button>
         <button class="btn-gold" onclick="handleChangePassword()">تغيير كلمة المرور</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTS SHEET -->
+  <div class="overlay" id="documents-overlay" onclick="if(event.target===this)closeModalSheet('documents-overlay')">
+    <div class="sheet">
+      <div class="grabber"></div>
+      <h2>المستندات المرفوعة</h2>
+      <p class="sub">ارفع صور أو ملفات مستنداتك (أقل من 700 كيلوبايت للملف)</p>
+      <div id="doc-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;"></div>
+      <input type="file" id="doc-file" accept="image/*,.pdf" style="display:none" onchange="handleUploadDocument()">
+      <p id="doc-error" style="color:#B5482D;font-size:12px;margin:0 0 8px;"></p>
+      <button class="btn-primary" id="doc-upload-btn" onclick="document.getElementById('doc-file').click()">+ رفع مستند جديد</button>
+    </div>
+  </div>
+
+  <!-- PAYMENTS SHEET -->
+  <div class="overlay" id="payments-overlay" onclick="if(event.target===this)closeModalSheet('payments-overlay')">
+    <div class="sheet">
+      <div class="grabber"></div>
+      <h2>سجل المدفوعات</h2>
+      <p class="sub">كل الدفعات اللي سجّلها وكيلك على حسابك</p>
+      <div id="payments-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+    </div>
+  </div>
+
+  <!-- CHAT SHEET -->
+  <div class="overlay" id="chat-overlay" onclick="if(event.target===this){closeChat();}">
+    <div class="sheet" style="display:flex;flex-direction:column;height:78%;padding-bottom:14px;">
+      <div class="grabber"></div>
+      <h2>التواصل مع الوكيل</h2>
+      <p class="sub">رسائلك مع وكيلك</p>
+      <div id="chat-list" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:4px 2px;"></div>
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <input type="text" id="chat-input" placeholder="اكتب رسالتك..." style="flex:1;padding:11px 14px;border-radius:20px;border:1.5px solid var(--line);font-family:'Cairo',sans-serif;font-size:13.5px;">
+        <button onclick="handleSendMessage()" style="background:var(--navy);color:var(--gold-soft);border:none;border-radius:50%;width:42px;height:42px;flex:0 0 42px;cursor:pointer;font-size:16px;">➤</button>
       </div>
     </div>
   </div>
@@ -485,6 +522,7 @@ function policyStatus(endDateStr){
   return {label:'سارية', cls:'ok', days:diffDays};
 }
 
+function tsMillis(ts){ return (ts && ts.toMillis) ? ts.toMillis() : 0; }
 function fmtDate(d){
   if(!d) return '—';
   const dt = new Date(d);
@@ -711,6 +749,115 @@ async function handleChangePassword(){
     if((e.code||'').includes('wrong-password') || (e.code||'').includes('invalid-credential')) err.textContent = 'كلمة المرور الحالية غلط';
     else err.textContent = 'حصل خطأ، جرّب تاني';
   }
+}
+
+/* ============== Documents (stored as base64 inside Firestore — no paid Storage needed) ============== */
+const MAX_DOC_BYTES = 700 * 1024;
+
+async function openDocuments(){
+  document.getElementById('documents-overlay').classList.add('show');
+  await loadDocuments();
+}
+async function loadDocuments(){
+  const wrap = document.getElementById('doc-list');
+  wrap.innerHTML = '<p style="color:#a8a190;font-size:12.5px;">جاري التحميل...</p>';
+  const snap = await db.collection('documents').where('clientId','==',auth.currentUser.uid).get();
+  const docsSorted = snap.docs.slice().sort((a,b)=>tsMillis(b.data().createdAt)-tsMillis(a.data().createdAt));
+  if(docsSorted.length===0){ wrap.innerHTML = '<p style="color:#a8a190;font-size:12.5px;">لسه معندكش مستندات مرفوعة.</p>'; return; }
+  wrap.innerHTML = docsSorted.map(d=>{
+    const doc = d.data();
+    const isImg = (doc.fileType||'').startsWith('image/');
+    return `
+    <div style="display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;">
+      ${isImg ? `<img src="${doc.dataUrl}" style="width:40px;height:40px;object-fit:cover;border-radius:8px;">` : `<div style="width:40px;height:40px;border-radius:8px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-size:16px;">📄</div>`}
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:12.5px;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${doc.fileName}</div>
+        <div style="font-size:10.5px;color:#a8a190;">${fmtDate(doc.createdAt && doc.createdAt.toDate ? doc.createdAt.toDate() : null)}</div>
+      </div>
+      <a href="${doc.dataUrl}" download="${doc.fileName}" style="font-size:11.5px;color:var(--navy-2);font-weight:700;text-decoration:underline;">فتح</a>
+    </div>`;
+  }).join('');
+}
+function handleUploadDocument(){
+  const input = document.getElementById('doc-file');
+  const file = input.files[0];
+  const err = document.getElementById('doc-error');
+  err.textContent = '';
+  if(!file) return;
+  if(file.size > MAX_DOC_BYTES){
+    err.textContent = 'الملف كبير قوي (الحد الأقصى 700 كيلوبايت). جرّب صورة أصغر أو بجودة أقل.';
+    input.value = '';
+    return;
+  }
+  const btn = document.getElementById('doc-upload-btn');
+  btn.textContent = 'جاري الرفع...';
+  const reader = new FileReader();
+  reader.onload = async function(){
+    try{
+      await db.collection('documents').add({
+        clientId: auth.currentUser.uid, fileName: file.name, fileType: file.type,
+        dataUrl: reader.result, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      input.value = '';
+      btn.textContent = '+ رفع مستند جديد';
+      await loadDocuments();
+    }catch(e){
+      err.textContent = 'حصل خطأ أثناء الرفع، جرّب تاني';
+      btn.textContent = '+ رفع مستند جديد';
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ============== Payments (read-only for client) ============== */
+async function openPayments(){
+  document.getElementById('payments-overlay').classList.add('show');
+  const wrap = document.getElementById('payments-list');
+  wrap.innerHTML = '<p style="color:#a8a190;font-size:12.5px;">جاري التحميل...</p>';
+  const snap = await db.collection('payments').where('clientId','==',auth.currentUser.uid).get();
+  const paySorted = snap.docs.slice().sort((a,b)=>(b.data().date||'').localeCompare(a.data().date||''));
+  if(paySorted.length===0){ wrap.innerHTML = '<p style="color:#a8a190;font-size:12.5px;">لسه معندكش مدفوعات مسجّلة.</p>'; return; }
+  wrap.innerHTML = paySorted.map(d=>{
+    const p = d.data();
+    return `
+    <div style="border:1px solid var(--line);border-radius:12px;padding:12px 14px;">
+      <div style="display:flex;justify-content:space-between;"><b style="color:var(--navy);font-size:14px;">${p.amount} ج.م</b><span style="font-size:11px;color:#8a8370;">${fmtDate(p.date)}</span></div>
+      <div style="font-size:12px;color:#8a8370;margin-top:4px;">${p.method||''}${p.note ? ' — '+p.note : ''}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ============== Chat with agent ============== */
+let CHAT_UNSUB = null;
+function openChat(){
+  document.getElementById('chat-overlay').classList.add('show');
+  const list = document.getElementById('chat-list');
+  list.innerHTML = '<p style="color:#a8a190;font-size:12.5px;text-align:center;">جاري التحميل...</p>';
+  if(CHAT_UNSUB) CHAT_UNSUB();
+  CHAT_UNSUB = db.collection('messages').where('clientId','==',auth.currentUser.uid)
+    .onSnapshot(snap=>{
+      const docs = snap.docs.slice().sort((a,b)=>tsMillis(a.data().createdAt)-tsMillis(b.data().createdAt));
+      if(docs.length===0){ list.innerHTML = '<p style="color:#a8a190;font-size:12.5px;text-align:center;">ابدأ المحادثة مع وكيلك من هنا.</p>'; return; }
+      list.innerHTML = docs.map(d=>{
+        const m = d.data();
+        const mine = m.sender === 'client';
+        return `<div style="align-self:${mine?'flex-start':'flex-end'};max-width:75%;background:${mine?'var(--navy)':'var(--gold-soft)'};color:${mine?'#fff':'var(--navy)'};padding:9px 13px;border-radius:14px;font-size:13px;">${m.text}</div>`;
+      }).join('');
+      list.scrollTop = list.scrollHeight;
+    });
+}
+function closeChat(){
+  document.getElementById('chat-overlay').classList.remove('show');
+  if(CHAT_UNSUB){ CHAT_UNSUB(); CHAT_UNSUB = null; }
+}
+async function handleSendMessage(){
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if(!text) return;
+  input.value = '';
+  await db.collection('messages').add({
+    clientId: auth.currentUser.uid, sender:'client', text, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  });
 }
 document.getElementById('navbar').style.display='none';
 </script>
