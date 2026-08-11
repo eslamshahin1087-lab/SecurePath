@@ -38,18 +38,17 @@
     padding:24px 8px;
   }
   .phone{
-    width:100%;
-    height:100vh;
-    height:100dvh;
+    width:390px;
+    max-width:100%;
+    height:820px;
     background:var(--paper);
+    border-radius:38px;
+    border:10px solid var(--navy);
+    box-shadow:0 30px 60px rgba(22,34,61,.35);
     position:relative;
     overflow:hidden;
     display:flex;
     flex-direction:column;
-    border:none;
-    border-radius:0;
-    box-shadow:none;
-}
   }
   .notch{
     position:absolute; top:0; left:50%; transform:translateX(-50%);
@@ -196,7 +195,7 @@
   .acc-head{text-align:center;padding:36px 20px 20px;background:var(--navy);border-radius:0 0 26px 26px;color:#fff;}
   .avatar{width:70px;height:70px;border-radius:50%;background:var(--gold);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-family:'Tajawal',sans-serif;font-weight:900;font-size:24px;color:var(--navy);}
   .acc-head h2{margin:0;font-family:'Tajawal',sans-serif;}
-  .acc-head p{margin:4px 0 0;font-size:12px;color:var(--gold-soft);}
+  .acc-head p{margin:4px 0 0;font-size:12px;color:var(--gold-soft);direction:ltr;unicode-bidi:plaintext;}
   .acc-list{padding:16px;display:flex;flex-direction:column;gap:10px;}
   .acc-row{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;font-size:13.5px;color:var(--navy-2);cursor:pointer;}
   .acc-row span{font-weight:600;}
@@ -346,13 +345,56 @@
       <p id="acc-username">—</p>
     </div>
     <div class="acc-list">
-      <div class="acc-row"><span>بياناتي الشخصية</span>›</div>
-      <div class="acc-row"><span>المستندات المرفوعة</span>›</div>
-      <div class="acc-row"><span>سجل المدفوعات</span>›</div>
-      <div class="acc-row"><span>التواصل مع الوكيل</span>›</div>
-      <div class="acc-row"><span>الإشعارات والتنبيهات</span>›</div>
-      <div class="acc-row"><span>تغيير كلمة المرور</span>›</div>
+      <div class="acc-row" onclick="openEditProfile()"><span>بياناتي الشخصية</span>›</div>
+      <div class="acc-row" onclick="showNotice('المستندات المرفوعة','هتقدر ترفع وتشوف مستنداتك من هنا قريبًا — الميزة دي لسه بتتجهّز.')"><span>المستندات المرفوعة</span>›</div>
+      <div class="acc-row" onclick="showNotice('سجل المدفوعات','سجل مدفوعاتك هيظهر هنا قريبًا.')"><span>سجل المدفوعات</span>›</div>
+      <div class="acc-row" onclick="showNotice('التواصل مع الوكيل','خاصية التواصل المباشر مع وكيلك هتضاف قريبًا. لحد ما تتاح، تقدر تتواصل معاه بأي وسيلة اعتدت عليها.')"><span>التواصل مع الوكيل</span>›</div>
+      <div class="acc-row" onclick="showNotice('الإشعارات والتنبيهات','ضبط تفضيلات الإشعارات هيتاح هنا قريبًا. دلوقتي بتوصلك التنبيهات تلقائيًا في صفحة الإشعارات.')"><span>الإشعارات والتنبيهات</span>›</div>
+      <div class="acc-row" onclick="openChangePassword()"><span>تغيير كلمة المرور</span>›</div>
       <div class="acc-row" onclick="handleLogout()" style="color:var(--rust);"><span>تسجيل الخروج</span>›</div>
+    </div>
+  </div>
+
+  <!-- NOTICE SHEET -->
+  <div class="overlay" id="notice-overlay" onclick="if(event.target===this)closeModalSheet('notice-overlay')">
+    <div class="sheet">
+      <div class="grabber"></div>
+      <h2 id="notice-title">—</h2>
+      <p class="sub" id="notice-body" style="margin-bottom:20px;"></p>
+      <button class="btn-primary" onclick="closeModalSheet('notice-overlay')">تمام</button>
+    </div>
+  </div>
+
+  <!-- EDIT PROFILE SHEET -->
+  <div class="overlay" id="profile-overlay" onclick="if(event.target===this)closeModalSheet('profile-overlay')">
+    <div class="sheet">
+      <div class="grabber"></div>
+      <h2>بياناتي الشخصية</h2>
+      <p class="sub">عدّل بياناتك واحفظ التغييرات</p>
+      <div class="field"><label>الاسم بالكامل</label><input type="text" id="ep-name"></div>
+      <div class="field"><label>رقم الهاتف</label><input type="text" id="ep-phone"></div>
+      <p id="ep-error" style="color:#B5482D;font-size:12px;margin:0 0 4px;"></p>
+      <div class="actions">
+        <button class="btn-outline" onclick="closeModalSheet('profile-overlay')">إلغاء</button>
+        <button class="btn-gold" onclick="handleSaveProfile()">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHANGE PASSWORD SHEET -->
+  <div class="overlay" id="password-overlay" onclick="if(event.target===this)closeModalSheet('password-overlay')">
+    <div class="sheet">
+      <div class="grabber"></div>
+      <h2>تغيير كلمة المرور</h2>
+      <p class="sub">لأمانك، محتاجين تأكيد كلمة مرورك الحالية الأول</p>
+      <div class="field"><label>كلمة المرور الحالية</label><input type="password" id="cp-current"></div>
+      <div class="field"><label>كلمة المرور الجديدة</label><input type="password" id="cp-new" placeholder="6 حروف/أرقام على الأقل"></div>
+      <div class="field"><label>تأكيد كلمة المرور الجديدة</label><input type="password" id="cp-confirm"></div>
+      <p id="cp-error" style="color:#B5482D;font-size:12px;margin:0 0 4px;"></p>
+      <div class="actions">
+        <button class="btn-outline" onclick="closeModalSheet('password-overlay')">إلغاء</button>
+        <button class="btn-gold" onclick="handleChangePassword()">تغيير كلمة المرور</button>
+      </div>
     </div>
   </div>
 
@@ -460,6 +502,7 @@ async function reconcileByPhone(uid, phone){
 }
 
 let CURRENT_POLICIES = [];
+let CURRENT_PHONE = '';
 
 async function loadPolicies(){
   const uid = auth.currentUser.uid;
@@ -528,9 +571,8 @@ async function handleSignup(){
     await db.collection('clients').doc(cred.user.uid).set({
       fullName:name, phone:phone, username:username.toLowerCase(), createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    document.getElementById('acc-name').textContent = name;
-    document.getElementById('acc-username').textContent = username.toLowerCase()+'@securepath.app';
-    document.getElementById('home-name').textContent = name;
+    setAccountUI(name, username.toLowerCase());
+    CURRENT_PHONE = phone;
     go('link');
     await reconcileByPhone(cred.user.uid, phone);
     await loadPolicies();
@@ -549,15 +591,24 @@ async function handleLogin(){
     const cred = await auth.signInWithEmailAndPassword(usernameToEmail(username), pass);
     const profile = await db.collection('clients').doc(cred.user.uid).get();
     const data = profile.data() || {};
-    document.getElementById('acc-name').textContent = data.fullName||username;
-    document.getElementById('acc-username').textContent = username.toLowerCase()+'@securepath.app';
-    document.getElementById('home-name').textContent = data.fullName||username;
+    setAccountUI(data.fullName||username, username.toLowerCase());
+    CURRENT_PHONE = data.phone || '';
     if(data.phone) await reconcileByPhone(cred.user.uid, data.phone);
     await loadPolicies();
     go('home');
   }catch(e){
     err.textContent = firebaseErrorAr(e);
   }
+}
+
+function setAccountUI(name, username){
+  const displayName = name || username || 'مستخدم';
+  document.getElementById('acc-name').textContent = displayName;
+  document.getElementById('acc-username').textContent = username + '@securepath.app';
+  document.getElementById('home-name').textContent = displayName;
+  const parts = displayName.trim().split(' ').filter(Boolean);
+  const init = parts.length>1 ? parts[0][0]+' '+parts[1][0] : (parts[0] ? parts[0][0] : '؟');
+  document.getElementById('acc-avatar').textContent = init;
 }
 
 function firebaseErrorAr(e){
@@ -580,9 +631,8 @@ auth.onAuthStateChanged(function(user){
   if(user && document.getElementById('login').classList.contains('active')){
     db.collection('clients').doc(user.uid).get().then(profile=>{
       const data = profile.data() || {};
-      document.getElementById('acc-name').textContent = data.fullName||'';
-      document.getElementById('acc-username').textContent = (data.username||'')+'@securepath.app';
-      document.getElementById('home-name').textContent = data.fullName||'';
+      CURRENT_PHONE = data.phone || '';
+      setAccountUI(data.fullName, data.username||'');
       loadPolicies();
       go('home');
     });
@@ -603,6 +653,65 @@ function filterCat(el,cat){
   });
 }
 function closeSheet(){ document.getElementById('overlay').classList.remove('show'); }
+function closeModalSheet(id){ document.getElementById(id).classList.remove('show'); }
+
+function showNotice(title, body){
+  document.getElementById('notice-title').textContent = title;
+  document.getElementById('notice-body').textContent = body;
+  document.getElementById('notice-overlay').classList.add('show');
+}
+
+function openEditProfile(){
+  document.getElementById('ep-name').value = document.getElementById('acc-name').textContent;
+  document.getElementById('ep-phone').value = CURRENT_PHONE || '';
+  document.getElementById('ep-error').textContent = '';
+  document.getElementById('profile-overlay').classList.add('show');
+}
+async function handleSaveProfile(){
+  const name = document.getElementById('ep-name').value.trim();
+  const phone = document.getElementById('ep-phone').value.trim();
+  const err = document.getElementById('ep-error');
+  err.textContent = '';
+  if(!name){ err.textContent = 'من فضلك ادخل اسمك'; return; }
+  try{
+    await db.collection('clients').doc(auth.currentUser.uid).update({fullName:name, phone:phone});
+    CURRENT_PHONE = phone;
+    const usernamePart = document.getElementById('acc-username').textContent.split('@')[0];
+    setAccountUI(name, usernamePart);
+    closeModalSheet('profile-overlay');
+  }catch(e){
+    err.textContent = 'حصل خطأ، جرّب تاني';
+  }
+}
+
+function openChangePassword(){
+  document.getElementById('cp-current').value='';
+  document.getElementById('cp-new').value='';
+  document.getElementById('cp-confirm').value='';
+  document.getElementById('cp-error').textContent = '';
+  document.getElementById('password-overlay').classList.add('show');
+}
+async function handleChangePassword(){
+  const current = document.getElementById('cp-current').value;
+  const next = document.getElementById('cp-new').value;
+  const confirm = document.getElementById('cp-confirm').value;
+  const err = document.getElementById('cp-error');
+  err.textContent = '';
+  if(!current || !next){ err.textContent = 'من فضلك املأ كل الحقول'; return; }
+  if(next !== confirm){ err.textContent = 'كلمة المرور الجديدة وتأكيدها مش متطابقين'; return; }
+  if(next.length < 6){ err.textContent = 'كلمة المرور لازم تكون 6 حروف/أرقام على الأقل'; return; }
+  try{
+    const user = auth.currentUser;
+    const cred = firebase.auth.EmailAuthProvider.credential(user.email, current);
+    await user.reauthenticateWithCredential(cred);
+    await user.updatePassword(next);
+    closeModalSheet('password-overlay');
+    showNotice('تم بنجاح', 'اتغيرت كلمة المرور بتاعتك. استخدمها من المرة الجاية.');
+  }catch(e){
+    if((e.code||'').includes('wrong-password') || (e.code||'').includes('invalid-credential')) err.textContent = 'كلمة المرور الحالية غلط';
+    else err.textContent = 'حصل خطأ، جرّب تاني';
+  }
+}
 document.getElementById('navbar').style.display='none';
 </script>
 
