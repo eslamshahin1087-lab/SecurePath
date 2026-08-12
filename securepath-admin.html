@@ -2,657 +2,217 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>SecurePath — لوحة تحكم الوكيل</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Secure PATH — Admin & Agent Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --paper:#FAF7F0; --navy:#0E2A5C; --navy-2:#164080; --gold:#F4C06B; --gold-soft:#F8DBA6;
-    --green:#2F6F4E; --rust:#B5482D; --slate:#3D4552; --line:#E4DCC8; --card:#FFFFFF;
-  }
-  *{box-sizing:border-box;}
-  body{margin:0;font-family:'Cairo',sans-serif;background:var(--paper);color:var(--slate);}
+:root{--navy:#0E2A5C;--navy2:#164080;--gold:#F4C06B;--gold2:#F8DBA6;--paper:#F7F8FB;--white:#fff;--line:#E4E8EF;--text:#253044;--muted:#7C8798;--green:#2F7D58;--red:#B5482D;--blue:#2E67B1;--shadow:0 12px 35px rgba(14,42,92,.08)}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--text);font-family:Cairo,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+#login{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 20% 10%,#244b88 0,#0E2A5C 42%,#081b3b 100%)}.login{width:min(430px,92vw);background:#fff;border-radius:24px;padding:34px;box-shadow:0 30px 80px #0005}.logo{width:70px;height:70px;margin:auto;border-radius:20px;background:var(--navy);display:grid;place-items:center;overflow:hidden}.logo img{width:100%;height:100%;object-fit:contain}.login h1{text-align:center;color:var(--navy);margin:16px 0 4px;font-family:Tajawal}.login p{text-align:center;color:var(--muted);font-size:12px}.field{margin:12px 0}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:11px;outline:none;background:#fff}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--navy2);box-shadow:0 0 0 3px #16408014}.btn{border:0;border-radius:11px;padding:11px 16px;font-weight:800}.primary{background:var(--gold);color:var(--navy)}.dark{background:var(--navy);color:#fff}.outline{background:#fff;border:1px solid var(--line);color:var(--navy)}.danger{background:#fff0ed;color:var(--red)}
+#app{display:none;min-height:100vh}.shell{display:flex;min-height:100vh}.side{width:245px;background:var(--navy);color:#fff;padding:18px 14px;position:fixed;top:0;bottom:0;right:0;z-index:20}.brand{display:flex;align-items:center;gap:10px;padding:8px 10px 20px;border-bottom:1px solid #ffffff1a}.brand img{width:42px;height:42px;border-radius:12px;background:#fff;object-fit:contain}.brand b{font:900 20px Tajawal}.nav{padding-top:18px}.nav button{width:100%;border:0;background:transparent;color:#cbd4e4;text-align:right;padding:12px;border-radius:11px;margin:2px 0;font-weight:700}.nav button:hover,.nav button.active{background:var(--gold);color:var(--navy)}.nav .badge{float:left;background:var(--red);color:#fff;border-radius:20px;padding:1px 7px;font-size:10px}.sidefoot{position:absolute;bottom:18px;right:20px;left:20px;color:#9eabc0;font-size:10px;border-top:1px solid #ffffff1a;padding-top:14px}.main{margin-right:245px;width:calc(100% - 245px)}.top{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:10}.top h1{font:800 20px Tajawal;color:var(--navy);margin:0}.topright{display:flex;gap:8px;align-items:center}.lang{font-size:11px}.content{padding:25px}.view{display:none}.view.active{display:block}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}.stat{padding:18px}.stat .k{font-size:12px;color:var(--muted)}.stat .v{font:900 28px Tajawal;color:var(--navy);margin-top:5px}.stat .s{font-size:11px;margin-top:4px}.ok{color:var(--green)}.warn{color:var(--red)}.toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:15px}.search{max-width:360px;flex:1}.search input{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px}.panel{overflow:hidden}.panelhead{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.panelhead h3{font:800 15px Tajawal;margin:0;color:var(--navy)}table{width:100%;border-collapse:collapse}th,td{padding:12px 15px;border-bottom:1px solid #eef1f5;text-align:right;font-size:12px}th{color:var(--muted);font-size:11px;background:#fbfcfe}tr:last-child td{border-bottom:0}.pill{display:inline-flex;padding:4px 9px;border-radius:20px;font-size:10px;font-weight:800;background:#eef7f1;color:var(--green)}.pill.red{background:#fff0ed;color:var(--red)}.pill.blue{background:#eef4ff;color:var(--blue)}.actions{display:flex;gap:5px;flex-wrap:wrap}.actions button{padding:7px 9px;border:1px solid var(--line);background:#fff;border-radius:8px;color:var(--navy);font-size:11px}.actions button:hover{background:#f4f7fb}.avatar{width:34px;height:34px;border-radius:50%;background:var(--gold2);color:var(--navy);display:grid;place-items:center;font-weight:900}.name{display:flex;align-items:center;gap:9px}.muted{color:var(--muted)}.empty{padding:35px;text-align:center;color:var(--muted);font-size:12px}.two{display:grid;grid-template-columns:1.25fr .75fr;gap:15px;margin-top:15px}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.message-list{height:430px;overflow:auto;padding:15px;display:flex;flex-direction:column;gap:8px}.bubble{max-width:75%;padding:9px 12px;border-radius:13px;font-size:12px;line-height:1.7}.bubble.client{align-self:flex-end;background:var(--gold2);color:var(--navy)}.bubble.agent{align-self:flex-start;background:var(--navy);color:#fff}.composer{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}.composer input{flex:1;border:1px solid var(--line);border-radius:20px;padding:10px 13px}.list{display:flex;flex-direction:column;gap:8px;padding:12px}.item{border:1px solid var(--line);border-radius:11px;padding:11px;background:#fff}.item.unread{border-color:var(--gold);box-shadow:0 0 0 2px #f4c06b22}.item h4{margin:0 0 3px;font-size:12px}.item p{margin:0;color:var(--muted);font-size:11px}.overlay{position:fixed;inset:0;background:#071a3688;display:none;align-items:center;justify-content:center;z-index:50;padding:20px}.overlay.show{display:flex}.modal{background:#fff;width:min(600px,96vw);max-height:90vh;overflow:auto;border-radius:20px;padding:22px}.modal h2{font:900 18px Tajawal;color:var(--navy);margin:0}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modalfoot{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}.toast{position:fixed;bottom:20px;left:20px;background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;z-index:100;display:none}.toast.show{display:block}.rtlhide{display:none}
+@media(max-width:900px){.side{width:76px}.brand b,.nav button span,.sidefoot{display:none}.nav button{text-align:center}.main{margin-right:76px;width:calc(100% - 76px)}.grid{grid-template-columns:repeat(2,1fr)}.two,.three{grid-template-columns:1fr}.content{padding:15px}.top{padding:0 15px}th,td{white-space:nowrap}.panel{overflow:auto}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.toolbar{align-items:stretch;flex-direction:column}.search{max-width:none}}
 
-  /* ---------- LOGIN ---------- */
-  #login-view{
-    min-height:100vh;display:flex;align-items:center;justify-content:center;
-    background:linear-gradient(135deg,var(--navy) 0%, #22314f 60%, var(--navy) 100%);
-  }
-  .login-box{background:var(--card);width:380px;max-width:92vw;border-radius:20px;padding:34px 30px;box-shadow:0 30px 60px rgba(0,0,0,.35);}
-  .seal-logo{width:70px;height:70px;margin:0 auto 14px;}
-  .seal-logo img{width:100%;height:100%;border-radius:18px;box-shadow:0 6px 14px rgba(0,0,0,.3);display:block;}
-  .seal{width:62px;height:62px;margin:0 auto 14px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d8bc73,var(--gold) 60%,#9c7c31 100%);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 3px rgba(255,255,255,.25);}
-  .seal svg{width:30px;height:30px;fill:var(--navy);}
-  .login-box h1{text-align:center;font-family:'Tajawal',sans-serif;font-weight:900;color:var(--navy);margin:0 0 2px;letter-spacing:.4px;}
-  .login-box .tag{text-align:center;font-size:12px;color:#a8a190;margin-bottom:22px;}
-  .field{margin-bottom:14px;}
-  .field label{font-size:12px;color:#8a8370;display:block;margin-bottom:6px;font-weight:600;}
-  .field input,.field select{width:100%;padding:11px 13px;border-radius:10px;border:1.5px solid var(--line);font-family:'Cairo',sans-serif;font-size:14px;background:#fdfcf9;color:var(--navy);}
-  .field input:focus,.field select:focus{outline:none;border-color:var(--gold);}
-  .btn-primary{width:100%;padding:12px;border:none;border-radius:10px;background:var(--navy);color:var(--gold-soft);font-family:'Tajawal',sans-serif;font-weight:700;font-size:14.5px;cursor:pointer;margin-top:6px;}
-  .btn-primary:hover{background:var(--navy-2);}
-  .role-note{text-align:center;font-size:11px;color:#a8a190;margin-top:16px;}
+/* ===== SECURE PATH / WATHIQATI VISUAL SYSTEM ===== */
+:root{
+  --paper:#F5F8FC;
+  --navy:#0E2A5C;
+  --navy-2:#163E7A;
+  --navy-3:#071D40;
+  --gold:#F2BD63;
+  --gold-soft:#FFF2D7;
+  --green:#16805B;
+  --rust:#C9543E;
+  --slate:#25324A;
+  --muted:#718096;
+  --line:#E2E9F2;
+  --card:#FFFFFF;
+  --shadow:0 8px 24px rgba(14,42,92,.07);
+  --shadow-lg:0 18px 45px rgba(14,42,92,.15);
+}
+body{
+  background:
+    radial-gradient(circle at 50% -10%,rgba(242,189,99,.14),transparent 30%),
+    #EAF0F7;
+  color:var(--slate);
+}
+#login-view{
+  background:
+    radial-gradient(circle at 50% 7%,rgba(242,189,99,.18),transparent 28%),
+    linear-gradient(180deg,var(--navy) 0%,var(--navy) 43%,var(--paper) 43%);
+}
+.login-box{
+  border-radius:24px;
+  border:1px solid rgba(14,42,92,.08);
+  box-shadow:var(--shadow-lg);
+}
+.seal-logo{
+  width:96px;height:96px;border-radius:28px;
+  background:rgba(255,255,255,.10);
+  padding:10px;
+  box-shadow:inset 0 0 0 1px rgba(242,189,99,.25);
+}
+.seal-logo img{
+  width:100%;height:100%;object-fit:contain;border-radius:18px;box-shadow:none;
+}
+.login-box h1{color:var(--navy);}
+.btn-primary{
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--navy),var(--navy-2));
+  color:#fff;
+  box-shadow:0 9px 20px rgba(14,42,92,.18);
+}
+.btn-primary:hover{background:linear-gradient(135deg,var(--navy-2),var(--navy));}
+.sidebar{
+  width:244px;flex-basis:244px;
+  background:linear-gradient(180deg,var(--navy-3),var(--navy) 72%,#12396E);
+  box-shadow:10px 0 30px rgba(7,29,64,.12);
+}
+.side-brand{
+  padding:0 20px 20px;
+  border-bottom:1px solid rgba(242,189,99,.15);
+}
+.side-brand .mini-seal{
+  width:42px;height:42px;border-radius:13px;
+  background:rgba(255,255,255,.08);
+  padding:5px;
+}
+.side-brand .mini-seal img{object-fit:contain;border-radius:8px;}
+.side-brand b{font-size:16px;color:#fff;}
+.side-item{
+  border-radius:14px;
+  padding:12px 13px;
+  color:#B9C9DD;
+  transition:.15s ease;
+}
+.side-item svg{width:19px;height:19px;fill:#9EB1C9;}
+.side-item:hover{background:rgba(255,255,255,.07);}
+.side-item.on{
+  background:linear-gradient(135deg,var(--gold),#FFD98F);
+  color:var(--navy);
+  box-shadow:0 7px 16px rgba(242,189,99,.16);
+}
+.side-item.on svg{fill:var(--navy);}
+.side-foot{color:#8FA4BF;border-top-color:rgba(255,255,255,.10);}
+.topbar{
+  background:linear-gradient(145deg,var(--navy-3),var(--navy) 62%,#15417D);
+  color:#fff;
+  border-bottom:0;
+  box-shadow:0 12px 28px rgba(14,42,92,.12);
+}
+.topbar h1{color:#fff;}
+.avatar-sm{
+  background:linear-gradient(145deg,#FFD98F,var(--gold));
+  color:var(--navy);
+  box-shadow:0 6px 16px rgba(242,189,99,.18);
+}
+.content{background:linear-gradient(180deg,#F8FAFD 0%,var(--paper) 100%);}
+.stat-card{
+  border:1px solid var(--line);
+  border-radius:17px;
+  box-shadow:var(--shadow);
+}
+.stat-card .lbl{color:#718096;}
+.stat-card .val{color:var(--navy);}
+.panel{
+  border:1px solid var(--line);
+  border-radius:17px;
+  box-shadow:var(--shadow);
+}
+.panel-head{border-bottom-color:var(--line);}
+.panel-head h3{color:var(--navy);}
+th{color:#7A8799;border-bottom-color:var(--line);}
+td{color:var(--navy-2);border-bottom-color:#EEF2F7;}
+.name-cell .av,.client-info-card .av-lg{
+  background:linear-gradient(145deg,#FFD98F,var(--gold));
+  color:var(--navy);
+  box-shadow:0 5px 12px rgba(242,189,99,.14);
+}
+.pill.ok{background:#E7F6F0;color:var(--green);}
+.pill.warn{background:#FFF0EB;color:var(--rust);}
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold),#FFD98F);
+  color:var(--navy);
+  box-shadow:0 7px 16px rgba(242,189,99,.18);
+}
+.btn-gold:hover{filter:brightness(1.02);}
+.search-box input,.field input,.field select{
+  border-color:#D8E1ED;
+  background:#F9FBFE;
+}
+.search-box input:focus,.field input:focus,.field select:focus{
+  border-color:var(--gold);outline:none;
+  box-shadow:0 0 0 4px rgba(242,189,99,.14);
+}
+.chip{border-color:var(--line);box-shadow:0 3px 10px rgba(14,42,92,.04);}
+.chip.active{background:var(--navy);border-color:var(--navy);color:#fff;}
+.modal{background:#F8FAFD;border-radius:24px;box-shadow:var(--shadow-lg);}
+.upload-box{background:#F9FBFE;border-color:#D8E1ED;}
+.upload-box svg{fill:var(--gold);}
 
-  /* ---------- APP SHELL ---------- */
-  #app-view{display:none;min-height:100vh;}
-  #app-view.active{display:flex;}
-  .sidebar{width:230px;flex:0 0 230px;background:var(--navy);min-height:100vh;color:#fff;padding:22px 0;position:sticky;top:0;align-self:flex-start;}
-  .side-brand{display:flex;align-items:center;gap:10px;padding:0 20px 22px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:14px;}
-  .side-brand .mini-seal{width:34px;height:34px;border-radius:9px;overflow:hidden;flex:0 0 34px;}
-  .side-brand .mini-seal img{width:100%;height:100%;display:block;}
-  .side-brand b{font-family:'Tajawal',sans-serif;font-weight:900;font-size:15.5px;letter-spacing:.3px;}
-  .side-nav{display:flex;flex-direction:column;gap:2px;padding:0 12px;}
-  .side-item{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:10px;cursor:pointer;color:#c9d0dd;font-size:13.5px;font-weight:600;}
-  .side-item svg{width:17px;height:17px;fill:#c9d0dd;flex:0 0 17px;}
-  .side-item:hover{background:rgba(255,255,255,.06);}
-  .side-item.on{background:var(--gold);color:var(--navy);}
-  .side-item.on svg{fill:var(--navy);}
-  .side-foot{padding:16px 20px 0;margin-top:20px;border-top:1px solid rgba(255,255,255,.1);font-size:11px;color:#8a93a8;}
-
-  .main{flex:1;min-width:0;}
-  .topbar{background:#fff;border-bottom:1px solid var(--line);padding:16px 28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;}
-  .topbar h1{font-family:'Tajawal',sans-serif;font-size:19px;color:var(--navy);margin:0;}
-  .topbar .who{display:flex;align-items:center;gap:10px;}
-  .avatar-sm{width:36px;height:36px;border-radius:50%;background:var(--gold);color:var(--navy);display:flex;align-items:center;justify-content:center;font-family:'Tajawal',sans-serif;font-weight:900;font-size:13.5px;}
-  .content{padding:26px 28px;}
-  .view{display:none;}
-  .view.active{display:block;}
-
-  /* stat cards */
-  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:26px;}
-  .stat-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;}
-  .stat-card .lbl{font-size:12.5px;color:#8a8370;font-weight:600;}
-  .stat-card .val{font-family:'Tajawal',sans-serif;font-size:26px;font-weight:900;color:var(--navy);margin-top:6px;}
-  .stat-card .sub{font-size:11.5px;margin-top:4px;}
-  .sub.ok{color:var(--green);} .sub.warn{color:var(--rust);}
-
-  .panel{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;}
-  .panel-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line);}
-  .panel-head h3{margin:0;font-family:'Tajawal',sans-serif;font-size:15px;color:var(--navy);}
-
-  table{width:100%;border-collapse:collapse;}
-  th{text-align:right;font-size:11.5px;color:#8a8370;padding:12px 20px;border-bottom:1px solid var(--line);font-weight:700;}
-  td{padding:13px 20px;border-bottom:1px solid #f1ecdd;font-size:13.5px;color:var(--navy-2);}
-  tr:last-child td{border-bottom:none;}
-  .name-cell{display:flex;align-items:center;gap:10px;}
-  .name-cell .av{width:32px;height:32px;border-radius:50%;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-family:'Tajawal',sans-serif;font-weight:800;font-size:12px;color:var(--navy);}
-  .name-cell .meta span{display:block;font-size:11px;color:#a8a190;font-weight:400;}
-  .pill{font-size:10.5px;padding:3px 10px;border-radius:20px;font-weight:700;}
-  .pill.ok{background:#e4f0e9;color:var(--green);}
-  .pill.warn{background:#f7e4dd;color:var(--rust);}
-  .row-actions{display:flex;gap:8px;}
-  .row-actions button{border:1px solid var(--line);background:#fff;padding:6px 12px;border-radius:8px;font-size:11.5px;cursor:pointer;color:var(--navy-2);font-weight:600;}
-  .row-actions button:hover{border-color:var(--gold);}
-
-  .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:12px;flex-wrap:wrap;}
-  .search-box{position:relative;flex:1;max-width:340px;}
-  .search-box input{width:100%;padding:10px 14px 10px 14px;border-radius:10px;border:1.5px solid var(--line);font-family:'Cairo',sans-serif;font-size:13px;background:#fff;}
-  .btn-gold{background:var(--gold);color:var(--navy);border:none;padding:11px 20px;border-radius:10px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13.5px;cursor:pointer;display:flex;align-items:center;gap:8px;}
-  .btn-gold svg{width:15px;height:15px;fill:var(--navy);}
-  .chips{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
-  .chip{padding:7px 15px;border-radius:20px;font-size:12px;font-weight:600;background:#fff;border:1.5px solid var(--line);color:var(--slate);cursor:pointer;}
-  .chip.active{background:var(--navy);color:var(--gold-soft);border-color:var(--navy);}
-
-  /* modal */
-  .overlay{position:fixed;inset:0;background:rgba(22,34,61,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
-  .overlay.show{display:flex;}
-  .modal{background:var(--paper);width:460px;max-width:100%;border-radius:20px;padding:26px;max-height:88vh;overflow-y:auto;}
-  .modal h2{font-family:'Tajawal',sans-serif;color:var(--navy);margin:0 0 4px;font-size:17px;}
-  .modal .sub{font-size:12px;color:#8a8370;margin-bottom:18px;}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  .modal .actions{display:flex;gap:10px;margin-top:18px;}
-  .modal .actions button{flex:1;padding:12px;border-radius:10px;border:none;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13.5px;cursor:pointer;}
-  .btn-outline{background:#fff;border:1.5px solid var(--navy)!important;color:var(--navy);}
-  .upload-box{border:1.5px dashed var(--line);border-radius:12px;padding:16px;text-align:center;font-size:12.5px;color:#8a8370;cursor:pointer;background:#fdfcf9;}
-  .upload-box svg{width:22px;height:22px;fill:var(--gold);margin-bottom:6px;}
-
-  .client-detail-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:20px;flex-wrap:wrap;}
-  .client-info-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;align-items:center;gap:16px;flex:1;min-width:260px;}
-  .client-info-card .av-lg{width:56px;height:56px;border-radius:50%;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-family:'Tajawal',sans-serif;font-weight:900;font-size:18px;color:var(--navy);}
-  .client-info-card h2{margin:0;font-family:'Tajawal',sans-serif;font-size:16.5px;color:var(--navy);}
-  .client-info-card p{margin:3px 0 0;font-size:12px;color:#8a8370;}
-  .back-link{font-size:12.5px;color:var(--navy-2);cursor:pointer;font-weight:600;margin-bottom:14px;display:inline-block;}
 </style>
 </head>
 <body>
-
-<!-- LOGIN -->
-<div id="login-view">
-  <div class="login-box">
-    <div class="seal-logo"><img src="icon-512.png" alt="SecurePath"></div>
-    <h1>SecurePath</h1>
-    <p class="tag">لوحة تحكم الوكيل — إدارة العملاء والوثائق</p>
-    <div class="field"><label>البريد الإلكتروني</label><input id="ag-email" placeholder="example@gmail.com"></div>
-    <div class="field"><label>كلمة المرور</label><input type="password" id="ag-password" placeholder="••••••••"></div>
-    <p id="ag-error" style="color:#B5482D;font-size:12px;margin:0 0 4px;"></p>
-    <button class="btn-primary" onclick="handleAgentLogin()">دخول للوحة التحكم</button>
-    <p class="role-note">سجّل هنا بنفس الإيميل وكلمة المرور اللي عملتهم بنفسك من Firebase Console → Authentication → Add user</p>
-  </div>
-</div>
-
-<!-- APP -->
-<div id="app-view">
-  <div class="sidebar">
-    <div class="side-brand">
-      <div class="mini-seal"><img src="icon-192.png" alt="SecurePath"></div>
-      <b>SecurePath</b>
-    </div>
-    <div class="side-nav">
-      <div class="side-item on" data-v="overview" onclick="showView('overview',this)"><svg viewBox="0 0 24 24"><path d="M3 13h8V3H3zm0 8h8v-6H3zm10 0h8V11h-8zm0-18v6h8V3z"/></svg>نظرة عامة</div>
-      <div class="side-item" data-v="clients" onclick="showView('clients',this)"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>العملاء</div>
-      <div class="side-item" data-v="policies" onclick="showView('policies',this)"><svg viewBox="0 0 24 24"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4z"/></svg>الوثائق</div>
-      <div class="side-item" data-v="notifs" onclick="showView('notifs',this)"><svg viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6v-5c0-3.1-1.9-5.7-5-6.4V4a2 2 0 1 0-4 0v.6C6.9 5.3 5 7.9 5 11v5l-2 2v1h18v-1l-2-2z"/></svg>الإشعارات</div>
-    </div>
-    <div class="side-foot">مسجّل دخول: <span id="side-foot-email">—</span><br><span onclick="handleAgentLogout()" style="cursor:pointer;color:#e0a1a1;">تسجيل الخروج</span><br>SecurePath © 2026</div>
-  </div>
-
-  <div class="main">
-    <div class="topbar">
-      <h1 id="page-title">نظرة عامة</h1>
-      <div class="who"><div class="avatar-sm">و ك</div></div>
-    </div>
-
-    <div class="content">
-
-      <!-- OVERVIEW -->
-      <div class="view active" id="v-overview">
-        <div class="stat-grid">
-          <div class="stat-card"><div class="lbl">إجمالي العملاء</div><div class="val">0</div><div class="sub ok">&nbsp;</div></div>
-          <div class="stat-card"><div class="lbl">إجمالي الوثائق</div><div class="val">0</div><div class="sub ok">0 سارية</div></div>
-          <div class="stat-card"><div class="lbl">قريبة الانتهاء</div><div class="val">0</div><div class="sub warn">خلال 30 يوم</div></div>
-          <div class="stat-card"><div class="lbl">إجمالي الأقساط</div><div class="val">0</div><div class="sub ok">جنيه / سنويًا</div></div>
-        </div>
-        <div class="panel">
-          <div class="panel-head"><h3>وثائق قريبة الانتهاء</h3></div>
-          <table>
-            <tr><th>العميل</th><th>نوع التأمين</th><th>شركة التأمين</th><th>تاريخ الانتهاء</th><th>الحالة</th></tr>
-            <tbody id="expiring-tbody"><tr><td colspan="5" style="text-align:center;color:#a8a190;">جاري التحميل...</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- CLIENTS -->
-      <div class="view" id="v-clients">
-        <div class="toolbar">
-          <div class="search-box"><input placeholder="ابحث باسم العميل أو اسم المستخدم..."></div>
-          <button class="btn-gold" onclick="openModal('m-client')"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg>إضافة عميل جديد</button>
-        </div>
-        <div class="panel">
-          <table>
-            <tr><th>العميل</th><th>اسم المستخدم</th><th>عدد الوثائق</th><th>الحالة</th><th>إجراءات</th></tr>
-            <tbody id="clients-tbody"><tr><td colspan="5" style="text-align:center;color:#a8a190;">جاري التحميل...</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- CLIENT DETAIL -->
-      <div class="view" id="v-client-detail">
-        <span class="back-link" onclick="showView('clients')">‹ رجوع لقائمة العملاء</span>
-        <div class="client-detail-head">
-          <div class="client-info-card">
-            <div class="av-lg" id="cd-avatar">؟</div>
-            <div><h2 id="cd-name">—</h2><p id="cd-username">—</p><p>الحالة: <span class="pill ok">نشط</span></p></div>
-          </div>
-          <button class="btn-gold" onclick="openModal('m-policy')"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg>إضافة وثيقة</button>
-        </div>
-        <div class="panel" style="margin-bottom:20px;">
-          <div class="panel-head"><h3>وثائق العميل</h3></div>
-          <table>
-            <tr><th>نوع التأمين</th><th>شركة التأمين</th><th>رقم الوثيقة</th><th>تاريخ الانتهاء</th><th>القسط</th><th>الحالة</th></tr>
-            <tbody id="client-policies-tbody"></tbody>
-          </table>
-        </div>
-
-        <div class="panel" style="margin-bottom:20px;">
-          <div class="panel-head"><h3>سجل المدفوعات</h3><button class="btn-gold" style="padding:8px 14px;font-size:12px;" onclick="openModal('m-payment')">+ إضافة دفعة</button></div>
-          <table>
-            <tr><th>التاريخ</th><th>المبلغ</th><th>طريقة الدفع</th><th>ملاحظة</th></tr>
-            <tbody id="client-payments-tbody"></tbody>
-          </table>
-        </div>
-
-        <div class="panel" style="margin-bottom:20px;">
-          <div class="panel-head"><h3>المستندات</h3><button class="btn-gold" style="padding:8px 14px;font-size:12px;" onclick="document.getElementById('ad-doc-file').click()">+ رفع مستند</button></div>
-          <div id="client-documents-list" style="padding:16px 20px;display:flex;flex-direction:column;gap:8px;"></div>
-          <input type="file" id="ad-doc-file" accept="image/*,.pdf" style="display:none" onchange="handleAdminUploadDocument()">
-          <p id="ad-doc-error" style="color:#B5482D;font-size:12px;padding:0 20px 14px;"></p>
-        </div>
-
-        <div class="panel">
-          <div class="panel-head"><h3>المحادثة مع العميل</h3></div>
-          <div id="chat-list" style="height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:16px 20px;"></div>
-          <div style="display:flex;gap:10px;padding:16px 20px;border-top:1px solid var(--line);">
-            <input type="text" id="chat-input" placeholder="اكتب ردًا للعميل..." style="flex:1;padding:10px 14px;border-radius:20px;border:1.5px solid var(--line);font-family:'Cairo',sans-serif;font-size:13px;">
-            <button class="btn-gold" style="padding:10px 20px;" onclick="handleSendAgentMessage()">إرسال</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- POLICIES (ALL) -->
-      <div class="view" id="v-policies">
-        <div class="panel">
-          <table>
-            <tr><th>العميل</th><th>نوع التأمين</th><th>شركة التأمين</th><th>رقم الوثيقة</th><th>تاريخ الانتهاء</th><th>الحالة</th></tr>
-            <tbody id="policies-tbody"><tr><td colspan="6" style="text-align:center;color:#a8a190;">جاري التحميل...</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- NOTIFS -->
-      <div class="view" id="v-notifs">
-        <div class="panel">
-          <div class="panel-head"><h3>تنبيهات النظام</h3></div>
-          <table>
-            <tr><th>العميل</th><th>التنبيه</th><th>التاريخ</th></tr>
-            <tr><td>سارة يوسف</td><td>وثيقة التأمين الصحي تنتهي خلال 12 يوم</td><td>اليوم</td></tr>
-            <tr><td>محمد علي</td><td>تم تجديد وثيقة السيارة بنجاح</td><td>أمس</td></tr>
-            <tr><td>نور عبد الله</td><td>عميل جديد بدون وثائق مسجّلة بعد</td><td>منذ 3 أيام</td></tr>
-          </table>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- MODAL: ADD CLIENT -->
-<div class="overlay" id="m-client" onclick="if(event.target===this)closeModal('m-client')">
-  <div class="modal">
-    <h2>إضافة عميل جديد</h2>
-    <p class="sub">هيتم إنشاء حساب دخول حقيقي للعميل على تطبيق الموبايل فورًا</p>
-    <div class="field"><label>الاسم الكامل</label><input id="nc-name" placeholder="مثال: أحمد إبراهيم"></div>
-    <div class="grid2">
-      <div class="field"><label>رقم الهاتف</label><input id="nc-phone" placeholder="01xxxxxxxxx"></div>
-      <div class="field"><label>اسم المستخدم</label><input id="nc-username" placeholder="ahmed.ibrahim"></div>
-    </div>
-    <div class="field"><label>كلمة مرور مبدئية (شاركها مع العميل)</label><input id="nc-password" placeholder="6 حروف/أرقام على الأقل"></div>
-    <p id="nc-error" style="color:#B5482D;font-size:12px;margin:0 0 4px;"></p>
-    <div class="actions">
-      <button class="btn-outline" onclick="closeModal('m-client')">إلغاء</button>
-      <button class="btn-gold" onclick="handleAddClient()">حفظ وإنشاء الحساب</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL: ADD POLICY -->
-<div class="overlay" id="m-policy" onclick="if(event.target===this)closeModal('m-policy')">
-  <div class="modal">
-    <h2>إضافة وثيقة تأمين</h2>
-    <p class="sub">هتتضاف مباشرة لحساب العميل وتظهر له على التطبيق</p>
-    <div class="field">
-      <label>نوع التأمين</label>
-      <select id="np-type">
-        <optgroup label="تأمينات الحياة والادخار">
-          <option>التأمين على الحياة الفردي</option>
-          <option>التأمين على الحياة الجماعي</option>
-          <option>تأمين الادخار والتكوين الرأسمالي</option>
-          <option>التأمين التكافلي (حياة)</option>
-        </optgroup>
-        <optgroup label="تأمينات السيارات والنقل">
-          <option>تأمين السيارات الشامل</option>
-          <option>تأمين السيارات ضد الغير</option>
-          <option>تأمين الدراجات النارية</option>
-          <option>التأمين البحري (بضائع)</option>
-          <option>تأمين هياكل السفن</option>
-          <option>تأمين الطيران</option>
-          <option>تأمين النقل البري</option>
-        </optgroup>
-        <optgroup label="التأمين الصحي والحوادث">
-          <option>التأمين الصحي الفردي</option>
-          <option>التأمين الصحي الجماعي</option>
-          <option>تأمين الحوادث الشخصية</option>
-        </optgroup>
-        <optgroup label="تأمينات الممتلكات والمنشآت">
-          <option>تأمين الحريق والأخطار المتنوعة</option>
-          <option>التأمين الهندسي (تأمين المقاولين)</option>
-          <option>تأمين أعطال الآلات</option>
-          <option>تأمين السطو والسرقة</option>
-        </optgroup>
-        <optgroup label="تأمينات المسؤولية والائتمان">
-          <option>تأمين المسؤولية المدنية تجاه الغير</option>
-          <option>تأمين مسؤولية أصحاب الأعمال</option>
-          <option>تأمين المسؤولية المهنية</option>
-          <option>تأمين ائتمان الصادرات</option>
-          <option>تأمين الغش وخيانة الأمانة</option>
-        </optgroup>
-        <optgroup label="تأمينات أخرى">
-          <option>تأمين السفر</option>
-          <option>التأمين الزراعي (المحاصيل والماشية)</option>
-          <option>التأمين التكافلي العام</option>
-        </optgroup>
-      </select>
-    </div>
-    <div class="grid2">
-      <div class="field"><label>شركة التأمين</label><input id="np-company" placeholder="مثال: مصر للتأمين"></div>
-      <div class="field"><label>رقم الوثيقة</label><input id="np-number" placeholder="مثال: MI-2026-00123"></div>
-    </div>
-    <div class="grid2">
-      <div class="field"><label>تاريخ البداية</label><input type="date" id="np-start"></div>
-      <div class="field"><label>تاريخ الانتهاء</label><input type="date" id="np-end"></div>
-    </div>
-    <div class="field"><label>قيمة القسط (جنيه)</label><input id="np-premium" placeholder="مثال: 5000"></div>
-    <p id="np-error" style="color:#B5482D;font-size:12px;margin:0 0 4px;"></p>
-    <div class="actions">
-      <button class="btn-outline" onclick="closeModal('m-policy')">إلغاء</button>
-      <button class="btn-gold" onclick="handleAddPolicy()">حفظ الوثيقة</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL: ADD PAYMENT -->
-<div class="overlay" id="m-payment" onclick="if(event.target===this)closeModal('m-payment')">
-  <div class="modal">
-    <h2>إضافة دفعة</h2>
-    <p class="sub">هتتضاف لسجل مدفوعات العميل ويقدر يشوفها من حسابه</p>
-    <div class="grid2">
-      <div class="field"><label>المبلغ (جنيه)</label><input id="pay-amount" placeholder="مثال: 5000"></div>
-      <div class="field"><label>تاريخ الدفع</label><input type="date" id="pay-date"></div>
-    </div>
-    <div class="field">
-      <label>طريقة الدفع</label>
-      <select id="pay-method">
-        <option>كاش</option>
-        <option>تحويل بنكي</option>
-        <option>فودافون كاش</option>
-        <option>بطاقة ائتمان</option>
-      </select>
-    </div>
-    <div class="field"><label>ملاحظة (اختياري)</label><input id="pay-note" placeholder="مثال: دفعة قسط تأمين السيارة"></div>
-    <p id="pay-error" style="color:#B5482D;font-size:12px;margin:0 0 4px;"></p>
-    <div class="actions">
-      <button class="btn-outline" onclick="closeModal('m-payment')">إلغاء</button>
-      <button class="btn-gold" onclick="handleAddPayment()">حفظ الدفعة</button>
-    </div>
-  </div>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<div id="login"><div class="login"><div class="logo"><img src="icon-192.png" onerror="this.style.display='none'" alt="Secure PATH"></div><h1>Secure PATH</h1><p id="loginSub">مركز تشغيل الوسيط — العملاء والوثائق والمطالبات والمحادثات</p><div class="field"><label id="emailLabel">البريد الإلكتروني</label><input id="email" type="email" autocomplete="username"></div><div class="field"><label id="passLabel">كلمة المرور</label><input id="pass" type="password" autocomplete="current-password"></div><div id="loginErr" class="warn" style="font-size:12px;margin-bottom:8px"></div><button class="btn primary" style="width:100%" onclick="login()" id="loginBtn">دخول لوحة التحكم</button><p><button class="btn outline" onclick="toggleLang()" id="langBtn">English</button></p></div></div>
+<div id="app"><div class="shell"><aside class="side"><div class="brand"><img src="icon-192.png" onerror="this.style.display='none'"><b>Secure PATH</b></div><nav class="nav"><button data-view="dashboard" onclick="show('dashboard',this)">▦ <span data-i="dashboard">لوحة التحكم</span></button><button data-view="clients" onclick="show('clients',this)">♙ <span data-i="clients">العملاء</span></button><button data-view="policies" onclick="show('policies',this)">▣ <span data-i="policies">الوثائق</span></button><button data-view="payments" onclick="show('payments',this)">₣ <span data-i="payments">الأقساط والمدفوعات</span></button><button data-view="claims" onclick="show('claims',this)">! <span data-i="claims">المطالبات</span></button><button data-view="documents" onclick="show('documents',this)">▤ <span data-i="documents">المستندات</span></button><button data-view="messages" onclick="show('messages',this)">✉ <span data-i="messages">المحادثات</span> <b id="msgBadge" class="badge hidden">0</b></button><button data-view="notifications" onclick="show('notifications',this)">◉ <span data-i="notifications">الإشعارات</span></button><button data-view="activity" onclick="show('activity',this)">◷ <span data-i="activity">سجل النشاط</span></button></nav><div class="sidefoot"><span id="userEmail">—</span><br><button class="btn outline" style="margin-top:8px;width:100%;font-size:10px" onclick="logout()" id="logoutBtn">تسجيل الخروج</button><br>Secure PATH © 2026</div></aside>
+<main class="main"><header class="top"><h1 id="title">لوحة التحكم</h1><div class="topright"><button class="btn outline lang" onclick="toggleLang()" id="topLang">English</button><button class="btn dark" onclick="openClientModal()" id="quickClient">+ عميل جديد</button></div></header><section class="content">
+<div id="v-dashboard" class="view active"><div class="grid"><div class="card stat"><div class="k" data-i="totalClients">إجمالي العملاء</div><div id="sClients" class="v">0</div><div class="s ok">CRM</div></div><div class="card stat"><div class="k" data-i="totalPolicies">إجمالي الوثائق</div><div id="sPolicies" class="v">0</div><div id="sActive" class="s ok">0 سارية</div></div><div class="card stat"><div class="k" data-i="openClaims">المطالبات المفتوحة</div><div id="sClaims" class="v">0</div><div class="s warn">متابعة مطلوبة</div></div><div class="card stat"><div class="k" data-i="unread">الرسائل الجديدة</div><div id="sMessages" class="v">0</div><div class="s">Real-time</div></div></div><div class="grid" style="margin-top:15px"><div class="card stat"><div class="k" data-i="expiring">وثائق تنتهي قريبًا</div><div id="sExpiring" class="v">0</div><div class="s warn">30 يوم</div></div><div class="card stat"><div class="k" data-i="payments">إجمالي المدفوعات</div><div id="sPayments" class="v">0</div><div class="s">EGP</div></div><div class="card stat"><div class="k" data-i="documents">المستندات</div><div id="sDocs" class="v">0</div><div class="s">Customer files</div></div><div class="card stat"><div class="k" data-i="agents">المستخدم الحالي</div><div id="sAgent" class="v" style="font-size:16px">—</div><div class="s">Agent / Admin</div></div></div><div class="two"><div class="card"><div class="panelhead"><h3 data-i="expiringTitle">وثائق قريبة الانتهاء</h3><button class="btn outline" onclick="show('policies')" data-i="viewAll">عرض الكل</button></div><div id="dashExpiring"></div></div><div class="card"><div class="panelhead"><h3 data-i="recentActivity">آخر النشاطات</h3></div><div id="dashActivity" class="list"></div></div></div></div>
+<div id="v-clients" class="view"><div class="toolbar"><div class="search"><input id="clientSearch" oninput="renderClients()" placeholder="ابحث بالاسم أو الهاتف أو المستخدم"></div><button class="btn primary" onclick="openClientModal()">+ <span data-i="addClient">إضافة عميل</span></button></div><div class="card panel"><table><thead><tr><th data-i="client">العميل</th><th data-i="phone">الهاتف</th><th data-i="policies">الوثائق</th><th data-i="claims">المطالبات</th><th data-i="lastMessage">آخر رسالة</th><th data-i="status">الحالة</th><th data-i="actions">إجراءات</th></tr></thead><tbody id="clientsBody"></tbody></table></div></div>
+<div id="v-policies" class="view"><div class="toolbar"><div class="search"><input id="policySearch" oninput="renderPolicies()" placeholder="ابحث بالعميل أو الشركة أو رقم الوثيقة"></div><button class="btn primary" onclick="openPolicyModal()">+ <span data-i="addPolicy">إضافة وثيقة</span></button></div><div class="card panel"><table><thead><tr><th>العميل</th><th>النوع</th><th>الشركة</th><th>رقم الوثيقة</th><th>القسط</th><th>الانتهاء</th><th>الحالة</th></tr></thead><tbody id="policiesBody"></tbody></table></div></div>
+<div id="v-payments" class="view"><div class="toolbar"><div class="search"><input id="paymentSearch" oninput="renderPayments()" placeholder="ابحث بالعميل أو طريقة الدفع"></div><button class="btn primary" onclick="openPaymentModal()">+ إضافة دفعة</button></div><div class="card panel"><table><thead><tr><th>العميل</th><th>الوثيقة</th><th>المبلغ</th><th>التاريخ</th><th>طريقة الدفع</th><th>ملاحظة</th></tr></thead><tbody id="paymentsBody"></tbody></table></div></div>
+<div id="v-claims" class="view"><div class="toolbar"><div class="search"><input id="claimSearch" oninput="renderClaims()" placeholder="ابحث بالعميل أو نوع المطالبة"></div><button class="btn primary" onclick="openClaimModal()">+ إضافة مطالبة</button></div><div class="card panel"><table><thead><tr><th>العميل</th><th>النوع</th><th>رقم الوثيقة</th><th>المبلغ</th><th>الحالة</th><th>آخر تحديث</th><th>إجراء</th></tr></thead><tbody id="claimsBody"></tbody></table></div></div>
+<div id="v-documents" class="view"><div class="toolbar"><div class="search"><input id="docSearch" oninput="renderDocuments()" placeholder="ابحث باسم الملف أو العميل"></div></div><div class="card panel"><table><thead><tr><th>العميل</th><th>المستند</th><th>النوع</th><th>المصدر</th><th>التاريخ</th><th>فتح</th></tr></thead><tbody id="documentsBody"></tbody></table></div></div>
+<div id="v-messages" class="view"><div class="two"><div class="card"><div class="panelhead"><h3 data-i="conversations">المحادثات</h3><span id="messageCount" class="pill blue">0</span></div><div id="conversationList" class="list"></div></div><div class="card"><div class="panelhead"><h3 id="chatTitle">اختر محادثة</h3></div><div id="chatList" class="message-list"><div class="empty">اختر عميلاً لعرض المحادثة.</div></div><div class="composer"><input id="chatInput" placeholder="اكتب ردك للعميل..." onkeydown="if(event.key==='Enter')sendMessage()"><button class="btn primary" onclick="sendMessage()">إرسال</button></div></div></div></div>
+<div id="v-notifications" class="view"><div class="card"><div class="panelhead"><h3>إشعارات العملاء والنظام</h3></div><div id="notificationsList" class="list"></div></div></div>
+<div id="v-activity" class="view"><div class="card"><div class="panelhead"><h3>Activity Log</h3></div><div id="activityList" class="list"></div></div></div>
+</section></main></div></div>
+<div id="clientModal" class="overlay"><div class="modal"><h2 id="clientModalTitle">إضافة عميل جديد</h2><div class="formgrid"><div class="field"><label>الاسم الكامل</label><input id="cName"></div><div class="field"><label>الهاتف</label><input id="cPhone"></div></div><div class="formgrid"><div class="field"><label>اسم المستخدم</label><input id="cUser"></div><div class="field"><label>كلمة المرور</label><input id="cPass" type="password"></div></div><div id="cErr" class="warn" style="font-size:12px"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('clientModal')">إلغاء</button><button class="btn primary" onclick="createClient()">حفظ وإنشاء الحساب</button></div></div></div>
+<div id="policyModal" class="overlay"><div class="modal"><h2>إضافة وثيقة</h2><div class="field"><label>العميل</label><select id="pClient"></select></div><div class="formgrid"><div class="field"><label>نوع التأمين</label><input id="pType"></div><div class="field"><label>شركة التأمين</label><input id="pCompany"></div></div><div class="formgrid"><div class="field"><label>رقم الوثيقة</label><input id="pNumber"></div><div class="field"><label>القسط</label><input id="pPremium" type="number"></div></div><div class="formgrid"><div class="field"><label>البداية</label><input id="pStart" type="date"></div><div class="field"><label>الانتهاء</label><input id="pEnd" type="date"></div></div><div class="field"><label>التغطية / ملاحظات</label><textarea id="pCoverage"></textarea></div><div id="pErr" class="warn" style="font-size:12px"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('policyModal')">إلغاء</button><button class="btn primary" onclick="createPolicy()">حفظ الوثيقة</button></div></div></div>
+<div id="paymentModal" class="overlay"><div class="modal"><h2>تسجيل دفعة</h2><div class="field"><label>العميل</label><select id="payClient" onchange="refreshPolicySelect('payClient','payPolicy')"></select></div><div class="field"><label>الوثيقة</label><select id="payPolicy"></select></div><div class="formgrid"><div class="field"><label>المبلغ</label><input id="payAmount" type="number"></div><div class="field"><label>التاريخ</label><input id="payDate" type="date"></div></div><div class="field"><label>طريقة الدفع</label><select id="payMethod"><option>Cash</option><option>Bank Transfer</option><option>Card</option><option>Wallet</option></select></div><div class="field"><label>ملاحظة</label><input id="payNote"></div><div id="payErr" class="warn" style="font-size:12px"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('paymentModal')">إلغاء</button><button class="btn primary" onclick="createPayment()">حفظ الدفعة</button></div></div></div>
+<div id="claimModal" class="overlay"><div class="modal"><h2>إضافة مطالبة</h2><div class="field"><label>العميل</label><select id="clClient" onchange="refreshPolicySelect('clClient','clPolicy')"></select></div><div class="field"><label>الوثيقة</label><select id="clPolicy"></select></div><div class="formgrid"><div class="field"><label>نوع المطالبة</label><input id="clType"></div><div class="field"><label>المبلغ</label><input id="clAmount" type="number"></div></div><div class="field"><label>الحالة</label><select id="clStatus"><option value="new">New</option><option value="under_review">Under Review</option><option value="documents_required">Documents Required</option><option value="approved">Approved</option><option value="settled">Settled</option><option value="rejected">Rejected</option></select></div><div class="field"><label>الوصف</label><textarea id="clDesc"></textarea></div><div id="clErr" class="warn" style="font-size:12px"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('claimModal')">إلغاء</button><button class="btn primary" onclick="createClaim()">حفظ المطالبة</button></div></div></div>
+<div id="toast" class="toast"></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyCkRYPffAEBRivC2Si5T-ILL99ZrSq-dWM",
-  authDomain: "path-1a672.firebaseapp.com",
-  projectId: "path-1a672",
-  storageBucket: "path-1a672.firebasestorage.app",
-  messagingSenderId: "616651183121",
-  appId: "1:616651183121:web:ba7f3cdec65a9df8014db0"
-};
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-let CURRENT_CLIENT_UID = null;
-let CLIENTS_CACHE = {};
-
-async function handleAgentLogin(){
-  const email = document.getElementById('ag-email').value.trim();
-  const pass = document.getElementById('ag-password').value;
-  const err = document.getElementById('ag-error');
-  err.textContent = '';
-  try{
-    await auth.signInWithEmailAndPassword(email, pass);
-    document.getElementById('login-view').style.display='none';
-    document.getElementById('app-view').classList.add('active');
-    document.getElementById('side-foot-email').textContent = email;
-    loadOverview();
-    loadClients();
-  }catch(e){
-    err.textContent = 'الإيميل أو كلمة المرور غلط';
-  }
-}
-function handleAgentLogout(){
-  auth.signOut().then(()=>location.reload());
-}
-
-function tsMillis(ts){ return (ts && ts.toMillis) ? ts.toMillis() : 0; }
-function fmtDate(d){ if(!d) return '—'; return new Date(d).toLocaleDateString('ar-EG',{day:'numeric',month:'long',year:'numeric'}); }
-function daysLeft(endDateStr){ return Math.ceil((new Date(endDateStr)-new Date())/(1000*60*60*24)); }
-function statusPill(endDate){
-  const d = daysLeft(endDate);
-  if(d<0) return '<span class="pill warn">منتهية</span>';
-  if(d<=30) return `<span class="pill warn">${d} يوم متبقي</span>`;
-  return '<span class="pill ok">سارية</span>';
-}
-function initials(name){ return name.split(' ').slice(0,2).map(w=>w[0]).join(' '); }
-
-async function loadClients(){
-  const snap = await db.collection('clients').orderBy('createdAt','desc').get();
-  const rows = [];
-  CLIENTS_CACHE = {};
-  for(const doc of snap.docs){
-    const c = doc.data();
-    CLIENTS_CACHE[doc.id] = {...c, uid:doc.id};
-    const pSnap = await db.collection('policies').where('clientId','==',doc.id).get();
-    rows.push({uid:doc.id, ...c, count:pSnap.size});
-  }
-  document.getElementById('clients-tbody').innerHTML = rows.map(r=>`
-    <tr>
-      <td><div class="name-cell"><div class="av">${initials(r.fullName||'؟')}</div><div class="meta">${r.fullName||''}<span>${r.phone||''}</span></div></div></td>
-      <td>${r.username||''}</td><td>${r.count}</td>
-      <td>${r.count>0?'<span class="pill ok">نشط</span>':'<span class="pill warn">بدون وثائق</span>'}</td>
-      <td><div class="row-actions"><button onclick="openClient('${r.uid}')">عرض</button></div></td>
-    </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:#a8a190;">لسه معندكش عملاء، دوس "إضافة عميل جديد"</td></tr>';
-}
-
-async function loadOverview(){
-  const clientsSnap = await db.collection('clients').get();
-  const policiesSnap = await db.collection('policies').get();
-  const policies = policiesSnap.docs.map(d=>({id:d.id,...d.data()}));
-  const total = policies.reduce((s,p)=>s+(parseFloat(p.premium)||0),0);
-  const expiring = policies.filter(p=>daysLeft(p.endDate)>=0 && daysLeft(p.endDate)<=30);
-  const active = policies.filter(p=>daysLeft(p.endDate)>30).length;
-  document.querySelectorAll('.stat-card .val')[0].textContent = clientsSnap.size;
-  document.querySelectorAll('.stat-card .val')[1].textContent = policies.length;
-  document.querySelectorAll('.stat-card .sub')[1].textContent = active+' سارية';
-  document.querySelectorAll('.stat-card .val')[2].textContent = expiring.length;
-  document.querySelectorAll('.stat-card .val')[3].textContent = total.toLocaleString('en-US');
-
-  const uidToName = {};
-  clientsSnap.docs.forEach(d=>uidToName[d.id]=d.data().fullName);
-  document.getElementById('expiring-tbody').innerHTML = expiring.map(p=>`
-    <tr><td>${uidToName[p.clientId]||p.clientId}</td><td>${p.type}</td><td>${p.company}</td><td>${fmtDate(p.endDate)}</td><td>${statusPill(p.endDate)}</td></tr>
-  `).join('') || '<tr><td colspan="5" style="text-align:center;color:#a8a190;">مفيش وثائق قريبة من الانتهاء دلوقتي</td></tr>';
-
-  document.getElementById('policies-tbody').innerHTML = policies.map(p=>`
-    <tr><td>${uidToName[p.clientId]||p.clientId}</td><td>${p.type}</td><td>${p.company}</td><td>${p.policyNumber||''}</td><td>${fmtDate(p.endDate)}</td><td>${statusPill(p.endDate)}</td></tr>
-  `).join('') || '<tr><td colspan="6" style="text-align:center;color:#a8a190;">لسه مفيش وثائق مضافة</td></tr>';
-}
-
-async function openClient(uid){
-  CURRENT_CLIENT_UID = uid;
-  const c = CLIENTS_CACHE[uid];
-  document.getElementById('cd-name').textContent = c.fullName;
-  document.getElementById('cd-avatar').textContent = initials(c.fullName||'؟');
-  document.getElementById('cd-username').textContent = 'اسم المستخدم: ' + c.username;
-  showView('client-detail');
-  const snap = await db.collection('policies').where('clientId','==',uid).get();
-  const rows = snap.docs.map(d=>d.data());
-  document.getElementById('client-policies-tbody').innerHTML = rows.map(p=>`
-    <tr><td>${p.type}</td><td>${p.company}</td><td>${p.policyNumber||''}</td><td>${fmtDate(p.endDate)}</td><td>${p.premium||''} ج.م</td><td>${statusPill(p.endDate)}</td></tr>
-  `).join('') || '<tr><td colspan="6" style="text-align:center;color:#a8a190;">مفيش وثائق للعميل ده لسه</td></tr>';
-  await loadClientPayments(uid);
-  await loadClientDocuments(uid);
-  openAgentChat(uid);
-}
-
-async function loadClientPayments(uid){
-  const snap = await db.collection('payments').where('clientId','==',uid).get();
-  const rows = snap.docs.slice().sort((a,b)=>(b.data().date||'').localeCompare(a.data().date||''));
-  document.getElementById('client-payments-tbody').innerHTML = rows.map(d=>{
-    const p = d.data();
-    return `<tr><td>${fmtDate(p.date)}</td><td>${p.amount} ج.م</td><td>${p.method||''}</td><td>${p.note||''}</td></tr>`;
-  }).join('') || '<tr><td colspan="4" style="text-align:center;color:#a8a190;">مفيش مدفوعات مسجّلة لسه</td></tr>';
-}
-
-async function loadClientDocuments(uid){
-  const wrap = document.getElementById('client-documents-list');
-  const snap = await db.collection('documents').where('clientId','==',uid).get();
-  const rows = snap.docs.slice().sort((a,b)=>tsMillis(b.data().createdAt)-tsMillis(a.data().createdAt));
-  if(rows.length===0){ wrap.innerHTML = '<p style="color:#a8a190;font-size:12.5px;">العميل لسه مرفعش أي مستندات.</p>'; return; }
-  wrap.innerHTML = rows.map(d=>{
-    const doc = d.data();
-    const isImg = (doc.fileType||'').startsWith('image/');
-    return `
-    <div style="display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:9px 12px;">
-      ${isImg ? `<img src="${doc.dataUrl}" style="width:34px;height:34px;object-fit:cover;border-radius:6px;">` : `<div style="width:34px;height:34px;border-radius:6px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;">📄</div>`}
-      <span style="flex:1;font-size:12.5px;color:var(--navy-2);">${doc.fileName} ${doc.uploadedBy==='agent' ? '<span style=\"color:#a8a190;font-size:10.5px;\">(رفعتها إنت)</span>' : ''}</span>
-      <a href="${doc.dataUrl}" download="${doc.fileName}" style="font-size:11px;color:var(--navy-2);font-weight:700;text-decoration:underline;">فتح</a>
-    </div>`;
-  }).join('');
-}
-
-const MAX_DOC_BYTES = 700 * 1024;
-function handleAdminUploadDocument(){
-  const input = document.getElementById('ad-doc-file');
-  const file = input.files[0];
-  const err = document.getElementById('ad-doc-error');
-  err.textContent = '';
-  if(!file || !CURRENT_CLIENT_UID) return;
-  if(file.size > MAX_DOC_BYTES){
-    err.textContent = 'الملف كبير قوي (الحد الأقصى 700 كيلوبايت). جرّب صورة أصغر أو بجودة أقل.';
-    input.value = '';
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = async function(){
-    try{
-      await db.collection('documents').add({
-        clientId: CURRENT_CLIENT_UID, fileName: file.name, fileType: file.type,
-        dataUrl: reader.result, uploadedBy:'agent', createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-      input.value = '';
-      await loadClientDocuments(CURRENT_CLIENT_UID);
-    }catch(e){
-      err.textContent = 'حصل خطأ أثناء الرفع، جرّب تاني';
-    }
-  };
-  reader.readAsDataURL(file);
-}
-
-let AGENT_CHAT_UNSUB = null;
-function openAgentChat(uid){
-  const list = document.getElementById('chat-list');
-  list.innerHTML = '<p style="color:#a8a190;font-size:12.5px;text-align:center;">جاري التحميل...</p>';
-  if(AGENT_CHAT_UNSUB) AGENT_CHAT_UNSUB();
-  AGENT_CHAT_UNSUB = db.collection('messages').where('clientId','==',uid)
-    .onSnapshot(snap=>{
-      const docs = snap.docs.slice().sort((a,b)=>tsMillis(a.data().createdAt)-tsMillis(b.data().createdAt));
-      if(docs.length===0){ list.innerHTML = '<p style="color:#a8a190;font-size:12.5px;text-align:center;">لسه مفيش رسائل مع العميل ده.</p>'; return; }
-      list.innerHTML = docs.map(d=>{
-        const m = d.data();
-        const fromAgent = m.sender === 'agent';
-        return `<div style="align-self:${fromAgent?'flex-start':'flex-end'};max-width:75%;background:${fromAgent?'var(--navy)':'var(--gold-soft)'};color:${fromAgent?'#fff':'var(--navy)'};padding:8px 12px;border-radius:12px;font-size:12.5px;">${m.text}</div>`;
-      }).join('');
-      list.scrollTop = list.scrollHeight;
-    });
-}
-async function handleSendAgentMessage(){
-  const input = document.getElementById('chat-input');
-  const text = input.value.trim();
-  if(!text || !CURRENT_CLIENT_UID) return;
-  input.value = '';
-  await db.collection('messages').add({
-    clientId: CURRENT_CLIENT_UID, sender:'agent', text, createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  });
-}
-async function handleAddPayment(){
-  const amount = document.getElementById('pay-amount').value.trim();
-  const date = document.getElementById('pay-date').value;
-  const method = document.getElementById('pay-method').value;
-  const note = document.getElementById('pay-note').value.trim();
-  const err = document.getElementById('pay-error');
-  err.textContent = '';
-  if(!amount || !date){ err.textContent = 'من فضلك ادخل المبلغ والتاريخ'; return; }
-  try{
-    await db.collection('payments').add({
-      clientId: CURRENT_CLIENT_UID, amount, date, method, note,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    closeModal('m-payment');
-    document.getElementById('pay-amount').value='';
-    document.getElementById('pay-note').value='';
-    await loadClientPayments(CURRENT_CLIENT_UID);
-  }catch(e){
-    err.textContent = 'حصل خطأ، جرّب تاني';
-  }
-}
-
-async function handleAddClient(){
-  const name = document.getElementById('nc-name').value.trim();
-  const phone = document.getElementById('nc-phone').value.trim();
-  const username = document.getElementById('nc-username').value.trim().toLowerCase();
-  const pass = document.getElementById('nc-password').value;
-  const err = document.getElementById('nc-error');
-  err.textContent = '';
-  if(!name || !username || !pass){ err.textContent = 'من فضلك املأ الاسم واسم المستخدم وكلمة المرور'; return; }
-  if(pass.length < 6){ err.textContent = 'كلمة المرور لازم 6 حروف/أرقام على الأقل'; return; }
-  try{
-    const secondaryApp = firebase.apps.find(a=>a.name==='Secondary') || firebase.initializeApp(firebaseConfig,'Secondary');
-    const secondaryAuth = secondaryApp.auth();
-    const cred = await secondaryAuth.createUserWithEmailAndPassword(username+'@securepath.app', pass);
-    await db.collection('clients').doc(cred.user.uid).set({
-      fullName:name, phone:phone, username:username, createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    await secondaryAuth.signOut();
-    closeModal('m-client');
-    document.getElementById('nc-name').value='';
-    document.getElementById('nc-phone').value='';
-    document.getElementById('nc-username').value='';
-    document.getElementById('nc-password').value='';
-    await loadClients();
-  }catch(e){
-    if(e.code && e.code.includes('email-already-in-use')) err.textContent = 'اسم المستخدم ده مستخدم قبل كده';
-    else err.textContent = 'حصل خطأ، جرّب تاني';
-  }
-}
-
-async function handleAddPolicy(){
-  if(!CURRENT_CLIENT_UID){ return; }
-  const type = document.getElementById('np-type').value;
-  const company = document.getElementById('np-company').value.trim();
-  const policyNumber = document.getElementById('np-number').value.trim();
-  const startDate = document.getElementById('np-start').value;
-  const endDate = document.getElementById('np-end').value;
-  const premium = document.getElementById('np-premium').value.trim();
-  const err = document.getElementById('np-error');
-  err.textContent = '';
-  if(!company || !endDate){ err.textContent = 'من فضلك ادخل شركة التأمين وتاريخ الانتهاء على الأقل'; return; }
-  try{
-    await db.collection('policies').add({
-      clientId: CURRENT_CLIENT_UID, type, company, policyNumber, startDate, endDate, premium,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    closeModal('m-policy');
-    document.getElementById('np-company').value='';
-    document.getElementById('np-number').value='';
-    document.getElementById('np-premium').value='';
-    await openClient(CURRENT_CLIENT_UID);
-    await loadClients();
-  }catch(e){
-    err.textContent = 'حصل خطأ أثناء حفظ الوثيقة';
-  }
-}
-
-function enterApp(){
-  document.getElementById('login-view').style.display='none';
-  document.getElementById('app-view').classList.add('active');
-}
-const titles={overview:'نظرة عامة',clients:'العملاء','client-detail':'ملف العميل',policies:'كل الوثائق',notifs:'الإشعارات'};
-function showView(v, el){
-  document.querySelectorAll('.view').forEach(s=>s.classList.remove('active'));
-  document.getElementById('v-'+v).classList.add('active');
-  document.getElementById('page-title').textContent = titles[v] || '';
-  document.querySelectorAll('.side-item').forEach(n=>n.classList.remove('on'));
-  if(el) el.classList.add('on');
-  else document.querySelectorAll('.side-item').forEach(n=>{ if(n.dataset.v===v) n.classList.add('on'); });
-  if(v==='overview') loadOverview();
-  if(v==='clients') loadClients();
-  if(v==='policies') loadOverview();
-}
-function openModal(id){ document.getElementById(id).classList.add('show'); }
-function closeModal(id){ document.getElementById(id).classList.remove('show'); }
-</script>
-
-</body>
-</html>
+const firebaseConfig={apiKey:'AIzaSyCkRYPffAEBRivC2Si5T-ILL99ZrSq-dWM',authDomain:'path-1a672.firebaseapp.com',projectId:'path-1a672',storageBucket:'path-1a672.firebasestorage.app',messagingSenderId:'616651183121',appId:'1:616651183121:web:ba7f3cdec65a9df8014db0'};
+firebase.initializeApp(firebaseConfig);const auth=firebase.auth(),db=firebase.firestore();
+let LANG=localStorage.getItem('sp_admin_lang')||'ar',DATA={clients:[],policies:[],payments:[],claims:[],documents:[],messages:[],notifications:[],activity:[]},CURRENT_CHAT=null,CHAT_UNSUB=null,MSG_UNSUB=null;
+const I18N={ar:{dashboard:'لوحة التحكم',clients:'العملاء',policies:'الوثائق',payments:'الأقساط والمدفوعات',claims:'المطالبات',documents:'المستندات',messages:'المحادثات',notifications:'الإشعارات',activity:'سجل النشاط',totalClients:'إجمالي العملاء',totalPolicies:'إجمالي الوثائق',openClaims:'المطالبات المفتوحة',unread:'الرسائل الجديدة',expiring:'وثائق تنتهي قريبًا',payments:'إجمالي المدفوعات',documents:'المستندات',agents:'المستخدم الحالي',expiringTitle:'وثائق قريبة الانتهاء',viewAll:'عرض الكل',recentActivity:'آخر النشاطات',addClient:'إضافة عميل',client:'العميل',phone:'الهاتف',lastMessage:'آخر رسالة',status:'الحالة',actions:'إجراءات',conversations:'المحادثات'},en:{dashboard:'Dashboard',clients:'Clients',policies:'Policies',payments:'Payments',claims:'Claims',documents:'Documents',messages:'Messages',notifications:'Notifications',activity:'Activity Log',totalClients:'Total Clients',totalPolicies:'Total Policies',openClaims:'Open Claims',unread:'Unread Messages',expiring:'Expiring Policies',payments:'Total Payments',documents:'Documents',agents:'Current User',expiringTitle:'Policies Expiring Soon',viewAll:'View All',recentActivity:'Recent Activity',addClient:'Add Client',client:'Client',phone:'Phone',lastMessage:'Last Message',status:'Status',actions:'Actions',conversations:'Conversations'}};
+const t=k=>I18N[LANG][k]||k;function applyLang(){document.documentElement.lang=LANG;document.documentElement.dir=LANG==='ar'?'rtl':'ltr';document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));document.getElementById('topLang').textContent=LANG==='ar'?'English':'العربية';document.getElementById('langBtn').textContent=LANG==='ar'?'English':'العربية';document.getElementById('loginSub').textContent=LANG==='ar'?'مركز تشغيل الوسيط — العملاء والوثائق والمطالبات والمحادثات':'Agent Operations Center — clients, policies, claims and messages';document.getElementById('emailLabel').textContent=LANG==='ar'?'البريد الإلكتروني':'Email';document.getElementById('passLabel').textContent=LANG==='ar'?'كلمة المرور':'Password';document.getElementById('loginBtn').textContent=LANG==='ar'?'دخول لوحة التحكم':'Sign in';document.getElementById('logoutBtn').textContent=LANG==='ar'?'تسجيل الخروج':'Logout';document.getElementById('quickClient').textContent=LANG==='ar'?'+ عميل جديد':'+ New Client'}function toggleLang(){LANG=LANG==='ar'?'en':'ar';localStorage.setItem('sp_admin_lang',LANG);applyLang();renderAll()}
+function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}function ms(ts){return ts&&ts.toMillis?ts.toMillis():0}function date(v){if(!v)return '—';let d=v.toDate?v.toDate():new Date(v);return isNaN(d)?'—':d.toLocaleDateString(LANG==='ar'?'ar-EG':'en-US',{day:'numeric',month:'short',year:'numeric'})}function ago(ts){if(!ts)return '—';let d=Date.now()-ms(ts);if(d<60000)return LANG==='ar'?'الآن':'Now';if(d<3600000)return Math.floor(d/60000)+(LANG==='ar'?' د':'m');return date(ts)}function clientName(id){return DATA.clients.find(x=>x.id===id)?.fullName||id||'—'}function days(end){return end?Math.ceil((new Date(end)-new Date())/86400000):9999}function claimLabel(s){return ({new:'New',under_review:'Under Review',documents_required:'Documents Required',approved:'Approved',settled:'Settled',rejected:'Rejected'})[s]||s||'—'}
+function toast(m){let x=document.getElementById('toast');x.textContent=m;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),2600)}
+async function login(){let e=document.getElementById('email').value.trim(),p=document.getElementById('pass').value;document.getElementById('loginErr').textContent='';try{await auth.signInWithEmailAndPassword(e,p);document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';document.getElementById('userEmail').textContent=e;document.getElementById('sAgent').textContent=e.split('@')[0];applyLang();await loadAll();startMessages();}catch(err){document.getElementById('loginErr').textContent=LANG==='ar'?'تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور.':'Login failed. Check email and password.'}}
+function logout(){auth.signOut().then(()=>location.reload())}auth.onAuthStateChanged(u=>{if(u){document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';document.getElementById('userEmail').textContent=u.email||'';document.getElementById('sAgent').textContent=(u.email||'').split('@')[0];applyLang();loadAll();startMessages()}});
+async function col(n){try{let s=await db.collection(n).get();return s.docs.map(d=>({id:d.id,...d.data()}))}catch(e){console.warn(n,e);return[]}}
+async function loadAll(){let names=['clients','policies','payments','claims','documents','messages','notifications','activity'];let vals=await Promise.all(names.map(col));names.forEach((n,i)=>DATA[n]=vals[i]);renderAll()}
+function renderAll(){renderDashboard();renderClients();renderPolicies();renderPayments();renderClaims();renderDocuments();renderConversations();renderNotifications();renderActivity();refreshSelects();updateBadge()}
+function renderDashboard(){let open=DATA.claims.filter(x=>!['settled','rejected'].includes(x.status)).length, unread=DATA.messages.filter(x=>x.sender==='client'&&!x.autoReply&&!x.readByAdmin).length, exp=DATA.policies.filter(x=>days(x.endDate)>=0&&days(x.endDate)<=30).length, total=DATA.payments.reduce((a,x)=>a+(Number(x.amount)||0),0),active=DATA.policies.filter(x=>days(x.endDate)>=0).length;[['sClients',DATA.clients.length],['sPolicies',DATA.policies.length],['sClaims',open],['sMessages',unread],['sExpiring',exp],['sPayments',total.toLocaleString('en-US')],['sDocs',DATA.documents.length]].forEach(([id,v])=>document.getElementById(id).textContent=v);document.getElementById('sActive').textContent=active+(LANG==='ar'?' سارية':' active');document.getElementById('dashExpiring').innerHTML=DATA.policies.filter(x=>days(x.endDate)>=0&&days(x.endDate)<=30).sort((a,b)=>days(a.endDate)-days(b.endDate)).slice(0,8).map(p=>`<div class="item"><b>${esc(clientName(p.clientId))}</b><p>${esc(p.company)} • ${esc(p.policyNumber)} • ${date(p.endDate)} <span class="pill red">${days(p.endDate)} ${LANG==='ar'?'يوم':'days'}</span></p></div>`).join('')||'<div class="empty">—</div>';document.getElementById('dashActivity').innerHTML=DATA.activity.slice().sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).slice(0,7).map(a=>`<div class="item"><h4>${esc(a.action||a.type||'Activity')}</h4><p>${esc(a.description||a.text||'')} • ${ago(a.createdAt)}</p></div>`).join('')||'<div class="empty">—</div>'}
+function renderClients(){let q=(document.getElementById('clientSearch')?.value||'').toLowerCase();let html=DATA.clients.filter(c=>[c.fullName,c.phone,c.username].join(' ').toLowerCase().includes(q)).map(c=>{let pc=DATA.policies.filter(x=>x.clientId===c.id).length,cc=DATA.claims.filter(x=>x.clientId===c.id).length, msgs=DATA.messages.filter(x=>x.clientId===c.id).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt));let unread=msgs.some(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin);return `<tr><td><div class="name"><div class="avatar">${esc((c.fullName||'?').split(' ').slice(0,2).map(x=>x[0]).join(''))}</div><div><b>${esc(c.fullName||'—')}</b><div class="muted">${esc(c.username||'')}</div></div></div></td><td>${esc(c.phone||'—')}</td><td>${pc}</td><td>${cc}</td><td>${esc(msgs[0]?.text||'—')}</td><td>${unread?'<span class="pill red">New</span>':'<span class="pill">Active</span>'}</td><td><div class="actions"><button onclick="openClientChat('${c.id}')">💬</button><button onclick="openPolicyModal('${c.id}')">+ وثيقة</button><button onclick="openClientProfile('${c.id}')">عرض</button></div></td></tr>`}).join('');document.getElementById('clientsBody').innerHTML=html||'<tr><td colspan="7"><div class="empty">لا يوجد عملاء</div></td></tr>'}
+function renderPolicies(){let q=(document.getElementById('policySearch')?.value||'').toLowerCase();document.getElementById('policiesBody').innerHTML=DATA.policies.filter(p=>[clientName(p.clientId),p.company,p.policyNumber,p.type].join(' ').toLowerCase().includes(q)).map(p=>`<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(p.type)}</td><td>${esc(p.company)}</td><td>${esc(p.policyNumber)}</td><td>${Number(p.premium||0).toLocaleString('en-US')} EGP</td><td>${date(p.endDate)}</td><td>${days(p.endDate)<0?'<span class="pill red">Expired</span>':days(p.endDate)<=30?'<span class="pill red">Expiring</span>':'<span class="pill">Active</span>'}</td></tr>`).join('')||'<tr><td colspan="7"><div class="empty">لا توجد وثائق</div></td></tr>'}
+function renderPayments(){let q=(document.getElementById('paymentSearch')?.value||'').toLowerCase();document.getElementById('paymentsBody').innerHTML=DATA.payments.filter(p=>[clientName(p.clientId),p.method,p.note].join(' ').toLowerCase().includes(q)).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).map(p=>`<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(DATA.policies.find(x=>x.id===p.policyId)?.policyNumber||'—')}</td><td>${Number(p.amount||0).toLocaleString('en-US')} EGP</td><td>${date(p.date)}</td><td>${esc(p.method||'—')}</td><td>${esc(p.note||'')}</td></tr>`).join('')||'<tr><td colspan="6"><div class="empty">لا توجد مدفوعات</div></td></tr>'}
+function renderClaims(){let q=(document.getElementById('claimSearch')?.value||'').toLowerCase();document.getElementById('claimsBody').innerHTML=DATA.claims.filter(c=>[clientName(c.clientId),c.type,c.status].join(' ').toLowerCase().includes(q)).sort((a,b)=>ms(b.updatedAt||b.createdAt)-ms(a.updatedAt||a.createdAt)).map(c=>`<tr><td>${esc(clientName(c.clientId))}</td><td>${esc(c.type)}</td><td>${esc(c.policyNumber||DATA.policies.find(x=>x.id===c.policyId)?.policyNumber||'—')}</td><td>${Number(c.amount||0).toLocaleString('en-US')} EGP</td><td><span class="pill ${['rejected','settled'].includes(c.status)?'':'blue'}">${esc(claimLabel(c.status))}</span></td><td>${date(c.updatedAt||c.createdAt)}</td><td><select onchange="changeClaim('${c.id}',this.value)"><option value="">Update</option><option value="under_review">Under Review</option><option value="documents_required">Documents Required</option><option value="approved">Approved</option><option value="settled">Settled</option><option value="rejected">Rejected</option></select></td></tr>`).join('')||'<tr><td colspan="7"><div class="empty">لا توجد مطالبات</div></td></tr>'}
+function renderDocuments(){let q=(document.getElementById('docSearch')?.value||'').toLowerCase();document.getElementById('documentsBody').innerHTML=DATA.documents.filter(d=>[clientName(d.clientId),d.fileName,d.fileType].join(' ').toLowerCase().includes(q)).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).map(d=>`<tr><td>${esc(clientName(d.clientId))}</td><td>${esc(d.fileName||'—')}</td><td>${esc(d.fileType||'—')}</td><td>${d.uploadedBy==='agent'?'<span class="pill blue">Agent</span>':'<span class="pill">Client</span>'}</td><td>${date(d.createdAt)}</td><td><a class="btn outline" style="padding:6px 9px;text-decoration:none" href="${d.dataUrl||'#'}" target="_blank">فتح</a></td></tr>`).join('')||'<tr><td colspan="6"><div class="empty">لا توجد مستندات</div></td></tr>'}
+function renderConversations(){let ids=[...new Set(DATA.messages.map(m=>m.clientId).filter(Boolean))];document.getElementById('conversationList').innerHTML=ids.map(id=>{let msx=DATA.messages.filter(m=>m.clientId===id).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)),u=msx.some(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin);return `<div class="item ${u?'unread':''}" onclick="openClientChat('${id}')"><h4>${esc(clientName(id))} ${u?'<span class="pill red">New</span>':''}</h4><p>${esc(msx[0]?.text||'')} • ${ago(msx[0]?.createdAt)} • ${msx.length} messages</p></div>`}).join('')||'<div class="empty">لا توجد محادثات</div>'}
+function renderNotifications(){document.getElementById('notificationsList').innerHTML=DATA.notifications.sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).slice(0,50).map(n=>`<div class="item"><h4>${esc(n.title||'Notification')} — ${esc(clientName(n.clientId))}</h4><p>${esc(n.body||'')} • ${date(n.createdAt)}</p></div>`).join('')||'<div class="empty">لا توجد إشعارات</div>'}
+function renderActivity(){document.getElementById('activityList').innerHTML=DATA.activity.sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).slice(0,100).map(a=>`<div class="item"><h4>${esc(a.action||a.type||'Activity')}</h4><p>${esc(a.description||a.text||'')} • ${date(a.createdAt)}</p></div>`).join('')||'<div class="empty">لا يوجد سجل نشاط حتى الآن</div>'}
+function updateBadge(){let n=DATA.messages.filter(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin).length;document.getElementById('msgBadge').textContent=n;document.getElementById('msgBadge').classList.toggle('hidden',!n);document.getElementById('sMessages').textContent=n;document.getElementById('messageCount').textContent=n}
+function startMessages(){if(MSG_UNSUB)MSG_UNSUB();MSG_UNSUB=db.collection('messages').onSnapshot(s=>{DATA.messages=s.docs.map(d=>({id:d.id,...d.data()}));updateBadge();renderConversations();renderClients();renderDashboard()})}
+function openClientChat(id){CURRENT_CHAT=id;document.getElementById('chatTitle').textContent=clientName(id);show('messages');if(CHAT_UNSUB)CHAT_UNSUB();CHAT_UNSUB=db.collection('messages').where('clientId','==',id).onSnapshot(s=>{let docs=s.docs.slice().sort((a,b)=>ms(a.data().createdAt)-ms(b.data().createdAt));document.getElementById('chatList').innerHTML=docs.map(d=>{let m=d.data();return `<div class="bubble ${m.sender==='agent'?'agent':'client'}">${esc(m.text)}${m.autoReply?'<div style="font-size:9px;opacity:.65;margin-top:3px">Auto reply</div>':''}</div>`}).join('')||'<div class="empty">لا توجد رسائل</div>';document.getElementById('chatList').scrollTop=999999;docs.filter(d=>{let m=d.data();return m.sender==='client'&&!m.autoReply&&!m.readByAdmin}).forEach(d=>d.ref.update({readByAdmin:true}).catch(()=>{}));});}
+async function sendMessage(){let i=document.getElementById('chatInput'),text=i.value.trim();if(!text||!CURRENT_CHAT)return;i.value='';try{await db.collection('messages').add({clientId:CURRENT_CHAT,sender:'agent',agentId:auth.currentUser.uid,text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});await logActivity('Agent replied',`Replied to ${clientName(CURRENT_CHAT)}`)}catch(e){toast('تعذر إرسال الرسالة')}}
+function show(v,el){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));let node=document.getElementById('v-'+v);if(node)node.classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));(el||document.querySelector(`[data-view="${v}"]`))?.classList.add('active');document.getElementById('title').textContent=t(v);if(v==='dashboard')renderDashboard()}
+function modal(id,show=true){document.getElementById(id).classList.toggle('show',show)}function closeModal(id){modal(id,false)}
+function refreshSelects(){['pClient','payClient','clClient'].forEach(id=>{let s=document.getElementById(id);if(!s)return;s.innerHTML='<option value="">اختر العميل</option>'+DATA.clients.map(c=>`<option value="${c.id}">${esc(c.fullName||c.username)}</option>`).join('')})}
+function refreshPolicySelect(cid,pid){let client=document.getElementById(cid).value,s=document.getElementById(pid);s.innerHTML='<option value="">اختر الوثيقة</option>'+DATA.policies.filter(p=>p.clientId===client).map(p=>`<option value="${p.id}">${esc(p.policyNumber||p.type)}</option>`).join('')}
+function openClientModal(){document.getElementById('cErr').textContent='';modal('clientModal')}
+function openPolicyModal(cid=''){refreshSelects();document.getElementById('pClient').value=cid||'';modal('policyModal')}
+function openPaymentModal(cid=''){refreshSelects();document.getElementById('payClient').value=cid||'';refreshPolicySelect('payClient','payPolicy');document.getElementById('payDate').value=new Date().toISOString().slice(0,10);modal('paymentModal')}
+function openClaimModal(cid=''){refreshSelects();document.getElementById('clClient').value=cid||'';refreshPolicySelect('clClient','clPolicy');modal('claimModal')}
+function openClientProfile(id){openClientChat(id)}
+async function logActivity(action,description){try{await db.collection('activity').add({action,description,actorId:auth.currentUser?.uid||'',createdAt:firebase.firestore.FieldValue.serverTimestamp()})}catch(e){}}
+async function notify(id,title,body){try{await db.collection('notifications').add({clientId:id,title,body,read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()})}catch(e){}}
+async function createClient(){let name=cName.value.trim(),phone=cPhone.value.trim(),user=cUser.value.trim().toLowerCase(),pass=cPass.value,err=cErr;err.textContent='';if(!name||!user||pass.length<6){err.textContent='أكمل البيانات وكلمة المرور 6 أحرف على الأقل';return}try{let app=firebase.apps.find(a=>a.name==='Secondary')||firebase.initializeApp(firebaseConfig,'Secondary'),a=app.auth(),cred=await a.createUserWithEmailAndPassword(user+'@securepath.app',pass);await db.collection('clients').doc(cred.user.uid).set({fullName:name,phone,username:user,role:'client',createdAt:firebase.firestore.FieldValue.serverTimestamp(),createdBy:auth.currentUser.uid});await a.signOut();await logActivity('Client created',`Created client ${name}`);closeModal('clientModal');await loadAll();toast('تم إنشاء العميل بنجاح')}catch(e){err.textContent=e.code?.includes('email-already')?'اسم المستخدم مستخدم بالفعل':'تعذر إنشاء العميل'}}
+async function createPolicy(){let cid=pClient.value;if(!cid||!pCompany.value.trim()||!pEnd.value){pErr.textContent='اختر العميل والشركة وتاريخ الانتهاء';return}try{let data={clientId:cid,type:pType.value.trim(),company:pCompany.value.trim(),policyNumber:pNumber.value.trim(),premium:Number(pPremium.value)||0,startDate:pStart.value,endDate:pEnd.value,coverage:pCoverage.value.trim(),status:'active',createdBy:auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()};await db.collection('policies').add(data);await notify(cid,'وثيقة جديدة','تمت إضافة وثيقة جديدة إلى حسابك.');await logActivity('Policy created',`Added policy for ${clientName(cid)}`);closeModal('policyModal');await loadAll();toast('تم حفظ الوثيقة') }catch(e){pErr.textContent='تعذر حفظ الوثيقة'}}
+async function createPayment(){let cid=payClient.value;if(!cid||!payAmount.value||!payDate.value){payErr.textContent='أكمل العميل والمبلغ والتاريخ';return}try{await db.collection('payments').add({clientId:cid,policyId:payPolicy.value||null,amount:Number(payAmount.value),date:payDate.value,method:payMethod.value,note:payNote.value.trim(),createdBy:auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});await notify(cid,'تم تسجيل دفعة','تم تسجيل دفعة جديدة في حسابك.');await logActivity('Payment recorded',`Payment for ${clientName(cid)}`);closeModal('paymentModal');await loadAll();toast('تم تسجيل الدفعة')}catch(e){payErr.textContent='تعذر حفظ الدفعة'}}
+async function createClaim(){let cid=clClient.value;if(!cid||!clType.value.trim()){clErr.textContent='اختر العميل واكتب نوع المطالبة';return}let pol=DATA.policies.find(x=>x.id===clPolicy.value);try{await db.collection('claims').add({clientId:cid,policyId:clPolicy.value||null,policyNumber:pol?.policyNumber||'',type:clType.value.trim(),amount:Number(clAmount.value)||0,status:clStatus.value,description:clDesc.value.trim(),createdBy:auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});await notify(cid,'تحديث مطالبة','تم تسجيل مطالبة ويمكنك متابعة حالتها من التطبيق.');await logActivity('Claim created',`Claim for ${clientName(cid)}`);closeModal('claimModal');await loadAll();toast('تم تسجيل المطالبة')}catch(e){clErr.textContent='تعذر حفظ المطالبة'}}
+async function changeClaim(id,status){if(!status)return;try{let c=DATA.claims.find(x=>x.id===id);await db.collection('claims').doc(id).update({status,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:auth.currentUser.uid});await notify(c.clientId,'تحديث حالة المطالبة','تم تحديث حالة مطالبتك إلى: '+claimLabel(status));await logActivity('Claim updated',`${clientName(c.clientId)} → ${claimLabel(status)}`);await loadAll();toast('تم تحديث الحالة')}catch(e){toast('تعذر تحديث المطالبة')}}
+applyLang();
+</script></body></html>
