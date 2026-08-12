@@ -814,48 +814,47 @@ async function openDocuments(){
   await loadDocuments();
 }
 async function loadDocuments(){
-  const wrap = document.getElementById('doc-list');
-  wrap.innerHTML = '<p style="color:#a8a190;font-size:12.5px;">جاري التحميل...</p>';
-  const snap = await db.collection('documents').where('clientId','==',auth.currentUser.uid).get();
-  const docsSorted = snap.docs.slice().sort((a,b)=>tsMillis(b.data().createdAt)-tsMillis(a.data().createdAt));
-  if(docsSorted.length===0){ wrap.innerHTML = '<p style="color:#a8a190;font-size:12.5px;">لسه معندكش مستندات مرفوعة.</p>'; return; }
-  wrap.innerHTML = docsSorted.map(d=>{
-    const doc = d.data();
-    const isImg = (doc.fileType||'').startsWith('image/');
-    return `
-    <div style="display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;">
-      ${isImg ? `<img src="${doc.dataUrl}" style="width:40px;height:40px;object-fit:cover;border-radius:8px;">` : `<div style="width:40px;height:40px;border-radius:8px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-size:16px;">📄</div>`}
-      <div style="flex:1;min-width:0;"><div style="font-size:12.5px;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${doc.fileName}</div><div style="font-size:10.5px;color:#a8a190;">${fmtDate(doc.createdAt && doc.createdAt.toDate ? doc.createdAt.toDate() : null)}</div></div><a href="${doc.dataUrl}" download="${doc.fileName}" style="font-size:11.5px;color:var(--navy-2);font-weight:700;text-decoration:underline;">فتح</a></div>`;
-  }).join('');
+  const wrap=document.getElementById('doc-list');
+  if(!wrap)return;
+  wrap.innerHTML='<p style="color:#a8a190;font-size:12.5px;text-align:center;">جاري تحميل المستندات...</p>';
+  const user=auth.currentUser;
+  if(!user){wrap.innerHTML='<p style="color:#b42318;font-size:12.5px;text-align:center;">سجّل الدخول مرة أخرى.</p>';return;}
+  try{
+    const snap=await db.collection('documents').where('clientId','==',user.uid).get();
+    const docsSorted=snap.docs.slice().sort((a,b)=>tsMillis(b.data().createdAt)-tsMillis(a.data().createdAt));
+    if(!docsSorted.length){wrap.innerHTML='<p style="color:#a8a190;font-size:12.5px;text-align:center;">لا توجد مستندات مضافة إلى حسابك حتى الآن.</p>';return;}
+    wrap.innerHTML=docsSorted.map(d=>{
+      const doc=d.data(), url=doc.dataUrl||'#', name=String(doc.fileName||'مستند'), isImg=(doc.fileType||'').startsWith('image/');
+      return `<div style="display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;">
+      ${isImg&&url!=='#'?`<img src="${url}" style="width:40px;height:40px;object-fit:cover;border-radius:8px;" alt="">`:`<div style="width:40px;height:40px;border-radius:8px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-size:16px;">📄</div>`}
+      <div style="flex:1;min-width:0;"><div style="font-size:12.5px;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${name}</div><div style="font-size:10.5px;color:#a8a190;">${fmtDate(doc.createdAt&&doc.createdAt.toDate?doc.createdAt.toDate():null)}</div></div>
+      ${url!=='#'?`<a href="${url}" target="_blank" rel="noopener" download="${name}" style="font-size:11.5px;color:var(--navy-2);font-weight:700;text-decoration:underline;">فتح</a>`:''}</div>`;
+    }).join('');
+  }catch(e){
+    console.error('documents:',e);
+    wrap.innerHTML=`<p style="color:#b42318;font-size:12.5px;text-align:center;">تعذر تحميل المستندات. ${e.code==='permission-denied'?'صلاحيات Firestore غير مفعلة لهذا الحساب.':'حاول مرة أخرى.'}</p>`;
+  }
 }
 function handleUploadDocument(){
-  const input = document.getElementById('doc-file');
-  const file = input.files[0];
-  const err = document.getElementById('doc-error');
-  err.textContent = '';
-  if(!file) return;
-  if(file.size > MAX_DOC_BYTES){
-    err.textContent = 'الملف كبير قوي (الحد الأقصى 700 كيلوبايت). جرّب صورة أصغر أو بجودة أقل.';
-    input.value = '';
-    return;
-  }
-  const btn = document.getElementById('doc-upload-btn');
-  btn.textContent = 'جاري الرفع...';
-  const reader = new FileReader();
-  reader.onload = async function(){
+  const input=document.getElementById('doc-file'), file=input&&input.files?input.files[0]:null, err=document.getElementById('doc-error'), btn=document.getElementById('doc-upload-btn');
+  if(err)err.textContent='';
+  if(!file)return;
+  const maxUpload=450*1024;
+  if(file.size>maxUpload){if(err)err.textContent='الحد الأقصى للمستند 450 كيلوبايت.';input.value='';return;}
+  if(btn)btn.textContent='جاري الرفع...';
+  const reader=new FileReader();
+  reader.onload=async()=>{
     try{
-      await db.collection('documents').add({
-        clientId: auth.currentUser.uid, fileName: file.name, fileType: file.type,
-        dataUrl: reader.result, createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-      input.value = '';
-      btn.textContent = '+ رفع مستند جديد';
-      await loadDocuments();
+      const user=auth.currentUser;if(!user)throw new Error('AUTH_REQUIRED');
+      await db.collection('documents').add({clientId:user.uid,fileName:file.name,fileType:file.type||'application/octet-stream',dataUrl:reader.result,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+      input.value='';if(btn)btn.textContent='+ رفع مستند جديد';await loadDocuments();
     }catch(e){
-      err.textContent = 'حصل خطأ أثناء الرفع، جرّب تاني';
-      btn.textContent = '+ رفع مستند جديد';
+      console.error('document upload:',e);
+      if(err)err.textContent=e.code==='permission-denied'?'ليس لديك صلاحية لرفع المستند.':'تعذر رفع المستند. تحقق من Firebase.';
+      if(btn)btn.textContent='+ رفع مستند جديد';
     }
   };
+  reader.onerror=()=>{if(err)err.textContent='تعذر قراءة الملف.';if(btn)btn.textContent='+ رفع مستند جديد';};
   reader.readAsDataURL(file);
 }
 
@@ -876,35 +875,28 @@ async function openPayments(){
 
 /* ============== Chat with agent ============== */
 let CHAT_UNSUB = null;
+function escapeChatText(v){return String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));}
 function openChat(){
   document.getElementById('chat-overlay').classList.add('show');
-  const list = document.getElementById('chat-list');
-  list.innerHTML = '<p style="color:#a8a190;font-size:12.5px;text-align:center;">جاري التحميل...</p>';
-  if(CHAT_UNSUB) CHAT_UNSUB();
-  CHAT_UNSUB = db.collection('messages').where('clientId','==',auth.currentUser.uid)
-    .onSnapshot(snap=>{
-      const docs = snap.docs.slice().sort((a,b)=>tsMillis(a.data().createdAt)-tsMillis(b.data().createdAt));
-      if(docs.length===0){ list.innerHTML = '<p style="color:#a8a190;font-size:12.5px;text-align:center;">ابدأ المحادثة مع وكيلك من هنا.</p>'; return; }
-      list.innerHTML = docs.map(d=>{
-        const m = d.data();
-        const mine = m.sender === 'client';
-        return `<div style="align-self:${mine?'flex-start':'flex-end'};max-width:75%;background:${mine?'var(--navy)':'var(--gold-soft)'};color:${mine?'#fff':'var(--navy)'};padding:9px 13px;border-radius:14px;font-size:13px;">${m.text}</div>`;
-      }).join('');
-      list.scrollTop = list.scrollHeight;
-    });
-}
-function closeChat(){
-  document.getElementById('chat-overlay').classList.remove('show');
-  if(CHAT_UNSUB){ CHAT_UNSUB(); CHAT_UNSUB = null; }
-}
-async function handleSendMessage(){
-  const input = document.getElementById('chat-input');
-  const text = input.value.trim();
-  if(!text) return;
-  input.value = '';
-  await db.collection('messages').add({
-    clientId: auth.currentUser.uid, sender:'client', text, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  const list=document.getElementById('chat-list');list.innerHTML='<p style="color:#a8a190;font-size:12.5px;text-align:center;">جاري تحميل المحادثة...</p>';
+  const user=auth.currentUser;if(!user){list.innerHTML='<p style="color:#b42318;font-size:12.5px;text-align:center;">سجّل الدخول أولًا.</p>';return;}
+  if(CHAT_UNSUB)CHAT_UNSUB();
+  CHAT_UNSUB=db.collection('messages').where('clientId','==',user.uid).onSnapshot(snap=>{
+    const docs=snap.docs.slice().sort((a,b)=>tsMillis(a.data().createdAt)-tsMillis(b.data().createdAt));
+    if(!docs.length){list.innerHTML='<p style="color:#a8a190;font-size:12.5px;text-align:center;">ابدأ المحادثة مع وكيلك من هنا.</p>';return;}
+    list.innerHTML=docs.map(d=>{const m=d.data(),mine=m.sender==='client';return `<div style="align-self:${mine?'flex-start':'flex-end'};max-width:75%;background:${mine?'var(--navy)':'var(--gold-soft)'};color:${mine?'#fff':'var(--navy)'};padding:9px 13px;border-radius:14px;font-size:13px;">${escapeChatText(m.text)}</div>`}).join('');
+    list.scrollTop=list.scrollHeight;
+  },err=>{
+    console.error('client chat:',err);
+    list.innerHTML=`<p style="color:#b42318;font-size:12.5px;text-align:center;">تعذر تحميل المحادثة. ${err.code==='permission-denied'?'صلاحيات Firestore غير مفعلة.':'حاول مرة أخرى.'}</p>`;
   });
+}
+function closeChat(){document.getElementById('chat-overlay').classList.remove('show');if(CHAT_UNSUB){CHAT_UNSUB();CHAT_UNSUB=null;}}
+async function handleSendMessage(){
+  const input=document.getElementById('chat-input'),text=input.value.trim(),user=auth.currentUser;
+  if(!text||!user)return;
+  try{await db.collection('messages').add({clientId:user.uid,sender:'client',text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});input.value='';}
+  catch(e){console.error('send chat:',e);alert(e.code==='permission-denied'?'صلاحيات المحادثة غير مفعلة في Firestore.':'تعذر إرسال الرسالة.');}
 }
 document.getElementById('navbar').style.display='none';
 
@@ -1066,12 +1058,28 @@ const originalAuthHandlerMarker='auth.onAuthStateChanged(function(user){';
 
 let AGENT_CHAT_CLIENT_ID=null, AGENT_CHAT_UNSUB=null;
 function openAgentChat(clientId){
- AGENT_CHAT_CLIENT_ID=clientId;const c=adminFindClient(clientId);document.getElementById('agent-chat-title').textContent='محادثة '+(c.fullName||'العميل');document.getElementById('agent-chat-overlay').classList.add('show');
- const list=document.getElementById('agent-chat-list');list.innerHTML='<p class="admin-empty">جاري التحميل...</p>';if(AGENT_CHAT_UNSUB)AGENT_CHAT_UNSUB();
- AGENT_CHAT_UNSUB=adminDb.collection('messages').where('clientId','==',clientId).onSnapshot(s=>{const docs=s.docs.slice().sort((a,b)=>tsMillis(a.data().createdAt)-tsMillis(b.data().createdAt));if(!docs.length){list.innerHTML='<p class="admin-empty">لا توجد رسائل بعد.</p>';return;}list.innerHTML=docs.map(d=>{const m=d.data();const mine=m.sender==='agent';return `<div class="agent-bubble ${mine?'mine':'theirs'}">${adminEsc(m.text)}</div>`}).join('');list.scrollTop=list.scrollHeight;});
+  AGENT_CHAT_CLIENT_ID=clientId;
+  const c=adminFindClient(clientId)||{};
+  document.getElementById('agent-chat-title').textContent='محادثة '+(c.fullName||'العميل');
+  document.getElementById('agent-chat-overlay').classList.add('show');
+  const list=document.getElementById('agent-chat-list');list.innerHTML='<p class="admin-empty">جاري التحميل...</p>';
+  if(AGENT_CHAT_UNSUB)AGENT_CHAT_UNSUB();
+  AGENT_CHAT_UNSUB=adminDb.collection('messages').where('clientId','==',clientId).onSnapshot(s=>{
+    const docs=s.docs.slice().sort((a,b)=>tsMillis(a.data().createdAt)-tsMillis(b.data().createdAt));
+    if(!docs.length){list.innerHTML='<p class="admin-empty">لا توجد رسائل بعد.</p>';return;}
+    list.innerHTML=docs.map(d=>{const m=d.data(),mine=m.sender==='agent';return `<div class="agent-bubble ${mine?'mine':'theirs'}">${adminEsc(m.text||'')}</div>`}).join('');
+    list.scrollTop=list.scrollHeight;
+  },e=>{
+    console.error('agent chat:',e);
+    list.innerHTML='<p class="admin-empty">تعذر تحميل المحادثة. تحقق من صلاحيات الوكيل.</p>';
+  });
 }
 function closeAgentChat(){document.getElementById('agent-chat-overlay').classList.remove('show');if(AGENT_CHAT_UNSUB){AGENT_CHAT_UNSUB();AGENT_CHAT_UNSUB=null;}AGENT_CHAT_CLIENT_ID=null;}
-async function sendAgentMessage(){const input=document.getElementById('agent-chat-input');const text=input.value.trim();if(!text||!AGENT_CHAT_CLIENT_ID||!ADMIN_USER)return;input.value='';await adminDb.collection('messages').add({clientId:AGENT_CHAT_CLIENT_ID,sender:'agent',agentId:ADMIN_USER.uid,text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});}
-
+async function sendAgentMessage(){
+  const input=document.getElementById('agent-chat-input'),text=input.value.trim();
+  if(!text||!AGENT_CHAT_CLIENT_ID||!ADMIN_USER)return;
+  try{await adminDb.collection('messages').add({clientId:AGENT_CHAT_CLIENT_ID,sender:'agent',agentId:ADMIN_USER.uid,text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});input.value='';}
+  catch(e){console.error('agent send:',e);alert(e.code==='permission-denied'?'الوكيل لا يملك صلاحية إرسال الرسائل.':'تعذر إرسال الرسالة.');}
+}
 /* ===== Secure PATH Professional UX Layer ===== */
 </script></body></html>
