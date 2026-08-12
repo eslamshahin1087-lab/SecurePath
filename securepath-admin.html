@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#FAF7F0; --navy:#16223D; --navy-2:#1F3358; --gold:#BE9B4A; --gold-soft:#EBDFC0;
+    --paper:#FAF7F0; --navy:#0E2A5C; --navy-2:#164080; --gold:#F4C06B; --gold-soft:#F8DBA6;
     --green:#2F6F4E; --rust:#B5482D; --slate:#3D4552; --line:#E4DCC8; --card:#FFFFFF;
   }
   *{box-sizing:border-box;}
@@ -19,6 +19,8 @@
     background:linear-gradient(135deg,var(--navy) 0%, #22314f 60%, var(--navy) 100%);
   }
   .login-box{background:var(--card);width:380px;max-width:92vw;border-radius:20px;padding:34px 30px;box-shadow:0 30px 60px rgba(0,0,0,.35);}
+  .seal-logo{width:70px;height:70px;margin:0 auto 14px;}
+  .seal-logo img{width:100%;height:100%;border-radius:18px;box-shadow:0 6px 14px rgba(0,0,0,.3);display:block;}
   .seal{width:62px;height:62px;margin:0 auto 14px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d8bc73,var(--gold) 60%,#9c7c31 100%);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 3px rgba(255,255,255,.25);}
   .seal svg{width:30px;height:30px;fill:var(--navy);}
   .login-box h1{text-align:center;font-family:'Tajawal',sans-serif;font-weight:900;color:var(--navy);margin:0 0 2px;letter-spacing:.4px;}
@@ -36,8 +38,8 @@
   #app-view.active{display:flex;}
   .sidebar{width:230px;flex:0 0 230px;background:var(--navy);min-height:100vh;color:#fff;padding:22px 0;position:sticky;top:0;align-self:flex-start;}
   .side-brand{display:flex;align-items:center;gap:10px;padding:0 20px 22px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:14px;}
-  .side-brand .mini-seal{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d8bc73,var(--gold) 60%,#9c7c31 100%);display:flex;align-items:center;justify-content:center;flex:0 0 34px;}
-  .side-brand .mini-seal svg{width:16px;height:16px;fill:var(--navy);}
+  .side-brand .mini-seal{width:34px;height:34px;border-radius:9px;overflow:hidden;flex:0 0 34px;}
+  .side-brand .mini-seal img{width:100%;height:100%;display:block;}
   .side-brand b{font-family:'Tajawal',sans-serif;font-weight:900;font-size:15.5px;letter-spacing:.3px;}
   .side-nav{display:flex;flex-direction:column;gap:2px;padding:0 12px;}
   .side-item{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:10px;cursor:pointer;color:#c9d0dd;font-size:13.5px;font-weight:600;}
@@ -117,7 +119,7 @@
 <!-- LOGIN -->
 <div id="login-view">
   <div class="login-box">
-    <div class="seal"><svg viewBox="0 0 24 24"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4z"/></svg></div>
+    <div class="seal-logo"><img src="icon-512.png" alt="SecurePath"></div>
     <h1>SecurePath</h1>
     <p class="tag">لوحة تحكم الوكيل — إدارة العملاء والوثائق</p>
     <div class="field"><label>البريد الإلكتروني</label><input id="ag-email" placeholder="example@gmail.com"></div>
@@ -132,7 +134,7 @@
 <div id="app-view">
   <div class="sidebar">
     <div class="side-brand">
-      <div class="mini-seal"><svg viewBox="0 0 24 24"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4z"/></svg></div>
+      <div class="mini-seal"><img src="icon-192.png" alt="SecurePath"></div>
       <b>SecurePath</b>
     </div>
     <div class="side-nav">
