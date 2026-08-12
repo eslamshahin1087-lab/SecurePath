@@ -919,6 +919,7 @@ let POLICY_UNSUB = null;
 let CLAIM_UNSUB = null;
 
 const adminApp = firebase.initializeApp(firebaseConfig, 'SecurePathAdminAuth');
+const adminDb = adminApp.firestore();
 const adminAuth = adminApp.auth();
 
 function openAdminLogin(){
@@ -936,7 +937,7 @@ async function handleAdminLogin(){
   if(!username||!pass){err.textContent='من فضلك أدخل اسم المستخدم وكلمة المرور.';return;}
   try{
     const cred=await adminAuth.signInWithEmailAndPassword(usernameToEmail(username),pass);
-    const agentSnap=await db.collection('agents').doc(cred.user.uid).get();
+    const agentSnap=await adminDb.collection('agents').doc(cred.user.uid).get();
     if(!agentSnap.exists){await adminAuth.signOut();err.textContent='هذا الحساب ليس حساب وسيط/إدارة معتمدًا.';return;}
     ADMIN_USER=cred.user; ADMIN_AGENT_PROFILE=agentSnap.data()||{};
     closeAdminLogin(); go('admin'); await loadAdminPortal();
@@ -949,9 +950,9 @@ async function adminLogout(){clearAdminSubscriptions();ADMIN_USER=null;ADMIN_AGE
 async function loadAdminPortal(){
   document.getElementById('admin-agent-name').textContent=(ADMIN_AGENT_PROFILE.fullName||ADMIN_AGENT_PROFILE.name||'الوسيط المعتمد')+' • '+(ADMIN_AGENT_PROFILE.role||'agent');
   const listen=(col,key)=>{
-    const unsub=db.collection(col).orderBy('createdAt','desc').onSnapshot(s=>{
+    const unsub=adminDb.collection(col).orderBy('createdAt','desc').onSnapshot(s=>{
       ADMIN_DATA[key]=s.docs.map(d=>({id:d.id,...d.data()})); updateAdminStats(); renderAdminCurrent(); refreshAdminClientSelects();
-    },e=>{console.warn('admin '+col,e); const fallback=db.collection(col).onSnapshot(s=>{ADMIN_DATA[key]=s.docs.map(d=>({id:d.id,...d.data()}));updateAdminStats();renderAdminCurrent();refreshAdminClientSelects();});ADMIN_UNSUBS.push(fallback);});
+    },e=>{console.warn('admin '+col,e); const fallback=adminDb.collection(col).onSnapshot(s=>{ADMIN_DATA[key]=s.docs.map(d=>({id:d.id,...d.data()}));updateAdminStats();renderAdminCurrent();refreshAdminClientSelects();});ADMIN_UNSUBS.push(fallback);});
     ADMIN_UNSUBS.push(unsub);
   };
   clearAdminSubscriptions();
@@ -1020,41 +1021,41 @@ async function submitAdminForm(){
    const name=document.getElementById('af-client-name').value.trim(),phone=document.getElementById('af-client-phone').value.trim(),username=document.getElementById('af-client-username').value.trim().toLowerCase(),pass=document.getElementById('af-client-password').value;
    if(!name||!phone||!username||pass.length<6)throw new Error('CLIENT_FIELDS');
    const cred=await adminApp.auth().createUserWithEmailAndPassword(usernameToEmail(username),pass);
-   await db.collection('clients').doc(cred.user.uid).set({fullName:name,phone,username,role:'client',createdBy:ADMIN_USER.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+   await adminDb.collection('clients').doc(cred.user.uid).set({fullName:name,phone,username,role:'client',createdBy:ADMIN_USER.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
    await adminApp.auth().signOut();
    showNotice('تم إنشاء العميل','تم إنشاء حساب '+name+' ويمكنه الآن تسجيل الدخول إلى Secure PATH.');
   }
   if(kind==='policy'){
    const clientId=document.getElementById('af-policy-client').value,type=document.getElementById('af-policy-type').value,company=document.getElementById('af-policy-company').value.trim(),policyNumber=document.getElementById('af-policy-number').value.trim(),premium=Number(document.getElementById('af-policy-premium').value),startDate=document.getElementById('af-policy-start').value,endDate=document.getElementById('af-policy-end').value,coverage=document.getElementById('af-policy-coverage').value.trim();
    if(!clientId||!type||!company||!policyNumber||!startDate||!endDate)throw new Error('POLICY_FIELDS');
-   const meta=CATEGORY_MAP[type]||{};await db.collection('policies').add({clientId,type,company,policyNumber,premium,startDate,endDate,coverage,cat:meta.cat||'other',status:'active',createdBy:ADMIN_USER.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+   const meta=CATEGORY_MAP[type]||{};await adminDb.collection('policies').add({clientId,type,company,policyNumber,premium,startDate,endDate,coverage,cat:meta.cat||'other',status:'active',createdBy:ADMIN_USER.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
    await notifyClient(clientId,'وثيقة جديدة','تمت إضافة وثيقة '+type+' إلى حسابك.');
   }
   if(kind==='payment'){
    const clientId=document.getElementById('af-payment-client').value,policyId=document.getElementById('af-payment-policy').value,amount=Number(document.getElementById('af-payment-amount').value),date=document.getElementById('af-payment-date').value,method=document.getElementById('af-payment-method').value,note=document.getElementById('af-payment-note').value.trim();
    if(!clientId||!amount||!date)throw new Error('PAYMENT_FIELDS');
-   await db.collection('payments').add({clientId,policyId:policyId||null,amount,date,method,note,createdBy:ADMIN_USER.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});await notifyClient(clientId,'تم تسجيل دفعة','تم تسجيل دفعة بقيمة '+amount.toLocaleString('en-US')+' ج.م.');
+   await adminDb.collection('payments').add({clientId,policyId:policyId||null,amount,date,method,note,createdBy:ADMIN_USER.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});await notifyClient(clientId,'تم تسجيل دفعة','تم تسجيل دفعة بقيمة '+amount.toLocaleString('en-US')+' ج.م.');
   }
   if(kind==='document'){
    const clientId=document.getElementById('af-document-client').value,title=document.getElementById('af-document-title').value.trim(),file=document.getElementById('af-document-file').files[0];if(!clientId||!file)throw new Error('DOCUMENT_FIELDS');if(file.size>700*1024)throw new Error('FILE_SIZE');
-   const dataUrl=await readFileAsDataURL(file);await db.collection('documents').add({clientId,fileName:title||file.name,fileType:file.type,dataUrl,uploadedBy:'agent',createdBy:ADMIN_USER.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});await notifyClient(clientId,'مستند جديد','تم رفع مستند جديد إلى حسابك.');
+   const dataUrl=await readFileAsDataURL(file);await adminDb.collection('documents').add({clientId,fileName:title||file.name,fileType:file.type,dataUrl,uploadedBy:'agent',createdBy:ADMIN_USER.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});await notifyClient(clientId,'مستند جديد','تم رفع مستند جديد إلى حسابك.');
   }
   if(kind==='claim'){
-   const clientId=document.getElementById('af-claim-client').value,policyId=document.getElementById('af-claim-policy').value,type=document.getElementById('af-claim-type').value.trim(),amount=Number(document.getElementById('af-claim-amount').value)||0,status=document.getElementById('af-claim-status').value,description=document.getElementById('af-claim-description').value.trim();if(!clientId||!type)throw new Error('CLAIM_FIELDS');const pol=ADMIN_DATA.policies.find(p=>p.id===policyId);await db.collection('claims').add({clientId,policyId:policyId||null,policyNumber:pol?.policyNumber||'',type,amount,status,description,createdBy:ADMIN_USER.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});await notifyClient(clientId,'تحديث مطالبة','تم تسجيل مطالبة جديدة ويمكنك متابعة حالتها من التطبيق.');
+   const clientId=document.getElementById('af-claim-client').value,policyId=document.getElementById('af-claim-policy').value,type=document.getElementById('af-claim-type').value.trim(),amount=Number(document.getElementById('af-claim-amount').value)||0,status=document.getElementById('af-claim-status').value,description=document.getElementById('af-claim-description').value.trim();if(!clientId||!type)throw new Error('CLAIM_FIELDS');const pol=ADMIN_DATA.policies.find(p=>p.id===policyId);await adminDb.collection('claims').add({clientId,policyId:policyId||null,policyNumber:pol?.policyNumber||'',type,amount,status,description,createdBy:ADMIN_USER.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});await notifyClient(clientId,'تحديث مطالبة','تم تسجيل مطالبة جديدة ويمكنك متابعة حالتها من التطبيق.');
   }
   closeAdminModal();renderAdminCurrent();
  }catch(e){console.error(e);const msgs={CLIENT_FIELDS:'أكمل بيانات العميل وتأكد أن كلمة المرور 6 أحرف على الأقل.',POLICY_FIELDS:'أكمل بيانات الوثيقة الأساسية.',PAYMENT_FIELDS:'أدخل العميل والمبلغ والتاريخ.',DOCUMENT_FIELDS:'اختر العميل والملف.',FILE_SIZE:'حجم الملف أكبر من 700KB.',CLAIM_FIELDS:'أدخل العميل ونوع المطالبة.'};err.textContent=msgs[e.message]||'حدث خطأ أثناء الحفظ. تأكد من صلاحيات Firebase.';}
  btn.disabled=false;btn.textContent='حفظ';
 }
 function readFileAsDataURL(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file);});}
-async function notifyClient(clientId,title,body){try{await db.collection('notifications').add({clientId,title,body,read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()});}catch(e){console.warn('notification failed',e);}}
-async function updateClaimStatus(id,status){try{await db.collection('claims').doc(id).update({status,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:ADMIN_USER.uid});const x=ADMIN_DATA.claims.find(c=>c.id===id);if(x)await notifyClient(x.clientId,'تحديث حالة المطالبة','تم تحديث حالة مطالبتك إلى: '+claimLabel(status));}catch(e){showNotice('تعذر التحديث','تحقق من صلاحيات Firestore.');}}
+async function notifyClient(clientId,title,body){try{await adminDb.collection('notifications').add({clientId,title,body,read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()});}catch(e){console.warn('notification failed',e);}}
+async function updateClaimStatus(id,status){try{await adminDb.collection('claims').doc(id).update({status,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:ADMIN_USER.uid});const x=ADMIN_DATA.claims.find(c=>c.id===id);if(x)await notifyClient(x.clientId,'تحديث حالة المطالبة','تم تحديث حالة مطالبتك إلى: '+claimLabel(status));}catch(e){showNotice('تعذر التحديث','تحقق من صلاحيات Firestore.');}}
 
 /* Client real-time synchronization: changes made by the agent appear without refresh. */
 function startClientRealtime(uid){
  if(POLICY_UNSUB)POLICY_UNSUB();if(CLAIM_UNSUB)CLAIM_UNSUB();
- POLICY_UNSUB=db.collection('policies').where('clientId','==',uid).onSnapshot(s=>{CURRENT_POLICIES=s.docs.map(d=>({id:d.id,...d.data()}));renderStats(CURRENT_POLICIES);renderPolicies(CURRENT_POLICIES);});
- CLAIM_UNSUB=db.collection('claims').where('clientId','==',uid).onSnapshot(s=>{window.CURRENT_CLAIMS=s.docs.map(d=>({id:d.id,...d.data()}));updateClientClaimBadge();});
+ POLICY_UNSUB=adminDb.collection('policies').where('clientId','==',uid).onSnapshot(s=>{CURRENT_POLICIES=s.docs.map(d=>({id:d.id,...d.data()}));renderStats(CURRENT_POLICIES);renderPolicies(CURRENT_POLICIES);});
+ CLAIM_UNSUB=adminDb.collection('claims').where('clientId','==',uid).onSnapshot(s=>{window.CURRENT_CLAIMS=s.docs.map(d=>({id:d.id,...d.data()}));updateClientClaimBadge();});
 }
 function updateClientClaimBadge(){const n=(window.CURRENT_CLAIMS||[]).filter(x=>!['settled','rejected'].includes(x.status)).length;const dot=document.getElementById('nav-dot');if(dot)dot.style.display=n?'block':'none';}
 
@@ -1067,10 +1068,10 @@ let AGENT_CHAT_CLIENT_ID=null, AGENT_CHAT_UNSUB=null;
 function openAgentChat(clientId){
  AGENT_CHAT_CLIENT_ID=clientId;const c=adminFindClient(clientId);document.getElementById('agent-chat-title').textContent='محادثة '+(c.fullName||'العميل');document.getElementById('agent-chat-overlay').classList.add('show');
  const list=document.getElementById('agent-chat-list');list.innerHTML='<p class="admin-empty">جاري التحميل...</p>';if(AGENT_CHAT_UNSUB)AGENT_CHAT_UNSUB();
- AGENT_CHAT_UNSUB=db.collection('messages').where('clientId','==',clientId).onSnapshot(s=>{const docs=s.docs.slice().sort((a,b)=>tsMillis(a.data().createdAt)-tsMillis(b.data().createdAt));if(!docs.length){list.innerHTML='<p class="admin-empty">لا توجد رسائل بعد.</p>';return;}list.innerHTML=docs.map(d=>{const m=d.data();const mine=m.sender==='agent';return `<div class="agent-bubble ${mine?'mine':'theirs'}">${adminEsc(m.text)}</div>`}).join('');list.scrollTop=list.scrollHeight;});
+ AGENT_CHAT_UNSUB=adminDb.collection('messages').where('clientId','==',clientId).onSnapshot(s=>{const docs=s.docs.slice().sort((a,b)=>tsMillis(a.data().createdAt)-tsMillis(b.data().createdAt));if(!docs.length){list.innerHTML='<p class="admin-empty">لا توجد رسائل بعد.</p>';return;}list.innerHTML=docs.map(d=>{const m=d.data();const mine=m.sender==='agent';return `<div class="agent-bubble ${mine?'mine':'theirs'}">${adminEsc(m.text)}</div>`}).join('');list.scrollTop=list.scrollHeight;});
 }
 function closeAgentChat(){document.getElementById('agent-chat-overlay').classList.remove('show');if(AGENT_CHAT_UNSUB){AGENT_CHAT_UNSUB();AGENT_CHAT_UNSUB=null;}AGENT_CHAT_CLIENT_ID=null;}
-async function sendAgentMessage(){const input=document.getElementById('agent-chat-input');const text=input.value.trim();if(!text||!AGENT_CHAT_CLIENT_ID||!ADMIN_USER)return;input.value='';await db.collection('messages').add({clientId:AGENT_CHAT_CLIENT_ID,sender:'agent',agentId:ADMIN_USER.uid,text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});}
+async function sendAgentMessage(){const input=document.getElementById('agent-chat-input');const text=input.value.trim();if(!text||!AGENT_CHAT_CLIENT_ID||!ADMIN_USER)return;input.value='';await adminDb.collection('messages').add({clientId:AGENT_CHAT_CLIENT_ID,sender:'agent',agentId:ADMIN_USER.uid,text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});}
 
 /* ===== Secure PATH Professional UX Layer ===== */
 </script></body></html>
