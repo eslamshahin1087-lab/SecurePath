@@ -893,10 +893,59 @@ function openChat(){
 }
 function closeChat(){document.getElementById('chat-overlay').classList.remove('show');if(CHAT_UNSUB){CHAT_UNSUB();CHAT_UNSUB=null;}}
 async function handleSendMessage(){
-  const input=document.getElementById('chat-input'),text=input.value.trim(),user=auth.currentUser;
-  if(!text||!user)return;
-  try{await db.collection('messages').add({clientId:user.uid,sender:'client',text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});input.value='';}
-  catch(e){console.error('send chat:',e);alert(e.code==='permission-denied'?'صلاحيات المحادثة غير مفعلة في Firestore.':'تعذر إرسال الرسالة.');}
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  const user = auth.currentUser;
+
+  if(!text || !user) return;
+
+  input.value = '';
+
+  try {
+    // إرسال رسالة العميل
+    await db.collection('messages').add({
+      clientId: user.uid,
+      sender: 'client',
+      text: text,
+      language: document.documentElement.lang === 'en' ? 'en' : 'ar',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    // التحقق من وجود محادثة سابقة
+    const previousMessages = await db.collection('messages')
+      .where('clientId', '==', user.uid)
+      .limit(2)
+      .get();
+
+    // إرسال الترحيب التلقائي فقط إذا كانت هذه أول محادثة
+    if(previousMessages.size === 1){
+
+      const isEnglish = document.documentElement.lang === 'en';
+
+      const welcomeMessage = isEnglish
+        ? "Welcome! We’re always happy to assist you. Please send us your request, and we’ll get back to you as soon as possible."
+        : "مرحبًا بك، سعداء دائمًا بخدمتك. برجاء إرسال طلبك، وسوف نقوم بالرد عليكم في أقرب وقت.";
+
+      await db.collection('messages').add({
+        clientId: user.uid,
+        sender: 'agent',
+        agentId: 'system',
+        text: welcomeMessage,
+        language: isEnglish ? 'en' : 'ar',
+        autoReply: true,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+
+  } catch(e) {
+    console.error('send chat:', e);
+
+    alert(
+      e.code === 'permission-denied'
+        ? 'تعذر إرسال الرسالة بسبب صلاحيات Firestore.'
+        : 'حدث خطأ أثناء إرسال الرسالة.'
+    );
+  }
 }
 document.getElementById('navbar').style.display='none';
 
