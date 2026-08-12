@@ -114,7 +114,7 @@ async function login(){let e=document.getElementById('email').value.trim(),p=doc
 function logout(){auth.signOut().then(()=>location.reload())}auth.onAuthStateChanged(u=>{if(u){document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';document.getElementById('userEmail').textContent=u.email||'';document.getElementById('sAgent').textContent=(u.email||'').split('@')[0];applyLang();loadAll();startMessages()}});
 async function col(n){try{let s=await db.collection(n).get();return s.docs.map(d=>({id:d.id,...d.data()}))}catch(e){console.warn(n,e);return[]}}
 async function loadAll(){let names=['clients','policies','payments','claims','documents','messages','notifications','activity'];let vals=await Promise.all(names.map(col));names.forEach((n,i)=>DATA[n]=vals[i]);renderAll()}
-function renderAll(){renderDashboard();renderClients();renderPolicies();renderPayments();renderClaims();renderDocuments();renderDocumentsPro();renderConversations();renderNotifications();renderActivity();renderRenewals();renderCompanies();renderReports();refreshSelects();updateBadge()}
+function renderAll(){renderDashboard();renderClients();wireClientViewButtons();renderPolicies();renderPayments();renderClaims();renderDocuments();renderDocumentsPro();renderConversations();renderNotifications();renderActivity();renderRenewals();renderCompanies();renderReports();refreshSelects();updateBadge()}
 function renderDashboard(){let open=DATA.claims.filter(x=>!['settled','rejected'].includes(x.status)).length, unread=DATA.messages.filter(x=>x.sender==='client'&&!x.autoReply&&!x.readByAdmin).length, exp=DATA.policies.filter(x=>days(x.endDate)>=0&&days(x.endDate)<=30).length, total=DATA.payments.reduce((a,x)=>a+(Number(x.amount)||0),0),active=DATA.policies.filter(x=>days(x.endDate)>=0).length;[['sClients',DATA.clients.length],['sPolicies',DATA.policies.length],['sClaims',open],['sMessages',unread],['sExpiring',exp],['sPayments',total.toLocaleString('en-US')],['sDocs',DATA.documents.length]].forEach(([id,v])=>document.getElementById(id).textContent=v);document.getElementById('sActive').textContent=active+(LANG==='ar'?' سارية':' active');document.getElementById('dashExpiring').innerHTML=DATA.policies.filter(x=>days(x.endDate)>=0&&days(x.endDate)<=30).sort((a,b)=>days(a.endDate)-days(b.endDate)).slice(0,8).map(p=>`<div class="item"><b>${esc(clientName(p.clientId))}</b><p>${esc(p.company)} • ${esc(p.policyNumber)} • ${date(p.endDate)} <span class="pill red">${days(p.endDate)} ${LANG==='ar'?'يوم':'days'}</span></p></div>`).join('')||'<div class="empty">—</div>';document.getElementById('dashActivity').innerHTML=DATA.activity.slice().sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).slice(0,7).map(a=>`<div class="item"><h4>${esc(a.action||a.type||'Activity')}</h4><p>${esc(a.description||a.text||'')} • ${ago(a.createdAt)}</p></div>`).join('')||'<div class="empty">—</div>'}
 function renderClients(){let q=(document.getElementById('clientSearch')?.value||'').toLowerCase();let html=DATA.clients.filter(c=>[c.fullName,c.phone,c.username].join(' ').toLowerCase().includes(q)).map(c=>{let pc=DATA.policies.filter(x=>x.clientId===c.id).length,cc=DATA.claims.filter(x=>x.clientId===c.id).length, msgs=DATA.messages.filter(x=>x.clientId===c.id).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt));let unread=msgs.some(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin);return `<tr><td><div class="name"><div class="avatar">${esc((c.fullName||'?').split(' ').slice(0,2).map(x=>x[0]).join(''))}</div><div><b>${esc(c.fullName||'—')}</b><div class="muted">${esc(c.username||'')}</div></div></div></td><td>${esc(c.phone||'—')}</td><td>${pc}</td><td>${cc}</td><td>${esc(msgs[0]?.text||'—')}</td><td>${unread?'<span class="pill red">New</span>':'<span class="pill">Active</span>'}</td><td><div class="actions"><button onclick="openClientChat('${c.id}')">💬</button><button onclick="openPolicyModal('${c.id}')">+ وثيقة</button><button onclick="openClientProfile('${c.id}')">عرض</button></div></td></tr>`}).join('');document.getElementById('clientsBody').innerHTML=html||'<tr><td colspan="7"><div class="empty">لا يوجد عملاء</div></td></tr>'}
 function renderPolicies(){let q=(document.getElementById('policySearch')?.value||'').toLowerCase();document.getElementById('policiesBody').innerHTML=DATA.policies.filter(p=>[clientName(p.clientId),p.company,p.policyNumber,p.type].join(' ').toLowerCase().includes(q)).map(p=>`<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(p.type)}</td><td>${esc(p.company)}</td><td>${esc(p.policyNumber)}</td><td>${Number(p.premium||0).toLocaleString('en-US')} EGP</td><td>${date(p.endDate)}</td><td>${days(p.endDate)<0?'<span class="pill red">Expired</span>':days(p.endDate)<=30?'<span class="pill red">Expiring</span>':'<span class="pill">Active</span>'}</td></tr>`).join('')||'<tr><td colspan="7"><div class="empty">لا توجد وثائق</div></td></tr>'}
@@ -178,6 +178,83 @@ function exportCSV(){
   const csv=rows.map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(',')).join('\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='securepath-policies.csv';a.click();
 }
+
+function customerField(label,value){
+  return `<div class="c360-field"><b>${esc(label)}</b><span>${esc(value===undefined||value===null||value===''?'—':String(value))}</span></div>`;
+}
+function customer360(id){
+  const c=(DATA.clients||[]).find(x=>String(x.id)===String(id));
+  if(!c){alert('لم يتم العثور على بيانات العميل');return;}
+  const policies=(DATA.policies||[]).filter(x=>String(x.clientId)===String(id));
+  const policyIds=new Set(policies.map(x=>String(x.id)));
+  const payments=(DATA.payments||[]).filter(x=>String(x.clientId)===String(id)||policyIds.has(String(x.policyId)));
+  const claims=(DATA.claims||[]).filter(x=>String(x.clientId)===String(id)||policyIds.has(String(x.policyId)));
+  const docs=(DATA.documents||[]).filter(x=>String(x.clientId)===String(id)||policyIds.has(String(x.policyId))||claims.some(cl=>String(cl.id)===String(x.claimId)));
+  const messages=(DATA.messages||[]).filter(x=>String(x.clientId)===String(id));
+  const notes=(DATA.notifications||[]).filter(x=>String(x.clientId)===String(id));
+  const acts=(DATA.activity||[]).filter(x=>String(x.clientId)===String(id));
+  const premium=policies.reduce((a,x)=>a+Number(x.premium||0),0);
+  const paid=payments.reduce((a,x)=>a+Number(x.amount||0),0);
+  const openClaims=claims.filter(x=>!['settled','rejected'].includes(x.status)).length;
+  document.getElementById('c360Name').textContent=c.name||'عميل بدون اسم';
+  document.getElementById('c360Sub').textContent=`Customer ID: ${c.id||id}`;
+  const content=document.getElementById('c360Content');
+  content.innerHTML=`
+    <div class="c360-actions">
+      <button onclick="openClientChat('${esc(id)}');closeCustomer360()">✉ محادثة العميل</button>
+      <button onclick="openPolicyModal('${esc(id)}')">+ إضافة وثيقة</button>
+      <button onclick="openPaymentModal('${esc(id)}')">₣ إضافة دفعة</button>
+      <button onclick="openClaimModal('${esc(id)}')">! إضافة مطالبة</button>
+    </div>
+    <div class="c360-grid" style="margin-top:16px">
+      <div class="c360-stat"><div class="k">الوثائق</div><div class="v">${policies.length}</div></div>
+      <div class="c360-stat"><div class="k">إجمالي الأقساط</div><div class="v">${premium.toLocaleString('en-US')}</div></div>
+      <div class="c360-stat"><div class="k">المدفوعات</div><div class="v">${paid.toLocaleString('en-US')}</div></div>
+      <div class="c360-stat"><div class="k">المطالبات المفتوحة</div><div class="v">${openClaims}</div></div>
+    </div>
+    <div class="c360-card"><h3>البيانات الأساسية</h3><div class="c360-info">
+      ${Object.entries(c).filter(([k])=>!['id'].includes(k)).map(([k,v])=>customerField(k,typeof v==='object'?JSON.stringify(v):v)).join('')}
+    </div></div>
+    <div class="c360-card"><h3>وثائق التأمين (${policies.length})</h3>
+      ${policies.length?`<table class="c360-table"><thead><tr><th>النوع</th><th>الشركة</th><th>رقم الوثيقة</th><th>القسط</th><th>البداية</th><th>النهاية</th><th>الحالة</th></tr></thead><tbody>${policies.map(p=>`<tr><td>${esc(p.type||'—')}</td><td>${esc(p.company||'—')}</td><td>${esc(p.policyNumber||'—')}</td><td>${Number(p.premium||0).toLocaleString('en-US')}</td><td>${date(p.startDate)}</td><td>${date(p.endDate)}</td><td>${esc(p.status|| (days(p.endDate)<0?'Expired':'Active'))}</td></tr>`).join('')}</tbody></table>`:'<div class="c360-empty">لا توجد وثائق مسجلة لهذا العميل</div>'}
+    </div>
+    <div class="c360-card"><h3>المدفوعات (${payments.length})</h3>
+      ${payments.length?`<table class="c360-table"><thead><tr><th>التاريخ</th><th>المبلغ</th><th>الوثيقة</th><th>الحالة</th></tr></thead><tbody>${payments.map(p=>`<tr><td>${date(p.date||p.createdAt)}</td><td>${Number(p.amount||0).toLocaleString('en-US')} EGP</td><td>${esc(p.policyId||'—')}</td><td>${esc(p.status||'—')}</td></tr>`).join('')}</tbody></table>`:'<div class="c360-empty">لا توجد مدفوعات مسجلة</div>'}
+    </div>
+    <div class="c360-card"><h3>المطالبات (${claims.length})</h3>
+      ${claims.length?`<table class="c360-table"><thead><tr><th>رقم/معرف</th><th>النوع</th><th>الحالة</th><th>المبلغ</th><th>التاريخ</th></tr></thead><tbody>${claims.map(x=>`<tr><td>${esc(x.claimNumber||x.id||'—')}</td><td>${esc(x.type||'—')}</td><td>${esc(x.status||'—')}</td><td>${Number(x.amount||0).toLocaleString('en-US')} EGP</td><td>${date(x.createdAt||x.date)}</td></tr>`).join('')}</tbody></table>`:'<div class="c360-empty">لا توجد مطالبات لهذا العميل</div>'}
+    </div>
+    <div class="c360-card"><h3>المستندات (${docs.length})</h3>
+      ${docs.length?`<table class="c360-table"><thead><tr><th>اسم الملف</th><th>النوع</th><th>التاريخ</th><th>الارتباط</th></tr></thead><tbody>${docs.map(d=>`<tr><td>${esc(d.fileName||d.name||'—')}</td><td>${esc(d.fileType||d.type||'—')}</td><td>${date(d.createdAt||d.uploadedAt)}</td><td>${esc(d.policyId||d.claimId||'—')}</td></tr>`).join('')}</tbody></table>`:'<div class="c360-empty">لا توجد مستندات مسجلة</div>'}
+    </div>
+    <div class="c360-card"><h3>المحادثات (${messages.length})</h3>
+      ${messages.length?`<table class="c360-table"><thead><tr><th>التاريخ</th><th>المرسل</th><th>الرسالة</th><th>الحالة</th></tr></thead><tbody>${messages.slice().sort((a,b)=>ms(a.createdAt)-ms(b.createdAt)).slice(-30).map(m=>`<tr><td>${date(m.createdAt)}</td><td>${esc(m.sender||'—')}</td><td>${esc(m.text||m.message||'—')}</td><td>${m.readByAdmin?'مقروءة':'غير مقروءة'}</td></tr>`).join('')}</tbody></table>`:'<div class="c360-empty">لا توجد محادثات</div>'}
+    </div>
+    <div class="c360-card"><h3>الإشعارات (${notes.length})</h3>
+      ${notes.length?`<table class="c360-table"><thead><tr><th>التاريخ</th><th>العنوان</th><th>الرسالة</th></tr></thead><tbody>${notes.slice(-30).map(n=>`<tr><td>${date(n.createdAt)}</td><td>${esc(n.title||'—')}</td><td>${esc(n.message||n.body||'—')}</td></tr>`).join('')}</tbody></table>`:'<div class="c360-empty">لا توجد إشعارات</div>'}
+    </div>
+    <div class="c360-card"><h3>سجل النشاط (${acts.length})</h3>
+      ${acts.length?`<table class="c360-table"><thead><tr><th>التاريخ</th><th>النشاط</th><th>المستخدم</th></tr></thead><tbody>${acts.slice().sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).slice(0,30).map(a=>`<tr><td>${date(a.createdAt)}</td><td>${esc(a.action||a.description||a.type||'—')}</td><td>${esc(a.user||a.agent||a.by||'—')}</td></tr>`).join('')}</tbody></table>`:'<div class="c360-empty">لا يوجد سجل نشاط للعميل</div>'}
+    </div>`;
+  document.getElementById('customer360Modal').style.display='block';
+}
+function closeCustomer360(){document.getElementById('customer360Modal').style.display='none';}
+
+function wireClientViewButtons(){
+  document.querySelectorAll('#v-clients button').forEach(btn=>{
+    const t=(btn.textContent||'').trim();
+    if(t!=='عرض')return;
+    if(btn.dataset.c360Wired)return;
+    btn.dataset.c360Wired='1';
+    const row=btn.closest('tr,.item,.card');
+    let id=btn.getAttribute('data-client-id')||row?.getAttribute('data-client-id');
+    if(!id){
+      const onclick=btn.getAttribute('onclick')||'';
+      const mm=onclick.match(/['"]([^'"]+)['"]/); if(mm)id=mm[1];
+    }
+    if(id){btn.onclick=(e)=>{e.preventDefault();customer360(id)};btn.removeAttribute('onclick');}
+  });
+}
 function updateBadge(){let n=DATA.messages.filter(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin).length;document.getElementById('msgBadge').textContent=n;document.getElementById('msgBadge').classList.toggle('hidden',!n);document.getElementById('sMessages').textContent=n;document.getElementById('messageCount').textContent=n}
 function startMessages(){if(MSG_UNSUB)MSG_UNSUB();MSG_UNSUB=db.collection('messages').onSnapshot(s=>{DATA.messages=s.docs.map(d=>({id:d.id,...d.data()}));updateBadge();renderConversations();renderClients();renderDashboard()})}
 function openClientChat(id){CURRENT_CHAT=id;document.getElementById('chatTitle').textContent=clientName(id);show('messages');if(CHAT_UNSUB)CHAT_UNSUB();CHAT_UNSUB=db.collection('messages').where('clientId','==',id).onSnapshot(s=>{let docs=s.docs.slice().sort((a,b)=>ms(a.data().createdAt)-ms(b.data().createdAt));document.getElementById('chatList').innerHTML=docs.map(d=>{let m=d.data();return `<div class="bubble ${m.sender==='agent'?'agent':'client'}">${esc(m.text)}${m.autoReply?'<div style="font-size:9px;opacity:.65;margin-top:3px">Auto reply</div>':''}</div>`}).join('')||'<div class="empty">لا توجد رسائل</div>';document.getElementById('chatList').scrollTop=999999;docs.filter(d=>{let m=d.data();return m.sender==='client'&&!m.autoReply&&!m.readByAdmin}).forEach(d=>d.ref.update({readByAdmin:true}).catch(()=>{}));});}
@@ -205,4 +282,29 @@ applyLang();
   clients, policies, payments, claims, documents, messages, notifications, activity.
   No customer records are embedded as demo data or overwritten by this file.
 </div>
+
+<div id="customer360Modal" class="c360-overlay" style="display:none" onclick="if(event.target===this)closeCustomer360()">
+  <div class="c360-modal">
+    <div class="c360-head">
+      <div><div class="c360-kicker">SECURE PATH • CUSTOMER 360</div><h2 id="c360Name">بيانات العميل</h2><div id="c360Sub" class="muted"></div></div>
+      <button class="c360-close" onclick="closeCustomer360()">×</button>
+    </div>
+    <div id="c360Content" class="c360-content"></div>
+  </div>
+</div>
+<style>
+.c360-overlay{position:fixed;inset:0;background:rgba(8,22,40,.68);z-index:10000;padding:24px;overflow:auto}
+.c360-modal{max-width:1180px;margin:0 auto;background:#fff;border-radius:20px;box-shadow:0 25px 80px rgba(0,0,0,.25);overflow:hidden}
+.c360-head{display:flex;justify-content:space-between;align-items:flex-start;padding:22px 24px;background:linear-gradient(135deg,#0b2742,#123f62);color:#fff}
+.c360-kicker{font-size:11px;letter-spacing:1.2px;opacity:.75}.c360-head h2{margin:5px 0;font-family:Tajawal}.c360-head .muted{color:#dbe8f2}
+.c360-close{border:0;background:rgba(255,255,255,.12);color:#fff;font-size:28px;width:40px;height:40px;border-radius:10px;cursor:pointer}
+.c360-content{padding:22px}.c360-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.c360-stat,.c360-card{border:1px solid #e5eaf0;border-radius:14px;background:#fff;padding:15px}.c360-stat .k{font-size:12px;color:#718096}.c360-stat .v{font-size:22px;font-weight:900;color:#0b2742;margin-top:5px}
+.c360-card{margin-bottom:14px}.c360-card h3{margin:0 0 12px;color:#0b2742;font-family:Tajawal}
+.c360-table{width:100%;border-collapse:collapse}.c360-table th,.c360-table td{padding:9px;border-bottom:1px solid #edf1f5;text-align:right;font-size:13px;vertical-align:top}.c360-table th{color:#64748b;background:#f8fafc}
+.c360-info{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.c360-field{background:#f8fafc;border-radius:10px;padding:10px}.c360-field b{display:block;font-size:11px;color:#64748b;margin-bottom:4px}.c360-field span{font-weight:700;color:#1e293b;word-break:break-word}
+.c360-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.c360-actions button{border:0;border-radius:10px;padding:10px 13px;cursor:pointer;font-family:inherit;font-weight:800;background:#0b2742;color:#fff}
+.c360-empty{padding:18px;text-align:center;color:#718096;background:#f8fafc;border-radius:10px}
+@media(max-width:800px){.c360-overlay{padding:8px}.c360-grid{grid-template-columns:repeat(2,1fr)}.c360-info{grid-template-columns:1fr}.c360-table{min-width:700px}.c360-card{overflow:auto}}
+</style>
 </body></html>
