@@ -24,25 +24,6 @@
 .logoutBtn:hover{background:rgba(255,255,255,.12)}
 </style>
 
-<style>
-#customer360Modal{position:fixed;inset:0;background:rgba(7,22,42,.58);z-index:10000;display:none;align-items:center;justify-content:center;padding:18px}
-#customer360Modal.open{display:flex}
-.c360{width:min(1100px,96vw);max-height:92vh;overflow:auto;background:#fff;border-radius:20px;box-shadow:0 20px 70px rgba(0,0,0,.25)}
-.c360Head{padding:20px 24px;border-bottom:1px solid #e7edf3;display:flex;justify-content:space-between;gap:15px;align-items:center;position:sticky;top:0;background:#fff;z-index:2}
-.c360Head h2{margin:0;color:var(--navy);font-family:Tajawal}
-.c360Close{border:0;background:#eef3f7;border-radius:10px;padding:9px 13px;cursor:pointer;font-weight:800}
-.c360Body{padding:20px 24px}
-.c360Grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
-.c360Card{border:1px solid #e5ebf1;border-radius:14px;padding:14px;background:#fff}
-.c360Card .label{font-size:12px;color:#718096;margin-bottom:5px}.c360Card .value{font-weight:800;color:var(--navy);word-break:break-word}
-.c360Section{border:1px solid #e5ebf1;border-radius:14px;margin-top:14px;overflow:hidden}
-.c360Section h3{margin:0;padding:13px 15px;background:#f7f9fb;color:var(--navy);font-size:15px}
-.c360Table{width:100%;border-collapse:collapse}.c360Table th,.c360Table td{padding:10px;border-bottom:1px solid #edf1f5;text-align:right;font-size:13px}.c360Table th{color:#667085;background:#fbfcfd}
-.c360Empty{padding:18px;color:#7a8795;text-align:center}
-.c360Actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-@media(max-width:800px){.c360Grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:500px){.c360Grid{grid-template-columns:1fr}.c360Head{padding:15px}.c360Body{padding:15px}}
-</style>
 </head>
 <body>
 <div id="login"><div class="login"><div class="logo"><img src="icon-192.png" onerror="this.style.display='none'" alt="Secure PATH"></div><h1>Secure PATH</h1><p id="loginSub">مركز تشغيل الوسيط — العملاء والوثائق والمطالبات والمحادثات</p><div class="field"><label id="emailLabel">البريد الإلكتروني</label><input id="email" type="email" autocomplete="username"></div><div class="field"><label id="passLabel">كلمة المرور</label><input id="pass" type="password" autocomplete="current-password"></div><div id="loginErr" class="warn" style="font-size:12px;margin-bottom:8px"></div><button class="btn primary" style="width:100%" onclick="login()" id="loginBtn">دخول لوحة التحكم</button><p><button class="btn outline" onclick="toggleLang()" id="langBtn">English</button></p></div></div>
@@ -134,70 +115,10 @@ async function login(){let e=document.getElementById('email').value.trim(),p=doc
 function logout(){auth.signOut().then(()=>location.reload())}auth.onAuthStateChanged(u=>{if(u){document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';document.getElementById('userEmail').textContent=u.email||'';document.getElementById('sAgent').textContent=(u.email||'').split('@')[0];applyLang();loadAll();startMessages()}});
 async function col(n){try{let s=await db.collection(n).get();return s.docs.map(d=>({id:d.id,...d.data()}))}catch(e){console.warn(n,e);return[]}}
 async function loadAll(){let names=['clients','policies','payments','claims','documents','messages','notifications','activity'];let vals=await Promise.all(names.map(col));names.forEach((n,i)=>DATA[n]=vals[i]);renderAll()}
-function renderAll(){renderDashboard();renderClients();wireClientViewButtons();renderPolicies();renderPayments();renderClaims();renderDocuments();renderDocumentsPro();renderConversations();renderNotifications();renderActivity();renderRenewals();renderCompanies();renderReports();refreshSelects();updateBadge()}
+function renderAll(){renderDashboard();renderClients();renderPolicies();renderPayments();renderClaims();renderDocuments();renderDocumentsPro();renderConversations();renderNotifications();renderActivity();renderRenewals();renderCompanies();renderReports();refreshSelects();updateBadge()}
 function renderDashboard(){let open=DATA.claims.filter(x=>!['settled','rejected'].includes(x.status)).length, unread=DATA.messages.filter(x=>x.sender==='client'&&!x.autoReply&&!x.readByAdmin).length, exp=DATA.policies.filter(x=>days(x.endDate)>=0&&days(x.endDate)<=30).length, total=DATA.payments.reduce((a,x)=>a+(Number(x.amount)||0),0),active=DATA.policies.filter(x=>days(x.endDate)>=0).length;[['sClients',DATA.clients.length],['sPolicies',DATA.policies.length],['sClaims',open],['sMessages',unread],['sExpiring',exp],['sPayments',total.toLocaleString('en-US')],['sDocs',DATA.documents.length]].forEach(([id,v])=>document.getElementById(id).textContent=v);document.getElementById('sActive').textContent=active+(LANG==='ar'?' سارية':' active');document.getElementById('dashExpiring').innerHTML=DATA.policies.filter(x=>days(x.endDate)>=0&&days(x.endDate)<=30).sort((a,b)=>days(a.endDate)-days(b.endDate)).slice(0,8).map(p=>`<div class="item"><b>${esc(clientName(p.clientId))}</b><p>${esc(p.company)} • ${esc(p.policyNumber)} • ${date(p.endDate)} <span class="pill red">${days(p.endDate)} ${LANG==='ar'?'يوم':'days'}</span></p></div>`).join('')||'<div class="empty">—</div>';document.getElementById('dashActivity').innerHTML=DATA.activity.slice().sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).slice(0,7).map(a=>`<div class="item"><h4>${esc(a.action||a.type||'Activity')}</h4><p>${esc(a.description||a.text||'')} • ${ago(a.createdAt)}</p></div>`).join('')||'<div class="empty">—</div>'}
 
-function c360Esc(v){return typeof esc==='function'?esc(v):String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function c360Ms(v){
-  if(!v)return 0;
-  if(typeof v==='object' && typeof v.toDate==='function')return v.toDate().getTime();
-  const n=Date.parse(v); return Number.isFinite(n)?n:0;
-}
-function c360Date(v){
-  if(!v)return '—';
-  if(typeof date==='function')return date(v);
-  const d=new Date(c360Ms(v));return Number.isNaN(d.getTime())?'—':d.toLocaleDateString('ar-EG');
-}
-function c360Money(v){return Number(v||0).toLocaleString('en-US')+' EGP'}
-function c360FindClient(id){
-  const clients=Array.isArray(DATA.clients)?DATA.clients:[];
-  return clients.find(c=>String(c.id??c.clientId??'')===String(id))
-      || clients.find(c=>String(c.uid??'')===String(id))
-      || null;
-}
-function c360Open(clientId){
-  const c=c360FindClient(clientId);
-  if(!c){alert('لم يتم العثور على بيانات العميل في البيانات المحملة من Firebase.');return;}
-  const cid=String(c.id??c.clientId??c.uid??clientId);
-  const policies=(DATA.policies||[]).filter(p=>String(p.clientId??p.customerId??p.client??'')===cid);
-  const payments=(DATA.payments||[]).filter(p=>String(p.clientId??p.customerId??'')===cid);
-  const claims=(DATA.claims||[]).filter(x=>String(x.clientId??x.customerId??'')===cid);
-  const docs=(DATA.documents||[]).filter(d=>String(d.clientId??d.customerId??'')===cid);
-  const msgs=(DATA.messages||[]).filter(m=>String(m.clientId??m.customerId??'')===cid);
-  const notes=(DATA.notifications||[]).filter(n=>String(n.clientId??n.customerId??'')===cid);
-  const acts=(DATA.activity||[]).filter(a=>String(a.clientId??a.customerId??'')===cid);
-  const name=c.name||c.fullName||[c.firstName,c.lastName].filter(Boolean).join(' ')||'عميل';
-  const premium=policies.reduce((s,p)=>s+Number(p.premium||0),0);
-  const paid=payments.reduce((s,p)=>s+Number(p.amount||0),0);
-  const openClaims=claims.filter(x=>!['settled','rejected','closed'].includes(String(x.status||'').toLowerCase())).length;
-
-  document.getElementById('c360Name').textContent=name;
-  document.getElementById('c360Sub').textContent=`Customer ID: ${cid}`;
-  document.getElementById('c360Body').innerHTML=`
-    <div class="c360Actions">
-      <button class="btn primary" onclick="closeCustomer360();${typeof openClientChat==='function'?`openClientChat('${c360Esc(cid)}')`:''}">✉ محادثة العميل</button>
-    </div>
-    <div class="c360Grid">
-      ${[['الاسم',name],['الهاتف',c.phone||c.mobile||c.phoneNumber||'—'],['البريد',c.email||c.emailAddress||'—'],['العنوان',c.address||c.location||'—'],['عدد الوثائق',policies.length],['إجمالي الأقساط',c360Money(premium)],['إجمالي المدفوع',c360Money(paid)],['المطالبات المفتوحة',openClaims]].map(x=>`<div class="c360Card"><div class="label">${c360Esc(x[0])}</div><div class="value">${c360Esc(x[1])}</div></div>`).join('')}
-    </div>
-    <div class="c360Section"><h3>البيانات الكاملة للعميل</h3><table class="c360Table"><tbody>${Object.entries(c).filter(([k])=>!['id'].includes(k)).map(([k,v])=>`<tr><th>${c360Esc(k)}</th><td>${c360Esc(typeof v==='object'?JSON.stringify(v):v)}</td></tr>`).join('')}</tbody></table></div>
-    <div class="c360Section"><h3>وثائق التأمين (${policies.length})</h3>${policies.length?`<table class="c360Table"><thead><tr><th>الوثيقة</th><th>الشركة</th><th>النوع</th><th>القسط</th><th>النهاية</th></tr></thead><tbody>${policies.map(p=>`<tr><td>${c360Esc(p.policyNumber||'—')}</td><td>${c360Esc(p.company||'—')}</td><td>${c360Esc(p.type||'—')}</td><td>${c360Money(p.premium)}</td><td>${c360Date(p.endDate)}</td></tr>`).join('')}</tbody></table>`:'<div class="c360Empty">لا توجد وثائق مرتبطة بهذا العميل</div>'}</div>
-    <div class="c360Section"><h3>المدفوعات (${payments.length})</h3>${payments.length?`<table class="c360Table"><thead><tr><th>المبلغ</th><th>الحالة</th><th>التاريخ</th></tr></thead><tbody>${payments.map(p=>`<tr><td>${c360Money(p.amount)}</td><td>${c360Esc(p.status||'—')}</td><td>${c360Date(p.date||p.createdAt)}</td></tr>`).join('')}</tbody></table>`:'<div class="c360Empty">لا توجد مدفوعات مرتبطة</div>'}</div>
-    <div class="c360Section"><h3>المطالبات (${claims.length})</h3>${claims.length?`<table class="c360Table"><thead><tr><th>المطالبة</th><th>الحالة</th><th>المبلغ</th><th>التاريخ</th></tr></thead><tbody>${claims.map(x=>`<tr><td>${c360Esc(x.claimNumber||x.id||'—')}</td><td>${c360Esc(x.status||'—')}</td><td>${c360Money(x.amount||x.claimAmount)}</td><td>${c360Date(x.createdAt||x.date)}</td></tr>`).join('')}</tbody></table>`:'<div class="c360Empty">لا توجد مطالبات مرتبطة</div>'}</div>
-    <div class="c360Section"><h3>المستندات (${docs.length})</h3>${docs.length?`<table class="c360Table"><thead><tr><th>الملف</th><th>النوع</th><th>التاريخ</th></tr></thead><tbody>${docs.map(d=>`<tr><td>${c360Esc(d.fileName||d.name||'—')}</td><td>${c360Esc(d.fileType||d.type||'—')}</td><td>${c360Date(d.createdAt||d.uploadedAt)}</td></tr>`).join('')}</tbody></table>`:'<div class="c360Empty">لا توجد مستندات مرتبطة</div>'}</div>
-    <div class="c360Section"><h3>المحادثات (${msgs.length})</h3>${msgs.length?`<table class="c360Table"><thead><tr><th>المرسل</th><th>الرسالة</th><th>التاريخ</th></tr></thead><tbody>${msgs.slice(-50).map(m=>`<tr><td>${c360Esc(m.sender||'—')}</td><td>${c360Esc(m.text||m.message||'')}</td><td>${c360Date(m.createdAt||m.timestamp)}</td></tr>`).join('')}</tbody></table>`:'<div class="c360Empty">لا توجد محادثات</div>'}</div>
-    <div class="c360Section"><h3>الإشعارات (${notes.length})</h3>${notes.length?`<table class="c360Table"><tbody>${notes.slice(-30).map(n=>`<tr><td>${c360Esc(n.title||n.message||n.text||'—')}</td><td>${c360Date(n.createdAt||n.date)}</td></tr>`).join('')}</tbody></table>`:'<div class="c360Empty">لا توجد إشعارات</div>'}</div>
-    <div class="c360Section"><h3>سجل النشاط (${acts.length})</h3>${acts.length?`<table class="c360Table"><tbody>${acts.slice(-30).map(a=>`<tr><td>${c360Esc(a.action||a.description||a.type||'—')}</td><td>${c360Date(a.createdAt||a.timestamp||a.date)}</td></tr>`).join('')}</tbody></table>`:'<div class="c360Empty">لا يوجد سجل نشاط</div>'}</div>
-  `;
-  const modal=document.getElementById('customer360Modal');modal.classList.add('open');modal.setAttribute('aria-hidden','false');
-}
-function closeCustomer360(){
-  const modal=document.getElementById('customer360Modal');if(modal){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
-}
-window.c360Open=c360Open;
-window.closeCustomer360=closeCustomer360;
-
-function renderClients(){let q=(document.getElementById('clientSearch')?.value||'').toLowerCase();let html=DATA.clients.filter(c=>[c.fullName,c.phone,c.username].join(' ').toLowerCase().includes(q)).map(c=>{let pc=DATA.policies.filter(x=>x.clientId===c.id).length,cc=DATA.claims.filter(x=>x.clientId===c.id).length, msgs=DATA.messages.filter(x=>x.clientId===c.id).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt));let unread=msgs.some(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin);return `<tr><td><div class="name"><div class="avatar">${esc((c.fullName||'?').split(' ').slice(0,2).map(x=>x[0]).join(''))}</div><div><b>${esc(c.fullName||'—')}</b><div class="muted">${esc(c.username||'')}</div></div></div></td><td>${esc(c.phone||'—')}</td><td>${pc}</td><td>${cc}</td><td>${esc(msgs[0]?.text||'—')}</td><td>${unread?'<span class="pill red">New</span>':'<span class="pill">Active</span>'}</td><td><div class="actions"><button onclick="c360Open('${c.id}')">💬</button><button onclick="openPolicyModal('${c.id}')">+ وثيقة</button><button onclick="c360Open(\'${c.id}\')" >عرض</button></div></td></tr>`}).join('');document.getElementById('clientsBody').innerHTML=html||'<tr><td colspan="7"><div class="empty">لا يوجد عملاء</div></td></tr>'}
+function renderClients(){let q=(document.getElementById('clientSearch')?.value||'').toLowerCase();let html=DATA.clients.filter(c=>[c.fullName,c.phone,c.username].join(' ').toLowerCase().includes(q)).map(c=>{let pc=DATA.policies.filter(x=>x.clientId===c.id).length,cc=DATA.claims.filter(x=>x.clientId===c.id).length, msgs=DATA.messages.filter(x=>x.clientId===c.id).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt));let unread=msgs.some(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin);return `<tr><td><div class="name"><div class="avatar">${esc((c.fullName||'?').split(' ').slice(0,2).map(x=>x[0]).join(''))}</div><div><b>${esc(c.fullName||'—')}</b><div class="muted">${esc(c.username||'')}</div></div></div></td><td>${esc(c.phone||'—')}</td><td>${pc}</td><td>${cc}</td><td>${esc(msgs[0]?.text||'—')}</td><td>${unread?'<span class="pill red">New</span>':'<span class="pill">Active</span>'}</td><td><div class="actions"><button onclick="customer360('${c.id}')">💬</button><button onclick="openPolicyModal('${c.id}')">+ وثيقة</button><button onclick="customer360('${c.id}')">عرض</button></div></td></tr>`}).join('');document.getElementById('clientsBody').innerHTML=html||'<tr><td colspan="7"><div class="empty">لا يوجد عملاء</div></td></tr>'}
 function renderPolicies(){let q=(document.getElementById('policySearch')?.value||'').toLowerCase();document.getElementById('policiesBody').innerHTML=DATA.policies.filter(p=>[clientName(p.clientId),p.company,p.policyNumber,p.type].join(' ').toLowerCase().includes(q)).map(p=>`<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(p.type)}</td><td>${esc(p.company)}</td><td>${esc(p.policyNumber)}</td><td>${Number(p.premium||0).toLocaleString('en-US')} EGP</td><td>${date(p.endDate)}</td><td>${days(p.endDate)<0?'<span class="pill red">Expired</span>':days(p.endDate)<=30?'<span class="pill red">Expiring</span>':'<span class="pill">Active</span>'}</td></tr>`).join('')||'<tr><td colspan="7"><div class="empty">لا توجد وثائق</div></td></tr>'}
 function renderPayments(){let q=(document.getElementById('paymentSearch')?.value||'').toLowerCase();document.getElementById('paymentsBody').innerHTML=DATA.payments.filter(p=>[clientName(p.clientId),p.method,p.note].join(' ').toLowerCase().includes(q)).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).map(p=>`<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(DATA.policies.find(x=>x.id===p.policyId)?.policyNumber||'—')}</td><td>${Number(p.amount||0).toLocaleString('en-US')} EGP</td><td>${date(p.date)}</td><td>${esc(p.method||'—')}</td><td>${esc(p.note||'')}</td></tr>`).join('')||'<tr><td colspan="6"><div class="empty">لا توجد مدفوعات</div></td></tr>'}
 function renderClaims(){let q=(document.getElementById('claimSearch')?.value||'').toLowerCase();document.getElementById('claimsBody').innerHTML=DATA.claims.filter(c=>[clientName(c.clientId),c.type,c.status].join(' ').toLowerCase().includes(q)).sort((a,b)=>ms(b.updatedAt||b.createdAt)-ms(a.updatedAt||a.createdAt)).map(c=>`<tr><td>${esc(clientName(c.clientId))}</td><td>${esc(c.type)}</td><td>${esc(c.policyNumber||DATA.policies.find(x=>x.id===c.policyId)?.policyNumber||'—')}</td><td>${Number(c.amount||0).toLocaleString('en-US')} EGP</td><td><span class="pill ${['rejected','settled'].includes(c.status)?'':'blue'}">${esc(claimLabel(c.status))}</span></td><td>${date(c.updatedAt||c.createdAt)}</td><td><select onchange="changeClaim('${c.id}',this.value)"><option value="">Update</option><option value="under_review">Under Review</option><option value="documents_required">Documents Required</option><option value="approved">Approved</option><option value="settled">Settled</option><option value="rejected">Rejected</option></select></td></tr>`).join('')||'<tr><td colspan="7"><div class="empty">لا توجد مطالبات</div></td></tr>'}
@@ -321,21 +242,6 @@ function customer360(id){
 }
 function closeCustomer360(){document.getElementById('customer360Modal').style.display='none';}
 
-function wireClientViewButtons(){
-  document.querySelectorAll('#v-clients button').forEach(btn=>{
-    const t=(btn.textContent||'').trim();
-    if(t!=='عرض')return;
-    if(btn.dataset.c360Wired)return;
-    btn.dataset.c360Wired='1';
-    const row=btn.closest('tr,.item,.card');
-    let id=btn.getAttribute('data-client-id')||row?.getAttribute('data-client-id');
-    if(!id){
-      const onclick=btn.getAttribute('onclick')||'';
-      const mm=onclick.match(/['"]([^'"]+)['"]/); if(mm)id=mm[1];
-    }
-    if(id){btn.onclick=(e)=>{e.preventDefault();customer360(id)};btn.removeAttribute('onclick');}
-  });
-}
 function updateBadge(){let n=DATA.messages.filter(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin).length;document.getElementById('msgBadge').textContent=n;document.getElementById('msgBadge').classList.toggle('hidden',!n);document.getElementById('sMessages').textContent=n;document.getElementById('messageCount').textContent=n}
 function startMessages(){if(MSG_UNSUB)MSG_UNSUB();MSG_UNSUB=db.collection('messages').onSnapshot(s=>{DATA.messages=s.docs.map(d=>({id:d.id,...d.data()}));updateBadge();renderConversations();renderClients();renderDashboard()})}
 function openClientChat(id){CURRENT_CHAT=id;document.getElementById('chatTitle').textContent=clientName(id);show('messages');if(CHAT_UNSUB)CHAT_UNSUB();CHAT_UNSUB=db.collection('messages').where('clientId','==',id).onSnapshot(s=>{let docs=s.docs.slice().sort((a,b)=>ms(a.data().createdAt)-ms(b.data().createdAt));document.getElementById('chatList').innerHTML=docs.map(d=>{let m=d.data();return `<div class="bubble ${m.sender==='agent'?'agent':'client'}">${esc(m.text)}${m.autoReply?'<div style="font-size:9px;opacity:.65;margin-top:3px">Auto reply</div>':''}</div>`}).join('')||'<div class="empty">لا توجد رسائل</div>';document.getElementById('chatList').scrollTop=999999;docs.filter(d=>{let m=d.data();return m.sender==='client'&&!m.autoReply&&!m.readByAdmin}).forEach(d=>d.ref.update({readByAdmin:true}).catch(()=>{}));});}
@@ -389,16 +295,6 @@ applyLang();
 @media(max-width:800px){.c360-overlay{padding:8px}.c360-grid{grid-template-columns:repeat(2,1fr)}.c360-info{grid-template-columns:1fr}.c360-table{min-width:700px}.c360-card{overflow:auto}}
 </style>
 
-<div id="customer360Modal" aria-hidden="true">
-  <div class="c360">
-    <div class="c360Head">
-      <div><h2 id="c360Name">ملف العميل</h2><div id="c360Sub" class="muted"></div></div>
-      <button class="c360Close" onclick="closeCustomer360()">✕ إغلاق</button>
-    </div>
-    <div class="c360Body" id="c360Body"></div>
-  </div>
-</div>
 <script>
-document.getElementById('customer360Modal')?.addEventListener('click',function(e){if(e.target===this)closeCustomer360()});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeCustomer360()});
 </script></body></html>
