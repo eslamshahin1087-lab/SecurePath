@@ -892,7 +892,70 @@ function openChat(){
   });
 }
 function closeChat(){document.getElementById('chat-overlay').classList.remove('show');if(CHAT_UNSUB){CHAT_UNSUB();CHAT_UNSUB=null;}}
-async function handleSendMessage(){
+async function handleSendMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    const user = auth.currentUser;
+
+    if (!text || !user) return;
+
+    try {
+        // 1. إرسال رسالة العميل
+        await db.collection('messages').add({
+            clientId: user.uid,
+            sender: 'client',
+            text: text,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        // تفريغ مربع الكتابة
+        input.value = '';
+
+        // 2. التحقق هل هذه أول رسالة في المحادثة
+        const existingMessages = await db.collection('messages')
+            .where('clientId', '==', user.uid)
+            .get();
+
+        // إذا كانت أول رسالة للعميل، أرسل الرد التلقائي
+        if (existingMessages.size === 1) {
+
+            const autoReplyArabic =
+                'مرحبًا بك، سعداء دائمًا بخدمتك. برجاء إرسال طلبك وسوف نقوم بالرد عليكم في أقرب وقت.';
+
+            const autoReplyEnglish =
+                'Welcome! We are always happy to serve you. Please send us your request and we will get back to you as soon as possible.';
+
+            // الرد بالعربية
+            await db.collection('messages').add({
+                clientId: user.uid,
+                sender: 'agent',
+                text: autoReplyArabic,
+                language: 'ar',
+                autoReply: true,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            // الرد بالإنجليزية
+            await db.collection('messages').add({
+                clientId: user.uid,
+                sender: 'agent',
+                text: autoReplyEnglish,
+                language: 'en',
+                autoReply: true,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        }
+
+    } catch (e) {
+        console.error('send chat:', e);
+
+        alert(
+            e.code === 'permission-denied'
+                ? 'عذرًا، لا توجد صلاحيات كافية لإرسال الرسالة.'
+                : 'حدث خطأ أثناء إرسال الرسالة. برجاء المحاولة مرة أخرى.'
+        );
+    }
+}
   const input = document.getElementById('chat-input');
   const text = input.value.trim();
   const user = auth.currentUser;
