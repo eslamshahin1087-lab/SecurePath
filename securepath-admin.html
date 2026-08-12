@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Secure PATH — Admin & Agent Center | Data Safe</title>
+<title>Secure PATH — Admin & Agent Center | Professional Operations</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--navy:#0E2A5C;--navy2:#164080;--gold:#F4C06B;--gold2:#F8DBA6;--paper:#F7F8FB;--white:#fff;--line:#E4E8EF;--text:#253044;--muted:#7C8798;--green:#2F7D58;--red:#B5482D;--blue:#2E67B1;--shadow:0 12px 35px rgba(14,42,92,.08)}
@@ -13,10 +13,32 @@
 @media(max-width:900px){.side{width:76px}.brand b,.nav button span,.sidefoot{display:none}.nav button{text-align:center}.main{margin-right:76px;width:calc(100% - 76px)}.grid{grid-template-columns:repeat(2,1fr)}.two,.three{grid-template-columns:1fr}.content{padding:15px}.top{padding:0 15px}th,td{white-space:nowrap}.panel{overflow:auto}}
 @media(max-width:600px){.grid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.toolbar{align-items:stretch;flex-direction:column}.search{max-width:none}}
 </style>
+
+<style>
+.nav button{display:flex;align-items:center;gap:9px}
+.nav button span{flex:1}
+.nav button.active{box-shadow:inset -3px 0 0 var(--navy)}
+.side{overflow-y:auto}
+.side::-webkit-scrollbar{width:4px}.side::-webkit-scrollbar-thumb{background:#ffffff22;border-radius:10px}
+@media(max-width:900px){.nav button{justify-content:center}.nav button span{display:none}.nav .badge{position:absolute;top:5px;left:9px}.nav button{position:relative}}
+</style>
 </head>
 <body>
 <div id="login"><div class="login"><div class="logo"><img src="icon-192.png" onerror="this.style.display='none'" alt="Secure PATH"></div><h1>Secure PATH</h1><p id="loginSub">مركز تشغيل الوسيط — العملاء والوثائق والمطالبات والمحادثات</p><div class="field"><label id="emailLabel">البريد الإلكتروني</label><input id="email" type="email" autocomplete="username"></div><div class="field"><label id="passLabel">كلمة المرور</label><input id="pass" type="password" autocomplete="current-password"></div><div id="loginErr" class="warn" style="font-size:12px;margin-bottom:8px"></div><button class="btn primary" style="width:100%" onclick="login()" id="loginBtn">دخول لوحة التحكم</button><p><button class="btn outline" onclick="toggleLang()" id="langBtn">English</button></p></div></div>
-<div id="app"><div class="shell"><aside class="side"><div class="brand"><img src="icon-192.png" onerror="this.style.display='none'"><b>Secure PATH</b></div><nav class="nav"><button data-view="dashboard" onclick="show('dashboard',this)">▦ <span data-i="dashboard">لوحة التحكم</span></button><button data-view="clients" onclick="show('clients',this)">♙ <span data-i="clients">العملاء</span></button><button data-view="policies" onclick="show('policies',this)">▣ <span data-i="policies">الوثائق</span></button><button data-view="payments" onclick="show('payments',this)">₣ <span data-i="payments">الأقساط والمدفوعات</span></button><button data-view="claims" onclick="show('claims',this)">! <span data-i="claims">المطالبات</span></button><button data-view="documents" onclick="show('documents',this)">▤ <span data-i="documents">المستندات</span></button><button data-view="messages" onclick="show('messages',this)">✉ <span data-i="messages">المحادثات</span> <b id="msgBadge" class="badge hidden">0</b></button><button data-view="notifications" onclick="show('notifications',this)">◉ <span data-i="notifications">الإشعارات</span></button><button data-view="activity" onclick="show('activity',this)">◷ <span data-i="activity">سجل النشاط</span></button></nav><div class="sidefoot"><span id="userEmail">—</span><br><button class="btn outline" style="margin-top:8px;width:100%;font-size:10px" onclick="logout()" id="logoutBtn">تسجيل الخروج</button><br>Secure PATH © 2026</div></aside>
+<div id="app"><div class="shell"><aside class="side"><div class="brand"><img src="icon-192.png" onerror="this.style.display='none'"><b>Secure PATH</b></div><nav class="nav">
+<button data-view="dashboard" onclick="show('dashboard',this)">▦ <span data-i="dashboard">لوحة التحكم</span></button>
+<button data-view="clients" onclick="show('clients',this)">♙ <span data-i="clients">العملاء</span></button>
+<button data-view="policies" onclick="show('policies',this)">▣ <span data-i="policies">الوثائق</span></button>
+<button data-view="renewals" onclick="show('renewals',this)">↻ <span data-i="renewals">التجديدات</span></button>
+<button data-view="payments" onclick="show('payments',this)">₣ <span data-i="payments">المدفوعات</span></button>
+<button data-view="claims" onclick="show('claims',this)">! <span data-i="claims">المطالبات</span></button>
+<button data-view="documents" onclick="show('documents',this)">▤ <span data-i="documents">المستندات</span></button>
+<button data-view="companies" onclick="show('companies',this)">◆ <span data-i="companies">شركات التأمين</span></button>
+<button data-view="messages" onclick="show('messages',this)">✉ <span data-i="messages">المحادثات</span> <b id="msgBadge" class="badge hidden">0</b></button>
+<button data-view="notifications" onclick="show('notifications',this)">◉ <span data-i="notifications">الإشعارات</span></button>
+<button data-view="reports" onclick="show('reports',this)">▥ <span data-i="reports">التقارير والتحليلات</span></button>
+<button data-view="activity" onclick="show('activity',this)">◷ <span data-i="activity">سجل النشاط</span></button>
+</nav><div class="sidefoot"><span id="userEmail">—</span><br><button class="btn outline" style="margin-top:8px;width:100%;font-size:10px" onclick="logout()" id="logoutBtn">تسجيل الخروج</button><br>Secure PATH © 2026</div></aside>
 <main class="main"><header class="top"><h1 id="title">لوحة التحكم</h1><div class="topright"><button class="btn outline lang" onclick="toggleLang()" id="topLang">English</button><button class="btn dark" onclick="openClientModal()" id="quickClient">+ عميل جديد</button></div></header><section class="content">
 <div id="v-dashboard" class="view active"><div class="grid"><div class="card stat"><div class="k" data-i="totalClients">إجمالي العملاء</div><div id="sClients" class="v">0</div><div class="s ok">CRM</div></div><div class="card stat"><div class="k" data-i="totalPolicies">إجمالي الوثائق</div><div id="sPolicies" class="v">0</div><div id="sActive" class="s ok">0 سارية</div></div><div class="card stat"><div class="k" data-i="openClaims">المطالبات المفتوحة</div><div id="sClaims" class="v">0</div><div class="s warn">متابعة مطلوبة</div></div><div class="card stat"><div class="k" data-i="unread">الرسائل الجديدة</div><div id="sMessages" class="v">0</div><div class="s">Real-time</div></div></div><div class="grid" style="margin-top:15px"><div class="card stat"><div class="k" data-i="expiring">وثائق تنتهي قريبًا</div><div id="sExpiring" class="v">0</div><div class="s warn">30 يوم</div></div><div class="card stat"><div class="k" data-i="payments">إجمالي المدفوعات</div><div id="sPayments" class="v">0</div><div class="s">EGP</div></div><div class="card stat"><div class="k" data-i="documents">المستندات</div><div id="sDocs" class="v">0</div><div class="s">Customer files</div></div><div class="card stat"><div class="k" data-i="agents">المستخدم الحالي</div><div id="sAgent" class="v" style="font-size:16px">—</div><div class="s">Agent / Admin</div></div></div><div class="two"><div class="card"><div class="panelhead"><h3 data-i="expiringTitle">وثائق قريبة الانتهاء</h3><button class="btn outline" onclick="show('policies')" data-i="viewAll">عرض الكل</button></div><div id="dashExpiring"></div></div><div class="card"><div class="panelhead"><h3 data-i="recentActivity">آخر النشاطات</h3></div><div id="dashActivity" class="list"></div></div></div></div>
 <div id="v-clients" class="view"><div class="toolbar"><div class="search"><input id="clientSearch" oninput="renderClients()" placeholder="ابحث بالاسم أو الهاتف أو المستخدم"></div><button class="btn primary" onclick="openClientModal()">+ <span data-i="addClient">إضافة عميل</span></button></div><div class="card panel"><table><thead><tr><th data-i="client">العميل</th><th data-i="phone">الهاتف</th><th data-i="policies">الوثائق</th><th data-i="claims">المطالبات</th><th data-i="lastMessage">آخر رسالة</th><th data-i="status">الحالة</th><th data-i="actions">إجراءات</th></tr></thead><tbody id="clientsBody"></tbody></table></div></div>
@@ -26,6 +48,39 @@
 <div id="v-documents" class="view"><div class="toolbar"><div class="search"><input id="docSearch" oninput="renderDocuments()" placeholder="ابحث باسم الملف أو العميل"></div></div><div class="card panel"><table><thead><tr><th>العميل</th><th>المستند</th><th>النوع</th><th>المصدر</th><th>التاريخ</th><th>فتح</th></tr></thead><tbody id="documentsBody"></tbody></table></div></div>
 <div id="v-messages" class="view"><div class="two"><div class="card"><div class="panelhead"><h3 data-i="conversations">المحادثات</h3><span id="messageCount" class="pill blue">0</span></div><div id="conversationList" class="list"></div></div><div class="card"><div class="panelhead"><h3 id="chatTitle">اختر محادثة</h3></div><div id="chatList" class="message-list"><div class="empty">اختر عميلاً لعرض المحادثة.</div></div><div class="composer"><input id="chatInput" placeholder="اكتب ردك للعميل..." onkeydown="if(event.key==='Enter')sendMessage()"><button class="btn primary" onclick="sendMessage()">إرسال</button></div></div></div></div>
 <div id="v-notifications" class="view"><div class="card"><div class="panelhead"><h3>إشعارات العملاء والنظام</h3></div><div id="notificationsList" class="list"></div></div></div>
+
+<div id="v-renewals" class="view">
+  <div class="toolbar"><div><h2 style="font-family:Tajawal;color:var(--navy);margin:0">التجديدات</h2><div class="muted">الوثائق التي تحتاج متابعة قبل الانتهاء</div></div>
+  <button class="btn primary" onclick="show('policies')">إدارة الوثائق</button></div>
+  <div class="grid" style="margin-bottom:15px">
+    <div class="card stat"><div class="k">خلال 7 أيام</div><div id="r7" class="v">0</div></div>
+    <div class="card stat"><div class="k">خلال 30 يوم</div><div id="r30" class="v">0</div></div>
+    <div class="card stat"><div class="k">خلال 60 يوم</div><div id="r60" class="v">0</div></div>
+    <div class="card stat"><div class="k">منتهية</div><div id="rExpired" class="v">0</div></div>
+  </div>
+  <div class="card panel"><div class="panelhead"><h3>أولوية التجديد</h3></div><div id="renewalsBody"></div></div>
+</div>
+
+<div id="v-companies" class="view">
+  <div class="toolbar"><div><h2 style="font-family:Tajawal;color:var(--navy);margin:0">شركات التأمين</h2><div class="muted">تحليل محفظة الوثائق حسب الشركة</div></div></div>
+  <div id="companiesBody" class="grid"></div>
+</div>
+
+<div id="v-reports" class="view">
+  <div class="toolbar"><div><h2 style="font-family:Tajawal;color:var(--navy);margin:0">التقارير والتحليلات</h2><div class="muted">مؤشرات تشغيلية مشتقة من بيانات Secure PATH الحالية</div></div>
+  <button class="btn outline" onclick="exportCSV()">تصدير CSV</button></div>
+  <div class="grid">
+    <div class="card stat"><div class="k">إجمالي قيمة الأقساط</div><div id="repPremium" class="v">0</div><div class="s">EGP</div></div>
+    <div class="card stat"><div class="k">إجمالي المدفوعات</div><div id="repPaid" class="v">0</div><div class="s">EGP</div></div>
+    <div class="card stat"><div class="k">متوسط قيمة الوثيقة</div><div id="repAvg" class="v">0</div><div class="s">EGP</div></div>
+    <div class="card stat"><div class="k">معدل المطالبات المفتوحة</div><div id="repClaimsRate" class="v">0%</div><div class="s">Operational</div></div>
+  </div>
+  <div class="two" style="margin-top:15px">
+    <div class="card panel"><div class="panelhead"><h3>توزيع الوثائق حسب النوع</h3></div><div id="reportTypes" class="list"></div></div>
+    <div class="card panel"><div class="panelhead"><h3>فرص المتابعة</h3></div><div id="reportAlerts" class="list"></div></div>
+  </div>
+</div>
+
 <div id="v-activity" class="view"><div class="card"><div class="panelhead"><h3>Activity Log</h3></div><div id="activityList" class="list"></div></div></div>
 </section></main></div></div>
 <div id="clientModal" class="overlay"><div class="modal"><h2 id="clientModalTitle">إضافة عميل جديد</h2><div class="formgrid"><div class="field"><label>الاسم الكامل</label><input id="cName"></div><div class="field"><label>الهاتف</label><input id="cPhone"></div></div><div class="formgrid"><div class="field"><label>اسم المستخدم</label><input id="cUser"></div><div class="field"><label>كلمة المرور</label><input id="cPass" type="password"></div></div><div id="cErr" class="warn" style="font-size:12px"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('clientModal')">إلغاء</button><button class="btn primary" onclick="createClient()">حفظ وإنشاء الحساب</button></div></div></div>
@@ -38,7 +93,7 @@
 const firebaseConfig={apiKey:'AIzaSyCkRYPffAEBRivC2Si5T-ILL99ZrSq-dWM',authDomain:'path-1a672.firebaseapp.com',projectId:'path-1a672',storageBucket:'path-1a672.firebasestorage.app',messagingSenderId:'616651183121',appId:'1:616651183121:web:ba7f3cdec65a9df8014db0'};
 firebase.initializeApp(firebaseConfig);const auth=firebase.auth(),db=firebase.firestore();
 let LANG=localStorage.getItem('sp_admin_lang')||'ar',DATA={clients:[],policies:[],payments:[],claims:[],documents:[],messages:[],notifications:[],activity:[]},CURRENT_CHAT=null,CHAT_UNSUB=null,MSG_UNSUB=null;
-const I18N={ar:{dashboard:'لوحة التحكم',clients:'العملاء',policies:'الوثائق',payments:'الأقساط والمدفوعات',claims:'المطالبات',documents:'المستندات',messages:'المحادثات',notifications:'الإشعارات',activity:'سجل النشاط',totalClients:'إجمالي العملاء',totalPolicies:'إجمالي الوثائق',openClaims:'المطالبات المفتوحة',unread:'الرسائل الجديدة',expiring:'وثائق تنتهي قريبًا',payments:'إجمالي المدفوعات',documents:'المستندات',agents:'المستخدم الحالي',expiringTitle:'وثائق قريبة الانتهاء',viewAll:'عرض الكل',recentActivity:'آخر النشاطات',addClient:'إضافة عميل',client:'العميل',phone:'الهاتف',lastMessage:'آخر رسالة',status:'الحالة',actions:'إجراءات',conversations:'المحادثات'},en:{dashboard:'Dashboard',clients:'Clients',policies:'Policies',payments:'Payments',claims:'Claims',documents:'Documents',messages:'Messages',notifications:'Notifications',activity:'Activity Log',totalClients:'Total Clients',totalPolicies:'Total Policies',openClaims:'Open Claims',unread:'Unread Messages',expiring:'Expiring Policies',payments:'Total Payments',documents:'Documents',agents:'Current User',expiringTitle:'Policies Expiring Soon',viewAll:'View All',recentActivity:'Recent Activity',addClient:'Add Client',client:'Client',phone:'Phone',lastMessage:'Last Message',status:'Status',actions:'Actions',conversations:'Conversations'}};
+const I18N={ar:{renewals:'التجديدات',companies:'شركات التأمين',reports:'التقارير والتحليلات',dashboard:'لوحة التحكم',clients:'العملاء',policies:'الوثائق',payments:'الأقساط والمدفوعات',claims:'المطالبات',documents:'المستندات',messages:'المحادثات',notifications:'الإشعارات',activity:'سجل النشاط',totalClients:'إجمالي العملاء',totalPolicies:'إجمالي الوثائق',openClaims:'المطالبات المفتوحة',unread:'الرسائل الجديدة',expiring:'وثائق تنتهي قريبًا',payments:'إجمالي المدفوعات',documents:'المستندات',agents:'المستخدم الحالي',expiringTitle:'وثائق قريبة الانتهاء',viewAll:'عرض الكل',recentActivity:'آخر النشاطات',addClient:'إضافة عميل',client:'العميل',phone:'الهاتف',lastMessage:'آخر رسالة',status:'الحالة',actions:'إجراءات',conversations:'المحادثات'},en:{renewals:'Renewals',companies:'Insurance Companies',reports:'Reports & Analytics',dashboard:'Dashboard',clients:'Clients',policies:'Policies',payments:'Payments',claims:'Claims',documents:'Documents',messages:'Messages',notifications:'Notifications',activity:'Activity Log',totalClients:'Total Clients',totalPolicies:'Total Policies',openClaims:'Open Claims',unread:'Unread Messages',expiring:'Expiring Policies',payments:'Total Payments',documents:'Documents',agents:'Current User',expiringTitle:'Policies Expiring Soon',viewAll:'View All',recentActivity:'Recent Activity',addClient:'Add Client',client:'Client',phone:'Phone',lastMessage:'Last Message',status:'Status',actions:'Actions',conversations:'Conversations'}};
 const t=k=>I18N[LANG][k]||k;function applyLang(){document.documentElement.lang=LANG;document.documentElement.dir=LANG==='ar'?'rtl':'ltr';document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));document.getElementById('topLang').textContent=LANG==='ar'?'English':'العربية';document.getElementById('langBtn').textContent=LANG==='ar'?'English':'العربية';document.getElementById('loginSub').textContent=LANG==='ar'?'مركز تشغيل الوسيط — العملاء والوثائق والمطالبات والمحادثات':'Agent Operations Center — clients, policies, claims and messages';document.getElementById('emailLabel').textContent=LANG==='ar'?'البريد الإلكتروني':'Email';document.getElementById('passLabel').textContent=LANG==='ar'?'كلمة المرور':'Password';document.getElementById('loginBtn').textContent=LANG==='ar'?'دخول لوحة التحكم':'Sign in';document.getElementById('logoutBtn').textContent=LANG==='ar'?'تسجيل الخروج':'Logout';document.getElementById('quickClient').textContent=LANG==='ar'?'+ عميل جديد':'+ New Client'}function toggleLang(){LANG=LANG==='ar'?'en':'ar';localStorage.setItem('sp_admin_lang',LANG);applyLang();renderAll()}
 function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}function ms(ts){return ts&&ts.toMillis?ts.toMillis():0}function date(v){if(!v)return '—';let d=v.toDate?v.toDate():new Date(v);return isNaN(d)?'—':d.toLocaleDateString(LANG==='ar'?'ar-EG':'en-US',{day:'numeric',month:'short',year:'numeric'})}function ago(ts){if(!ts)return '—';let d=Date.now()-ms(ts);if(d<60000)return LANG==='ar'?'الآن':'Now';if(d<3600000)return Math.floor(d/60000)+(LANG==='ar'?' د':'m');return date(ts)}function clientName(id){return DATA.clients.find(x=>x.id===id)?.fullName||id||'—'}function days(end){return end?Math.ceil((new Date(end)-new Date())/86400000):9999}function claimLabel(s){return ({new:'New',under_review:'Under Review',documents_required:'Documents Required',approved:'Approved',settled:'Settled',rejected:'Rejected'})[s]||s||'—'}
 function toast(m){let x=document.getElementById('toast');x.textContent=m;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),2600)}
@@ -46,7 +101,7 @@ async function login(){let e=document.getElementById('email').value.trim(),p=doc
 function logout(){auth.signOut().then(()=>location.reload())}auth.onAuthStateChanged(u=>{if(u){document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';document.getElementById('userEmail').textContent=u.email||'';document.getElementById('sAgent').textContent=(u.email||'').split('@')[0];applyLang();loadAll();startMessages()}});
 async function col(n){try{let s=await db.collection(n).get();return s.docs.map(d=>({id:d.id,...d.data()}))}catch(e){console.warn(n,e);return[]}}
 async function loadAll(){let names=['clients','policies','payments','claims','documents','messages','notifications','activity'];let vals=await Promise.all(names.map(col));names.forEach((n,i)=>DATA[n]=vals[i]);renderAll()}
-function renderAll(){renderDashboard();renderClients();renderPolicies();renderPayments();renderClaims();renderDocuments();renderConversations();renderNotifications();renderActivity();refreshSelects();updateBadge()}
+function renderAll(){renderDashboard();renderClients();renderPolicies();renderPayments();renderClaims();renderDocuments();renderConversations();renderNotifications();renderActivity();renderRenewals();renderCompanies();renderReports();refreshSelects();updateBadge()}
 function renderDashboard(){let open=DATA.claims.filter(x=>!['settled','rejected'].includes(x.status)).length, unread=DATA.messages.filter(x=>x.sender==='client'&&!x.autoReply&&!x.readByAdmin).length, exp=DATA.policies.filter(x=>days(x.endDate)>=0&&days(x.endDate)<=30).length, total=DATA.payments.reduce((a,x)=>a+(Number(x.amount)||0),0),active=DATA.policies.filter(x=>days(x.endDate)>=0).length;[['sClients',DATA.clients.length],['sPolicies',DATA.policies.length],['sClaims',open],['sMessages',unread],['sExpiring',exp],['sPayments',total.toLocaleString('en-US')],['sDocs',DATA.documents.length]].forEach(([id,v])=>document.getElementById(id).textContent=v);document.getElementById('sActive').textContent=active+(LANG==='ar'?' سارية':' active');document.getElementById('dashExpiring').innerHTML=DATA.policies.filter(x=>days(x.endDate)>=0&&days(x.endDate)<=30).sort((a,b)=>days(a.endDate)-days(b.endDate)).slice(0,8).map(p=>`<div class="item"><b>${esc(clientName(p.clientId))}</b><p>${esc(p.company)} • ${esc(p.policyNumber)} • ${date(p.endDate)} <span class="pill red">${days(p.endDate)} ${LANG==='ar'?'يوم':'days'}</span></p></div>`).join('')||'<div class="empty">—</div>';document.getElementById('dashActivity').innerHTML=DATA.activity.slice().sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).slice(0,7).map(a=>`<div class="item"><h4>${esc(a.action||a.type||'Activity')}</h4><p>${esc(a.description||a.text||'')} • ${ago(a.createdAt)}</p></div>`).join('')||'<div class="empty">—</div>'}
 function renderClients(){let q=(document.getElementById('clientSearch')?.value||'').toLowerCase();let html=DATA.clients.filter(c=>[c.fullName,c.phone,c.username].join(' ').toLowerCase().includes(q)).map(c=>{let pc=DATA.policies.filter(x=>x.clientId===c.id).length,cc=DATA.claims.filter(x=>x.clientId===c.id).length, msgs=DATA.messages.filter(x=>x.clientId===c.id).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt));let unread=msgs.some(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin);return `<tr><td><div class="name"><div class="avatar">${esc((c.fullName||'?').split(' ').slice(0,2).map(x=>x[0]).join(''))}</div><div><b>${esc(c.fullName||'—')}</b><div class="muted">${esc(c.username||'')}</div></div></div></td><td>${esc(c.phone||'—')}</td><td>${pc}</td><td>${cc}</td><td>${esc(msgs[0]?.text||'—')}</td><td>${unread?'<span class="pill red">New</span>':'<span class="pill">Active</span>'}</td><td><div class="actions"><button onclick="openClientChat('${c.id}')">💬</button><button onclick="openPolicyModal('${c.id}')">+ وثيقة</button><button onclick="openClientProfile('${c.id}')">عرض</button></div></td></tr>`}).join('');document.getElementById('clientsBody').innerHTML=html||'<tr><td colspan="7"><div class="empty">لا يوجد عملاء</div></td></tr>'}
 function renderPolicies(){let q=(document.getElementById('policySearch')?.value||'').toLowerCase();document.getElementById('policiesBody').innerHTML=DATA.policies.filter(p=>[clientName(p.clientId),p.company,p.policyNumber,p.type].join(' ').toLowerCase().includes(q)).map(p=>`<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(p.type)}</td><td>${esc(p.company)}</td><td>${esc(p.policyNumber)}</td><td>${Number(p.premium||0).toLocaleString('en-US')} EGP</td><td>${date(p.endDate)}</td><td>${days(p.endDate)<0?'<span class="pill red">Expired</span>':days(p.endDate)<=30?'<span class="pill red">Expiring</span>':'<span class="pill">Active</span>'}</td></tr>`).join('')||'<tr><td colspan="7"><div class="empty">لا توجد وثائق</div></td></tr>'}
@@ -56,11 +111,57 @@ function renderDocuments(){let q=(document.getElementById('docSearch')?.value||'
 function renderConversations(){let ids=[...new Set(DATA.messages.map(m=>m.clientId).filter(Boolean))];document.getElementById('conversationList').innerHTML=ids.map(id=>{let msx=DATA.messages.filter(m=>m.clientId===id).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)),u=msx.some(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin);return `<div class="item ${u?'unread':''}" onclick="openClientChat('${id}')"><h4>${esc(clientName(id))} ${u?'<span class="pill red">New</span>':''}</h4><p>${esc(msx[0]?.text||'')} • ${ago(msx[0]?.createdAt)} • ${msx.length} messages</p></div>`}).join('')||'<div class="empty">لا توجد محادثات</div>'}
 function renderNotifications(){document.getElementById('notificationsList').innerHTML=DATA.notifications.sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).slice(0,50).map(n=>`<div class="item"><h4>${esc(n.title||'Notification')} — ${esc(clientName(n.clientId))}</h4><p>${esc(n.body||'')} • ${date(n.createdAt)}</p></div>`).join('')||'<div class="empty">لا توجد إشعارات</div>'}
 function renderActivity(){document.getElementById('activityList').innerHTML=DATA.activity.sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).slice(0,100).map(a=>`<div class="item"><h4>${esc(a.action||a.type||'Activity')}</h4><p>${esc(a.description||a.text||'')} • ${date(a.createdAt)}</p></div>`).join('')||'<div class="empty">لا يوجد سجل نشاط حتى الآن</div>'}
+
+function renderRenewals(){
+  const ds=DATA.policies.map(p=>({...p,_days:days(p.endDate)}));
+  const c7=ds.filter(p=>p._days>=0&&p._days<=7).length;
+  const c30=ds.filter(p=>p._days>=0&&p._days<=30).length;
+  const c60=ds.filter(p=>p._days>=0&&p._days<=60).length;
+  const ex=ds.filter(p=>p._days<0).length;
+  ['r7','r30','r60','rExpired'].forEach((id,i)=>document.getElementById(id).textContent=[c7,c30,c60,ex][i]);
+  const rows=ds.filter(p=>p._days<=60).sort((a,b)=>a._days-b._days).slice(0,40).map(p=>{
+    const cls=p._days<0?'red':p._days<=30?'red':'blue';
+    const label=p._days<0?'منتهية':`${p._days} يوم`;
+    return `<div class="item"><div style="display:flex;justify-content:space-between;gap:10px"><div><b>${esc(clientName(p.clientId))}</b><p>${esc(p.company||'—')} • ${esc(p.policyNumber||'—')} • ${date(p.endDate)}</p></div><span class="pill ${cls}">${label}</span></div><div class="actions" style="margin-top:7px"><button onclick="openClientChat('${p.clientId}')">💬 تواصل</button><button onclick="openPaymentModal('${p.clientId}')">₣ متابعة قسط</button></div></div>`;
+  }).join('');
+  document.getElementById('renewalsBody').innerHTML=rows||'<div class="empty">لا توجد وثائق تحتاج متابعة حاليًا</div>';
+}
+function renderCompanies(){
+  const map={};
+  DATA.policies.forEach(p=>{const k=(p.company||'غير محدد').trim()||'غير محدد';if(!map[k])map[k]={name:k,count:0,premium:0,active:0,expiring:0};map[k].count++;map[k].premium+=Number(p.premium||0);if(days(p.endDate)>=0)map[k].active++;if(days(p.endDate)>=0&&days(p.endDate)<=30)map[k].expiring++;});
+  const rows=Object.values(map).sort((a,b)=>b.count-a.count).map(x=>`<div class="card stat"><div class="k">${esc(x.name)}</div><div class="v">${x.count}</div><div class="s">${x.active} سارية • ${x.expiring} تجديد قريب</div><div class="s" style="color:var(--navy);font-weight:800;margin-top:8px">${x.premium.toLocaleString('en-US')} EGP</div></div>`).join('');
+  document.getElementById('companiesBody').innerHTML=rows||'<div class="empty">لا توجد بيانات شركات ضمن الوثائق الحالية</div>';
+}
+function renderReports(){
+  const premium=DATA.policies.reduce((a,x)=>a+Number(x.premium||0),0);
+  const paid=DATA.payments.reduce((a,x)=>a+Number(x.amount||0),0);
+  const avg=DATA.policies.length?premium/DATA.policies.length:0;
+  const open=DATA.claims.filter(x=>!['settled','rejected'].includes(x.status)).length;
+  const rate=DATA.claims.length?Math.round(open/DATA.claims.length*100):0;
+  document.getElementById('repPremium').textContent=premium.toLocaleString('en-US');
+  document.getElementById('repPaid').textContent=paid.toLocaleString('en-US');
+  document.getElementById('repAvg').textContent=Math.round(avg).toLocaleString('en-US');
+  document.getElementById('repClaimsRate').textContent=rate+'%';
+  const types={};DATA.policies.forEach(p=>{const k=p.type||'غير محدد';types[k]=(types[k]||0)+1;});
+  document.getElementById('reportTypes').innerHTML=Object.entries(types).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="item"><b>${esc(k)}</b><p>${v} وثيقة</p></div>`).join('')||'<div class="empty">لا توجد بيانات</div>';
+  const alerts=[];
+  if(DATA.messages.filter(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin).length) alerts.push('هناك رسائل عملاء غير مقروءة.');
+  if(DATA.policies.filter(p=>days(p.endDate)>=0&&days(p.endDate)<=30).length) alerts.push('هناك وثائق تحتاج متابعة للتجديد خلال 30 يوم.');
+  if(DATA.claims.filter(c=>!['settled','rejected'].includes(c.status)).length) alerts.push('هناك مطالبات مفتوحة تحتاج متابعة.');
+  if(DATA.documents.length===0) alerts.push('لا توجد مستندات مسجلة حاليًا.');
+  document.getElementById('reportAlerts').innerHTML=alerts.map(x=>`<div class="item"><b>متابعة</b><p>${esc(x)}</p></div>`).join('')||'<div class="empty">لا توجد تنبيهات تشغيلية</div>';
+}
+function exportCSV(){
+  const rows=[['Client','Policy Type','Company','Policy Number','Premium','End Date','Status']];
+  DATA.policies.forEach(p=>rows.push([clientName(p.clientId),p.type||'',p.company||'',p.policyNumber||'',p.premium||0,p.endDate||'',days(p.endDate)<0?'Expired':days(p.endDate)<=30?'Expiring':'Active']));
+  const csv=rows.map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(',')).join('\\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='securepath-policies.csv';a.click();URL.revokeObjectURL(url);
+}
 function updateBadge(){let n=DATA.messages.filter(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin).length;document.getElementById('msgBadge').textContent=n;document.getElementById('msgBadge').classList.toggle('hidden',!n);document.getElementById('sMessages').textContent=n;document.getElementById('messageCount').textContent=n}
 function startMessages(){if(MSG_UNSUB)MSG_UNSUB();MSG_UNSUB=db.collection('messages').onSnapshot(s=>{DATA.messages=s.docs.map(d=>({id:d.id,...d.data()}));updateBadge();renderConversations();renderClients();renderDashboard()})}
 function openClientChat(id){CURRENT_CHAT=id;document.getElementById('chatTitle').textContent=clientName(id);show('messages');if(CHAT_UNSUB)CHAT_UNSUB();CHAT_UNSUB=db.collection('messages').where('clientId','==',id).onSnapshot(s=>{let docs=s.docs.slice().sort((a,b)=>ms(a.data().createdAt)-ms(b.data().createdAt));document.getElementById('chatList').innerHTML=docs.map(d=>{let m=d.data();return `<div class="bubble ${m.sender==='agent'?'agent':'client'}">${esc(m.text)}${m.autoReply?'<div style="font-size:9px;opacity:.65;margin-top:3px">Auto reply</div>':''}</div>`}).join('')||'<div class="empty">لا توجد رسائل</div>';document.getElementById('chatList').scrollTop=999999;docs.filter(d=>{let m=d.data();return m.sender==='client'&&!m.autoReply&&!m.readByAdmin}).forEach(d=>d.ref.update({readByAdmin:true}).catch(()=>{}));});}
 async function sendMessage(){let i=document.getElementById('chatInput'),text=i.value.trim();if(!text||!CURRENT_CHAT)return;i.value='';try{await db.collection('messages').add({clientId:CURRENT_CHAT,sender:'agent',agentId:auth.currentUser.uid,text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});await logActivity('Agent replied',`Replied to ${clientName(CURRENT_CHAT)}`)}catch(e){toast('تعذر إرسال الرسالة')}}
-function show(v,el){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));let node=document.getElementById('v-'+v);if(node)node.classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));(el||document.querySelector(`[data-view="${v}"]`))?.classList.add('active');document.getElementById('title').textContent=t(v);if(v==='dashboard')renderDashboard()}
+function show(v,el){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));let node=document.getElementById('v-'+v);if(node)node.classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));(el||document.querySelector(`[data-view="${v}"]`))?.classList.add('active');document.getElementById('title').textContent=t(v);if(v==='dashboard')renderDashboard();if(v==='renewals')renderRenewals();if(v==='companies')renderCompanies();if(v==='reports')renderReports()}
 function modal(id,show=true){document.getElementById(id).classList.toggle('show',show)}function closeModal(id){modal(id,false)}
 function refreshSelects(){['pClient','payClient','clClient'].forEach(id=>{let s=document.getElementById(id);if(!s)return;s.innerHTML='<option value="">اختر العميل</option>'+DATA.clients.map(c=>`<option value="${c.id}">${esc(c.fullName||c.username)}</option>`).join('')})}
 function refreshPolicySelect(cid,pid){let client=document.getElementById(cid).value,s=document.getElementById(pid);s.innerHTML='<option value="">اختر الوثيقة</option>'+DATA.policies.filter(p=>p.clientId===client).map(p=>`<option value="${p.id}">${esc(p.policyNumber||p.type)}</option>`).join('')}
@@ -77,63 +178,4 @@ async function createPayment(){let cid=payClient.value;if(!cid||!payAmount.value
 async function createClaim(){let cid=clClient.value;if(!cid||!clType.value.trim()){clErr.textContent='اختر العميل واكتب نوع المطالبة';return}let pol=DATA.policies.find(x=>x.id===clPolicy.value);try{await db.collection('claims').add({clientId:cid,policyId:clPolicy.value||null,policyNumber:pol?.policyNumber||'',type:clType.value.trim(),amount:Number(clAmount.value)||0,status:clStatus.value,description:clDesc.value.trim(),createdBy:auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});await notify(cid,'تحديث مطالبة','تم تسجيل مطالبة ويمكنك متابعة حالتها من التطبيق.');await logActivity('Claim created',`Claim for ${clientName(cid)}`);closeModal('claimModal');await loadAll();toast('تم تسجيل المطالبة')}catch(e){clErr.textContent='تعذر حفظ المطالبة'}}
 async function changeClaim(id,status){if(!status)return;try{let c=DATA.claims.find(x=>x.id===id);await db.collection('claims').doc(id).update({status,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:auth.currentUser.uid});await notify(c.clientId,'تحديث حالة المطالبة','تم تحديث حالة مطالبتك إلى: '+claimLabel(status));await logActivity('Claim updated',`${clientName(c.clientId)} → ${claimLabel(status)}`);await loadAll();toast('تم تحديث الحالة')}catch(e){toast('تعذر تحديث المطالبة')}}
 applyLang();
-</script>
-<script>
-/* SECURE PATH — COMPATIBILITY / DATA-SAFE PATCH
-   This patch intentionally does NOT migrate, delete, rename, or recreate any
-   Firestore collections. It keeps the legacy Admin data model:
-   clients, policies, payments, claims, documents, messages, notifications, activity.
-*/
-(function(){
-  const ORIGINAL_loadAll = window.loadAll;
-  if (typeof ORIGINAL_loadAll === 'function') {
-    window.loadAll = async function(){
-      try {
-        await ORIGINAL_loadAll();
-        if (window.DATA && Array.isArray(DATA.clients)) {
-          console.info('[Secure PATH] Loaded legacy-compatible data:', {
-            clients: DATA.clients.length,
-            policies: DATA.policies.length,
-            payments: DATA.payments.length,
-            claims: DATA.claims.length,
-            documents: DATA.documents.length,
-            messages: DATA.messages.length
-          });
-        }
-      } catch(e) {
-        console.error('[Secure PATH] Data load error', e);
-        showDataError(e);
-      }
-    };
-  }
-
-  function showDataError(e){
-    let box=document.getElementById('sp-data-error');
-    if(!box){
-      box=document.createElement('div');
-      box.id='sp-data-error';
-      box.style.cssText='position:fixed;top:82px;left:18px;right:18px;z-index:9999;background:#fff0ed;color:#8d2d1c;border:1px solid #f1b9ad;border-radius:12px;padding:12px 14px;font:700 12px Cairo,sans-serif;box-shadow:0 8px 25px #0002';
-      document.body.appendChild(box);
-    }
-    box.textContent=(document.documentElement.lang==='ar'
-      ? 'تعذر تحميل بيانات Firebase. لم يتم حذف أي بيانات. افتح Console لمعرفة الخطأ.'
-      : 'Firebase data could not be loaded. No data was deleted. Check Console for details.');
-  }
-
-  // Surface Firebase errors rather than silently replacing existing data with [].
-  if(window.firebase && firebase.firestore){
-    try{
-      const originalGet = firebase.firestore.Query.prototype.get;
-      firebase.firestore.Query.prototype.get = function(){
-        return originalGet.apply(this, arguments).catch(err=>{
-          console.error('[Secure PATH] Firestore read failed:', err);
-          showDataError(err);
-          throw err;
-        });
-      };
-    }catch(e){ console.warn('Firestore diagnostic patch skipped',e); }
-  }
-})();
-</script>
-
-</body></html>
+</script></body></html>
