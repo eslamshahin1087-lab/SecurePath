@@ -4,118 +4,948 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Secure PATH — Admin & Agent Center</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--navy:#0E2A5C;--navy2:#164080;--gold:#F4C06B;--gold2:#F8DBA6;--paper:#F7F8FB;--white:#fff;--line:#E4E8EF;--text:#253044;--muted:#7C8798;--green:#2F7D58;--red:#B5482D;--blue:#2E67B1;--shadow:0 12px 35px rgba(14,42,92,.08)}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--text);font-family:Cairo,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
-#login{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 20% 10%,#244b88 0,#0E2A5C 42%,#081b3b 100%)}.login{width:min(430px,92vw);background:#fff;border-radius:24px;padding:34px;box-shadow:0 30px 80px #0005}.logo{width:70px;height:70px;margin:auto;border-radius:20px;background:var(--navy);display:grid;place-items:center;overflow:hidden}.logo img{width:100%;height:100%;object-fit:contain}.login h1{text-align:center;color:var(--navy);margin:16px 0 4px;font-family:Tajawal}.login p{text-align:center;color:var(--muted);font-size:12px}.field{margin:12px 0}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:11px;outline:none;background:#fff}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--navy2);box-shadow:0 0 0 3px #16408014}.btn{border:0;border-radius:11px;padding:11px 16px;font-weight:800}.primary{background:var(--gold);color:var(--navy)}.dark{background:var(--navy);color:#fff}.outline{background:#fff;border:1px solid var(--line);color:var(--navy)}.danger{background:#fff0ed;color:var(--red)}
-#app{display:none;min-height:100vh}.shell{display:flex;min-height:100vh}.side{width:245px;background:var(--navy);color:#fff;padding:18px 14px;position:fixed;top:0;bottom:0;right:0;z-index:20;display:flex;flex-direction:column;overflow:hidden}.brand{display:flex;align-items:center;gap:10px;padding:8px 10px 20px;border-bottom:1px solid #ffffff1a;flex:0 0 auto}.brand img{width:42px;height:42px;border-radius:12px;background:#fff;object-fit:contain}.brand b{font:900 20px Tajawal}.nav{padding-top:14px;flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;padding-bottom:12px;scrollbar-width:thin;scrollbar-color:#ffffff33 transparent}.nav button{width:100%;border:0;background:transparent;color:#cbd4e4;text-align:right;padding:12px 13px;border-radius:11px;margin:2px 0;font-weight:700;display:flex;align-items:center;gap:10px;min-height:43px}.nav button .navicon{width:24px;min-width:24px;text-align:center;font-size:16px;line-height:1}.nav button span:not(.navicon){flex:1}.nav button:hover,.nav button.active{background:var(--gold);color:var(--navy)}.nav .badge{margin-right:auto;background:var(--red);color:#fff;border-radius:20px;padding:1px 7px;font-size:10px}.sidefoot{position:relative;right:auto;left:auto;bottom:auto;flex:0 0 auto;color:#9eabc0;font-size:10px;border-top:1px solid #ffffff1a;padding:14px 6px 2px;background:var(--navy)}.sidefoot #logoutBtn{background:#fff;color:var(--navy);border-color:#fff;font-weight:800}.main{margin-right:245px;width:calc(100% - 245px)}.top{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:10}.top h1{font:800 20px Tajawal;color:var(--navy);margin:0}.topright{display:flex;gap:8px;align-items:center}.lang{font-size:11px}.content{padding:25px}.view{display:none}.view.active{display:block}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}.stat{padding:18px}.stat .k{font-size:12px;color:var(--muted)}.stat .v{font:900 28px Tajawal;color:var(--navy);margin-top:5px}.stat .s{font-size:11px;margin-top:4px}.ok{color:var(--green)}.warn{color:var(--red)}.toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:15px}.search{max-width:360px;flex:1}.search input{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px}.panel{overflow:hidden}.panelhead{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.panelhead h3{font:800 15px Tajawal;margin:0;color:var(--navy)}table{width:100%;border-collapse:collapse}th,td{padding:12px 15px;border-bottom:1px solid #eef1f5;text-align:right;font-size:12px}th{color:var(--muted);font-size:11px;background:#fbfcfe}tr:last-child td{border-bottom:0}.pill{display:inline-flex;padding:4px 9px;border-radius:20px;font-size:10px;font-weight:800;background:#eef7f1;color:var(--green)}.pill.red{background:#fff0ed;color:var(--red)}.pill.blue{background:#eef4ff;color:var(--blue)}.actions{display:flex;gap:5px;flex-wrap:wrap}.actions button{padding:7px 9px;border:1px solid var(--line);background:#fff;border-radius:8px;color:var(--navy);font-size:11px}.actions button:hover{background:#f4f7fb}.avatar{width:34px;height:34px;border-radius:50%;background:var(--gold2);color:var(--navy);display:grid;place-items:center;font-weight:900}.name{display:flex;align-items:center;gap:9px}.muted{color:var(--muted)}.empty{padding:35px;text-align:center;color:var(--muted);font-size:12px}.two{display:grid;grid-template-columns:1.25fr .75fr;gap:15px;margin-top:15px}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.message-list{height:430px;overflow:auto;padding:15px;display:flex;flex-direction:column;gap:8px}.bubble{max-width:75%;padding:9px 12px;border-radius:13px;font-size:12px;line-height:1.7}.bubble.client{align-self:flex-end;background:var(--gold2);color:var(--navy)}.bubble.agent{align-self:flex-start;background:var(--navy);color:#fff}.composer{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}.composer input{flex:1;border:1px solid var(--line);border-radius:20px;padding:10px 13px}.list{display:flex;flex-direction:column;gap:8px;padding:12px}.item{border:1px solid var(--line);border-radius:11px;padding:11px;background:#fff}.item.unread{border-color:var(--gold);box-shadow:0 0 0 2px #f4c06b22}.item h4{margin:0 0 3px;font-size:12px}.item p{margin:0;color:var(--muted);font-size:11px}.overlay{position:fixed;inset:0;background:#071a3688;display:none;align-items:center;justify-content:center;z-index:50;padding:20px}.overlay.show{display:flex}.modal{background:#fff;width:min(600px,96vw);max-height:90vh;overflow:auto;border-radius:20px;padding:22px}.modal h2{font:900 18px Tajawal;color:var(--navy);margin:0}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modalfoot{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}.toast{position:fixed;bottom:20px;left:20px;background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;z-index:100;display:none}.toast.show{display:block}.rtlhide{display:none}
-@media(max-width:900px){.side{width:76px}.brand b,.nav button span:not(.navicon),.sidefoot{display:none}.nav button{text-align:center;justify-content:center}.main{margin-right:76px;width:calc(100% - 76px)}.grid{grid-template-columns:repeat(2,1fr)}.two,.three{grid-template-columns:1fr}.content{padding:15px}.top{padding:0 15px}th,td{white-space:nowrap}.panel{overflow:auto}}
-@media(max-width:600px){.grid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.toolbar{align-items:stretch;flex-direction:column}.search{max-width:none}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--text);font-family:Cairo,sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+
+#login{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 20% 10%,#244b88 0,#0E2A5C 42%,#081b3b 100%)}
+.login{width:min(430px,92vw);background:#fff;border-radius:24px;padding:34px;box-shadow:0 30px 80px #0005}
+.logo{width:70px;height:70px;margin:auto;border-radius:20px;background:var(--navy);display:grid;place-items:center;overflow:hidden}
+.logo img{width:100%;height:100%;object-fit:contain}
+.login h1{text-align:center;color:var(--navy);margin:16px 0 4px;font-family:Tajawal}
+.login p{text-align:center;color:var(--muted);font-size:12px}
+.field{margin:12px 0}
+.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:11px;outline:none;background:#fff}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--navy2);box-shadow:0 0 0 3px #16408014}
+.btn{border:0;border-radius:11px;padding:11px 16px;font-weight:800;transition:all .2s ease}
+.primary{background:var(--gold);color:var(--navy)}
+.primary:hover{background:#e2af5a}
+.dark{background:var(--navy);color:#fff}
+.outline{background:#fff;border:1px solid var(--line);color:var(--navy)}
+.danger{background:#fff0ed;color:var(--red)}
+
+#app{display:none;min-height:100vh}
+.shell{display:flex;min-height:100vh}
+.side{width:245px;background:var(--navy);color:#fff;padding:18px 14px;position:fixed;top:0;bottom:0;right:0;z-index:20;display:flex;flex-direction:column;overflow:hidden}
+.brand{display:flex;align-items:center;gap:10px;padding:8px 10px 20px;border-bottom:1px solid #ffffff1a;flex:0 0 auto}
+.brand img{width:42px;height:42px;border-radius:12px;background:#fff;object-fit:contain}
+.brand b{font:900 20px Tajawal}
+.nav{padding-top:14px;flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;padding-bottom:12px;scrollbar-width:thin;scrollbar-color:#ffffff33 transparent}
+.nav button{width:100%;border:0;background:transparent;color:#cbd4e4;text-align:right;padding:12px 13px;border-radius:11px;margin:2px 0;font-weight:700;display:flex;align-items:center;gap:10px;min-height:43px}
+.nav button .navicon{width:24px;min-width:24px;text-align:center;font-size:16px;line-height:1}
+.nav button span:not(.navicon){flex:1}
+.nav button:hover,.nav button.active{background:var(--gold);color:var(--navy)}
+.nav .badge{margin-right:auto;background:var(--red);color:#fff;border-radius:20px;padding:1px 7px;font-size:10px}
+.sidefoot{position:relative;right:auto;left:auto;bottom:auto;flex:0 0 auto;color:#9eabc0;font-size:10px;border-top:1px solid #ffffff1a;padding:14px 6px 2px;background:var(--navy)}
+.sidefoot #logoutBtn{background:#fff;color:var(--navy);border-color:#fff;font-weight:800}
+
+.main{margin-right:245px;width:calc(100% - 245px)}
+.top{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:10}
+.top h1{font:800 20px Tajawal;color:var(--navy);margin:0}
+.topright{display:flex;gap:8px;align-items:center}
+.lang{font-size:11px}
+.content{padding:25px}
+.view{display:none}
+.view.active{display:block}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+.stat{padding:18px}
+.stat .k{font-size:12px;color:var(--muted)}
+.stat .v{font:900 28px Tajawal;color:var(--navy);margin-top:5px}
+.stat .s{font-size:11px;margin-top:4px}
+.ok{color:var(--green)}
+.warn{color:var(--red)}
+
+.toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:15px}
+.search{max-width:360px;flex:1}
+.search input{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px}
+.panel{overflow:hidden}
+.panelhead{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.panelhead h3{font:800 15px Tajawal;margin:0;color:var(--navy)}
+
+table{width:100%;border-collapse:collapse}
+th,td{padding:12px 15px;border-bottom:1px solid #eef1f5;text-align:right;font-size:12px}
+th{color:var(--muted);font-size:11px;background:#fbfcfe}
+tr:last-child td{border-bottom:0}
+
+.pill{display:inline-flex;padding:4px 9px;border-radius:20px;font-size:10px;font-weight:800;background:#eef7f1;color:var(--green)}
+.pill.red{background:#fff0ed;color:var(--red)}
+.pill.blue{background:#eef4ff;color:var(--blue)}
+.actions{display:flex;gap:5px;flex-wrap:wrap}
+.actions button{padding:7px 9px;border:1px solid var(--line);background:#fff;border-radius:8px;color:var(--navy);font-size:11px}
+.actions button:hover{background:#f4f7fb}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--gold2);color:var(--navy);display:grid;place-items:center;font-weight:900}
+.name{display:flex;align-items:center;gap:9px}
+.muted{color:var(--muted)}
+.empty{padding:35px;text-align:center;color:var(--muted);font-size:12px}
+
+.two{display:grid;grid-template-columns:1.25fr .75fr;gap:15px;margin-top:15px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.message-list{height:430px;overflow:auto;padding:15px;display:flex;flex-direction:column;gap:8px}
+.bubble{max-width:75%;padding:9px 12px;border-radius:13px;font-size:12px;line-height:1.7}
+.bubble.client{align-self:flex-end;background:var(--gold2);color:var(--navy)}
+.bubble.agent{align-self:flex-start;background:var(--navy);color:#fff}
+.composer{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
+.composer input{flex:1;border:1px solid var(--line);border-radius:20px;padding:10px 13px}
+.list{display:flex;flex-direction:column;gap:8px;padding:12px}
+.item{border:1px solid var(--line);border-radius:11px;padding:11px;background:#fff}
+.item.unread{border-color:var(--gold);box-shadow:0 0 0 2px #f4c06b22}
+.item h4{margin:0 0 3px;font-size:12px}
+.item p{margin:0;color:var(--muted);font-size:11px}
+
+.overlay{position:fixed;inset:0;background:#071a3688;display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.overlay.show{display:flex}
+.modal{background:#fff;width:min(600px,96vw);max-height:90vh;overflow:auto;border-radius:20px;padding:22px}
+.modal h2{font:900 18px Tajawal;color:var(--navy);margin:0 0 15px 0}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modalfoot{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}
+.toast{position:fixed;bottom:20px;left:20px;background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;z-index:100;display:none;box-shadow:0 10px 25px rgba(0,0,0,0.2)}
+.toast.show{display:block}
+
+@media(max-width:900px){
+  .side{width:76px}
+  .brand b,.nav button span:not(.navicon),.sidefoot{display:none}
+  .nav button{text-align:center;justify-content:center}
+  .main{margin-right:76px;width:calc(100% - 76px)}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .two,.three{grid-template-columns:1fr}
+  .content{padding:15px}
+  .top{padding:0 15px}
+  th,td{white-space:nowrap}
+  .panel{overflow:auto}
+}
+@media(max-width:600px){
+  .grid{grid-template-columns:1fr}
+  .formgrid{grid-template-columns:1fr}
+  .toolbar{align-items:stretch;flex-direction:column}
+  .search{max-width:none}
+}
 </style>
 </head>
 <body>
-<div id="login"><div class="login"><div class="logo"><img src="icon-192.png" onerror="this.style.display='none'" alt="Secure PATH"></div><h1>Secure PATH</h1><p id="loginSub">مركز تشغيل الوسيط — العملاء والوثائق والمطالبات والمحادثات</p><div class="field"><label id="emailLabel">البريد الإلكتروني</label><input id="email" type="email" autocomplete="username"></div><div class="field"><label id="passLabel">كلمة المرور</label><input id="pass" type="password" autocomplete="current-password"></div><div id="loginErr" class="warn" style="font-size:12px;margin-bottom:8px"></div><button class="btn primary" style="width:100%" onclick="login()" id="loginBtn">دخول لوحة التحكم</button><p><button class="btn outline" onclick="toggleLang()" id="langBtn">English</button></p></div></div>
-<div id="app"><div class="shell"><aside class="side"><div class="brand"><img src="icon-192.png" onerror="this.style.display='none'" alt="Secure PATH"><b>Secure PATH</b></div><nav class="nav"><button type="button" data-view="dashboard" onclick="show('dashboard',this)"><span class="navicon">▦</span><span data-i="dashboard">لوحة التحكم</span></button><button type="button" data-view="clients" onclick="show('clients',this)"><span class="navicon">♙</span><span data-i="clients">العملاء</span></button><button type="button" data-view="policies" onclick="show('policies',this)"><span class="navicon">▣</span><span data-i="policies">الوثائق</span></button><button type="button" data-view="payments" onclick="show('payments',this)"><span class="navicon">₣</span><span data-i="payments">الأقساط والمدفوعات</span></button><button type="button" data-view="claims" onclick="show('claims',this)"><span class="navicon">!</span><span data-i="claims">المطالبات</span></button><button type="button" data-view="documents" onclick="show('documents',this)"><span class="navicon">▤</span><span data-i="documents">المستندات</span></button><button type="button" data-view="renewals" onclick="show('renewals',this)"><span class="navicon">↻</span><span data-i="renewals">التجديدات</span></button><button type="button" data-view="companies" onclick="show('companies',this)"><span class="navicon">◆</span><span data-i="companies">شركات التأمين</span></button><button type="button" data-view="products" onclick="show('products',this)"><span class="navicon">▰</span><span data-i="products">المنتجات</span></button><button type="button" data-view="reports" onclick="show('reports',this)"><span class="navicon">▥</span><span data-i="reports">التقارير والتحليلات</span></button><button type="button" data-view="assessments" onclick="show('assessments',this)"><span class="navicon">◉</span><span data-i="assessments">تقييمات الحماية</span></button><button type="button" data-view="compliance" onclick="show('compliance',this)"><span class="navicon">✓</span><span data-i="compliance">الامتثال</span></button><button type="button" data-view="messages" onclick="show('messages',this)"><span class="navicon">✉</span><span data-i="messages">المحادثات</span><b id="msgBadge" class="badge hidden">0</b></button><button type="button" data-view="notifications" onclick="show('notifications',this)"><span class="navicon">◉</span><span data-i="notifications">الإشعارات</span></button><button type="button" data-view="activity" onclick="show('activity',this)"><span class="navicon">◷</span><span data-i="activity">سجل النشاط</span></button></nav><div class="sidefoot"><span id="userEmail">—</span><br><button type="button" class="btn outline" style="margin-top:8px;width:100%;font-size:10px" onclick="logout()" id="logoutBtn">تسجيل الخروج</button><br>Secure PATH © 2026</div></aside>
-<main class="main"><header class="top"><h1 id="title">لوحة التحكم</h1><div class="topright"><button class="btn outline lang" onclick="toggleLang()" id="topLang">English</button><button class="btn dark" onclick="openClientModal()" id="quickClient">+ عميل جديد</button></div></header><section class="content">
-<div id="v-dashboard" class="view active"><div class="grid"><div class="card stat"><div class="k" data-i="totalClients">إجمالي العملاء</div><div id="sClients" class="v">0</div><div class="s ok">CRM</div></div><div class="card stat"><div class="k" data-i="totalPolicies">إجمالي الوثائق</div><div id="sPolicies" class="v">0</div><div id="sActive" class="s ok">0 سارية</div></div><div class="card stat"><div class="k" data-i="openClaims">المطالبات المفتوحة</div><div id="sClaims" class="v">0</div><div class="s warn">متابعة مطلوبة</div></div><div class="card stat"><div class="k" data-i="unread">الرسائل الجديدة</div><div id="sMessages" class="v">0</div><div class="s">Real-time</div></div></div><div class="grid" style="margin-top:15px"><div class="card stat"><div class="k" data-i="expiring">وثائق تنتهي قريبًا</div><div id="sExpiring" class="v">0</div><div class="s warn">45 يوم</div></div><div class="card stat"><div class="k" data-i="payments">إجمالي المدفوعات</div><div id="sPayments" class="v">0</div><div class="s">EGP</div></div><div class="card stat"><div class="k" data-i="documents">المستندات</div><div id="sDocs" class="v">0</div><div class="s">Customer files</div></div><div class="card stat"><div class="k" data-i="agents">المستخدم الحالي</div><div id="sAgent" class="v" style="font-size:16px">—</div><div class="s">Agent / Admin</div></div><div class="card stat"><div class="k">متوسط مؤشر الحماية</div><div id="sProtectionAvg" class="v">—</div><div class="s">Insurance Protection Score</div></div></div><div class="two"><div class="card"><div class="panelhead"><h3 data-i="expiringTitle">وثائق قريبة الانتهاء</h3><button class="btn outline" onclick="show('policies')" data-i="viewAll">عرض الكل</button></div><div id="dashExpiring"></div></div><div class="card"><div class="panelhead"><h3 data-i="recentActivity">آخر النشاطات</h3></div><div id="dashActivity" class="list"></div></div></div></div>
-<div id="v-clients" class="view"><div class="toolbar"><div class="search"><input id="clientSearch" oninput="renderClients()" placeholder="ابحث بالاسم أو الهاتف أو المستخدم"></div><button class="btn primary" onclick="openClientModal()">+ <span data-i="addClient">إضافة عميل</span></button></div><div class="card panel"><table><thead><tr><th data-i="client">العميل</th><th data-i="phone">الهاتف</th><th data-i="policies">الوثائق</th><th data-i="claims">المطالبات</th><th data-i="lastMessage">آخر رسالة</th><th data-i="status">الحالة</th><th>مؤشر الحماية</th><th data-i="actions">إجراءات</th></tr></thead><tbody id="clientsBody"></tbody></table></div></div>
-<div id="v-policies" class="view"><div class="toolbar"><div class="search"><input id="policySearch" oninput="renderPolicies()" placeholder="ابحث بالعميل أو الشركة أو رقم الوثيقة"></div><button class="btn primary" onclick="openPolicyModal()">+ <span data-i="addPolicy">إضافة وثيقة</span></button></div><div class="card panel"><table><thead><tr><th>العميل</th><th>النوع</th><th>الشركة</th><th>رقم الوثيقة</th><th>القسط</th><th>الانتهاء</th><th>الحالة</th></tr></thead><tbody id="policiesBody"></tbody></table></div></div>
-<div id="v-payments" class="view"><div class="toolbar"><div class="search"><input id="paymentSearch" oninput="renderPayments()" placeholder="ابحث بالعميل أو طريقة الدفع"></div><button class="btn primary" onclick="openPaymentModal()">+ إضافة دفعة</button></div><div class="card panel"><table><thead><tr><th>العميل</th><th>الوثيقة</th><th>المبلغ</th><th>التاريخ</th><th>طريقة الدفع</th><th>ملاحظة</th></tr></thead><tbody id="paymentsBody"></tbody></table></div></div>
-<div id="v-claims" class="view"><div class="toolbar"><div class="search"><input id="claimSearch" oninput="renderClaims()" placeholder="ابحث بالعميل أو نوع المطالبة"></div><button class="btn primary" onclick="openClaimModal()">+ إضافة مطالبة</button></div><div class="card panel"><table><thead><tr><th>العميل</th><th>النوع</th><th>رقم الوثيقة</th><th>المبلغ</th><th>الحالة</th><th>آخر تحديث</th><th>إجراء</th></tr></thead><tbody id="claimsBody"></tbody></table></div></div>
-<div id="v-documents" class="view"><div class="toolbar"><div class="search"><input id="docSearch" oninput="renderDocuments()" placeholder="ابحث باسم الملف أو العميل"></div></div><div class="card panel"><table><thead><tr><th>العميل</th><th>المستند</th><th>النوع</th><th>المصدر</th><th>التاريخ</th><th>فتح</th></tr></thead><tbody id="documentsBody"></tbody></table></div></div>
-<div id="v-messages" class="view"><div class="two"><div class="card"><div class="panelhead"><h3 data-i="conversations">المحادثات</h3><span id="messageCount" class="pill blue">0</span></div><div id="conversationList" class="list"></div></div><div class="card"><div class="panelhead"><h3 id="chatTitle">اختر محادثة</h3></div><div id="chatList" class="message-list"><div class="empty">اختر عميلاً لعرض المحادثة.</div></div><div class="composer"><input id="chatInput" placeholder="اكتب ردك للعميل..." onkeydown="if(event.key==='Enter')sendMessage()"><button class="btn primary" onclick="sendMessage()">إرسال</button></div></div></div></div>
-<div id="v-renewals" class="view"><div class="toolbar"><div class="search"><input id="renewalSearch" oninput="renderRenewals()" placeholder="ابحث بالعميل أو الوثيقة"></div><button class="btn primary" onclick="runRenewalReminders()">↻ تشغيل التذكيرات</button></div><div class="card panel"><table><thead><tr><th>العميل</th><th>الوثيقة</th><th>الشركة</th><th>الانتهاء</th><th>المتبقي</th><th>إجراء</th></tr></thead><tbody id="renewalsBody"></tbody></table></div></div>
-<div id="v-companies" class="view"><div class="card"><div class="panelhead"><h3>شركات التأمين</h3></div><div id="companiesList" class="list"></div></div></div>
-<div id="v-products" class="view"><div class="card" style="padding:13px 16px;margin-bottom:15px;background:#fffaf0;border-color:#f1dfb9"><b style="color:var(--navy)">النشر للمستخدم:</b> أي منتج حالته Published سيظهر تلقائيًا في صفحة منتجات التأمين داخل Wathiqati عبر مجموعة <code>products</code>. لا يمثل العرض إصدارًا أو قبولًا أو تسعيرًا نهائيًا.</div><div class="toolbar"><div class="search"><input id="productSearch" oninput="renderProducts()" placeholder="ابحث في المنتجات"></div><button class="btn outline" onclick="openCompanyModal()">+ إضافة شركة تأمين</button><button class="btn primary" onclick="openProductModal()">+ إضافة منتج</button></div><div id="productsGrid" class="three"></div></div>
-<div id="v-reports" class="view"><div class="grid"><div class="card stat"><div class="k">العملاء</div><div id="rClients" class="v">0</div></div><div class="card stat"><div class="k">الوثائق السارية</div><div id="rActive" class="v">0</div></div><div class="card stat"><div class="k">تجديدات 45 يوم</div><div id="rRenewals" class="v">0</div></div><div class="card stat"><div class="k">المدفوعات</div><div id="rPaid" class="v">0</div></div></div></div>
-<div id="v-assessments" class="view">
-  <div class="toolbar">
-    <div class="search"><input id="assessmentSearch" oninput="renderAssessments()" placeholder="ابحث باسم العميل أو النشاط أو الوظيفة"></div>
-    <button class="btn outline" onclick="renderAssessments()">↻ تحديث</button>
-  </div>
-  <div class="card panel">
-    <div class="panelhead"><h3>تقييمات الحماية التأمينية</h3><span class="pill blue" id="assessmentCount">0</span></div>
-    <table><thead><tr><th>العميل</th><th>الصفة</th><th>النشاط / الوظيفة</th><th>الوثائق السارية</th><th>المؤشر</th><th>التقييم</th><th>آخر تحديث</th><th>إجراء</th></tr></thead><tbody id="assessmentsBody"></tbody></table>
+
+<!-- Login Screen -->
+<div id="login">
+  <div class="login">
+    <div class="logo"><img src="icon-192.png" onerror="this.style.display='none'" alt="Secure PATH"></div>
+    <h1>Secure PATH</h1>
+    <p id="loginSub">مركز تشغيل الوسيط — العملاء والوثائق والمطالبات والمحادثات</p>
+    <div class="field"><label id="emailLabel">البريد الإلكتروني</label><input id="email" type="email" autocomplete="username"></div>
+    <div class="field"><label id="passLabel">كلمة المرور</label><input id="pass" type="password" autocomplete="current-password"></div>
+    <div id="loginErr" class="warn" style="font-size:12px;margin-bottom:8px"></div>
+    <button class="btn primary" style="width:100%" onclick="login()" id="loginBtn">دخول لوحة التحكم</button>
+    <p style="text-align:center;margin-top:15px"><button class="btn outline" onclick="toggleLang()" id="langBtn">English</button></p>
   </div>
 </div>
-<div id="v-compliance" class="view"><div class="card" style="padding:20px"><h3 style="font-family:Tajawal;color:var(--navy)">Compliance Center</h3><p style="line-height:1.9;font-size:13px">Secure PATH يعمل هنا كـ CRM وخدمة ومتابعة للعميل. أي إصدار أو توزيع رقمي لوثيقة تأمين يجب أن يكون مرتبطًا بالترخيص والموافقات والربط المعتمد مع شركة التأمين. الوثائق التي يرفعها العميل تسجل كـ Pending Verification حتى اعتماد الوسيط.</p><div class="item"><b>تنبيه قانوني</b><p>هذه الشاشة أداة تشغيلية وليست رأيًا قانونيًا أو إثباتًا للترخيص الرقمي. مؤشر الحماية التأمينية تقدير إرشادي مبني على البيانات المدخلة والوثائق المسجلة، ولا يمثل اكتتابًا أو قبولًا أو تسعيرًا أو توصية ملزمة.</p></div></div></div>
-<div id="v-notifications" class="view"><div class="card"><div class="panelhead"><h3>إشعارات العملاء والنظام</h3></div><div id="notificationsList" class="list"></div></div></div>
-<div id="v-activity" class="view"><div class="card"><div class="panelhead"><h3>Activity Log</h3></div><div id="activityList" class="list"></div></div></div>
-</section></main></div></div>
+
+<!-- Main App -->
+<div id="app">
+  <div class="shell">
+    <aside class="side">
+      <div class="brand"><img src="icon-192.png" onerror="this.style.display='none'" alt="Secure PATH"><b>Secure PATH</b></div>
+      <nav class="nav">
+        <button type="button" data-view="dashboard" onclick="show('dashboard',this)"><span class="navicon">▦</span><span data-i="dashboard">لوحة التحكم</span></button>
+        <button type="button" data-view="clients" onclick="show('clients',this)"><span class="navicon">♙</span><span data-i="clients">العملاء</span></button>
+        <button type="button" data-view="policies" onclick="show('policies',this)"><span class="navicon">▣</span><span data-i="policies">الوثائق</span></button>
+        <button type="button" data-view="payments" onclick="show('payments',this)"><span class="navicon">₣</span><span data-i="payments">الأقساط والمدفوعات</span></button>
+        <button type="button" data-view="claims" onclick="show('claims',this)"><span class="navicon">!</span><span data-i="claims">المطالبات</span></button>
+        <button type="button" data-view="documents" onclick="show('documents',this)"><span class="navicon">▤</span><span data-i="documents">المستندات</span></button>
+        <button type="button" data-view="renewals" onclick="show('renewals',this)"><span class="navicon">↻</span><span data-i="renewals">التجديدات</span></button>
+        <button type="button" data-view="companies" onclick="show('companies',this)"><span class="navicon">◆</span><span data-i="companies">شركات التأمين</span></button>
+        <button type="button" data-view="products" onclick="show('products',this)"><span class="navicon">▰</span><span data-i="products">المنتجات</span></button>
+        <button type="button" data-view="reports" onclick="show('reports',this)"><span class="navicon">▥</span><span data-i="reports">التقارير والتحليلات</span></button>
+        <button type="button" data-view="assessments" onclick="show('assessments',this)"><span class="navicon">◉</span><span data-i="assessments">تقييمات الحماية</span></button>
+        <button type="button" data-view="compliance" onclick="show('compliance',this)"><span class="navicon">✓</span><span data-i="compliance">الامتثال</span></button>
+        <button type="button" data-view="messages" onclick="show('messages',this)"><span class="navicon">✉</span><span data-i="messages">المحادثات</span><b id="msgBadge" class="badge hidden">0</b></button>
+        <button type="button" data-view="notifications" onclick="show('notifications',this)"><span class="navicon">◉</span><span data-i="notifications">الإشعارات</span></button>
+        <button type="button" data-view="activity" onclick="show('activity',this)"><span class="navicon">◷</span><span data-i="activity">سجل النشاط</span></button>
+      </nav>
+      <div class="sidefoot">
+        <span id="userEmail">—</span><br>
+        <button type="button" class="btn outline" style="margin-top:8px;width:100%;font-size:10px" onclick="logout()" id="logoutBtn">تسجيل الخروج</button><br>
+        <span style="display:block;margin-top:6px">Secure PATH © 2026</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="top">
+        <h1 id="title">لوحة التحكم</h1>
+        <div class="topright">
+          <button class="btn outline lang" onclick="toggleLang()" id="topLang">English</button>
+          <button class="btn dark" onclick="openClientModal()" id="quickClient">+ عميل جديد</button>
+        </div>
+      </header>
+      
+      <section class="content">
+        <!-- Dashboard -->
+        <div id="v-dashboard" class="view active">
+          <div class="grid">
+            <div class="card stat"><div class="k" data-i="totalClients">إجمالي العملاء</div><div id="sClients" class="v">0</div><div class="s ok">CRM</div></div>
+            <div class="card stat"><div class="k" data-i="totalPolicies">إجمالي الوثائق</div><div id="sPolicies" class="v">0</div><div id="sActive" class="s ok">0 سارية</div></div>
+            <div class="card stat"><div class="k" data-i="openClaims">المطالبات المفتوحة</div><div id="sClaims" class="v">0</div><div class="s warn">متابعة مطلوبة</div></div>
+            <div class="card stat"><div class="k" data-i="unread">الرسائل الجديدة</div><div id="sMessages" class="v">0</div><div class="s">Real-time</div></div>
+          </div>
+          <div class="grid" style="margin-top:15px">
+            <div class="card stat"><div class="k" data-i="expiring">وثائق تنتهي قريبًا</div><div id="sExpiring" class="v">0</div><div class="s warn">45 يوم</div></div>
+            <div class="card stat"><div class="k" data-i="payments">إجمالي المدفوعات</div><div id="sPayments" class="v">0</div><div class="s">EGP</div></div>
+            <div class="card stat"><div class="k" data-i="documents">المستندات</div><div id="sDocs" class="v">0</div><div class="s">Customer files</div></div>
+            <div class="card stat"><div class="k" data-i="agents">المستخدم الحالي</div><div id="sAgent" class="v" style="font-size:16px">—</div><div class="s">Agent / Admin</div></div>
+            <div class="card stat" style="grid-column: span 4"><div class="k">متوسط مؤشر الحماية</div><div id="sProtectionAvg" class="v">—</div><div class="s">Insurance Protection Score</div></div>
+          </div>
+          <div class="two">
+            <div class="card"><div class="panelhead"><h3 data-i="expiringTitle">وثائق قريبة الانتهاء</h3><button class="btn outline" onclick="show('policies')" data-i="viewAll">عرض الكل</button></div><div id="dashExpiring"></div></div>
+            <div class="card"><div class="panelhead"><h3 data-i="recentActivity">آخر النشاطات</h3></div><div id="dashActivity" class="list"></div></div>
+          </div>
+        </div>
+
+        <!-- Clients -->
+        <div id="v-clients" class="view">
+          <div class="toolbar">
+            <div class="search"><input id="clientSearch" oninput="renderClients()" placeholder="ابحث بالاسم أو الهاتف أو المستخدم"></div>
+            <button class="btn primary" onclick="openClientModal()">+ <span data-i="addClient">إضافة عميل</span></button>
+          </div>
+          <div class="card panel">
+            <table>
+              <thead><tr><th data-i="client">العميل</th><th data-i="phone">الهاتف</th><th data-i="policies">الوثائق</th><th data-i="claims">المطالبات</th><th data-i="lastMessage">آخر رسالة</th><th data-i="status">الحالة</th><th>مؤشر الحماية</th><th data-i="actions">إجراءات</th></tr></thead>
+              <tbody id="clientsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Policies -->
+        <div id="v-policies" class="view">
+          <div class="toolbar">
+            <div class="search"><input id="policySearch" oninput="renderPolicies()" placeholder="ابحث بالعميل أو الشركة أو رقم الوثيقة"></div>
+            <button class="btn primary" onclick="openPolicyModal()">+ <span data-i="addPolicy">إضافة وثيقة</span></button>
+          </div>
+          <div class="card panel">
+            <table>
+              <thead><tr><th>العميل</th><th>النوع</th><th>الشركة</th><th>رقم الوثيقة</th><th>القسط</th><th>الانتهاء</th><th>الحالة</th></tr></thead>
+              <tbody id="policiesBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Payments -->
+        <div id="v-payments" class="view">
+          <div class="toolbar">
+            <div class="search"><input id="paymentSearch" oninput="renderPayments()" placeholder="ابحث بالعميل أو طريقة الدفع"></div>
+            <button class="btn primary" onclick="openPaymentModal()">+ إضافة دفعة</button>
+          </div>
+          <div class="card panel">
+            <table>
+              <thead><tr><th>العميل</th><th>الوثيقة</th><th>المبلغ</th><th>التاريخ</th><th>طريقة الدفع</th><th>ملاحظة</th></tr></thead>
+              <tbody id="paymentsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Claims -->
+        <div id="v-claims" class="view">
+          <div class="toolbar">
+            <div class="search"><input id="claimSearch" oninput="renderClaims()" placeholder="ابحث بالعميل أو نوع المطالبة"></div>
+            <button class="btn primary" onclick="openClaimModal()">+ إضافة مطالبة</button>
+          </div>
+          <div class="card panel">
+            <table>
+              <thead><tr><th>العميل</th><th>النوع</th><th>رقم الوثيقة</th><th>المبلغ</th><th>الحالة</th><th>آخر تحديث</th><th>إجراء</th></tr></thead>
+              <tbody id="claimsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Documents -->
+        <div id="v-documents" class="view">
+          <div class="toolbar">
+            <div class="search"><input id="docSearch" oninput="renderDocuments()" placeholder="ابحث باسم الملف أو العميل"></div>
+          </div>
+          <div class="card panel">
+            <table>
+              <thead><tr><th>العميل</th><th>المستند</th><th>النوع</th><th>المصدر</th><th>الحالة</th><th>التاريخ</th><th>إجراء</th></tr></thead>
+              <tbody id="documentsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Messages -->
+        <div id="v-messages" class="view">
+          <div class="two">
+            <div class="card"><div class="panelhead"><h3 data-i="conversations">المحادثات</h3><span id="messageCount" class="pill blue">0</span></div><div id="conversationList" class="list"></div></div>
+            <div class="card">
+              <div class="panelhead"><h3 id="chatTitle">اختر محادثة</h3></div>
+              <div id="chatList" class="message-list"><div class="empty">اختر عميلاً لعرض المحادثة.</div></div>
+              <div class="composer">
+                <input id="chatInput" placeholder="اكتب ردك للعميل..." onkeydown="if(event.key==='Enter')sendMessage()">
+                <button class="btn primary" onclick="sendMessage()">إرسال</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Renewals -->
+        <div id="v-renewals" class="view">
+          <div class="toolbar">
+            <div class="search"><input id="renewalSearch" oninput="renderRenewals()" placeholder="ابحث بالعميل أو الوثيقة"></div>
+            <button class="btn primary" onclick="runRenewalReminders()">↻ تشغيل التذكيرات</button>
+          </div>
+          <div class="card panel">
+            <table>
+              <thead><tr><th>العميل</th><th>الوثيقة</th><th>الشركة</th><th>الانتهاء</th><th>المتبقي</th><th>إجراء</th></tr></thead>
+              <tbody id="renewalsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Companies -->
+        <div id="v-companies" class="view">
+          <div class="card"><div class="panelhead"><h3>شركات التأمين</h3></div><div id="companiesList" class="list"></div></div>
+        </div>
+
+        <!-- Products -->
+        <div id="v-products" class="view">
+          <div class="card" style="padding:13px 16px;margin-bottom:15px;background:#fffaf0;border-color:#f1dfb9">
+            <b style="color:var(--navy)">النشر للمستخدم:</b> أي منتج حالته Published سيظهر تلقائيًا في صفحة منتجات التأمين داخل Wathiqati عبر مجموعة <code>products</code>. لا يمثل العرض إصدارًا أو قبولًا أو تسعيرًا نهائيًا.
+          </div>
+          <div class="toolbar">
+            <div class="search"><input id="productSearch" oninput="renderProducts()" placeholder="ابحث في المنتجات"></div>
+            <button class="btn outline" onclick="openCompanyModal()">+ إضافة شركة تأمين</button>
+            <button class="btn primary" onclick="openProductModal()">+ إضافة منتج</button>
+          </div>
+          <div id="productsGrid" class="three"></div>
+        </div>
+
+        <!-- Reports -->
+        <div id="v-reports" class="view">
+          <div class="grid">
+            <div class="card stat"><div class="k">العملاء</div><div id="rClients" class="v">0</div></div>
+            <div class="card stat"><div class="k">الوثائق السارية</div><div id="rActive" class="v">0</div></div>
+            <div class="card stat"><div class="k">تجديدات 45 يوم</div><div id="rRenewals" class="v">0</div></div>
+            <div class="card stat"><div class="k">المدفوعات</div><div id="rPaid" class="v">0</div></div>
+          </div>
+        </div>
+
+        <!-- Protection Assessments -->
+        <div id="v-assessments" class="view">
+          <div class="toolbar">
+            <div class="search"><input id="assessmentSearch" oninput="renderAssessments()" placeholder="ابحث باسم العميل أو النشاط أو الوظيفة"></div>
+            <button class="btn outline" onclick="renderAssessments()">↻ تحديث</button>
+          </div>
+          <div class="card panel">
+            <div class="panelhead"><h3>تقييمات الحماية التأمينية</h3><span class="pill blue" id="assessmentCount">0</span></div>
+            <table>
+              <thead><tr><th>العميل</th><th>الصفة</th><th>النشاط / الوظيفة</th><th>الوثائق السارية</th><th>المؤشر</th><th>التقييم</th><th>آخر تحديث</th><th>إجراء</th></tr></thead>
+              <tbody id="assessmentsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Compliance -->
+        <div id="v-compliance" class="view">
+          <div class="card" style="padding:20px">
+            <h3 style="font-family:Tajawal;color:var(--navy)">Compliance Center</h3>
+            <p style="line-height:1.9;font-size:13px">Secure PATH يعمل هنا كـ CRM وخدمة ومتابعة للعميل. أي إصدار أو توزيع رقمي لوثيقة تأمين يجب أن يكون مرتبطًا بالترخيص والموافقات والربط المعتمد مع شركة التأمين. الوثائق التي يرفعها العميل تسجل كـ Pending Verification حتى اعتماد الوسيط.</p>
+            <div class="item"><b>تنبيه قانوني</b><p>هذه الشاشة أداة تشغيلية وليست رأيًا قانونيًا أو إثباتًا للترخيص الرقمي. مؤشر الحماية التأمينية تقدير إرشادي مبني على البيانات المدخلة والوثائق المسجلة، ولا يمثل اكتتابًا أو قبولًا أو تسعيرًا أو توصية ملزمة.</p></div>
+          </div>
+        </div>
+
+        <!-- Notifications -->
+        <div id="v-notifications" class="view"><div class="card"><div class="panelhead"><h3>إشعارات العملاء والنظام</h3></div><div id="notificationsList" class="list"></div></div></div>
+
+        <!-- Activity -->
+        <div id="v-activity" class="view"><div class="card"><div class="panelhead"><h3>Activity Log</h3></div><div id="activityList" class="list"></div></div></div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- Modals -->
 <div id="clientModal" class="overlay"><div class="modal"><h2 id="clientModalTitle">إضافة عميل جديد</h2><div class="formgrid"><div class="field"><label>الاسم الكامل</label><input id="cName"></div><div class="field"><label>الهاتف</label><input id="cPhone"></div></div><div class="formgrid"><div class="field"><label>اسم المستخدم</label><input id="cUser"></div><div class="field"><label>كلمة المرور</label><input id="cPass" type="password"></div></div><div id="cErr" class="warn" style="font-size:12px"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('clientModal')">إلغاء</button><button class="btn primary" onclick="createClient()">حفظ وإنشاء الحساب</button></div></div></div>
+
 <div id="policyModal" class="overlay"><div class="modal"><h2>إضافة وثيقة</h2><div class="field"><label>العميل</label><select id="pClient"></select></div><div class="formgrid"><div class="field"><label>نوع التأمين</label><input id="pType"></div><div class="field"><label>شركة التأمين</label><input id="pCompany"></div></div><div class="formgrid"><div class="field"><label>رقم الوثيقة</label><input id="pNumber"></div><div class="field"><label>القسط</label><input id="pPremium" type="number"></div></div><div class="formgrid"><div class="field"><label>البداية</label><input id="pStart" type="date"></div><div class="field"><label>الانتهاء</label><input id="pEnd" type="date"></div></div><div class="field"><label>التغطية / ملاحظات</label><textarea id="pCoverage"></textarea></div><div id="pErr" class="warn" style="font-size:12px"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('policyModal')">إلغاء</button><button class="btn primary" onclick="createPolicy()">حفظ الوثيقة</button></div></div></div>
+
 <div id="paymentModal" class="overlay"><div class="modal"><h2>تسجيل دفعة</h2><div class="field"><label>العميل</label><select id="payClient" onchange="refreshPolicySelect('payClient','payPolicy')"></select></div><div class="field"><label>الوثيقة</label><select id="payPolicy"></select></div><div class="formgrid"><div class="field"><label>المبلغ</label><input id="payAmount" type="number"></div><div class="field"><label>التاريخ</label><input id="payDate" type="date"></div></div><div class="field"><label>طريقة الدفع</label><select id="payMethod"><option>Cash</option><option>Bank Transfer</option><option>Card</option><option>Wallet</option></select></div><div class="field"><label>ملاحظة</label><input id="payNote"></div><div id="payErr" class="warn" style="font-size:12px"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('paymentModal')">إلغاء</button><button class="btn primary" onclick="createPayment()">حفظ الدفعة</button></div></div></div>
+
 <div id="claimModal" class="overlay"><div class="modal"><h2>إضافة مطالبة</h2><div class="field"><label>العميل</label><select id="clClient" onchange="refreshPolicySelect('clClient','clPolicy')"></select></div><div class="field"><label>الوثيقة</label><select id="clPolicy"></select></div><div class="formgrid"><div class="field"><label>نوع المطالبة</label><input id="clType"></div><div class="field"><label>المبلغ</label><input id="clAmount" type="number"></div></div><div class="field"><label>الحالة</label><select id="clStatus"><option value="new">New</option><option value="under_review">Under Review</option><option value="documents_required">Documents Required</option><option value="approved">Approved</option><option value="settled">Settled</option><option value="rejected">Rejected</option></select></div><div class="field"><label>الوصف</label><textarea id="clDesc"></textarea></div><div id="clErr" class="warn" style="font-size:12px"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('claimModal')">إلغاء</button><button class="btn primary" onclick="createClaim()">حفظ المطالبة</button></div></div></div>
+
 <div id="clientProfileModal" class="overlay"><div class="modal" style="width:min(1000px,97vw)"><div style="display:flex;justify-content:space-between"><div><h2 id="profileName">ملف العميل</h2><div id="profileMeta" class="muted"></div></div><button class="btn outline" onclick="closeModal('clientProfileModal')">✕</button></div><div id="profileBody" style="margin-top:15px"></div></div></div>
+
 <div id="clientDocModal" class="overlay"><div class="modal"><h2>إضافة وثيقة العميل</h2><div class="formgrid"><div class="field"><label>نوع التأمين</label><input id="uType"></div><div class="field"><label>شركة التأمين</label><input id="uCompany"></div></div><div class="formgrid"><div class="field"><label>رقم الوثيقة</label><input id="uNumber"></div><div class="field"><label>القسط</label><input id="uPremium" type="number"></div></div><div class="formgrid"><div class="field"><label>البداية</label><input id="uStart" type="date"></div><div class="field"><label>الانتهاء</label><input id="uEnd" type="date"></div></div><div class="field"><label>ملف الوثيقة</label><input id="uFile" type="file" accept=".pdf,.jpg,.jpeg,.png"></div><div id="uErr" class="warn"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('clientDocModal')">إلغاء</button><button class="btn primary" onclick="uploadClientDocument()">حفظ للمراجعة</button></div></div></div>
-<div id="companyProfileModal" class="overlay"><div class="modal" style="width:min(1100px,97vw)"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div><h2 id="companyProfileName">شركة التأمين</h2><div id="companyProfileMeta" class="muted"></div></div><button type="button" class="btn outline" onclick="closeModal('companyProfileModal')">✕ إغلاق</button></div><div id="companyProfileBody" style="margin-top:15px"></div></div></div><div id="companyModal" class="overlay"><div class="modal"><h2>إضافة شركة تأمين</h2><div class="field"><label>اسم الشركة</label><input id="coName"></div><div class="field"><label>لوجو الشركة — URL</label><input id="coLogo"></div><div class="field"><label>أو رفع لوجو الشركة</label><input id="coLogoFile" type="file" accept="image/png,image/jpeg,image/webp"></div><div class="field"><label>وصف مختصر</label><textarea id="coDesc"></textarea></div><div id="coErr" class="warn"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('companyModal')">إلغاء</button><button class="btn primary" onclick="createCompany()">حفظ الشركة</button></div></div></div><div id="assessmentModal" class="overlay"><div class="modal" style="width:min(850px,97vw)"><div style="display:flex;justify-content:space-between;align-items:center"><div><h2 id="assessmentModalTitle">تقييم الحماية</h2><div id="assessmentModalMeta" class="muted"></div></div><button class="btn outline" onclick="closeModal('assessmentModal')">✕</button></div><div id="assessmentModalBody" style="margin-top:15px"></div></div></div><div id="toast" class="toast"></div>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+
+<div id="companyProfileModal" class="overlay"><div class="modal" style="width:min(1100px,97vw)"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div><h2 id="companyProfileName">شركة التأمين</h2><div id="companyProfileMeta" class="muted"></div></div><button type="button" class="btn outline" onclick="closeModal('companyProfileModal')">✕ إغلاق</button></div><div id="companyProfileBody" style="margin-top:15px"></div></div></div>
+
+<div id="companyModal" class="overlay"><div class="modal"><h2>إضافة شركة تأمين</h2><div class="field"><label>اسم الشركة</label><input id="coName"></div><div class="field"><label>لوجو الشركة — URL</label><input id="coLogo"></div><div class="field"><label>أو رفع لوجو الشركة</label><input id="coLogoFile" type="file" accept="image/png,image/jpeg,image/webp"></div><div class="field"><label>وصف مختصر</label><textarea id="coDesc"></textarea></div><div id="coErr" class="warn"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('companyModal')">إلغاء</button><button class="btn primary" onclick="createCompany()">حفظ الشركة</button></div></div></div>
+
+<div id="productModal" class="overlay"><div class="modal"><h2>إضافة منتج تأميني</h2><div class="formgrid"><div class="field"><label>شركة التأمين</label><select id="prCompany"></select></div><div class="field"><label>اسم المنتج</label><input id="prName"></div><div class="field"><label>تصنيف المنتج</label><select id="prCategory"><option value="car">سيارات</option><option value="health">صحي</option><option value="life">حياة</option><option value="home">ممتلكات</option><option value="travel">سفر</option><option value="other" selected>أخرى</option></select></div></div><div class="field"><label>الوصف</label><textarea id="prDesc"></textarea></div><div class="field"><label>المميزات — كل ميزة في سطر</label><textarea id="prFeatures"></textarea></div><div class="field"><label>صورة الإعلان URL</label><input id="prImage"></div><div class="field"><label>أو رفع صورة الإعلان</label><input id="prImageFile" type="file" accept="image/png,image/jpeg,image/webp"></div><div class="field"><label>لوجو الشركة للمنتج — URL</label><input id="prLogo"></div><div class="field"><label>أو رفع لوجو الشركة</label><input id="prLogoFile" type="file" accept="image/png,image/jpeg,image/webp"></div><div class="field"><label>الحالة</label><select id="prStatus"><option value="draft">Draft</option><option value="published">Published</option><option value="archived">Archived</option></select></div><div class="field"><label>Disclaimer</label><textarea id="prDisclaimer">المعلومات لأغراض التعريف والتوعية ولا تمثل إصدارًا أو ضمانًا لقبول وثيقة. تخضع التغطيات والشروط والأسعار لما تقرره شركة التأمين والوثيقة المعتمدة.</textarea></div><div id="prErr" class="warn"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('productModal')">إلغاء</button><button class="btn primary" onclick="createProduct()">حفظ</button></div></div></div>
+
+<div id="assessmentModal" class="overlay"><div class="modal" style="width:min(850px,97vw)"><div style="display:flex;justify-content:space-between;align-items:center"><div><h2 id="assessmentModalTitle">تقييم الحماية</h2><div id="assessmentModalMeta" class="muted"></div></div><button class="btn outline" onclick="closeModal('assessmentModal')">✕</button></div><div id="assessmentModalBody" style="margin-top:15px"></div></div></div>
+
+<div id="toast" class="toast"></div>
+
+<!-- SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+
 <script>
 const firebaseConfig={apiKey:'AIzaSyCkRYPffAEBRivC2Si5T-ILL99ZrSq-dWM',authDomain:'path-1a672.firebaseapp.com',projectId:'path-1a672',storageBucket:'path-1a672.firebasestorage.app',messagingSenderId:'616651183121',appId:'1:616651183121:web:ba7f3cdec65a9df8014db0'};
-firebase.initializeApp(firebaseConfig);const auth=firebase.auth(),db=firebase.firestore();
-let LANG=localStorage.getItem('sp_admin_lang')||'ar',DATA={clients:[],policies:[],payments:[],claims:[],documents:[],messages:[],notifications:[],activity:[],products:[],companies:[],assessments:[]},CURRENT_CHAT=null,CHAT_UNSUB=null,MSG_UNSUB=null;
-const I18N={ar:{dashboard:'لوحة التحكم',clients:'العملاء',policies:'الوثائق',payments:'الأقساط والمدفوعات',claims:'المطالبات',documents:'المستندات',renewals:'التجديدات',companies:'شركات التأمين',products:'المنتجات',reports:'التقارير',compliance:'الامتثال',messages:'المحادثات',notifications:'الإشعارات',activity:'سجل النشاط',assessments:'تقييمات الحماية',totalClients:'إجمالي العملاء',totalPolicies:'إجمالي الوثائق',openClaims:'المطالبات المفتوحة',unread:'الرسائل الجديدة',expiring:'وثائق تنتهي قريبًا',payments:'إجمالي المدفوعات',documents:'المستندات',agents:'المستخدم الحالي',expiringTitle:'وثائق قريبة الانتهاء',viewAll:'عرض الكل',recentActivity:'آخر النشاطات',addClient:'إضافة عميل',client:'العميل',phone:'الهاتف',lastMessage:'آخر رسالة',status:'الحالة',actions:'إجراءات',conversations:'المحادثات'},en:{dashboard:'Dashboard',clients:'Clients',policies:'Policies',payments:'Payments',claims:'Claims',documents:'Documents',renewals:'Renewals',companies:'Insurance Companies',products:'Insurance Products',reports:'Reports',compliance:'Compliance',messages:'Messages',notifications:'Notifications',activity:'Activity Log',assessments:'Protection Assessments',totalClients:'Total Clients',totalPolicies:'Total Policies',openClaims:'Open Claims',unread:'Unread Messages',expiring:'Expiring Policies',payments:'Total Payments',documents:'Documents',agents:'Current User',expiringTitle:'Policies Expiring Soon',viewAll:'View All',recentActivity:'Recent Activity',addClient:'Add Client',client:'Client',phone:'Phone',lastMessage:'Last Message',status:'Status',actions:'Actions',conversations:'Conversations'}};
-const t=k=>I18N[LANG][k]||k;function applyLang(){document.documentElement.lang=LANG;document.documentElement.dir=LANG==='ar'?'rtl':'ltr';document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));document.getElementById('topLang').textContent=LANG==='ar'?'English':'العربية';document.getElementById('langBtn').textContent=LANG==='ar'?'English':'العربية';document.getElementById('loginSub').textContent=LANG==='ar'?'مركز تشغيل الوسيط — العملاء والوثائق والمطالبات والمحادثات':'Agent Operations Center — clients, policies, claims and messages';document.getElementById('emailLabel').textContent=LANG==='ar'?'البريد الإلكتروني':'Email';document.getElementById('passLabel').textContent=LANG==='ar'?'كلمة المرور':'Password';document.getElementById('loginBtn').textContent=LANG==='ar'?'دخول لوحة التحكم':'Sign in';document.getElementById('logoutBtn').textContent=LANG==='ar'?'تسجيل الخروج':'Logout';document.getElementById('quickClient').textContent=LANG==='ar'?'+ عميل جديد':'+ New Client'}function toggleLang(){LANG=LANG==='ar'?'en':'ar';localStorage.setItem('sp_admin_lang',LANG);applyLang();renderAll()}
-function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}function ms(ts){return ts&&ts.toMillis?ts.toMillis():0}function date(v){if(!v)return '—';let d=v.toDate?v.toDate():new Date(v);return isNaN(d)?'—':d.toLocaleDateString(LANG==='ar'?'ar-EG':'en-US',{day:'numeric',month:'short',year:'numeric'})}function ago(ts){if(!ts)return '—';let d=Date.now()-ms(ts);if(d<60000)return LANG==='ar'?'الآن':'Now';if(d<3600000)return Math.floor(d/60000)+(LANG==='ar'?' د':'m');return date(ts)}function clientName(id){return DATA.clients.find(x=>x.id===id)?.fullName||id||'—'}function days(end){return end?Math.ceil((new Date(end)-new Date())/86400000):9999}function claimLabel(s){return ({new:'New',under_review:'Under Review',documents_required:'Documents Required',approved:'Approved',settled:'Settled',rejected:'Rejected'})[s]||s||'—'}
-function toast(m){let x=document.getElementById('toast');x.textContent=m;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),2600)}
-async function login(){let e=document.getElementById('email').value.trim(),p=document.getElementById('pass').value;document.getElementById('loginErr').textContent='';try{await auth.signInWithEmailAndPassword(e,p);document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';document.getElementById('userEmail').textContent=e;document.getElementById('sAgent').textContent=e.split('@')[0];applyLang();await loadAll();startMessages();}catch(err){document.getElementById('loginErr').textContent=LANG==='ar'?'تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور.':'Login failed. Check email and password.'}}
-function logout(){auth.signOut().then(()=>location.reload())}auth.onAuthStateChanged(u=>{if(u){document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';document.getElementById('userEmail').textContent=u.email||'';document.getElementById('sAgent').textContent=(u.email||'').split('@')[0];applyLang();loadAll();startMessages()}});
-async function col(n){try{let s=await db.collection(n).get();return s.docs.map(d=>({id:d.id,...d.data()}))}catch(e){console.warn(n,e);return[]}}
-async function loadAll(){let names=['clients','policies','payments','claims','documents','messages','notifications','activity','products','companies','insuranceAssessments'];let vals=await Promise.all(names.map(col));names.forEach((n,i)=>{if(n==='insuranceAssessments')DATA.assessments=vals[i];else DATA[n]=vals[i]});DATA.assessments=(DATA.assessments||[]).map(a=>({id:a.id||a.clientId||'',...a}));renderAll();ensureRenewalNotifications().catch(console.error);if(window.__renewalTimer)clearInterval(window.__renewalTimer);window.__renewalTimer=setInterval(()=>ensureRenewalNotifications().catch(console.error),6*60*60*1000)}
-function renderAll(){renderDashboard();renderClients();renderPolicies();renderPayments();renderClaims();renderDocuments();renderConversations();renderNotifications();renderActivity();renderRenewals();renderCompanies();renderProducts();renderReports();renderAssessments();refreshSelects();updateBadge()}
-function renderDashboard(){let open=DATA.claims.filter(x=>!['settled','rejected'].includes(x.status)).length, unread=DATA.messages.filter(x=>x.sender==='client'&&!x.autoReply&&!x.readByAdmin).length, exp=DATA.policies.filter(x=>days(x.endDate)>=0&&days(x.endDate)<=45).length, total=DATA.payments.reduce((a,x)=>a+(Number(x.amount)||0),0),active=DATA.policies.filter(x=>days(x.endDate)>=0).length,pendingDocs=DATA.documents.filter(x=>String(x.verificationStatus||'').toLowerCase()==='pending').length, scores=(DATA.assessments||[]).map(x=>Number(x.score)).filter(x=>Number.isFinite(x)),avg=scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):null;[['sClients',DATA.clients.length],['sPolicies',DATA.policies.length],['sClaims',open],['sMessages',unread],['sExpiring',exp],['sPayments',total.toLocaleString('en-US')],['sDocs',DATA.documents.length]].forEach(([id,v])=>document.getElementById(id).textContent=v);document.getElementById('sActive').textContent=active+(LANG==='ar'?' سارية':' active');document.getElementById('sProtectionAvg').textContent=avg==null?'—':avg+'%';document.getElementById('dashExpiring').innerHTML=DATA.policies.filter(x=>days(x.endDate)>=0&&days(x.endDate)<=45).sort((a,b)=>days(a.endDate)-days(b.endDate)).slice(0,8).map(p=>`<div class="item"><b>${esc(clientName(p.clientId))}</b><p>${esc(p.company)} • ${esc(p.policyNumber)} • ${date(p.endDate)} <span class="pill red">${days(p.endDate)} ${LANG==='ar'?'يوم':'days'}</span></p></div>`).join('')||'<div class="empty">—</div>';document.getElementById('dashActivity').innerHTML=DATA.activity.slice().sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).slice(0,7).map(a=>`<div class="item"><h4>${esc(a.action||a.type||'Activity')}</h4><p>${esc(a.description||a.text||'')} • ${ago(a.createdAt)}</p></div>`).join('')||'<div class="empty">—</div>'}
-function renderClients(){let q=(document.getElementById('clientSearch')?.value||'').toLowerCase();let html=DATA.clients.filter(c=>[c.fullName,c.phone,c.username,c.occupation,c.businessActivity].join(' ').toLowerCase().includes(q)).map(c=>{let pc=DATA.policies.filter(x=>x.clientId===c.id).length,cc=DATA.claims.filter(x=>x.clientId===c.id).length,msgs=DATA.messages.filter(x=>x.clientId===c.id).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt));let unread=msgs.some(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin);let score=Number(c.protectionScore);let scoreHtml=Number.isFinite(score)?`<span class="pill ${score<50?'red':score<70?'blue':''}">${score}%</span>`:'—';return `<tr><td><div class="name"><div class="avatar">${esc((c.fullName||'?').split(' ').slice(0,2).map(x=>x[0]).join(''))}</div><div><b>${esc(c.fullName||'—')}</b><div class="muted">${esc(c.username||'')}</div></div></div></td><td>${esc(c.phone||'—')}</td><td>${pc}</td><td>${cc}</td><td>${esc(msgs[0]?.text||'—')}</td><td>${unread?'<span class="pill red">New</span>':'<span class="pill">Active</span>'}</td><td>${scoreHtml}</td><td><div class="actions"><button type="button" onclick="openClientChat('${c.id}')">💬</button><button type="button" onclick="openPolicyModal('${c.id}')">+ وثيقة</button><button type="button" onclick="openClientProfile('${c.id}')">عرض</button></div></td></tr>`}).join('');document.getElementById('clientsBody').innerHTML=html||'<tr><td colspan="8"><div class="empty">لا يوجد عملاء</div></td></tr>'}
+if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth(),db=firebase.firestore();
 
-function renderPolicies(){let q=(document.getElementById('policySearch')?.value||'').toLowerCase();document.getElementById('policiesBody').innerHTML=DATA.policies.filter(p=>[clientName(p.clientId),p.company,p.policyNumber,p.type].join(' ').toLowerCase().includes(q)).map(p=>`<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(p.type)}</td><td>${esc(p.company)}</td><td>${esc(p.policyNumber)}</td><td>${Number(p.premium||0).toLocaleString('en-US')} EGP</td><td>${date(p.endDate)}</td><td>${days(p.endDate)<0?'<span class="pill red">Expired</span>':days(p.endDate)<=30?'<span class="pill red">Expiring</span>':'<span class="pill">Active</span>'}</td></tr>`).join('')||'<tr><td colspan="7"><div class="empty">لا توجد وثائق</div></td></tr>'}
-function renderPayments(){let q=(document.getElementById('paymentSearch')?.value||'').toLowerCase();document.getElementById('paymentsBody').innerHTML=DATA.payments.filter(p=>[clientName(p.clientId),p.method,p.note].join(' ').toLowerCase().includes(q)).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).map(p=>`<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(DATA.policies.find(x=>x.id===p.policyId)?.policyNumber||'—')}</td><td>${Number(p.amount||0).toLocaleString('en-US')} EGP</td><td>${date(p.date)}</td><td>${esc(p.method||'—')}</td><td>${esc(p.note||'')}</td></tr>`).join('')||'<tr><td colspan="6"><div class="empty">لا توجد مدفوعات</div></td></tr>'}
-function renderClaims(){let q=(document.getElementById('claimSearch')?.value||'').toLowerCase();document.getElementById('claimsBody').innerHTML=DATA.claims.filter(c=>[clientName(c.clientId),c.type,c.status].join(' ').toLowerCase().includes(q)).sort((a,b)=>ms(b.updatedAt||b.createdAt)-ms(a.updatedAt||a.createdAt)).map(c=>`<tr><td>${esc(clientName(c.clientId))}</td><td>${esc(c.type)}</td><td>${esc(c.policyNumber||DATA.policies.find(x=>x.id===c.policyId)?.policyNumber||'—')}</td><td>${Number(c.amount||0).toLocaleString('en-US')} EGP</td><td><span class="pill ${['rejected','settled'].includes(c.status)?'':'blue'}">${esc(claimLabel(c.status))}</span></td><td>${date(c.updatedAt||c.createdAt)}</td><td><select onchange="changeClaim('${c.id}',this.value)"><option value="">Update</option><option value="under_review">Under Review</option><option value="documents_required">Documents Required</option><option value="approved">Approved</option><option value="settled">Settled</option><option value="rejected">Rejected</option></select></td></tr>`).join('')||'<tr><td colspan="7"><div class="empty">لا توجد مطالبات</div></td></tr>'}
-async function openDocumentFile(id){const d=DATA.documents.find(x=>x.id===id);if(!d){toast('المستند غير موجود');return}try{let url=d.dataUrl||d.downloadURL||d.downloadUrl||d.fileUrl||d.url||'';if(!url&&d.storagePath&&firebase.storage){url=await firebase.storage().ref(d.storagePath).getDownloadURL()}if(!url&&d.filePath&&firebase.storage){url=await firebase.storage().ref(d.filePath).getDownloadURL()}if(!url&&d.path&&firebase.storage){url=await firebase.storage().ref(d.path).getDownloadURL()}if(!url){toast('لا يوجد رابط ملف محفوظ لهذا المستند');return}window.open(url,'_blank','noopener,noreferrer')}catch(e){console.error(e);toast('تعذر فتح الملف. تحقق من صلاحيات Firebase Storage')}}
-function renderDocuments(){let q=(document.getElementById('docSearch')?.value||'').toLowerCase();document.getElementById('documentsBody').innerHTML=DATA.documents.filter(d=>[clientName(d.clientId),d.fileName,d.fileType,d.verificationStatus].join(' ').toLowerCase().includes(q)).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).map(d=>{let st=String(d.verificationStatus||'').toLowerCase();let badge=st==='pending'?'<span class="pill red">Pending Verification</span>':st==='approved'?'<span class="pill">Approved</span>':st==='rejected'?'<span class="pill red">Rejected</span>':'<span class="pill blue">—</span>';return `<tr><td>${esc(clientName(d.clientId))}</td><td>${esc(d.fileName||'—')}</td><td>${esc(d.fileType||'—')}</td><td>${d.uploadedBy==='agent'?'<span class="pill blue">Agent</span>':'<span class="pill">Client</span>'}</td><td>${badge}</td><td>${date(d.createdAt)}</td><td><div class="actions"><button type="button" class="btn outline" style="padding:6px 9px" onclick="openDocumentFile('${d.id}')">فتح</button>${st==='pending'?`<button type="button" class="btn outline" style="padding:6px 9px" onclick="verifyDocument('${d.id}','approved')">اعتماد</button><button type="button" class="btn danger" style="padding:6px 9px" onclick="verifyDocument('${d.id}','rejected')">رفض</button>`:''}</div></td></tr>`}).join('')||'<tr><td colspan="7"><div class="empty">لا توجد مستندات</div></td></tr>'}
-function renderConversations(){let ids=[...new Set(DATA.messages.map(m=>m.clientId).filter(Boolean))];document.getElementById('conversationList').innerHTML=ids.map(id=>{let msx=DATA.messages.filter(m=>m.clientId===id).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)),u=msx.some(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin);return `<div class="item ${u?'unread':''}" onclick="openClientChat('${id}')"><h4>${esc(clientName(id))} ${u?'<span class="pill red">New</span>':''}</h4><p>${esc(msx[0]?.text||'')} • ${ago(msx[0]?.createdAt)} • ${msx.length} messages</p></div>`}).join('')||'<div class="empty">لا توجد محادثات</div>'}
-function renderRenewals(){let q=(renewalSearch?.value||'').toLowerCase();let a=DATA.policies.filter(p=>days(p.endDate)>=0&&days(p.endDate)<=45).filter(p=>[clientName(p.clientId),p.policyNumber,p.company].join(' ').toLowerCase().includes(q)).sort((a,b)=>days(a.endDate)-days(b.endDate));renewalsBody.innerHTML=a.map(p=>`<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(p.policyNumber)}</td><td>${esc(p.company)}</td><td>${date(p.endDate)}</td><td>${days(p.endDate)} يوم</td><td><button class="btn outline" onclick="notify('${p.clientId}','تذكير تجديد','وثيقتك تقترب من موعد التجديد.')">إرسال تذكير</button></td></tr>`).join('')||'<tr><td colspan="6"><div class="empty">لا توجد تجديدات قريبة</div></td></tr>'}
-async function runRenewalReminders(){let a=DATA.policies.filter(p=>[45,30,15,7,1].includes(days(p.endDate)));for(const p of a)await notify(p.clientId,'تذكير تجديد الوثيقة',`وثيقتك ${p.policyNumber||''} تنتهي خلال ${days(p.endDate)} يوم.`);toast('تم تشغيل التذكيرات')}
-function allCompanies(){const map={};(DATA.policies||[]).forEach(p=>{if(p.company){let k=p.company.trim();map[k]=map[k]||{name:k,logo:''}}});(DATA.companies||[]).forEach(c=>{if(c.name){let k=c.name.trim();map[k]=map[k]||{name:k,logo:c.logoUrl||c.logo||''};map[k].logo=c.logoUrl||c.logo||map[k].logo}});return Object.values(map).sort((a,b)=>a.name.localeCompare(b.name))}
-function renderCompanies(){let a=allCompanies();document.getElementById('companiesList').innerHTML=a.map(c=>{const key=encodeURIComponent(c.name);return `<div class="item"><div class="name"><div style="width:48px;min-width:48px;height:48px;display:grid;place-items:center">${c.logo?`<img src="${esc(c.logo)}" alt="" style="width:42px;height:42px;object-fit:contain;border-radius:10px;background:#fff" onerror="this.style.display='none'">`:`<div class="avatar">${esc(c.name.slice(0,2))}</div>`}</div><div style="flex:1"><h4>${esc(c.name)}</h4><p>${DATA.policies.filter(p=>p.company===c.name).length} وثيقة • ${(DATA.products||[]).filter(p=>(p.companyName||p.company)===c.name).length} منتج</p></div><button type="button" class="btn outline" style="padding:7px 12px;white-space:nowrap" onclick="openCompanyProfileEncoded('${key}')">فتح</button></div></div>`}).join('')||'<div class="empty">لا توجد شركات تأمين</div>'}
+let LANG=localStorage.getItem('sp_admin_lang')||'ar';
+let DATA={clients:[],policies:[],payments:[],claims:[],documents:[],messages:[],notifications:[],activity:[],products:[],companies:[],assessments:[]};
+let CURRENT_CHAT=null,CHAT_UNSUB=null,MSG_UNSUB=null;
+
+const I18N={
+  ar:{dashboard:'لوحة التحكم',clients:'العملاء',policies:'الوثائق',payments:'الأقساط والمدفوعات',claims:'المطالبات',documents:'المستندات',renewals:'التجديدات',companies:'شركات التأمين',products:'المنتجات',reports:'التقارير',compliance:'الامتثال',messages:'المحادثات',notifications:'الإشعارات',activity:'سجل النشاط',assessments:'تقييمات الحماية',totalClients:'إجمالي العملاء',totalPolicies:'إجمالي الوثائق',openClaims:'المطالبات المفتوحة',unread:'الرسائل الجديدة',expiring:'وثائق تنتهي قريبًا',payments:'إجمالي المدفوعات',documents:'المستندات',agents:'المستخدم الحالي',expiringTitle:'وثائق قريبة الانتهاء',viewAll:'عرض الكل',recentActivity:'آخر النشاطات',addClient:'إضافة عميل',client:'العميل',phone:'الهاتف',lastMessage:'آخر رسالة',status:'الحالة',actions:'إجراءات',conversations:'المحادثات'},
+  en:{dashboard:'Dashboard',clients:'Clients',policies:'Policies',payments:'Payments',claims:'Claims',documents:'Documents',renewals:'Renewals',companies:'Insurance Companies',products:'Insurance Products',reports:'Reports',compliance:'Compliance',messages:'Messages',notifications:'Notifications',activity:'Activity Log',assessments:'Protection Assessments',totalClients:'Total Clients',totalPolicies:'Total Policies',openClaims:'Open Claims',unread:'Unread Messages',expiring:'Expiring Policies',payments:'Total Payments',documents:'Documents',agents:'Current User',expiringTitle:'Policies Expiring Soon',viewAll:'View All',recentActivity:'Recent Activity',addClient:'Add Client',client:'Client',phone:'Phone',lastMessage:'Last Message',status:'Status',actions:'Actions',conversations:'Conversations'}
+};
+
+const t=k=>I18N[LANG][k]||k;
+
+function applyLang(){
+  document.documentElement.lang=LANG;
+  document.documentElement.dir=LANG==='ar'?'rtl':'ltr';
+  document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));
+  document.getElementById('topLang').textContent=LANG==='ar'?'English':'العربية';
+  document.getElementById('langBtn').textContent=LANG==='ar'?'English':'العربية';
+  document.getElementById('loginSub').textContent=LANG==='ar'?'مركز تشغيل الوسيط — العملاء والوثائق والمطالبات والمحادثات':'Agent Operations Center — clients, policies, claims and messages';
+  document.getElementById('emailLabel').textContent=LANG==='ar'?'البريد الإلكتروني':'Email';
+  document.getElementById('passLabel').textContent=LANG==='ar'?'كلمة المرور':'Password';
+  document.getElementById('loginBtn').textContent=LANG==='ar'?'دخول لوحة التحكم':'Sign in';
+  document.getElementById('logoutBtn').textContent=LANG==='ar'?'تسجيل الخروج':'Logout';
+  document.getElementById('quickClient').textContent=LANG==='ar'?'+ عميل جديد':'+ New Client';
+}
+
+function toggleLang(){
+  LANG=LANG==='ar'?'en':'ar';
+  localStorage.setItem('sp_admin_lang',LANG);
+  applyLang();
+  renderAll();
+}
+
+function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function ms(ts){return ts&&ts.toMillis?ts.toMillis():(ts?new Date(ts).getTime():0)}
+function date(v){if(!v)return '—';let d=v.toDate?v.toDate():new Date(v);return isNaN(d)?'—':d.toLocaleDateString(LANG==='ar'?'ar-EG':'en-US',{day:'numeric',month:'short',year:'numeric'})}
+function ago(ts){if(!ts)return '—';let d=Date.now()-ms(ts);if(d<60000)return LANG==='ar'?'الآن':'Now';if(d<3600000)return Math.floor(d/60000)+(LANG==='ar'?' د':'m');return date(ts)}
+function clientName(id){return DATA.clients.find(x=>x.id===id)?.fullName||id||'—'}
+function days(end){return end?Math.ceil((new Date(end)-new Date())/86400000):9999}
+function claimLabel(s){return ({new:'New',under_review:'Under Review',documents_required:'Documents Required',approved:'Approved',settled:'Settled',rejected:'Rejected'})[s]||s||'—'}
+
+function toast(m){
+  let x=document.getElementById('toast');
+  x.textContent=m;
+  x.classList.add('show');
+  setTimeout(()=>x.classList.remove('show'),2600);
+}
+
+async function login(){
+  let e=document.getElementById('email').value.trim(),p=document.getElementById('pass').value;
+  document.getElementById('loginErr').textContent='';
+  try{
+    await auth.signInWithEmailAndPassword(e,p);
+    document.getElementById('login').style.display='none';
+    document.getElementById('app').style.display='block';
+    document.getElementById('userEmail').textContent=e;
+    document.getElementById('sAgent').textContent=e.split('@')[0];
+    applyLang();
+    await loadAll();
+    startMessages();
+  }catch(err){
+    document.getElementById('loginErr').textContent=LANG==='ar'?'تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور.':'Login failed. Check email and password.';
+  }
+}
+
+function logout(){auth.signOut().then(()=>location.reload())}
+
+auth.onAuthStateChanged(u=>{
+  if(u){
+    document.getElementById('login').style.display='none';
+    document.getElementById('app').style.display='block';
+    document.getElementById('userEmail').textContent=u.email||'';
+    document.getElementById('sAgent').textContent=(u.email||'').split('@')[0];
+    applyLang();
+    loadAll();
+    startMessages();
+  }
+});
+
+async function col(n){
+  try{
+    let s=await db.collection(n).get();
+    return s.docs.map(d=>({id:d.id,...d.data()}));
+  }catch(e){
+    console.warn(n,e);
+    return[];
+  }
+}
+
+function normalizeClientRecord(x){
+  const c={...x};
+  if(!c.fullName && c.name)c.fullName=c.name;
+  if(!c.username && c.user)c.username=c.user;
+  if(!c.phone && (c.mobile||c.phoneNumber))c.phone=c.mobile||c.phoneNumber;
+  return c;
+}
+function normalizePolicyRecord(x){
+  const p={...x};
+  if(!p.policyNumber && (p.policyNo||p.policy_number))p.policyNumber=p.policyNo||p.policy_number;
+  if(!p.company && (p.insuranceCompany||p.companyName))p.company=p.insuranceCompany||p.companyName;
+  if(!p.startDate && p.start)p.startDate=p.start;
+  if(!p.endDate && (p.expiryDate||p.expirationDate))p.endDate=p.expiryDate||p.expirationDate;
+  return p;
+}
+async function loadAll(){
+  // Data-preserving load: reads the existing Firestore collections only.
+  // No client, policy, document, message or other record is created, deleted, or overwritten here.
+  const names=['clients','policies','payments','claims','documents','messages','notifications','activity','products','companies','insuranceAssessments'];
+  const vals=await Promise.all(names.map(col));
+  names.forEach((n,i)=>{
+    if(n==='insuranceAssessments') DATA.assessments=vals[i].map(a=>({id:a.id||a.clientId||'',...a}));
+    else DATA[n]=vals[i];
+  });
+  // Compatibility with the older Admin files: preserve legacy field names in memory.
+  DATA.clients=(DATA.clients||[]).map(normalizeClientRecord);
+  DATA.policies=(DATA.policies||[]).map(normalizePolicyRecord);
+  renderAll();
+  ensureRenewalNotifications().catch(console.error);
+  if(window.__renewalTimer)clearInterval(window.__renewalTimer);
+  window.__renewalTimer=setInterval(()=>ensureRenewalNotifications().catch(console.error),6*60*60*1000);
+}
+
+function renderAll(){
+  renderDashboard();
+  renderClients();
+  renderPolicies();
+  renderPayments();
+  renderClaims();
+  renderDocuments();
+  renderConversations();
+  renderNotifications();
+  renderActivity();
+  renderRenewals();
+  renderCompanies();
+  renderProducts();
+  renderReports();
+  renderAssessments();
+  refreshSelects();
+  updateBadge();
+}
+
+function renderDashboard(){
+  let open=DATA.claims.filter(x=>!['settled','rejected'].includes(x.status)).length,
+      unread=DATA.messages.filter(x=>x.sender==='client'&&!x.autoReply&&!x.readByAdmin).length,
+      exp=DATA.policies.filter(x=>days(x.endDate)>=0&&days(x.endDate)<=45).length,
+      total=DATA.payments.reduce((a,x)=>a+(Number(x.amount)||0),0),
+      active=DATA.policies.filter(x=>days(x.endDate)>=0).length,
+      scores=(DATA.assessments||[]).map(x=>Number(x.score)).filter(x=>Number.isFinite(x)),
+      avg=scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):null;
+
+  [['sClients',DATA.clients.length],['sPolicies',DATA.policies.length],['sClaims',open],['sMessages',unread],['sExpiring',exp],['sPayments',total.toLocaleString('en-US')],['sDocs',DATA.documents.length]].forEach(([id,v])=>{
+    let el=document.getElementById(id); if(el) el.textContent=v;
+  });
+  document.getElementById('sActive').textContent=active+(LANG==='ar'?' سارية':' active');
+  document.getElementById('sProtectionAvg').textContent=avg==null?'—':avg+'%';
+  
+  document.getElementById('dashExpiring').innerHTML=DATA.policies.filter(x=>days(x.endDate)>=0&&days(x.endDate)<=45).sort((a,b)=>days(a.endDate)-days(b.endDate)).slice(0,8).map(p=>`<div class="item"><b>${esc(clientName(p.clientId))}</b><p>${esc(p.company)} • ${esc(p.policyNumber)} • ${date(p.endDate)} <span class="pill red">${days(p.endDate)} ${LANG==='ar'?'يوم':'days'}</span></p></div>`).join('')||'<div class="empty">—</div>';
+  document.getElementById('dashActivity').innerHTML=DATA.activity.slice().sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).slice(0,7).map(a=>`<div class="item"><h4>${esc(a.action||a.type||'Activity')}</h4><p>${esc(a.description||a.text||'')} • ${ago(a.createdAt)}</p></div>`).join('')||'<div class="empty">—</div>';
+}
+
+function renderClients(){
+  let q=(document.getElementById('clientSearch')?.value||'').toLowerCase();
+  let html=DATA.clients.filter(c=>[c.fullName,c.phone,c.username,c.occupation,c.businessActivity].join(' ').toLowerCase().includes(q)).map(c=>{
+    let pc=DATA.policies.filter(x=>x.clientId===c.id).length,
+        cc=DATA.claims.filter(x=>x.clientId===c.id).length,
+        msgs=DATA.messages.filter(x=>x.clientId===c.id).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt));
+    let unread=msgs.some(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin);
+    let score=Number(c.protectionScore);
+    let scoreHtml=Number.isFinite(score)?`<span class="pill ${score<50?'red':score<70?'blue':''}">${score}%</span>`:'—';
+    return `<tr><td><div class="name"><div class="avatar">${esc((c.fullName||'?').split(' ').slice(0,2).map(x=>x[0]).join(''))}</div><div><b>${esc(c.fullName||'—')}</b><div class="muted">${esc(c.username||'')}</div></div></div></td><td>${esc(c.phone||'—')}</td><td>${pc}</td><td>${cc}</td><td>${esc(msgs[0]?.text||'—')}</td><td>${unread?'<span class="pill red">New</span>':'<span class="pill">Active</span>'}</td><td>${scoreHtml}</td><td><div class="actions"><button type="button" onclick="openClientChat('${c.id}')">💬</button><button type="button" onclick="openPolicyModal('${c.id}')">+ وثيقة</button><button type="button" onclick="openClientProfile('${c.id}')">عرض</button></div></td></tr>`;
+  }).join('');
+  document.getElementById('clientsBody').innerHTML=html||'<tr><td colspan="8"><div class="empty">لا يوجد عملاء</div></td></tr>';
+}
+
+function renderPolicies(){
+  let q=(document.getElementById('policySearch')?.value||'').toLowerCase();
+  document.getElementById('policiesBody').innerHTML=DATA.policies.filter(p=>[clientName(p.clientId),p.company,p.policyNumber,p.type].join(' ').toLowerCase().includes(q)).map(p=>`<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(p.type)}</td><td>${esc(p.company)}</td><td>${esc(p.policyNumber)}</td><td>${Number(p.premium||0).toLocaleString('en-US')} EGP</td><td>${date(p.endDate)}</td><td>${days(p.endDate)<0?'<span class="pill red">Expired</span>':days(p.endDate)<=30?'<span class="pill red">Expiring</span>':'<span class="pill">Active</span>'}</td></tr>`).join('')||'<tr><td colspan="7"><div class="empty">لا توجد وثائق</div></td></tr>';
+}
+
+function renderPayments(){
+  let q=(document.getElementById('paymentSearch')?.value||'').toLowerCase();
+  document.getElementById('paymentsBody').innerHTML=DATA.payments.filter(p=>[clientName(p.clientId),p.method,p.note].join(' ').toLowerCase().includes(q)).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).map(p=>`<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(DATA.policies.find(x=>x.id===p.policyId)?.policyNumber||'—')}</td><td>${Number(p.amount||0).toLocaleString('en-US')} EGP</td><td>${date(p.date)}</td><td>${esc(p.method||'—')}</td><td>${esc(p.note||'')}</td></tr>`).join('')||'<tr><td colspan="6"><div class="empty">لا توجد مدفوعات</div></td></tr>';
+}
+
+function renderClaims(){
+  let q=(document.getElementById('claimSearch')?.value||'').toLowerCase();
+  document.getElementById('claimsBody').innerHTML=DATA.claims.filter(c=>[clientName(c.clientId),c.type,c.status].join(' ').toLowerCase().includes(q)).sort((a,b)=>ms(b.updatedAt||b.createdAt)-ms(a.updatedAt||a.createdAt)).map(c=>`<tr><td>${esc(clientName(c.clientId))}</td><td>${esc(c.type)}</td><td>${esc(c.policyNumber||DATA.policies.find(x=>x.id===c.policyId)?.policyNumber||'—')}</td><td>${Number(c.amount||0).toLocaleString('en-US')} EGP</td><td><span class="pill ${['rejected','settled'].includes(c.status)?'':'blue'}">${esc(claimLabel(c.status))}</span></td><td>${date(c.updatedAt||c.createdAt)}</td><td><select onchange="changeClaim('${c.id}',this.value)"><option value="">Update</option><option value="under_review">Under Review</option><option value="documents_required">Documents Required</option><option value="approved">Approved</option><option value="settled">Settled</option><option value="rejected">Rejected</option></select></td></tr>`).join('')||'<tr><td colspan="7"><div class="empty">لا توجد مطالبات</div></td></tr>';
+}
+
+async function openDocumentFile(id){
+  const d=DATA.documents.find(x=>x.id===id);if(!d){toast('المستند غير موجود');return}
+  try{
+    let url=d.dataUrl||d.downloadURL||d.downloadUrl||d.fileUrl||d.url||'';
+    if(!url&&d.storagePath&&firebase.storage){url=await firebase.storage().ref(d.storagePath).getDownloadURL()}
+    if(!url&&d.filePath&&firebase.storage){url=await firebase.storage().ref(d.filePath).getDownloadURL()}
+    if(!url&&d.path&&firebase.storage){url=await firebase.storage().ref(d.path).getDownloadURL()}
+    if(!url){toast('لا يوجد رابط ملف محفوظ لهذا المستند');return}
+    window.open(url,'_blank','noopener,noreferrer');
+  }catch(e){console.error(e);toast('تعذر فتح الملف. تحقق من صلاحيات Firebase Storage')}
+}
+
+function renderDocuments(){
+  let q=(document.getElementById('docSearch')?.value||'').toLowerCase();
+  document.getElementById('documentsBody').innerHTML=DATA.documents.filter(d=>[clientName(d.clientId),d.fileName,d.fileType,d.verificationStatus].join(' ').toLowerCase().includes(q)).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).map(d=>{
+    let st=String(d.verificationStatus||'').toLowerCase();
+    let badge=st==='pending'?'<span class="pill red">Pending Verification</span>':st==='approved'?'<span class="pill">Approved</span>':st==='rejected'?'<span class="pill red">Rejected</span>':'<span class="pill blue">—</span>';
+    return `<tr><td>${esc(clientName(d.clientId))}</td><td>${esc(d.fileName||'—')}</td><td>${esc(d.fileType||'—')}</td><td>${d.uploadedBy==='agent'?'<span class="pill blue">Agent</span>':'<span class="pill">Client</span>'}</td><td>${badge}</td><td>${date(d.createdAt)}</td><td><div class="actions"><button type="button" class="btn outline" style="padding:6px 9px" onclick="openDocumentFile('${d.id}')">فتح</button>${st==='pending'?`<button type="button" class="btn outline" style="padding:6px 9px" onclick="verifyDocument('${d.id}','approved')">اعتماد</button><button type="button" class="btn danger" style="padding:6px 9px" onclick="verifyDocument('${d.id}','rejected')">رفض</button>`:''}</div></td></tr>`;
+  }).join('')||'<tr><td colspan="7"><div class="empty">لا توجد مستندات</div></td></tr>';
+}
+
+function renderConversations(){
+  let ids=[...new Set(DATA.messages.map(m=>m.clientId).filter(Boolean))];
+  document.getElementById('conversationList').innerHTML=ids.map(id=>{
+    let msx=DATA.messages.filter(m=>m.clientId===id).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)),
+        u=msx.some(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin);
+    return `<div class="item ${u?'unread':''}" onclick="openClientChat('${id}')"><h4>${esc(clientName(id))} ${u?'<span class="pill red">New</span>':''}</h4><p>${esc(msx[0]?.text||'')} • ${ago(msx[0]?.createdAt)} • ${msx.length} messages</p></div>`;
+  }).join('')||'<div class="empty">لا توجد محادثات</div>';
+}
+
+function renderRenewals(){
+  let q=(document.getElementById('renewalSearch')?.value||'').toLowerCase();
+  let a=DATA.policies.filter(p=>days(p.endDate)>=0&&days(p.endDate)<=45).filter(p=>[clientName(p.clientId),p.policyNumber,p.company].join(' ').toLowerCase().includes(q)).sort((a,b)=>days(a.endDate)-days(b.endDate));
+  document.getElementById('renewalsBody').innerHTML=a.map(p=>`<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(p.policyNumber)}</td><td>${esc(p.company)}</td><td>${date(p.endDate)}</td><td>${days(p.endDate)} يوم</td><td><button class="btn outline" onclick="notify('${p.clientId}','تذكير تجديد','وثيقتك تقترب من موعد التجديد.')">إرسال تذكير</button></td></tr>`).join('')||'<tr><td colspan="6"><div class="empty">لا توجد تجديدات قريبة</div></td></tr>';
+}
+
+async function runRenewalReminders(){
+  let a=DATA.policies.filter(p=>[45,30,15,7,1].includes(days(p.endDate)));
+  for(const p of a) await notify(p.clientId,'تذكير تجديد الوثيقة',`وثيقتك ${p.policyNumber||''} تنتهي خلال ${days(p.endDate)} يوم.`);
+  toast('تم تشغيل التذكيرات');
+}
+
+function allCompanies(){
+  const map={};
+  (DATA.policies||[]).forEach(p=>{if(p.company){let k=p.company.trim();map[k]=map[k]||{name:k,logo:''}}});
+  (DATA.companies||[]).forEach(c=>{if(c.name){let k=c.name.trim();map[k]=map[k]||{name:k,logo:c.logoUrl||c.logo||''};map[k].logo=c.logoUrl||c.logo||map[k].logo}});
+  return Object.values(map).sort((a,b)=>a.name.localeCompare(b.name));
+}
+
+function renderCompanies(){
+  let a=allCompanies();
+  document.getElementById('companiesList').innerHTML=a.map(c=>{
+    const key=encodeURIComponent(c.name);
+    return `<div class="item"><div class="name"><div style="width:48px;min-width:48px;height:48px;display:grid;place-items:center">${c.logo?`<img src="${esc(c.logo)}" alt="" style="width:42px;height:42px;object-fit:contain;border-radius:10px;background:#fff" onerror="this.style.display='none'">`:`<div class="avatar">${esc(c.name.slice(0,2))}</div>`}</div><div style="flex:1"><h4>${esc(c.name)}</h4><p>${DATA.policies.filter(p=>p.company===c.name).length} وثيقة • ${(DATA.products||[]).filter(p=>(p.companyName||p.company)===c.name).length} منتج</p></div><button type="button" class="btn outline" style="padding:7px 12px;white-space:nowrap" onclick="openCompanyProfileEncoded('${key}')">فتح</button></div></div>`;
+  }).join('')||'<div class="empty">لا توجد شركات تأمين</div>';
+}
+
 function openCompanyProfileEncoded(value){try{openCompanyProfile(decodeURIComponent(value))}catch(e){toast('تعذر فتح بيانات الشركة')}}
-function openCompanyProfile(name){const policies=DATA.policies.filter(p=>String(p.company||'').trim()===String(name||'').trim());const products=(DATA.products||[]).filter(p=>String(p.companyName||p.company||'').trim()===String(name||'').trim());const company=(DATA.companies||[]).find(c=>String(c.name||'').trim()===String(name||'').trim())||{};document.getElementById('companyProfileName').textContent=name;document.getElementById('companyProfileMeta').textContent=`${policies.length} وثيقة • ${products.length} منتج`;document.getElementById('companyProfileBody').innerHTML=`<div class="card" style="padding:15px;margin-bottom:15px"><div class="name"><div style="width:62px;height:62px;display:grid;place-items:center">${company.logoUrl||company.logo?`<img src="${esc(company.logoUrl||company.logo)}" style="max-width:58px;max-height:58px;object-fit:contain" onerror="this.style.display='none'">`:`<div class="avatar" style="width:52px;height:52px">${esc(String(name).slice(0,2))}</div>`}</div><div><h3 style="margin:0;color:var(--navy);font-family:Tajawal">${esc(name)}</h3><p class="muted" style="margin:4px 0">${esc(company.description||'ملف شركة التأمين والوثائق المرتبطة بها')}</p></div></div></div><div class="card panel"><div class="panelhead"><h3>الوثائق المرتبطة بالشركة</h3><span class="pill blue">${policies.length}</span></div><table><thead><tr><th>العميل</th><th>الوثيقة</th><th>النوع</th><th>البداية</th><th>الانتهاء</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody>${policies.map(p=>`<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(p.policyNumber||'—')}</td><td>${esc(p.type||'—')}</td><td>${date(p.startDate)}</td><td>${date(p.endDate)}</td><td>${esc(p.status||'—')}</td><td><button type="button" class="btn outline" style="padding:5px 8px" onclick="openClientProfileEncoded('${encodeURIComponent(p.clientId)}')">عرض العميل</button></td></tr>`).join('')||'<tr><td colspan="7"><div class="empty">لا توجد وثائق مرتبطة بهذه الشركة</div></td></tr>'}</tbody></table></div><div class="card" style="margin-top:15px;padding:15px"><div class="panelhead" style="padding:0 0 12px"><h3>منتجات الشركة</h3><span class="pill">${products.length}</span></div>${products.map(p=>`<div class="item"><b>${esc(p.name)}</b><p>${esc(p.description||'')}</p></div>`).join('')||'<div class="empty">لا توجد منتجات</div>'}</div>`;modal('companyProfileModal')}
-function renderProducts(){let a=DATA.products||[],q=(productSearch?.value||'').toLowerCase();productsGrid.innerHTML=a.filter(p=>[p.name,p.companyName,p.company,p.description].join(' ').toLowerCase().includes(q)).map(p=>{let company=p.companyName||p.company||'—';let feats=Array.isArray(p.features)?p.features:String(p.features||p.benefits||'').split(/\r?\n/).filter(Boolean);return `<div class="card" style="overflow:hidden">${p.imageUrl?`<img src="${esc(p.imageUrl)}" style="width:100%;height:140px;object-fit:cover">`:`<div style="height:140px;background:linear-gradient(135deg,var(--navy),var(--navy2));display:grid;place-items:center;color:#fff;font:900 24px Tajawal">${esc(company)}</div>`}<div style="padding:15px"><div class="muted">${esc(company)}</div><h3 style="color:var(--navy);font-family:Tajawal">${esc(p.name)}</h3><p style="font-size:12px">${esc(p.description||'')}</p><ul style="font-size:11px">${feats.slice(0,5).map(x=>`<li>${esc(x)}</li>`).join('')}</ul><span class="pill">${esc(p.status||'draft')}</span>${p.published===true||p.status==='published'?'<span class="pill blue" style="margin-inline-start:5px">ظاهر للمستخدم</span>':''}<div class="muted" style="font-size:9px;margin-top:8px">${esc(p.disclaimer||'')}</div></div></div>`}).join('')||'<div class="empty">لا توجد منتجات</div>'}
-function openCompanyModal(){coErr.textContent='';modal('companyModal')}
-async function createCompany(){if(!coName.value.trim()){coErr.textContent='أدخل اسم الشركة';return}try{let name=coName.value.trim(),logo=coLogo.value.trim();if(coLogoFile.files[0])logo=await readSmallImage(coLogoFile.files[0],250*1024);let ref=await db.collection('companies').add({name,logoUrl:logo,description:coDesc.value.trim(),active:true,createdBy:auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});closeModal('companyModal');await loadAll();toast('تمت إضافة الشركة');openCompanyProfile(name)}catch(e){console.error(e);coErr.textContent=e.message==='image-too-large'?'حجم اللوجو كبير. الحد المقترح 250KB.':'تعذر حفظ الشركة'}}
-function fillProductCompanies(){let companies=allCompanies();prCompany.innerHTML='<option value="">اختر الشركة</option>'+companies.map(c=>`<option value="${esc(c.name)}">${esc(c.name)}</option>`).join('')}
-function openProductModal(){prErr.textContent='';fillProductCompanies();modal('productModal')}
-async function readSmallImage(file,maxBytes){if(!file)return '';if(file.size>maxBytes)throw new Error('image-too-large');return await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}
-async function createProduct(){if(!prCompany.value||!prName.value.trim()){prErr.textContent='اختر الشركة وأدخل اسم المنتج';return}try{let company=allCompanies().find(c=>c.name===prCompany.value)||{};let published=prStatus.value==='published';let img=prImage.value.trim(),logo=prLogo.value.trim()||company.logo||'';if(prImageFile.files[0])img=await readSmallImage(prImageFile.files[0],450*1024);if(prLogoFile.files[0])logo=await readSmallImage(prLogoFile.files[0],250*1024);await db.collection('products').add({companyId:company.id||null,companyName:prCompany.value,companyLogoUrl:logo,name:prName.value.trim(),category:prCategory.value,description:prDesc.value.trim(),features:prFeatures.value.trim(),imageUrl:img,status:prStatus.value,published,disclaimer:prDisclaimer.value.trim(),createdBy:auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp(),...(published?{publishedAt:firebase.firestore.FieldValue.serverTimestamp()}: {})});closeModal('productModal');await loadAll();toast(published?'تم نشر المنتج وربطه بواجهة العملاء':'تم حفظ المنتج كمسودة')}catch(e){console.error(e);prErr.textContent=e.message==='image-too-large'?'حجم الصورة كبير. قلل الحجم ثم حاول مرة أخرى.':'تعذر حفظ المنتج'}}
 
-function renderNotifications(){document.getElementById('notificationsList').innerHTML=DATA.notifications.sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).slice(0,50).map(n=>`<div class="item"><h4>${esc(n.title||'Notification')} — ${esc(clientName(n.clientId))}</h4><p>${esc(n.body||'')} • ${date(n.createdAt)}</p></div>`).join('')||'<div class="empty">لا توجد إشعارات</div>'}
-function renderActivity(){document.getElementById('activityList').innerHTML=DATA.activity.sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).slice(0,100).map(a=>`<div class="item"><h4>${esc(a.action||a.type||'Activity')}</h4><p>${esc(a.description||a.text||'')} • ${date(a.createdAt)}</p></div>`).join('')||'<div class="empty">لا يوجد سجل نشاط حتى الآن</div>'}
-function updateBadge(){let n=DATA.messages.filter(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin).length;document.getElementById('msgBadge').textContent=n;document.getElementById('msgBadge').classList.toggle('hidden',!n);document.getElementById('sMessages').textContent=n;document.getElementById('messageCount').textContent=n}
-function startMessages(){if(MSG_UNSUB)MSG_UNSUB();MSG_UNSUB=db.collection('messages').onSnapshot(s=>{DATA.messages=s.docs.map(d=>({id:d.id,...d.data()}));updateBadge();renderConversations();renderClients();renderDashboard()})}
-function openClientChat(id){CURRENT_CHAT=id;document.getElementById('chatTitle').textContent=clientName(id);show('messages');if(CHAT_UNSUB)CHAT_UNSUB();CHAT_UNSUB=db.collection('messages').where('clientId','==',id).onSnapshot(s=>{let docs=s.docs.slice().sort((a,b)=>ms(a.data().createdAt)-ms(b.data().createdAt));document.getElementById('chatList').innerHTML=docs.map(d=>{let m=d.data();return `<div class="bubble ${m.sender==='agent'?'agent':'client'}">${esc(m.text)}${m.autoReply?'<div style="font-size:9px;opacity:.65;margin-top:3px">Auto reply</div>':''}</div>`}).join('')||'<div class="empty">لا توجد رسائل</div>';document.getElementById('chatList').scrollTop=999999;docs.filter(d=>{let m=d.data();return m.sender==='client'&&!m.autoReply&&!m.readByAdmin}).forEach(d=>d.ref.update({readByAdmin:true}).catch(()=>{}));});}
-async function sendMessage(){let i=document.getElementById('chatInput'),text=i.value.trim();if(!text||!CURRENT_CHAT)return;i.value='';try{await db.collection('messages').add({clientId:CURRENT_CHAT,sender:'agent',agentId:auth.currentUser.uid,text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});await logActivity('Agent replied',`Replied to ${clientName(CURRENT_CHAT)}`)}catch(e){toast('تعذر إرسال الرسالة')}}
-function show(v,el){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));let node=document.getElementById('v-'+v);if(node)node.classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));(el||document.querySelector(`[data-view="${v}"]`))?.classList.add('active');document.getElementById('title').textContent=t(v);if(v==='dashboard')renderDashboard()}
-function modal(id,show=true){document.getElementById(id).classList.toggle('show',show)}function closeModal(id){modal(id,false)}
-function refreshSelects(){['pClient','payClient','clClient'].forEach(id=>{let s=document.getElementById(id);if(!s)return;s.innerHTML='<option value="">اختر العميل</option>'+DATA.clients.map(c=>`<option value="${c.id}">${esc(c.fullName||c.username)}</option>`).join('')})}
-function refreshPolicySelect(cid,pid){let client=document.getElementById(cid).value,s=document.getElementById(pid);s.innerHTML='<option value="">اختر الوثيقة</option>'+DATA.policies.filter(p=>p.clientId===client).map(p=>`<option value="${p.id}">${esc(p.policyNumber||p.type)}</option>`).join('')}
-let UPLOAD_CLIENT_ID=null;function openClientDocumentModal(id){UPLOAD_CLIENT_ID=id;uErr.textContent='';modal('clientDocModal')}async function uploadClientDocument(){let f=uFile.files[0];if(!UPLOAD_CLIENT_ID||!uEnd.value){uErr.textContent='أكمل بيانات الوثيقة';return}if(!f){uErr.textContent='اختر ملف الوثيقة';return}if(f.size>2*1024*1024){uErr.textContent='الحد الأقصى 2MB';return}let r=new FileReader();r.onload=async()=>{try{let p=await db.collection('policies').add({clientId:UPLOAD_CLIENT_ID,type:uType.value,company:uCompany.value,policyNumber:uNumber.value,premium:Number(uPremium.value)||0,startDate:uStart.value,endDate:uEnd.value,status:'pending_verification',verificationStatus:'pending',source:'client',documentVerificationRequired:true,createdBy:auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});await db.collection('documents').add({clientId:UPLOAD_CLIENT_ID,policyId:p.id,fileName:f.name,fileType:f.type,dataUrl:r.result,uploadedBy:'client',verificationStatus:'pending',createdAt:firebase.firestore.FieldValue.serverTimestamp()});await notify(UPLOAD_CLIENT_ID,'تم استلام الوثيقة','تم رفع الوثيقة وهي في انتظار مراجعة الوسيط.');closeModal('clientDocModal');await loadAll();toast('تم حفظ الوثيقة في انتظار المراجعة')}catch(e){console.error(e);uErr.textContent='تعذر حفظ الوثيقة'}};r.readAsDataURL(f)}
+function openCompanyProfile(name){
+  const policies=DATA.policies.filter(p=>String(p.company||'').trim()===String(name||'').trim());
+  const products=(DATA.products||[]).filter(p=>String(p.companyName||p.company||'').trim()===String(name||'').trim());
+  const company=(DATA.companies||[]).find(c=>String(c.name||'').trim()===String(name||'').trim())||{};
+  
+  document.getElementById('companyProfileName').textContent=name;
+  document.getElementById('companyProfileMeta').textContent=`${policies.length} وثيقة • ${products.length} منتج`;
+  document.getElementById('companyProfileBody').innerHTML=`<div class="card" style="padding:15px;margin-bottom:15px"><div class="name"><div style="width:62px;height:62px;display:grid;place-items:center">${company.logoUrl||company.logo?`<img src="${esc(company.logoUrl||company.logo)}" style="max-width:58px;max-height:58px;object-fit:contain" onerror="this.style.display='none'">`:`<div class="avatar" style="width:52px;height:52px">${esc(String(name).slice(0,2))}</div>`}</div><div><h3 style="margin:0;color:var(--navy);font-family:Tajawal">${esc(name)}</h3><p class="muted" style="margin:4px 0">${esc(company.description||'ملف شركة التأمين والوثائق المرتبطة بها')}</p></div></div></div><div class="card panel"><div class="panelhead"><h3>الوثائق المرتبطة بالشركة</h3><span class="pill blue">${policies.length}</span></div><table><thead><tr><th>العميل</th><th>الوثيقة</th><th>النوع</th><th>البداية</th><th>الانتهاء</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody>${policies.map(p=>`<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(p.policyNumber||'—')}</td><td>${esc(p.type||'—')}</td><td>${date(p.startDate)}</td><td>${date(p.endDate)}</td><td>${esc(p.status||'—')}</td><td><button type="button" class="btn outline" style="padding:5px 8px" onclick="openClientProfileEncoded('${encodeURIComponent(p.clientId)}')">عرض العميل</button></td></tr>`).join('')||'<tr><td colspan="7"><div class="empty">لا توجد وثائق مرتبطة بهذه الشركة</div></td></tr>'}</tbody></table></div><div class="card" style="margin-top:15px;padding:15px"><div class="panelhead" style="padding:0 0 12px"><h3>منتجات الشركة</h3><span class="pill">${products.length}</span></div>${products.map(p=>`<div class="item"><b>${esc(p.name)}</b><p>${esc(p.description||'')}</p></div>`).join('')||'<div class="empty">لا توجد منتجات</div>'}</div>`;
+  modal('companyProfileModal');
+}
+
+function renderProducts(){
+  let a=DATA.products||[],q=(document.getElementById('productSearch')?.value||'').toLowerCase();
+  document.getElementById('productsGrid').innerHTML=a.filter(p=>[p.name,p.companyName,p.company,p.description].join(' ').toLowerCase().includes(q)).map(p=>{
+    let company=p.companyName||p.company||'—';
+    let feats=Array.isArray(p.features)?p.features:String(p.features||p.benefits||'').split(/\r?\n/).filter(Boolean);
+    return `<div class="card" style="overflow:hidden">${p.imageUrl?`<img src="${esc(p.imageUrl)}" style="width:100%;height:140px;object-fit:cover">`:`<div style="height:140px;background:linear-gradient(135deg,var(--navy),var(--navy2));display:grid;place-items:center;color:#fff;font:900 24px Tajawal">${esc(company)}</div>`}<div style="padding:15px"><div class="muted">${esc(company)}</div><h3 style="color:var(--navy);font-family:Tajawal;margin:5px 0">${esc(p.name)}</h3><p style="font-size:12px;margin:5px 0">${esc(p.description||'')}</p><ul style="font-size:11px;padding-right:15px;margin:8px 0">${feats.slice(0,5).map(x=>`<li>${esc(x)}</li>`).join('')}</ul><span class="pill">${esc(p.status||'draft')}</span>${p.published===true||p.status==='published'?'<span class="pill blue" style="margin-inline-start:5px">ظاهر للمستخدم</span>':''}<div class="muted" style="font-size:9px;margin-top:8px">${esc(p.disclaimer||'')}</div></div></div>`;
+  }).join('')||'<div class="empty">لا توجد منتجات</div>';
+}
+
+function openCompanyModal(){
+  document.getElementById('coErr').textContent='';
+  modal('companyModal');
+}
+
+async function createCompany(){
+  let name=document.getElementById('coName').value.trim(),
+      logo=document.getElementById('coLogo').value.trim(),
+      logoFile=document.getElementById('coLogoFile').files[0],
+      desc=document.getElementById('coDesc').value.trim(),
+      err=document.getElementById('coErr');
+  err.textContent='';
+  if(!name){err.textContent='أدخل اسم الشركة';return}
+  try{
+    if(logoFile) logo=await readSmallImage(logoFile,250*1024);
+    await db.collection('companies').add({name,logoUrl:logo,description:desc,active:true,createdBy:auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+    closeModal('companyModal');
+    await loadAll();
+    toast('تمت إضافة الشركة');
+    openCompanyProfile(name);
+  }catch(e){
+    console.error(e);
+    err.textContent=e.message==='image-too-large'?'حجم اللوجو كبير. الحد المقترح 250KB.':'تعذر حفظ الشركة';
+  }
+}
+
+function fillProductCompanies(){
+  let companies=allCompanies();
+  let prComp=document.getElementById('prCompany');
+  if(prComp) prComp.innerHTML='<option value="">اختر الشركة</option>'+companies.map(c=>`<option value="${esc(c.name)}">${esc(c.name)}</option>`).join('');
+}
+
+function openProductModal(){
+  document.getElementById('prErr').textContent='';
+  fillProductCompanies();
+  modal('productModal');
+}
+
+async function readSmallImage(file,maxBytes){
+  if(!file)return '';
+  if(file.size>maxBytes)throw new Error('image-too-large');
+  return await new Promise((resolve,reject)=>{
+    const r=new FileReader();
+    r.onload=()=>resolve(r.result);
+    r.onerror=reject;
+    r.readAsDataURL(file);
+  });
+}
+
+async function createProduct(){
+  let companyVal=document.getElementById('prCompany').value,
+      name=document.getElementById('prName').value.trim(),
+      category=document.getElementById('prCategory').value,
+      desc=document.getElementById('prDesc').value.trim(),
+      features=document.getElementById('prFeatures').value.trim(),
+      status=document.getElementById('prStatus').value,
+      disclaimer=document.getElementById('prDisclaimer').value.trim(),
+      img=document.getElementById('prImage').value.trim(),
+      imgFile=document.getElementById('prImageFile').files[0],
+      logo=document.getElementById('prLogo').value.trim(),
+      logoFile=document.getElementById('prLogoFile').files[0],
+      err=document.getElementById('prErr');
+  
+  err.textContent='';
+  if(!companyVal||!name){err.textContent='اختر الشركة وأدخل اسم المنتج';return}
+  try{
+    let company=allCompanies().find(c=>c.name===companyVal)||{};
+    let published=status==='published';
+    if(!logo) logo=company.logo||'';
+    if(imgFile) img=await readSmallImage(imgFile,450*1024);
+    if(logoFile) logo=await readSmallImage(logoFile,250*1024);
+    
+    await db.collection('products').add({
+      companyId:company.id||null,
+      companyName:companyVal,
+      companyLogoUrl:logo,
+      name,
+      category,
+      description:desc,
+      features,
+      imageUrl:img,
+      status,
+      published,
+      disclaimer,
+      createdBy:auth.currentUser.uid,
+      createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+      updatedAt:firebase.firestore.FieldValue.serverTimestamp(),
+      ...(published?{publishedAt:firebase.firestore.FieldValue.serverTimestamp()}:{})
+    });
+    closeModal('productModal');
+    await loadAll();
+    toast(published?'تم نشر المنتج وربطه بواجهة العملاء':'تم حفظ المنتج كمسودة');
+  }catch(e){
+    console.error(e);
+    err.textContent=e.message==='image-too-large'?'حجم الصورة كبير. قلل الحجم ثم حاول مرة أخرى.':'تعذر حفظ المنتج';
+  }
+}
+
+function renderNotifications(){
+  document.getElementById('notificationsList').innerHTML=DATA.notifications.sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).slice(0,50).map(n=>`<div class="item"><h4>${esc(n.title||'Notification')} — ${esc(clientName(n.clientId))}</h4><p>${esc(n.body||'')} • ${date(n.createdAt)}</p></div>`).join('')||'<div class="empty">لا توجد إشعارات</div>';
+}
+
+function renderActivity(){
+  document.getElementById('activityList').innerHTML=DATA.activity.sort((a,b)=>ms(b.createdAt)-ms(a.createdAt)).slice(0,100).map(a=>`<div class="item"><h4>${esc(a.action||a.type||'Activity')}</h4><p>${esc(a.description||a.text||'')} • ${date(a.createdAt)}</p></div>`).join('')||'<div class="empty">لا يوجد سجل نشاط حتى الآن</div>';
+}
+
+function renderReports(){
+  let active=DATA.policies.filter(x=>days(x.endDate)>=0).length,
+      exp=DATA.policies.filter(x=>days(x.endDate)>=0&&days(x.endDate)<=45).length,
+      paid=DATA.payments.reduce((a,x)=>a+(Number(x.amount)||0),0);
+  
+  document.getElementById('rClients').textContent=DATA.clients.length;
+  document.getElementById('rActive').textContent=active;
+  document.getElementById('rRenewals').textContent=exp;
+  document.getElementById('rPaid').textContent=paid.toLocaleString('en-US')+' EGP';
+}
+
+function updateBadge(){
+  let n=DATA.messages.filter(m=>m.sender==='client'&&!m.autoReply&&!m.readByAdmin).length;
+  document.getElementById('msgBadge').textContent=n;
+  document.getElementById('msgBadge').classList.toggle('hidden',!n);
+  document.getElementById('sMessages').textContent=n;
+  document.getElementById('messageCount').textContent=n;
+}
+
+function startMessages(){
+  if(MSG_UNSUB)MSG_UNSUB();
+  MSG_UNSUB=db.collection('messages').onSnapshot(s=>{
+    DATA.messages=s.docs.map(d=>({id:d.id,...d.data()}));
+    updateBadge();
+    renderConversations();
+    renderClients();
+    renderDashboard();
+  });
+}
+
+function openClientChat(id){
+  CURRENT_CHAT=id;
+  document.getElementById('chatTitle').textContent=clientName(id);
+  show('messages');
+  if(CHAT_UNSUB)CHAT_UNSUB();
+  CHAT_UNSUB=db.collection('messages').where('clientId','==',id).onSnapshot(s=>{
+    let docs=s.docs.slice().sort((a,b)=>ms(a.data().createdAt)-ms(b.data().createdAt));
+    document.getElementById('chatList').innerHTML=docs.map(d=>{
+      let m=d.data();
+      return `<div class="bubble ${m.sender==='agent'?'agent':'client'}">${esc(m.text)}${m.autoReply?'<div style="font-size:9px;opacity:.65;margin-top:3px">Auto reply</div>':''}</div>`;
+    }).join('')||'<div class="empty">لا توجد رسائل</div>';
+    document.getElementById('chatList').scrollTop=999999;
+    docs.filter(d=>{let m=d.data();return m.sender==='client'&&!m.autoReply&&!m.readByAdmin}).forEach(d=>d.ref.update({readByAdmin:true}).catch(()=>{}));
+  });
+}
+
+async function sendMessage(){
+  let i=document.getElementById('chatInput'),text=i.value.trim();
+  if(!text||!CURRENT_CHAT)return;
+  i.value='';
+  try{
+    await db.collection('messages').add({clientId:CURRENT_CHAT,sender:'agent',agentId:auth.currentUser.uid,text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+    await logActivity('Agent replied',`Replied to ${clientName(CURRENT_CHAT)}`);
+  }catch(e){toast('تعذر إرسال الرسالة')}
+}
+
+function show(v,el){
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+  let node=document.getElementById('v-'+v);
+  if(node)node.classList.add('active');
+  document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
+  (el||document.querySelector(`[data-view="${v}"]`))?.classList.add('active');
+  document.getElementById('title').textContent=t(v);
+  if(v==='dashboard')renderDashboard();
+}
+
+function modal(id,s=true){document.getElementById(id).classList.toggle('show',s)}
+function closeModal(id){modal(id,false)}
+
+function refreshSelects(){
+  ['pClient','payClient','clClient'].forEach(id=>{
+    let s=document.getElementById(id);
+    if(!s)return;
+    s.innerHTML='<option value="">اختر العميل</option>'+DATA.clients.map(c=>`<option value="${c.id}">${esc(c.fullName||c.username)}</option>`).join('');
+  });
+}
+
+function refreshPolicySelect(cid,pid){
+  let client=document.getElementById(cid).value,s=document.getElementById(pid);
+  if(!s)return;
+  s.innerHTML='<option value="">اختر الوثيقة</option>'+DATA.policies.filter(p=>p.clientId===client).map(p=>`<option value="${p.id}">${esc(p.policyNumber||p.type)}</option>`).join('');
+}
+
+let UPLOAD_CLIENT_ID=null;
+function openClientDocumentModal(id){
+  UPLOAD_CLIENT_ID=id;
+  document.getElementById('uErr').textContent='';
+  modal('clientDocModal');
+}
+
+async function uploadClientDocument(){
+  let f=document.getElementById('uFile').files[0],
+      type=document.getElementById('uType').value,
+      company=document.getElementById('uCompany').value,
+      number=document.getElementById('uNumber').value,
+      premium=document.getElementById('uPremium').value,
+      start=document.getElementById('uStart').value,
+      end=document.getElementById('uEnd').value,
+      err=document.getElementById('uErr');
+      
+  if(!UPLOAD_CLIENT_ID||!end){err.textContent='أكمل بيانات الوثيقة';return}
+  if(!f){err.textContent='اختر ملف الوثيقة';return}
+  if(f.size>2*1024*1024){err.textContent='الحد الأقصى 2MB';return}
+  
+  let r=new FileReader();
+  r.onload=async()=>{
+    try{
+      let p=await db.collection('policies').add({
+        clientId:UPLOAD_CLIENT_ID,type,company,policyNumber:number,premium:Number(premium)||0,
+        startDate:start,endDate:end,status:'pending_verification',verificationStatus:'pending',
+        source:'client',documentVerificationRequired:true,createdBy:auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()
+      });
+      await db.collection('documents').add({
+        clientId:UPLOAD_CLIENT_ID,policyId:p.id,fileName:f.name,fileType:f.type,dataUrl:r.result,uploadedBy:'client',verificationStatus:'pending',createdAt:firebase.firestore.FieldValue.serverTimestamp()
+      });
+      await notify(UPLOAD_CLIENT_ID,'تم استلام الوثيقة','تم رفع الوثيقة وهي في انتظار مراجعة الوسيط.');
+      closeModal('clientDocModal');
+      await loadAll();
+      toast('تم حفظ الوثيقة في انتظار المراجعة');
+    }catch(e){console.error(e);err.textContent='تعذر حفظ الوثيقة'}
+  };
+  r.readAsDataURL(f);
+}
 
 function openClientModal(){document.getElementById('cErr').textContent='';modal('clientModal')}
 function openPolicyModal(cid=''){refreshSelects();document.getElementById('pClient').value=cid||'';modal('policyModal')}
-function openPaymentModal(cid=''){refreshSelects();document.getElementById('payClient').value=cid||'';refreshPolicySelect('payClient','payPolicy');document.getElementById('payDate').value=new Date().toISOString().slice(0,10);modal('paymentModal')}
-function openClaimModal(cid=''){refreshSelects();document.getElementById('clClient').value=cid||'';refreshPolicySelect('clClient','clPolicy');modal('claimModal')}
-function openClientProfileEncoded(v){try{openClientProfile(decodeURIComponent(v))}catch(e){toast('تعذر فتح ملف العميل')}}
-function openClientProfile(id){const c=DATA.clients.find(x=>x.id===id);if(!c){toast('لم يتم العثور على العميل');return}const policies=DATA.policies.filter(x=>x.clientId===id),docs=DATA.documents.filter(x=>x.clientId===id),payments=DATA.payments.filter(x=>x.clientId===id),claims=DATA.claims.filter(x=>x.clientId===id),msgs=DATA.messages.filter(x=>x.clientId===id),assessment=(DATA.assessments||[]).find(x=>(x.id||x.clientId)===id);document.getElementById('profileName').textContent=c.fullName||c.username||'ملف العميل';document.getElementById('profileMeta').textContent=`${c.phone||'—'} • ${c.username||'—'} • ID: ${id}`;document.getElementById('profileBody').innerHTML=`<div class="grid" style="grid-template-columns:repeat(4,1fr)"><div class="card stat"><div class="k">الاسم</div><div class="v" style="font-size:16px">${esc(c.fullName)}</div></div><div class="card stat"><div class="k">الهاتف</div><div class="v" style="font-size:16px">${esc(c.phone)}</div></div><div class="card stat"><div class="k">الوثائق</div><div class="v">${policies.length}</div></div><div class="card stat"><div class="k">المطالبات</div><div class="v">${claims.length}</div></div><div class="card stat"><div class="k">مؤشر الحماية</div><div class="v">${Number.isFinite(Number(assessment?.score))?Number(assessment.score)+'%':'—'}</div></div></div><div class="actions" style="margin:15px 0"><button class="btn primary" onclick="openClientDocumentModal('${id}')">+ إضافة وثيقة</button><button class="btn outline" onclick="show('documents');document.getElementById('docSearch').value='${esc(c.fullName||'')}';renderDocuments()">📎 مستندات العميل</button><button class="btn dark" onclick="closeModal('clientProfileModal');openClientChat('${id}')">💬 المحادثة</button></div><div class="card panel"><div class="panelhead"><h3>وثائق العميل</h3></div><table><thead><tr><th>النوع</th><th>الشركة</th><th>رقم الوثيقة</th><th>الانتهاء</th><th>القسط</th><th>ملفات</th></tr></thead><tbody>${policies.map(p=>`<tr><td>${esc(p.type)}</td><td>${esc(p.company)}</td><td>${esc(p.policyNumber)}</td><td>${date(p.endDate)}</td><td>${Number(p.premium||0).toLocaleString('en-US')} EGP</td><td><button class="btn outline" style="padding:6px" onclick="openClientDocuments('${id}','${p.id}')">📎 فتح الملفات</button></td></tr>`).join('')||'<tr><td colspan="6"><div class="empty">لا توجد وثائق</div></td></tr>'}</tbody></table></div><div class="card panel" style="margin-top:15px"><div class="panelhead"><h3>مستندات العميل</h3></div><table><thead><tr><th>الملف</th><th>النوع</th><th>التاريخ</th><th>فتح</th></tr></thead><tbody>${docs.map(d=>`<tr><td>${esc(d.fileName||'—')}</td><td>${esc(d.fileType||'—')}</td><td>${date(d.createdAt)}</td><td><button type="button" class="btn outline" style="padding:6px" onclick="openDocumentFile('${d.id}')">فتح</button></td></tr>`).join('')||'<tr><td colspan="4"><div class="empty">لا توجد مستندات</div></td></tr>'}</tbody></table></div><div class="grid" style="margin-top:15px;grid-template-columns:repeat(3,1fr)"><div class="card stat"><div class="k">المدفوعات</div><div class="v">${payments.length}</div></div><div class="card stat"><div class="k">المطالبات</div><div class="v">${claims.length}</div></div><div class="card stat"><div class="k">الرسائل</div><div class="v">${msgs.length}</div></div></div>`;modal('clientProfileModal')}
-function openClientDocuments(clientId,policyId){const docs=DATA.documents.filter(d=>d.clientId===clientId&&(d.policyId===policyId||!d.policyId));const html=docs.map(d=>`<div class="item"><h4>${esc(d.fileName||'مستند')}</h4><p>${esc(d.fileType||'')} • ${date(d.createdAt)} • <button class="btn outline" style="padding:5px 8px" onclick="openDocumentFile('${d.id}')">فتح الملف</button></p></div>`).join('')||'<div class="empty">لا توجد ملفات مرتبطة بهذه الوثيقة</div>';document.getElementById('profileBody').insertAdjacentHTML('beforeend',`<div class="card" style="margin-top:15px;padding:15px"><h3>ملفات الوثيقة</h3>${html}</div>`)}
+function openPaymentModal(cid=''){
+  refreshSelects();
+  document.getElementById('payClient').value=cid||'';
+  refreshPolicySelect('payClient','payPolicy');
+  document.getElementById('payDate').value=new Date().toISOString().slice(0,10);
+  modal('paymentModal');
+}
+function openClaimModal(cid=''){
+  refreshSelects();
+  document.getElementById('clClient').value=cid||'';
+  refreshPolicySelect('clClient','clPolicy');
+  modal('claimModal');
+}
 
+function openClientProfileEncoded(v){try{openClientProfile(decodeURIComponent(v))}catch(e){toast('تعذر فتح ملف العميل')}}
+
+function openClientProfile(id){
+  const c=DATA.clients.find(x=>x.id===id);if(!c){toast('لم يتم العثور على العميل');return}
+  const policies=DATA.policies.filter(x=>x.clientId===id),
+        docs=DATA.documents.filter(x=>x.clientId===id),
+        payments=DATA.payments.filter(x=>x.clientId===id),
+        claims=DATA.claims.filter(x=>x.clientId===id),
+        msgs=DATA.messages.filter(x=>x.clientId===id),
+        assessment=(DATA.assessments||[]).find(x=>(x.id||x.clientId)===id);
+        
+  document.getElementById('profileName').textContent=c.fullName||c.username||'ملف العميل';
+  document.getElementById('profileMeta').textContent=`${c.phone||'—'} • ${c.username||'—'} • ID: ${id}`;
+  document.getElementById('profileBody').innerHTML=`<div class="grid" style="grid-template-columns:repeat(4,1fr)"><div class="card stat"><div class="k">الاسم</div><div class="v" style="font-size:16px">${esc(c.fullName)}</div></div><div class="card stat"><div class="k">الهاتف</div><div class="v" style="font-size:16px">${esc(c.phone)}</div></div><div class="card stat"><div class="k">الوثائق</div><div class="v">${policies.length}</div></div><div class="card stat"><div class="k">المطالبات</div><div class="v">${claims.length}</div></div><div class="card stat" style="grid-column: span 4"><div class="k">مؤشر الحماية</div><div class="v">${Number.isFinite(Number(assessment?.score))?Number(assessment.score)+'%':'—'}</div></div></div><div class="actions" style="margin:15px 0"><button class="btn primary" onclick="openClientDocumentModal('${id}')">+ إضافة وثيقة</button><button class="btn outline" onclick="show('documents');document.getElementById('docSearch').value='${esc(c.fullName||'')}';renderDocuments()">📎 مستندات العميل</button><button class="btn dark" onclick="closeModal('clientProfileModal');openClientChat('${id}')">💬 المحادثة</button></div><div class="card panel"><div class="panelhead"><h3>وثائق العميل</h3></div><table><thead><tr><th>النوع</th><th>الشركة</th><th>رقم الوثيقة</th><th>الانتهاء</th><th>القسط</th><th>ملفات</th></tr></thead><tbody>${policies.map(p=>`<tr><td>${esc(p.type)}</td><td>${esc(p.company)}</td><td>${esc(p.policyNumber)}</td><td>${date(p.endDate)}</td><td>${Number(p.premium||0).toLocaleString('en-US')} EGP</td><td><button class="btn outline" style="padding:6px" onclick="openClientDocuments('${id}','${p.id}')">📎 فتح الملفات</button></td></tr>`).join('')||'<tr><td colspan="6"><div class="empty">لا توجد وثائق</div></td></tr>'}</tbody></table></div><div class="card panel" style="margin-top:15px"><div class="panelhead"><h3>مستندات العميل</h3></div><table><thead><tr><th>الملف</th><th>النوع</th><th>التاريخ</th><th>فتح</th></tr></thead><tbody>${docs.map(d=>`<tr><td>${esc(d.fileName||'—')}</td><td>${esc(d.fileType||'—')}</td><td>${date(d.createdAt)}</td><td><button type="button" class="btn outline" style="padding:6px" onclick="openDocumentFile('${d.id}')">فتح</button></td></tr>`).join('')||'<tr><td colspan="4"><div class="empty">لا توجد مستندات</div></td></tr>'}</tbody></table></div><div class="grid" style="margin-top:15px;grid-template-columns:repeat(3,1fr)"><div class="card stat"><div class="k">المدفوعات</div><div class="v">${payments.length}</div></div><div class="card stat"><div class="k">المطالبات</div><div class="v">${claims.length}</div></div><div class="card stat"><div class="k">الرسائل</div><div class="v">${msgs.length}</div></div></div>`;
+  modal('clientProfileModal');
+}
+
+function openClientDocuments(clientId,policyId){
+  const docs=DATA.documents.filter(d=>d.clientId===clientId&&(d.policyId===policyId||!d.policyId));
+  const html=docs.map(d=>`<div class="item"><h4>${esc(d.fileName||'مستند')}</h4><p>${esc(d.fileType||'')} • ${date(d.createdAt)} • <button class="btn outline" style="padding:5px 8px" onclick="openDocumentFile('${d.id}')">فتح الملف</button></p></div>`).join('')||'<div class="empty">لا توجد ملفات مرتبطة بهذه الوثيقة</div>';
+  document.getElementById('profileBody').insertAdjacentHTML('beforeend',`<div class="card" style="margin-top:15px;padding:15px"><h3>ملفات الوثيقة</h3>${html}</div>`);
+}
 
 function assessmentOwnerLabel(a){return a?.ownerType==='yes'?'شركة / مؤسسة':'فرد';}
 function assessmentPoliciesLabel(a){return (a?.policies||[]).concat(a?.businessPolicies||[]).join('، ')||'—';}
+
 function renderAssessments(){
   const q=(document.getElementById('assessmentSearch')?.value||'').toLowerCase();
   const list=(DATA.assessments||[]).filter(a=>{
     const c=DATA.clients.find(x=>x.id===a.id||x.id===a.clientId);
     return [a.name,a.businessActivity,a.occupation,a.businessName,c?.fullName,c?.phone].join(' ').toLowerCase().includes(q);
   }).sort((a,b)=>ms(b.updatedAt)-ms(a.updatedAt));
+  
   const body=document.getElementById('assessmentsBody'); if(!body)return;
   document.getElementById('assessmentCount').textContent=list.length;
   body.innerHTML=list.map(a=>{
@@ -126,6 +956,7 @@ function renderAssessments(){
     return `<tr><td>${esc(a.name||clientName(id))}</td><td>${esc(assessmentOwnerLabel(a))}</td><td>${esc(a.businessActivity||a.occupation||'—')}</td><td>${valid}</td><td>${scoreHtml}</td><td>${esc(a.label||'—')}</td><td>${date(a.updatedAt)}</td><td><button type="button" class="btn outline" style="padding:6px 9px" onclick="openAssessment('${id}')">عرض التقييم</button></td></tr>`;
   }).join('')||'<tr><td colspan="8"><div class="empty">لا توجد تقييمات حماية محفوظة</div></td></tr>';
 }
+
 function openAssessment(id){
   const a=(DATA.assessments||[]).find(x=>(x.id||x.clientId)===id);
   if(!a){toast('لم يتم العثور على التقييم');return;}
@@ -160,6 +991,7 @@ function openAssessment(id){
     <div class="actions" style="margin-top:15px"><button class="btn dark" onclick="closeModal('assessmentModal');openClientProfile('${id}')">فتح ملف العميل</button><button class="btn primary" onclick="closeModal('assessmentModal');openClientChat('${id}')">مناقشة النتيجة</button></div>`;
   modal('assessmentModal');
 }
+
 async function verifyDocument(id,status){
   const d=DATA.documents.find(x=>x.id===id); if(!d)return;
   try{
@@ -174,13 +1006,131 @@ async function verifyDocument(id,status){
   }catch(e){console.error(e);toast('تعذر تحديث حالة المستند')}
 }
 
-async function logActivity(action,description){try{await db.collection('activity').add({action,description,actorId:auth.currentUser?.uid||'',createdAt:firebase.firestore.FieldValue.serverTimestamp()})}catch(e){}}
-async function notify(id,title,body){try{await db.collection('notifications').add({clientId:id,title,body,read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()})}catch(e){}}
-async function ensureRenewalNotifications(){for(const p of (DATA.policies||[])){const d=days(p.endDate);if(d<0||d>45||!p.clientId)continue;const key=`renewal45_${p.id}_${String(p.endDate).slice(0,10)}`;const exists=(DATA.notifications||[]).some(n=>n.type==='renewal_45'&&n.reminderKey===key);if(exists)continue;await db.collection('notifications').add({clientId:p.clientId,policyId:p.id,type:'renewal_45',reminderKey:key,title:'تذكير بتجديد وثيقة التأمين',body:`تنبيه: وثيقتك ${p.policyNumber||''} تنتهي خلال ${d} يومًا بتاريخ ${p.endDate}. برجاء التواصل معنا قبل موعد التجديد.`,read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()});DATA.notifications.push({clientId:p.clientId,policyId:p.id,type:'renewal_45',reminderKey:key,title:'تذكير بتجديد وثيقة التأمين',body:'',createdAt:null});}}
-async function createClient(){let name=cName.value.trim(),phone=cPhone.value.trim(),user=cUser.value.trim().toLowerCase(),pass=cPass.value,err=cErr;err.textContent='';if(!name||!user||pass.length<6){err.textContent='أكمل البيانات وكلمة المرور 6 أحرف على الأقل';return}try{let app=firebase.apps.find(a=>a.name==='Secondary')||firebase.initializeApp(firebaseConfig,'Secondary'),a=app.auth(),cred=await a.createUserWithEmailAndPassword(user+'@securepath.app',pass);await db.collection('clients').doc(cred.user.uid).set({fullName:name,phone,username:user,role:'client',createdAt:firebase.firestore.FieldValue.serverTimestamp(),createdBy:auth.currentUser.uid});await a.signOut();await logActivity('Client created',`Created client ${name}`);closeModal('clientModal');await loadAll();toast('تم إنشاء العميل بنجاح')}catch(e){err.textContent=e.code?.includes('email-already')?'اسم المستخدم مستخدم بالفعل':'تعذر إنشاء العميل'}}
-async function createPolicy(){let cid=pClient.value;if(!cid||!pCompany.value.trim()||!pEnd.value){pErr.textContent='اختر العميل والشركة وتاريخ الانتهاء';return}try{let data={clientId:cid,type:pType.value.trim(),company:pCompany.value.trim(),policyNumber:pNumber.value.trim(),premium:Number(pPremium.value)||0,startDate:pStart.value,endDate:pEnd.value,coverage:pCoverage.value.trim(),status:'active',createdBy:auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()};await db.collection('policies').add(data);await notify(cid,'وثيقة جديدة','تمت إضافة وثيقة جديدة إلى حسابك.');await logActivity('Policy created',`Added policy for ${clientName(cid)}`);closeModal('policyModal');await loadAll();toast('تم حفظ الوثيقة') }catch(e){pErr.textContent='تعذر حفظ الوثيقة'}}
-async function createPayment(){let cid=payClient.value;if(!cid||!payAmount.value||!payDate.value){payErr.textContent='أكمل العميل والمبلغ والتاريخ';return}try{await db.collection('payments').add({clientId:cid,policyId:payPolicy.value||null,amount:Number(payAmount.value),date:payDate.value,method:payMethod.value,note:payNote.value.trim(),createdBy:auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});await notify(cid,'تم تسجيل دفعة','تم تسجيل دفعة جديدة في حسابك.');await logActivity('Payment recorded',`Payment for ${clientName(cid)}`);closeModal('paymentModal');await loadAll();toast('تم تسجيل الدفعة')}catch(e){payErr.textContent='تعذر حفظ الدفعة'}}
-async function createClaim(){let cid=clClient.value;if(!cid||!clType.value.trim()){clErr.textContent='اختر العميل واكتب نوع المطالبة';return}let pol=DATA.policies.find(x=>x.id===clPolicy.value);try{await db.collection('claims').add({clientId:cid,policyId:clPolicy.value||null,policyNumber:pol?.policyNumber||'',type:clType.value.trim(),amount:Number(clAmount.value)||0,status:clStatus.value,description:clDesc.value.trim(),createdBy:auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});await notify(cid,'تحديث مطالبة','تم تسجيل مطالبة ويمكنك متابعة حالتها من التطبيق.');await logActivity('Claim created',`Claim for ${clientName(cid)}`);closeModal('claimModal');await loadAll();toast('تم تسجيل المطالبة')}catch(e){clErr.textContent='تعذر حفظ المطالبة'}}
-async function changeClaim(id,status){if(!status)return;try{let c=DATA.claims.find(x=>x.id===id);await db.collection('claims').doc(id).update({status,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:auth.currentUser.uid});await notify(c.clientId,'تحديث حالة المطالبة','تم تحديث حالة مطالبتك إلى: '+claimLabel(status));await logActivity('Claim updated',`${clientName(c.clientId)} → ${claimLabel(status)}`);await loadAll();toast('تم تحديث الحالة')}catch(e){toast('تعذر تحديث المطالبة')}}
+async function logActivity(action,description){
+  try{await db.collection('activity').add({action,description,actorId:auth.currentUser?.uid||'',createdAt:firebase.firestore.FieldValue.serverTimestamp()})}catch(e){}
+}
+
+async function notify(id,title,body){
+  try{await db.collection('notifications').add({clientId:id,title,body,read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()})}catch(e){}
+}
+
+async function ensureRenewalNotifications(){
+  for(const p of (DATA.policies||[])){
+    const d=days(p.endDate);
+    if(d<0||d>45||!p.clientId)continue;
+    const key=`renewal45_${p.id}_${String(p.endDate).slice(0,10)}`;
+    const exists=(DATA.notifications||[]).some(n=>n.type==='renewal_45'&&n.reminderKey===key);
+    if(exists)continue;
+    await db.collection('notifications').add({
+      clientId:p.clientId,policyId:p.id,type:'renewal_45',reminderKey:key,title:'تذكير بتجديد وثيقة التأمين',
+      body:`تنبيه: وثيقتك ${p.policyNumber||''} تنتهي خلال ${d} يومًا بتاريخ ${p.endDate}. برجاء التواصل معنا قبل موعد التجديد.`,
+      read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+    DATA.notifications.push({clientId:p.clientId,policyId:p.id,type:'renewal_45',reminderKey:key,title:'تذكير بتجديد وثيقة التأمين',body:'',createdAt:null});
+  }
+}
+
+async function createClient(){
+  let name=document.getElementById('cName').value.trim(),
+      phone=document.getElementById('cPhone').value.trim(),
+      user=document.getElementById('cUser').value.trim().toLowerCase(),
+      pass=document.getElementById('cPass').value,
+      err=document.getElementById('cErr');
+  err.textContent='';
+  if(!name||!user||pass.length<6){err.textContent='أكمل البيانات وكلمة المرور 6 أحرف على الأقل';return}
+  try{
+    let app=firebase.apps.find(a=>a.name==='Secondary')||firebase.initializeApp(firebaseConfig,'Secondary'),
+        a=app.auth(),
+        cred=await a.createUserWithEmailAndPassword(user+'@securepath.app',pass);
+    await db.collection('clients').doc(cred.user.uid).set({fullName:name,phone,username:user,role:'client',createdAt:firebase.firestore.FieldValue.serverTimestamp(),createdBy:auth.currentUser.uid});
+    await a.signOut();
+    await logActivity('Client created',`Created client ${name}`);
+    closeModal('clientModal');
+    await loadAll();
+    toast('تم إنشاء العميل بنجاح');
+  }catch(e){
+    err.textContent=e.code?.includes('email-already')?'اسم المستخدم مستخدم بالفعل':'تعذر إنشاء العميل';
+  }
+}
+
+async function createPolicy(){
+  let cid=document.getElementById('pClient').value,
+      company=document.getElementById('pCompany').value.trim(),
+      type=document.getElementById('pType').value.trim(),
+      number=document.getElementById('pNumber').value.trim(),
+      premium=document.getElementById('pPremium').value,
+      start=document.getElementById('pStart').value,
+      end=document.getElementById('pEnd').value,
+      coverage=document.getElementById('pCoverage').value.trim(),
+      err=document.getElementById('pErr');
+      
+  if(!cid||!company||!end){err.textContent='اختر العميل والشركة وتاريخ الانتهاء';return}
+  try{
+    let data={clientId:cid,type,company,policyNumber:number,premium:Number(premium)||0,startDate:start,endDate:end,coverage,status:'active',createdBy:auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+    await db.collection('policies').add(data);
+    await notify(cid,'وثيقة جديدة','تمت إضافة وثيقة جديدة إلى حسابك.');
+    await logActivity('Policy created',`Added policy for ${clientName(cid)}`);
+    closeModal('policyModal');
+    await loadAll();
+    toast('تم حفظ الوثيقة');
+  }catch(e){err.textContent='تعذر حفظ الوثيقة'}
+}
+
+async function createPayment(){
+  let cid=document.getElementById('payClient').value,
+      policyId=document.getElementById('payPolicy').value,
+      amount=document.getElementById('payAmount').value,
+      dateVal=document.getElementById('payDate').value,
+      method=document.getElementById('payMethod').value,
+      note=document.getElementById('payNote').value.trim(),
+      err=document.getElementById('payErr');
+      
+  if(!cid||!amount||!dateVal){err.textContent='أكمل العميل والمبلغ والتاريخ';return}
+  try{
+    await db.collection('payments').add({clientId:cid,policyId:policyId||null,amount:Number(amount),date:dateVal,method,note,createdBy:auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+    await notify(cid,'تم تسجيل دفعة','تم تسجيل دفعة جديدة في حسابك.');
+    await logActivity('Payment recorded',`Payment for ${clientName(cid)}`);
+    closeModal('paymentModal');
+    await loadAll();
+    toast('تم تسجيل الدفعة');
+  }catch(e){err.textContent='تعذر حفظ الدفعة'}
+}
+
+async function createClaim(){
+  let cid=document.getElementById('clClient').value,
+      policyId=document.getElementById('clPolicy').value,
+      type=document.getElementById('clType').value.trim(),
+      amount=document.getElementById('clAmount').value,
+      status=document.getElementById('clStatus').value,
+      desc=document.getElementById('clDesc').value.trim(),
+      err=document.getElementById('clErr');
+      
+  if(!cid||!type){err.textContent='اختر العميل واكتب نوع المطالبة';return}
+  let pol=DATA.policies.find(x=>x.id===policyId);
+  try{
+    await db.collection('claims').add({clientId:cid,policyId:policyId||null,policyNumber:pol?.policyNumber||'',type,amount:Number(amount)||0,status,description:desc,createdBy:auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+    await notify(cid,'تحديث مطالبة','تم تسجيل مطالبة ويمكنك متابعة حالتها من التطبيق.');
+    await logActivity('Claim created',`Claim for ${clientName(cid)}`);
+    closeModal('claimModal');
+    await loadAll();
+    toast('تم تسجيل المطالبة');
+  }catch(e){err.textContent='تعذر حفظ المطالبة'}
+}
+
+async function changeClaim(id,status){
+  if(!status)return;
+  try{
+    let c=DATA.claims.find(x=>x.id===id);
+    await db.collection('claims').doc(id).update({status,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:auth.currentUser.uid});
+    await notify(c.clientId,'تحديث حالة المطالبة','تم تحديث حالة مطالبتك إلى: '+claimLabel(status));
+    await logActivity('Claim updated',`${clientName(c.clientId)} → ${claimLabel(status)}`);
+    await loadAll();
+    toast('تم تحديث الحالة');
+  }catch(e){toast('تعذر تحديث المطالبة')}
+}
+
+// Initial Run
 applyLang();
-</script><div id="productModal" class="overlay"><div class="modal"><h2>إضافة منتج تأميني</h2><div class="formgrid"><div class="field"><label>شركة التأمين</label><select id="prCompany"></select></div><div class="field"><label>اسم المنتج</label><input id="prName"></div><div class="field"><label>تصنيف المنتج</label><select id="prCategory"><option value="car">سيارات</option><option value="health">صحي</option><option value="life">حياة</option><option value="home">ممتلكات</option><option value="travel">سفر</option><option value="other" selected>أخرى</option></select></div></div><div class="field"><label>الوصف</label><textarea id="prDesc"></textarea></div><div class="field"><label>المميزات — كل ميزة في سطر</label><textarea id="prFeatures"></textarea></div><div class="field"><label>صورة الإعلان URL</label><input id="prImage"></div><div class="field"><label>أو رفع صورة الإعلان</label><input id="prImageFile" type="file" accept="image/png,image/jpeg,image/webp"></div><div class="field"><label>لوجو الشركة للمنتج — URL</label><input id="prLogo"></div><div class="field"><label>أو رفع لوجو الشركة</label><input id="prLogoFile" type="file" accept="image/png,image/jpeg,image/webp"></div><div class="field"><label>الحالة</label><select id="prStatus"><option value="draft">Draft</option><option value="published">Published</option><option value="archived">Archived</option></select></div><div class="field"><label>Disclaimer</label><textarea id="prDisclaimer">المعلومات لأغراض التعريف والتوعية ولا تمثل إصدارًا أو ضمانًا لقبول وثيقة. تخضع التغطيات والشروط والأسعار لما تقرره شركة التأمين والوثيقة المعتمدة.</textarea></div><div id="prErr" class="warn"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('productModal')">إلغاء</button><button class="btn primary" onclick="createProduct()">حفظ</button></div></div></div></body></html>
+</script>
+</body>
+</html>
