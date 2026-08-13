@@ -6,7 +6,6 @@
 <title>Secure PATH — Admin & Agent Center</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -418,6 +417,7 @@ var DATA = { clients: [], policies: [], payments: [], claims: [], documents: [],
 var CURRENT_CHAT = null;
 var CHAT_UNSUB = null;
 var MSG_UNSUB = null;
+var UPLOAD_CLIENT_ID = null;
 
 var I18N = {
   ar: { dashboard: 'لوحة التحكم', clients: 'العملاء', policies: 'الوثائق', payments: 'الأقساط والمدفوعات', claims: 'المطالبات', documents: 'المستندات', renewals: 'التجديدات', companies: 'شركات التأمين', products: 'المنتجات', reports: 'التقارير', compliance: 'الامتثال', messages: 'المحادثات', notifications: 'الإشعارات', activity: 'سجل النشاط', assessments: 'تقييمات الحماية', totalClients: 'إجمالي العملاء', totalPolicies: 'إجمالي الوثائق', openClaims: 'المطالبات المفتوحة', unread: 'الرسائل الجديدة', expiring: 'وثائق تنتهي قريبًا', payments: 'إجمالي المدفوعات', documents: 'المستندات', agents: 'المستخدم الحالي', expiringTitle: 'وثائق قريبة الانتهاء', viewAll: 'عرض الكل', recentActivity: 'آخر النشاطات', addClient: 'إضافة عميل', client: 'العميل', phone: 'الهاتف', lastMessage: 'آخر رسالة', status: 'الحالة', actions: 'إجراءات', conversations: 'المحادثات' },
@@ -1172,8 +1172,6 @@ function openClientDocumentModal(id) {
   document.getElementById('uErr').textContent = '';
   modal('clientDocModal');
 }
-
-var UPLOAD_CLIENT_ID = null;
 
 function uploadClientDocument() {
   var type = document.getElementById('uType').value.trim();
