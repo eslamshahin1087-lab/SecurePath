@@ -853,7 +853,7 @@
     </div>
   </div>
 
-  <!-- 3. HOME SCREEN (Simply Clever) -->
+  <!-- 3. HOME SCREEN -->
   <div class="screen" id="home">
     <div class="pro-topbar">
       <div class="mini-brand">
@@ -961,7 +961,7 @@
       </div>
     </div>
     <div class="policies" id="productsList" style="padding-top: 14px;">
-      <!-- Dynamic products from Firebase/State -->
+      <!-- Dynamic products -->
     </div>
   </div>
 
@@ -1112,90 +1112,122 @@
 
 </div>
 
-<!-- APPLICATION SCRIPT WITH ERROR-SAFE WRAPPER -->
+<!-- APPLICATION SCRIPT WITH DATABASE PERSISTENCE -->
 <script>
 window.addEventListener('error', function(e) {
   console.warn('Caught unexpected JS Error:', e.error || e.message);
-  return true; // Prevents app crash
+  return true;
 });
 
-/* STATE MANAGEMENT & FIREBASE MOCK DATA HYDRATION */
-const STATE = {
+/* DEFAULT INITIAL DATA (الحفاظ الكامل على الوثائق والمستندات المسجلة) */
+const DEFAULT_POLICIES = [
+  {
+    id: "pol_01",
+    userId: "usr_islam_01",
+    title: "تأمين الشامل للمركبات",
+    company: "شركة أليانز للتأمين",
+    policyNumber: "AZ-99281-CAR",
+    type: "مركبات",
+    expiryDate: getFutureDate(20),
+    sumInsured: "450,000 EGP",
+    status: "Active",
+    docUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+  },
+  {
+    id: "pol_02",
+    userId: "usr_islam_01",
+    title: "تأمين الطبي الخاص",
+    company: "شركة بوبا للتأمين",
+    policyNumber: "BP-44102-MED",
+    type: "طبي",
+    expiryDate: getFutureDate(120),
+    sumInsured: "1,000,000 EGP",
+    status: "Active",
+    docUrl: "https://via.placeholder.com/600x800.png?text=Medical+Policy+Document"
+  }
+];
+
+const DEFAULT_DOCUMENTS = [
+  {
+    id: "doc_01",
+    userId: "usr_islam_01",
+    name: "بطاقة الرقم القومي",
+    category: "هوية شخصية",
+    status: "Verified",
+    uploadDate: "2026-01-10",
+    fileUrl: "https://via.placeholder.com/600x400.png?text=National+ID+Card",
+    fileType: "image"
+  },
+  {
+    id: "doc_02",
+    userId: "usr_islam_01",
+    name: "رخصة القيادة - إسلام إبراهيم",
+    category: "رخصة قيادة/مركبة",
+    status: "Pending Verification",
+    uploadDate: "2026-08-10",
+    fileUrl: "https://via.placeholder.com/600x400.png?text=Driving+License",
+    fileType: "image"
+  }
+];
+
+const DEFAULT_PRODUCTS = [
+  {
+    id: "prod_01",
+    title: "تأمين السفر الدولي الشامل",
+    company: "SecurePath Protection",
+    price: "من 800 EGP/سنة",
+    desc: "تغطية الحالات الطبية الطارئة وإلغاء الرحلات حول العالم."
+  },
+  {
+    id: "prod_02",
+    title: "تأمين أخطار الحريق والسطو",
+    company: "GIG Insurance",
+    price: "من 1,500 EGP/سنة",
+    desc: "حماية الشركات والممتلكات ضد الحوادث والأخطار الطبيعية."
+  }
+];
+
+/* STATE MANAGEMENT & PERSISTENCE LOAD */
+let STATE = {
   currentUser: {
     uid: "usr_islam_01",
     name: "إسلام إبراهيم",
     email: "client@securepath.com"
   },
-  // Unified Collection Data
-  policies: [
-    {
-      id: "pol_01",
-      userId: "usr_islam_01",
-      title: "تأمين الشامل للمركبات",
-      company: "شركة أليانز للتأمين",
-      policyNumber: "AZ-99281-CAR",
-      type: "مركبات",
-      expiryDate: getFutureDate(20), // Expirings in 20 days (< 45 days)
-      sumInsured: "450,000 EGP",
-      status: "Active",
-      docUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-    },
-    {
-      id: "pol_02",
-      userId: "usr_islam_01",
-      title: "تأمين الطبي الخاص",
-      company: "شركة بوبا للتأمين",
-      policyNumber: "BP-44102-MED",
-      type: "طبي",
-      expiryDate: getFutureDate(120),
-      sumInsured: "1,000,000 EGP",
-      status: "Active",
-      docUrl: "https://via.placeholder.com/600x800.png?text=Medical+Policy+Document"
-    }
-  ],
-  documents: [
-    {
-      id: "doc_01",
-      userId: "usr_islam_01",
-      name: "بطاقة الرقم القومي",
-      category: "هوية شخصية",
-      status: "Verified",
-      uploadDate: "2026-01-10",
-      fileUrl: "https://via.placeholder.com/600x400.png?text=National+ID+Card",
-      fileType: "image"
-    },
-    {
-      id: "doc_02",
-      userId: "usr_islam_01",
-      name: "رخصة القيادة - إسلام إبراهيم",
-      category: "رخصة قيادة/مركبة",
-      status: "Pending Verification",
-      uploadDate: "2026-08-10",
-      fileUrl: "https://via.placeholder.com/600x400.png?text=Driving+License",
-      fileType: "image"
-    }
-  ],
-  products: [
-    {
-      id: "prod_01",
-      title: "تأمين السفر الدولي الشامل",
-      company: "SecurePath Protection",
-      price: "من 800 EGP/سنة",
-      desc: "تغطية الحالات الطبية الطارئة وإلغاء الرحلات حول العالم."
-    },
-    {
-      id: "prod_02",
-      title: "تأمين أخطار الحريق والسطو",
-      company: "GIG Insurance",
-      price: "من 1,500 EGP/سنة",
-      desc: "حماية الشرك والممتلكات ضد الحوادث والأخطار الطبيعية."
-    }
-  ],
-  notifications: [],
-  insuranceAssessments: {}
+  policies: loadData('sp_policies', DEFAULT_POLICIES),
+  documents: loadData('sp_documents', DEFAULT_DOCUMENTS),
+  products: loadData('sp_products', DEFAULT_PRODUCTS),
+  notifications: loadData('sp_notifications', []),
+  insuranceAssessments: loadData('sp_assessments', {})
 };
 
 let activePreviewUrl = "";
+
+/* PERSISTENCE HELPER FUNCTIONS */
+function saveData(key, data) {
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch (e) {
+    console.warn("Storage quota or disabled error:", e);
+  }
+}
+
+function loadData(key, defaultVal) {
+  try {
+    const saved = localStorage.getItem(key);
+    return saved ? JSON.parse(saved) : defaultVal;
+  } catch (e) {
+    return defaultVal;
+  }
+}
+
+function persistState() {
+  saveData('sp_policies', STATE.policies);
+  saveData('sp_documents', STATE.documents);
+  saveData('sp_products', STATE.products);
+  saveData('sp_notifications', STATE.notifications);
+  saveData('sp_assessments', STATE.insuranceAssessments);
+}
 
 /* UTILITY FUNCTIONS */
 function getFutureDate(daysAhead) {
@@ -1250,7 +1282,7 @@ function openModal(modalId) {
   if (m) m.classList.add('show');
 }
 
-/* INITIALIZATION & EXPIRY LOGIC (45 DAYS RULE) */
+/* INITIALIZATION & EXPIRY LOGIC */
 function initApp() {
   try {
     checkExpiringPoliciesAndNotify();
@@ -1261,7 +1293,6 @@ function initApp() {
   }
 }
 
-// Check Expiry under 45 days and prevent duplicates
 function checkExpiringPoliciesAndNotify() {
   const DAYS_THRESHOLD = 45;
   STATE.policies.forEach(pol => {
@@ -1281,28 +1312,24 @@ function checkExpiringPoliciesAndNotify() {
       }
     }
   });
+  persistState();
 }
 
-/* INSURANCE ASSESSMENT LOGIC (%) & SAVE TO insuranceAssessments */
 function calculateInsuranceAssessment() {
   let score = 0;
   
-  // 1. Check policies validity
   const activePolicies = STATE.policies.filter(p => daysUntil(p.expiryDate) > 0);
   if (activePolicies.length >= 1) score += 40;
   if (activePolicies.length >= 2) score += 20;
 
-  // 2. Check verified documents
   const verifiedDocs = STATE.documents.filter(d => d.status === 'Verified');
   if (verifiedDocs.length >= 1) score += 20;
 
-  // 3. Check expiring alerts
   const hasExpiring = STATE.policies.some(p => daysUntil(p.expiryDate) <= 45 && daysUntil(p.expiryDate) > 0);
   if (hasExpiring) score = Math.max(score - 10, 20);
 
   score = Math.min(Math.max(score, 15), 100);
 
-  // Save to insuranceAssessments DB/State
   const assessmentResult = {
     score: score,
     timestamp: new Date().toISOString(),
@@ -1311,6 +1338,7 @@ function calculateInsuranceAssessment() {
   };
 
   STATE.insuranceAssessments[STATE.currentUser.uid] = assessmentResult;
+  persistState();
   return assessmentResult;
 }
 
@@ -1340,7 +1368,6 @@ function renderAssessmentData(res) {
 function renderAll() {
   renderAssessmentData();
 
-  // Stats Counters
   const activeCount = STATE.policies.filter(p => daysUntil(p.expiryDate) > 0).length;
   const expiringCount = STATE.policies.filter(p => daysUntil(p.expiryDate) <= 45 && daysUntil(p.expiryDate) > 0).length;
   const docsCount = STATE.documents.filter(d => d.status === 'Verified').length;
@@ -1349,17 +1376,10 @@ function renderAll() {
   document.getElementById('statExpiringCount').innerText = expiringCount;
   document.getElementById('statDocsCount').innerText = docsCount;
 
-  // Policies Rendering
   renderPoliciesList('homePoliciesList', STATE.policies.slice(0, 2));
   renderPoliciesList('fullPoliciesList', STATE.policies);
-
-  // Products Rendering
   renderProductsList();
-
-  // Documents Rendering
   renderDocumentsList();
-
-  // Notifications Rendering
   renderNotificationsList();
 }
 
@@ -1486,7 +1506,6 @@ function openPolicyModal(policyId) {
   document.getElementById('mPolicyAmount').innerText = p.sumInsured;
   document.getElementById('mPolicyStatus').innerText = p.status;
 
-  // Fix Action Buttons
   const btnOpen = document.getElementById('btnOpenPolicyDoc');
   const btnRenew = document.getElementById('btnRenewPolicy');
 
@@ -1545,7 +1564,6 @@ function triggerDocDownload() {
   }
 }
 
-/* UPLOAD DOCUMENT LOGIC (LINKED TO EXISTING COLLECTION WITHOUT NEW COLLECTION) */
 function openUploadDocModal() {
   openModal('uploadDocModal');
 }
@@ -1569,21 +1587,20 @@ function processDocUpload() {
     fileUrl = URL.createObjectURL(file);
   }
 
-  // Add directly to existing STATE.documents array
   const newDoc = {
     id: 'doc_' + Date.now(),
     userId: STATE.currentUser.uid,
     name: nameInput,
     category: categoryInput,
-    status: 'Pending Verification', // Explicit state as requested
+    status: 'Pending Verification',
     uploadDate: new Date().toISOString().split('T')[0],
     fileUrl: fileUrl,
     fileType: fileType
   };
 
   STATE.documents.unshift(newDoc);
+  persistState(); // إجبار الحفظ لمنع الضياع
   
-  // Re-evaluate assessment and update view
   calculateInsuranceAssessment();
   renderAll();
 
@@ -1593,7 +1610,7 @@ function processDocUpload() {
   showScreen('documents');
 }
 
-/* AUTHENTICATION MOCK HANDLERS */
+/* AUTHENTICATION HANDLERS */
 function handleLogin() {
   const email = document.getElementById('loginEmail').value;
   if (email) {
