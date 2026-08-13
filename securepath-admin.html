@@ -141,7 +141,7 @@ tr:last-child td{border-bottom:0}
 <!-- Login Screen -->
 <div id="login">
   <div class="login">
-    <div class="logo"><img src="icon-192.png" onerror="this.style.display='none'" alt="Secure PATH"></div>
+    <div class="logo"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50,10 L90,25 L90,65 C90,80 50,95 50,95 C50,95 10,80 10,65 L10,25 Z' fill='%23F2BD63'/><path d='M50,20 L80,32 L80,60 C80,72 50,84 50,84 C50,84 20,72 20,60 L20,32 Z' fill='%230E2A5C'/></svg>" alt="Secure PATH"></div>
     <h1>Secure PATH</h1>
     <p id="loginSub">مركز تشغيل الوسيط — العملاء والوثائق والمطالبات والمحادثات</p>
     <div class="field"><label id="emailLabel">البريد الإلكتروني</label><input id="email" type="email" autocomplete="username"></div>
@@ -156,23 +156,23 @@ tr:last-child td{border-bottom:0}
 <div id="app">
   <div class="shell">
     <aside class="side">
-      <div class="brand"><img src="icon-192.png" onerror="this.style.display='none'" alt="Secure PATH"><b>Secure PATH</b></div>
+      <div class="brand"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50,10 L90,25 L90,65 C90,80 50,95 50,95 C50,95 10,80 10,65 L10,25 Z' fill='%23F2BD63'/><path d='M50,20 L80,32 L80,60 C80,72 50,84 50,84 C50,84 20,72 20,60 L20,32 Z' fill='%230E2A5C'/></svg>" alt="Secure PATH"><b>Secure PATH</b></div>
       <nav class="nav">
-        <button type="button" data-view="dashboard" onclick="show('dashboard',this)"><span class="navicon">▦</span><span data-i="dashboard">لوحة التحكم</span></button>
-        <button type="button" data-view="clients" onclick="show('clients',this)"><span class="navicon">♙</span><span data-i="clients">العملاء</span></button>
-        <button type="button" data-view="policies" onclick="show('policies',this)"><span class="navicon">▣</span><span data-i="policies">الوثائق</span></button>
-        <button type="button" data-view="payments" onclick="show('payments',this)"><span class="navicon">₣</span><span data-i="payments">الأقساط والمدفوعات</span></button>
-        <button type="button" data-view="claims" onclick="show('claims',this)"><span class="navicon">!</span><span data-i="claims">المطالبات</span></button>
-        <button type="button" data-view="documents" onclick="show('documents',this)"><span class="navicon">▤</span><span data-i="documents">المستندات</span></button>
-        <button type="button" data-view="renewals" onclick="show('renewals',this)"><span class="navicon">↻</span><span data-i="renewals">التجديدات</span></button>
-        <button type="button" data-view="companies" onclick="show('companies',this)"><span class="navicon">◆</span><span data-i="companies">شركات التأمين</span></button>
-        <button type="button" data-view="products" onclick="show('products',this)"><span class="navicon">▰</span><span data-i="products">المنتجات</span></button>
-        <button type="button" data-view="reports" onclick="show('reports',this)"><span class="navicon">▥</span><span data-i="reports">التقارير والتحليلات</span></button>
-        <button type="button" data-view="assessments" onclick="show('assessments',this)"><span class="navicon">◉</span><span data-i="assessments">تقييمات الحماية</span></button>
-        <button type="button" data-view="compliance" onclick="show('compliance',this)"><span class="navicon">✓</span><span data-i="compliance">الامتثال</span></button>
-        <button type="button" data-view="messages" onclick="show('messages',this)"><span class="navicon">✉</span><span data-i="messages">المحادثات</span><b id="msgBadge" class="badge hidden">0</b></button>
-        <button type="button" data-view="notifications" onclick="show('notifications',this)"><span class="navicon">◉</span><span data-i="notifications">الإشعارات</span></button>
-        <button type="button" data-view="activity" onclick="show('activity',this)"><span class="navicon">◷</span><span data-i="activity">سجل النشاط</span></button>
+        <button type="button" data-view="dashboard" onclick="showView('dashboard',this)"><span class="navicon">▦</span><span data-i="dashboard">لوحة التحكم</span></button>
+        <button type="button" data-view="clients" onclick="showView('clients',this)"><span class="navicon">♙</span><span data-i="clients">العملاء</span></button>
+        <button type="button" data-view="policies" onclick="showView('policies',this)"><span class="navicon">▣</span><span data-i="policies">الوثائق</span></button>
+        <button type="button" data-view="payments" onclick="showView('payments',this)"><span class="navicon">₣</span><span data-i="payments">الأقساط والمدفوعات</span></button>
+        <button type="button" data-view="claims" onclick="showView('claims',this)"><span class="navicon">!</span><span data-i="claims">المطالبات</span></button>
+        <button type="button" data-view="documents" onclick="showView('documents',this)"><span class="navicon">▤</span><span data-i="documents">المستندات</span></button>
+        <button type="button" data-view="renewals" onclick="showView('renewals',this)"><span class="navicon">↻</span><span data-i="renewals">التجديدات</span></button>
+        <button type="button" data-view="companies" onclick="showView('companies',this)"><span class="navicon">◆</span><span data-i="companies">شركات التأمين</span></button>
+        <button type="button" data-view="products" onclick="showView('products',this)"><span class="navicon">▰</span><span data-i="products">المنتجات</span></button>
+        <button type="button" data-view="reports" onclick="showView('reports',this)"><span class="navicon">▥</span><span data-i="reports">التقارير والتحليلات</span></button>
+        <button type="button" data-view="assessments" onclick="showView('assessments',this)"><span class="navicon">◉</span><span data-i="assessments">تقييمات الحماية</span></button>
+        <button type="button" data-view="compliance" onclick="showView('compliance',this)"><span class="navicon">✓</span><span data-i="compliance">الامتثال</span></button>
+        <button type="button" data-view="messages" onclick="showView('messages',this)"><span class="navicon">✉</span><span data-i="messages">المحادثات</span><b id="msgBadge" class="badge hidden">0</b></button>
+        <button type="button" data-view="notifications" onclick="showView('notifications',this)"><span class="navicon">◉</span><span data-i="notifications">الإشعارات</span></button>
+        <button type="button" data-view="activity" onclick="showView('activity',this)"><span class="navicon">◷</span><span data-i="activity">سجل النشاط</span></button>
       </nav>
       <div class="sidefoot">
         <span id="userEmail">—</span><br>
@@ -207,7 +207,7 @@ tr:last-child td{border-bottom:0}
             <div class="card stat" style="grid-column: span 4"><div class="k">متوسط مؤشر الحماية</div><div id="sProtectionAvg" class="v">—</div><div class="s">Insurance Protection Score</div></div>
           </div>
           <div class="two">
-            <div class="card"><div class="panelhead"><h3 data-i="expiringTitle">وثائق قريبة الانتهاء</h3><button class="btn outline" onclick="show('policies')" data-i="viewAll">عرض الكل</button></div><div id="dashExpiring"></div></div>
+            <div class="card"><div class="panelhead"><h3 data-i="expiringTitle">وثائق قريبة الانتهاء</h3><button class="btn outline" onclick="showView('policies')" data-i="viewAll">عرض الكل</button></div><div id="dashExpiring"></div></div>
             <div class="card"><div class="panelhead"><h3 data-i="recentActivity">آخر النشاطات</h3></div><div id="dashActivity" class="list"></div></div>
           </div>
         </div>
@@ -318,7 +318,7 @@ tr:last-child td{border-bottom:0}
         <!-- Products -->
         <div id="v-products" class="view">
           <div class="card" style="padding:13px 16px;margin-bottom:15px;background:#fffaf0;border-color:#f1dfb9">
-            <b style="color:var(--navy)">النشر للمستخدم:</b> أي منتج حالته Published سيظهر تلقائيًا في صفحة منتجات التأمين داخل تطبيق العميل عبر مجموعة <code>products</code>. لا يمثل العرض إصدارًا أو قبولًا أو تسعيرًا نهائيًا.
+            <b style="color:var(--navy)">النشر للمستخدم:</b> أي منتج حالته Published سيظهر تلقائيًا في صفحة منتجات التأمين داخل تطبيق العميل.
           </div>
           <div class="toolbar">
             <div class="search"><input id="productSearch" oninput="renderProducts()" placeholder="ابحث في المنتجات"></div>
@@ -341,13 +341,13 @@ tr:last-child td{border-bottom:0}
         <!-- Protection Assessments -->
         <div id="v-assessments" class="view">
           <div class="toolbar">
-            <div class="search"><input id="assessmentSearch" oninput="renderAssessments()" placeholder="ابحث باسم العميل أو النشاط أو الوظيفة"></div>
+            <div class="search"><input id="assessmentSearch" oninput="renderAssessments()" placeholder="ابحث باسم العميل"></div>
             <button class="btn outline" onclick="renderAssessments()">↻ تحديث</button>
           </div>
           <div class="card panel">
             <div class="panelhead"><h3>تقييمات الحماية التأمينية</h3><span class="pill blue" id="assessmentCount">0</span></div>
             <table>
-              <thead><tr><th>العميل</th><th>الصفة</th><th>النشاط / الوظيفة</th><th>الوثائق السارية</th><th>المؤشر</th><th>التقييم</th><th>آخر تحديث</th><th>إجراء</th></tr></thead>
+              <thead><tr><th>العميل</th><th>الصفة</th><th>النشاط</th><th>الوثائق السارية</th><th>المؤشر</th><th>التقييم</th><th>آخر تحديث</th><th>إجراء</th></tr></thead>
               <tbody id="assessmentsBody"></tbody>
             </table>
           </div>
@@ -357,8 +357,8 @@ tr:last-child td{border-bottom:0}
         <div id="v-compliance" class="view">
           <div class="card" style="padding:20px">
             <h3 style="font-family:Tajawal;color:var(--navy)">Compliance Center</h3>
-            <p style="line-height:1.9;font-size:13px">Secure PATH يعمل هنا كـ CRM وخدمة ومتابعة للعميل. أي إصدار أو توزيع رقمي لوثيقة تأمين يجب أن يكون مرتبطًا بالترخيص والموافقات والربط المعتمد مع شركة التأمين. الوثائق التي يرفعها العميل تسجل كـ Pending Verification حتى اعتماد الوسيط.</p>
-            <div class="item"><b>تنبيه قانوني</b><p>هذه الشاشة أداة تشغيلية وليست رأيًا قانونيًا أو إثباتًا للترخيص الرقمي. مؤشر الحماية التأمينية تقدير إرشادي مبني على البيانات المدخلة والوثائق المسجلة، ولا يمثل اكتتابًا أو قبولًا أو تسعيرًا أو توصية ملزمة.</p></div>
+            <p style="line-height:1.9;font-size:13px">Secure PATH يعمل هنا كـ CRM وخدمة ومتابعة للعميل. أي إصدار أو توزيع رقمي لوثيقة تأمين يجب أن يكون مرتبطًا بالترخيص والموافقات والربط المعتمد مع شركة التأمين.</p>
+            <div class="item"><b>تنبيه قانوني</b><p>هذه الشاشة أداة تشغيلية وليست رأيًا قانونيًا أو إثباتًا للترخيص الرقمي.</p></div>
           </div>
         </div>
 
@@ -389,7 +389,7 @@ tr:last-child td{border-bottom:0}
 
 <div id="companyModal" class="overlay"><div class="modal"><h2>إضافة شركة تأمين</h2><div class="field"><label>اسم الشركة</label><input id="coName"></div><div class="field"><label>لوجو الشركة — URL</label><input id="coLogo"></div><div class="field"><label>أو رفع لوجو الشركة</label><input id="coLogoFile" type="file" accept="image/png,image/jpeg,image/webp"></div><div class="field"><label>وصف مختصر</label><textarea id="coDesc"></textarea></div><div id="coErr" class="warn"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('companyModal')">إلغاء</button><button class="btn primary" onclick="createCompany()">حفظ الشركة</button></div></div></div>
 
-<div id="productModal" class="overlay"><div class="modal"><h2>إضافة منتج تأميني</h2><div class="formgrid"><div class="field"><label>شركة التأمين</label><select id="prCompany"></select></div><div class="field"><label>اسم المنتج</label><input id="prName"></div><div class="field"><label>تصنيف المنتج</label><select id="prCategory"><option value="car">سيارات</option><option value="health">صحي</option><option value="life">حياة</option><option value="home">ممتلكات</option><option value="travel">سفر</option><option value="other" selected>أخرى</option></select></div></div><div class="field"><label>الوصف</label><textarea id="prDesc"></textarea></div><div class="field"><label>المميزات — كل ميزة في سطر</label><textarea id="prFeatures"></textarea></div><div class="field"><label>صورة الإعلان URL</label><input id="prImage"></div><div class="field"><label>أو رفع صورة الإعلان</label><input id="prImageFile" type="file" accept="image/png,image/jpeg,image/webp"></div><div class="field"><label>لوجو الشركة للمنتج — URL</label><input id="prLogo"></div><div class="field"><label>أو رفع لوجو الشركة</label><input id="prLogoFile" type="file" accept="image/png,image/jpeg,image/webp"></div><div class="field"><label>الحالة</label><select id="prStatus"><option value="draft">Draft</option><option value="published">Published</option><option value="archived">Archived</option></select></div><div class="field"><label>Disclaimer</label><textarea id="prDisclaimer">المعلومات لأغراض التعريف والتوعية ولا تمثل إصدارًا أو ضمانًا لقبول وثيقة. تخضع التغطيات والشروط والأسعار لما تقرره شركة التأمين والوثيقة المعتمدة.</textarea></div><div id="prErr" class="warn"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('productModal')">إلغاء</button><button class="btn primary" onclick="createProduct()">حفظ</button></div></div></div>
+<div id="productModal" class="overlay"><div class="modal"><h2>إضافة منتج تأميني</h2><div class="formgrid"><div class="field"><label>شركة التأمين</label><select id="prCompany"></select></div><div class="field"><label>اسم المنتج</label><input id="prName"></div><div class="field"><label>تصنيف المنتج</label><select id="prCategory"><option value="car">سيارات</option><option value="health">صحي</option><option value="life">حياة</option><option value="home">ممتلكات</option><option value="travel">سفر</option><option value="other" selected>أخرى</option></select></div></div><div class="field"><label>الوصف</label><textarea id="prDesc"></textarea></div><div class="field"><label>المميزات — كل ميزة في سطر</label><textarea id="prFeatures"></textarea></div><div class="field"><label>صورة الإعلان URL</label><input id="prImage"></div><div class="field"><label>أو رفع صورة الإعلان</label><input id="prImageFile" type="file" accept="image/png,image/jpeg,image/webp"></div><div class="field"><label>لوجو الشركة للمنتج — URL</label><input id="prLogo"></div><div class="field"><label>أو رفع لوجو الشركة</label><input id="prLogoFile" type="file" accept="image/png,image/jpeg,image/webp"></div><div class="field"><label>الحالة</label><select id="prStatus"><option value="draft">Draft</option><option value="published">Published</option><option value="archived">Archived</option></select></div><div class="field"><label>Disclaimer</label><textarea id="prDisclaimer">المعلومات لأغراض التعريف والتوعية ولا تمثل إصدارًا أو ضمانًا لقبول وثيقة.</textarea></div><div id="prErr" class="warn"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('productModal')">إلغاء</button><button class="btn primary" onclick="createProduct()">حفظ</button></div></div></div>
 
 <div id="assessmentModal" class="overlay"><div class="modal" style="width:min(850px,97vw)"><div style="display:flex;justify-content:space-between;align-items:center"><div><h2 id="assessmentModalTitle">تقييم الحماية</h2><div id="assessmentModalMeta" class="muted"></div></div><button class="btn outline" onclick="closeModal('assessmentModal')">✕</button></div><div id="assessmentModalBody" style="margin-top:15px"></div></div></div>
 
@@ -397,7 +397,7 @@ tr:last-child td{border-bottom:0}
 
 <script>
 // Firebase Configuration
-const firebaseConfig = {
+var firebaseConfig = {
   apiKey: 'AIzaSyCkRYPffAEBRivC2Si5T-ILL99ZrSq-dWM',
   authDomain: 'path-1a672.firebaseapp.com',
   projectId: 'path-1a672',
@@ -406,25 +406,34 @@ const firebaseConfig = {
   appId: '1:616651183121:web:ba7f3cdec65a9df8014db0'
 };
 
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
+if (typeof firebase !== 'undefined' && !firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
-let LANG = localStorage.getItem('sp_admin_lang') || 'ar';
-let DATA = { clients: [], policies: [], payments: [], claims: [], documents: [], messages: [], notifications: [], activity: [], products: [], companies: [], assessments: [] };
-let CURRENT_CHAT = null, CHAT_UNSUB = null, MSG_UNSUB = null;
+var auth = firebase.auth();
+var db = firebase.firestore();
 
-const I18N = {
+var LANG = localStorage.getItem('sp_admin_lang') || 'ar';
+var DATA = { clients: [], policies: [], payments: [], claims: [], documents: [], messages: [], notifications: [], activity: [], products: [], companies: [], assessments: [] };
+var CURRENT_CHAT = null;
+var CHAT_UNSUB = null;
+var MSG_UNSUB = null;
+
+var I18N = {
   ar: { dashboard: 'لوحة التحكم', clients: 'العملاء', policies: 'الوثائق', payments: 'الأقساط والمدفوعات', claims: 'المطالبات', documents: 'المستندات', renewals: 'التجديدات', companies: 'شركات التأمين', products: 'المنتجات', reports: 'التقارير', compliance: 'الامتثال', messages: 'المحادثات', notifications: 'الإشعارات', activity: 'سجل النشاط', assessments: 'تقييمات الحماية', totalClients: 'إجمالي العملاء', totalPolicies: 'إجمالي الوثائق', openClaims: 'المطالبات المفتوحة', unread: 'الرسائل الجديدة', expiring: 'وثائق تنتهي قريبًا', payments: 'إجمالي المدفوعات', documents: 'المستندات', agents: 'المستخدم الحالي', expiringTitle: 'وثائق قريبة الانتهاء', viewAll: 'عرض الكل', recentActivity: 'آخر النشاطات', addClient: 'إضافة عميل', client: 'العميل', phone: 'الهاتف', lastMessage: 'آخر رسالة', status: 'الحالة', actions: 'إجراءات', conversations: 'المحادثات' },
   en: { dashboard: 'Dashboard', clients: 'Clients', policies: 'Policies', payments: 'Payments', claims: 'Claims', documents: 'Documents', renewals: 'Renewals', companies: 'Insurance Companies', products: 'Insurance Products', reports: 'Reports', compliance: 'Compliance', messages: 'Messages', notifications: 'Notifications', activity: 'Activity Log', assessments: 'Protection Assessments', totalClients: 'Total Clients', totalPolicies: 'Total Policies', openClaims: 'Open Claims', unread: 'Unread Messages', expiring: 'Expiring Policies', payments: 'Total Payments', documents: 'Documents', agents: 'Current User', expiringTitle: 'Policies Expiring Soon', viewAll: 'View All', recentActivity: 'Recent Activity', addClient: 'Add Client', client: 'Client', phone: 'Phone', lastMessage: 'Last Message', status: 'Status', actions: 'Actions', conversations: 'Conversations' }
 };
 
-const t = k => I18N[LANG][k] || k;
+function t(key) {
+  return I18N[LANG] && I18N[LANG][key] ? I18N[LANG][key] : key;
+}
 
 function applyLang() {
   document.documentElement.lang = LANG;
   document.documentElement.dir = LANG === 'ar' ? 'rtl' : 'ltr';
-  document.querySelectorAll('[data-i]').forEach(e => e.textContent = t(e.dataset.i));
+  document.querySelectorAll('[data-i]').forEach(function(el) {
+    el.textContent = t(el.dataset.i);
+  });
   document.getElementById('topLang').textContent = LANG === 'ar' ? 'English' : 'العربية';
   document.getElementById('langBtn').textContent = LANG === 'ar' ? 'English' : 'العربية';
   document.getElementById('loginSub').textContent = LANG === 'ar' ? 'مركز تشغيل الوسيط — العملاء والوثائق والمطالبات والمحادثات' : 'Agent Operations Center — clients, policies, claims and messages';
@@ -442,67 +451,120 @@ function toggleLang() {
   renderAll();
 }
 
-function esc(v) { if (!v) return ''; return String(v).replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c])); }
-function ms(ts) { return ts && ts.toMillis ? ts.toMillis() : (ts ? new Date(ts).getTime() : 0); }
-function date(v) { if (!v) return '—'; let d = v.toDate ? v.toDate() : new Date(v); return isNaN(d) ? '—' : d.toLocaleDateString(LANG === 'ar' ? 'ar-EG' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' }); }
-function ago(ts) { if (!ts) return '—'; let d = Date.now() - ms(ts); if (d < 60000) return LANG === 'ar' ? 'الآن' : 'Now'; if (d < 3600000) return Math.floor(d / 60000) + (LANG === 'ar' ? ' د' : 'm'); return date(ts); }
-function clientName(id) { const c = DATA.clients.find(x => x.id === id); return c ? (c.fullName || c.name || c.username || id || '—') : (id || '—'); }
-function days(end) { return end ? Math.ceil((new Date(end) - new Date()) / 86400000) : 9999; }
-function claimLabel(s) { return ({ new: 'New', under_review: 'Under Review', documents_required: 'Documents Required', approved: 'Approved', settled: 'Settled', rejected: 'Rejected' })[s] || s || '—'; }
+function esc(v) {
+  if (!v) return '';
+  return String(v).replace(/[&<>'"]/g, function(c) {
+    var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' };
+    return map[c] || c;
+  });
+}
+
+function ms(ts) {
+  if (!ts) return 0;
+  if (ts.toMillis) return ts.toMillis();
+  return new Date(ts).getTime();
+}
+
+function date(v) {
+  if (!v) return '—';
+  var d = v.toDate ? v.toDate() : new Date(v);
+  return isNaN(d) ? '—' : d.toLocaleDateString(LANG === 'ar' ? 'ar-EG' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function ago(ts) {
+  if (!ts) return '—';
+  var diff = Date.now() - ms(ts);
+  if (diff < 60000) return LANG === 'ar' ? 'الآن' : 'Now';
+  if (diff < 3600000) return Math.floor(diff / 60000) + (LANG === 'ar' ? ' د' : 'm');
+  return date(ts);
+}
+
+function clientName(id) {
+  var c = DATA.clients.find(function(x) { return x.id === id; });
+  return c ? (c.fullName || c.name || c.username || id || '—') : (id || '—');
+}
+
+function days(end) {
+  if (!end) return 9999;
+  return Math.ceil((new Date(end) - new Date()) / 86400000);
+}
+
+function claimLabel(s) {
+  var map = { new: 'New', under_review: 'Under Review', documents_required: 'Documents Required', approved: 'Approved', settled: 'Settled', rejected: 'Rejected' };
+  return map[s] || s || '—';
+}
 
 function toast(m) {
-  let x = document.getElementById('toast');
+  var x = document.getElementById('toast');
   x.textContent = m;
   x.classList.add('show');
-  setTimeout(() => x.classList.remove('show'), 2600);
+  setTimeout(function() { x.classList.remove('show'); }, 2600);
 }
 
-async function login() {
-  let e = document.getElementById('email').value.trim(), p = document.getElementById('pass').value;
+function login() {
+  var email = document.getElementById('email').value.trim();
+  var pass = document.getElementById('pass').value;
   document.getElementById('loginErr').textContent = '';
-  try {
-    await auth.signInWithEmailAndPassword(e, p);
-    document.getElementById('login').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    document.getElementById('userEmail').textContent = e;
-    document.getElementById('sAgent').textContent = e.split('@')[0];
-    applyLang();
-    await loadAll();
-    startMessages();
-  } catch (err) {
-    document.getElementById('loginErr').textContent = LANG === 'ar' ? 'تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور.' : 'Login failed. Check email and password.';
-  }
+  auth.signInWithEmailAndPassword(email, pass)
+    .then(function() {
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      document.getElementById('userEmail').textContent = email;
+      document.getElementById('sAgent').textContent = email.split('@')[0];
+      applyLang();
+      loadAll();
+      startMessages();
+    })
+    .catch(function(err) {
+      document.getElementById('loginErr').textContent = LANG === 'ar' ? 'تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور.' : 'Login failed. Check email and password.';
+    });
 }
 
-function logout() { auth.signOut().then(() => location.reload()); }
+function logout() {
+  auth.signOut().then(function() { location.reload(); });
+}
 
-auth.onAuthStateChanged(u => {
-  if (u) {
+auth.onAuthStateChanged(function(user) {
+  if (user) {
     document.getElementById('login').style.display = 'none';
     document.getElementById('app').style.display = 'block';
-    document.getElementById('userEmail').textContent = u.email || '';
-    document.getElementById('sAgent').textContent = (u.email || '').split('@')[0];
+    document.getElementById('userEmail').textContent = user.email || '';
+    document.getElementById('sAgent').textContent = (user.email || '').split('@')[0];
     applyLang();
     loadAll();
     startMessages();
   }
 });
 
-async function col(n) {
-  try {
-    let s = await db.collection(n).get();
-    return s.docs.map(d => ({ id: d.id, ...d.data() }));
-  } catch (e) { console.warn(n, e); return []; }
+function col(name) {
+  return db.collection(name).get()
+    .then(function(snap) {
+      return snap.docs.map(function(d) {
+        var data = d.data();
+        data.id = d.id;
+        return data;
+      });
+    })
+    .catch(function(e) {
+      console.warn(name, e);
+      return [];
+    });
 }
 
-async function loadAll() {
-  const names = ['clients', 'policies', 'payments', 'claims', 'documents', 'messages', 'notifications', 'activity', 'products', 'companies', 'insuranceAssessments'];
-  const vals = await Promise.all(names.map(col));
-  names.forEach((n, i) => {
-    if (n === 'insuranceAssessments') DATA.assessments = vals[i];
-    else DATA[n] = vals[i];
+function loadAll() {
+  var names = ['clients', 'policies', 'payments', 'claims', 'documents', 'messages', 'notifications', 'activity', 'products', 'companies', 'insuranceAssessments'];
+  var promises = names.map(function(n) { return col(n); });
+  
+  Promise.all(promises).then(function(results) {
+    names.forEach(function(n, i) {
+      if (n === 'insuranceAssessments') {
+        DATA.assessments = results[i];
+      } else {
+        DATA[n] = results[i];
+      }
+    });
+    renderAll();
   });
-  renderAll();
 }
 
 function renderAll() {
@@ -525,231 +587,289 @@ function renderAll() {
 }
 
 function renderDashboard() {
-  let open = DATA.claims.filter(x => !['settled', 'rejected'].includes(x.status)).length,
-      unread = DATA.messages.filter(x => x.sender === 'client' && !x.autoReply && !x.readByAdmin).length,
-      exp = DATA.policies.filter(x => days(x.endDate) >= 0 && days(x.endDate) <= 45).length,
-      total = DATA.payments.reduce((a, x) => a + (Number(x.amount) || 0), 0),
-      active = DATA.policies.filter(x => days(x.endDate) >= 0).length,
-      scores = (DATA.assessments || []).map(x => Number(x.score)).filter(x => Number.isFinite(x)),
-      avg = scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : null;
+  var openClaims = DATA.claims.filter(function(x) { return !['settled', 'rejected'].includes(x.status); }).length;
+  var unread = DATA.messages.filter(function(x) { return x.sender === 'client' && !x.autoReply && !x.readByAdmin; }).length;
+  var exp = DATA.policies.filter(function(x) { return days(x.endDate) >= 0 && days(x.endDate) <= 45; }).length;
+  var total = DATA.payments.reduce(function(a, x) { return a + (Number(x.amount) || 0); }, 0);
+  var active = DATA.policies.filter(function(x) { return days(x.endDate) >= 0; }).length;
+  var scores = (DATA.assessments || []).map(function(x) { return Number(x.score); }).filter(function(x) { return Number.isFinite(x); });
+  var avg = scores.length ? Math.round(scores.reduce(function(a, b) { return a + b; }, 0) / scores.length) : null;
 
-  [['sClients', DATA.clients.length], ['sPolicies', DATA.policies.length], ['sClaims', open], ['sMessages', unread], ['sExpiring', exp], ['sPayments', total.toLocaleString('en-US')], ['sDocs', DATA.documents.length]].forEach(([id, v]) => {
-    let el = document.getElementById(id); if (el) el.textContent = v;
+  var stats = [
+    ['sClients', DATA.clients.length],
+    ['sPolicies', DATA.policies.length],
+    ['sClaims', openClaims],
+    ['sMessages', unread],
+    ['sExpiring', exp],
+    ['sPayments', total.toLocaleString('en-US')],
+    ['sDocs', DATA.documents.length]
+  ];
+  stats.forEach(function(stat) {
+    var el = document.getElementById(stat[0]);
+    if (el) el.textContent = stat[1];
   });
+  
   document.getElementById('sActive').textContent = active + (LANG === 'ar' ? ' سارية' : ' active');
-  document.getElementById('sProtectionAvg').textContent = avg == null ? '—' : avg + '%';
+  document.getElementById('sProtectionAvg').textContent = avg === null ? '—' : avg + '%';
 
-  document.getElementById('dashExpiring').innerHTML = DATA.policies.filter(x => days(x.endDate) >= 0 && days(x.endDate) <= 45).sort((a, b) => days(a.endDate) - days(b.endDate)).slice(0, 8).map(p => `<div class="item"><b>${esc(clientName(p.clientId))}</b><p>${esc(p.company)} • ${esc(p.policyNumber)} • ${date(p.endDate)} <span class="pill red">${days(p.endDate)} ${LANG === 'ar' ? 'يوم' : 'days'}</span></p></div>`).join('') || '<div class="empty">—</div>';
-  document.getElementById('dashActivity').innerHTML = DATA.activity.slice().sort((a, b) => ms(b.createdAt) - ms(a.createdAt)).slice(0, 7).map(a => `<div class="item"><h4>${esc(a.action || a.type || 'Activity')}</h4><p>${esc(a.description || a.text || '')} • ${ago(a.createdAt)}</p></div>`).join('') || '<div class="empty">—</div>';
+  var expiringHtml = DATA.policies
+    .filter(function(p) { return days(p.endDate) >= 0 && days(p.endDate) <= 45; })
+    .sort(function(a, b) { return days(a.endDate) - days(b.endDate); })
+    .slice(0, 8)
+    .map(function(p) {
+      return '<div class="item"><b>' + esc(clientName(p.clientId)) + '</b><p>' + esc(p.company) + ' • ' + esc(p.policyNumber) + ' • ' + date(p.endDate) + ' <span class="pill red">' + days(p.endDate) + ' ' + (LANG === 'ar' ? 'يوم' : 'days') + '</span></p></div>';
+    })
+    .join('') || '<div class="empty">—</div>';
+  document.getElementById('dashExpiring').innerHTML = expiringHtml;
+
+  var activityHtml = DATA.activity
+    .slice()
+    .sort(function(a, b) { return ms(b.createdAt) - ms(a.createdAt); })
+    .slice(0, 7)
+    .map(function(a) {
+      return '<div class="item"><h4>' + esc(a.action || a.type || 'Activity') + '</h4><p>' + esc(a.description || a.text || '') + ' • ' + ago(a.createdAt) + '</p></div>';
+    })
+    .join('') || '<div class="empty">—</div>';
+  document.getElementById('dashActivity').innerHTML = activityHtml;
 }
 
 function renderClients() {
-  let q = (document.getElementById('clientSearch')?.value || '').toLowerCase();
-  let html = DATA.clients.filter(c => [c.fullName, c.phone, c.username, c.occupation, c.businessActivity].join(' ').toLowerCase().includes(q)).map(c => {
-    let pc = DATA.policies.filter(x => x.clientId === c.id).length,
-        cc = DATA.claims.filter(x => x.clientId === c.id).length,
-        msgs = DATA.messages.filter(x => x.clientId === c.id).sort((a, b) => ms(b.createdAt) - ms(a.createdAt));
-    let unread = msgs.some(m => m.sender === 'client' && !m.autoReply && !m.readByAdmin);
-    let score = Number(c.protectionScore);
-    let scoreHtml = Number.isFinite(score) ? `<span class="pill ${score < 50 ? 'red' : score < 70 ? 'blue' : ''}">${score}%</span>` : '—';
-    return `<tr><td><div class="name"><div class="avatar">${esc((c.fullName || '?').split(' ').slice(0, 2).map(x => x[0]).join(''))}</div><div><b>${esc(c.fullName || '—')}</b><div class="muted">${esc(c.username || '')}</div></div></div></td><td>${esc(c.phone || '—')}</td><td>${pc}</td><td>${cc}</td><td>${esc(msgs[0]?.text || '—')}</td><td>${unread ? '<span class="pill red">New</span>' : '<span class="pill">Active</span>'}</td><td>${scoreHtml}</td><td><div class="actions"><button type="button" onclick="openClientChat('${c.id}')">💬</button><button type="button" onclick="openPolicyModal('${c.id}')">+ وثيقة</button><button type="button" onclick="openClientProfile('${c.id}')">عرض</button></div></td></tr>`;
-  }).join('');
+  var q = (document.getElementById('clientSearch')?.value || '').toLowerCase();
+  var html = DATA.clients
+    .filter(function(c) {
+      var searchText = [c.fullName, c.phone, c.username, c.occupation, c.businessActivity].join(' ').toLowerCase();
+      return searchText.includes(q);
+    })
+    .map(function(c) {
+      var pc = DATA.policies.filter(function(x) { return x.clientId === c.id; }).length;
+      var cc = DATA.claims.filter(function(x) { return x.clientId === c.id; }).length;
+      var msgs = DATA.messages.filter(function(x) { return x.clientId === c.id; }).sort(function(a, b) { return ms(b.createdAt) - ms(a.createdAt); });
+      var unread = msgs.some(function(m) { return m.sender === 'client' && !m.autoReply && !m.readByAdmin; });
+      var score = Number(c.protectionScore);
+      var scoreHtml = Number.isFinite(score) ? '<span class="pill ' + (score < 50 ? 'red' : score < 70 ? 'blue' : '') + '">' + score + '%</span>' : '—';
+      
+      return '<tr><td><div class="name"><div class="avatar">' + esc((c.fullName || '?').split(' ').slice(0, 2).map(function(x) { return x[0]; }).join('')) + '</div><div><b>' + esc(c.fullName || '—') + '</b><div class="muted">' + esc(c.username || '') + '</div></div></div></td><td>' + esc(c.phone || '—') + '</td><td>' + pc + '</td><td>' + cc + '</td><td>' + esc(msgs[0]?.text || '—') + '</td><td>' + (unread ? '<span class="pill red">New</span>' : '<span class="pill">Active</span>') + '</td><td>' + scoreHtml + '</td><td><div class="actions"><button onclick="openClientChat(\'' + c.id + '\')">💬</button><button onclick="openPolicyModal(\'' + c.id + '\')">+ وثيقة</button><button onclick="openClientProfile(\'' + c.id + '\')">عرض</button></div></td></tr>';
+    })
+    .join('');
   document.getElementById('clientsBody').innerHTML = html || '<tr><td colspan="8"><div class="empty">لا يوجد عملاء</div></td></tr>';
 }
 
 function renderPolicies() {
-  let q = (document.getElementById('policySearch')?.value || '').toLowerCase();
-  document.getElementById('policiesBody').innerHTML = DATA.policies.filter(p => [clientName(p.clientId), p.company, p.policyNumber, p.type].join(' ').toLowerCase().includes(q)).map(p => `<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(p.type)}</td><td>${esc(p.company)}</td><td>${esc(p.policyNumber)}</td><td>${Number(p.premium || 0).toLocaleString('en-US')} EGP</td><td>${date(p.endDate)}</td><td>${days(p.endDate) < 0 ? '<span class="pill red">Expired</span>' : days(p.endDate) <= 30 ? '<span class="pill red">Expiring</span>' : '<span class="pill">Active</span>'}</td></tr>`).join('') || '<tr><td colspan="7"><div class="empty">لا توجد وثائق</div></td></tr>';
+  var q = (document.getElementById('policySearch')?.value || '').toLowerCase();
+  var html = DATA.policies
+    .filter(function(p) {
+      var searchText = [clientName(p.clientId), p.company, p.policyNumber, p.type].join(' ').toLowerCase();
+      return searchText.includes(q);
+    })
+    .map(function(p) {
+      return '<tr><td>' + esc(clientName(p.clientId)) + '</td><td>' + esc(p.type) + '</td><td>' + esc(p.company) + '</td><td>' + esc(p.policyNumber) + '</td><td>' + Number(p.premium || 0).toLocaleString('en-US') + ' EGP</td><td>' + date(p.endDate) + '</td><td>' + (days(p.endDate) < 0 ? '<span class="pill red">Expired</span>' : days(p.endDate) <= 30 ? '<span class="pill red">Expiring</span>' : '<span class="pill">Active</span>') + '</td></tr>';
+    })
+    .join('');
+  document.getElementById('policiesBody').innerHTML = html || '<tr><td colspan="7"><div class="empty">لا توجد وثائق</div></td></tr>';
 }
 
 function renderPayments() {
-  let q = (document.getElementById('paymentSearch')?.value || '').toLowerCase();
-  document.getElementById('paymentsBody').innerHTML = DATA.payments.filter(p => [clientName(p.clientId), p.method, p.note].join(' ').toLowerCase().includes(q)).sort((a, b) => String(b.date || '').localeCompare(String(a.date || ''))).map(p => `<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(DATA.policies.find(x => x.id === p.policyId)?.policyNumber || '—')}</td><td>${Number(p.amount || 0).toLocaleString('en-US')} EGP</td><td>${date(p.date)}</td><td>${esc(p.method || '—')}</td><td>${esc(p.note || '')}</td></tr>`).join('') || '<tr><td colspan="6"><div class="empty">لا توجد مدفوعات</div></td></tr>';
+  var q = (document.getElementById('paymentSearch')?.value || '').toLowerCase();
+  var html = DATA.payments
+    .filter(function(p) {
+      var searchText = [clientName(p.clientId), p.method, p.note].join(' ').toLowerCase();
+      return searchText.includes(q);
+    })
+    .sort(function(a, b) { return String(b.date || '').localeCompare(String(a.date || '')); })
+    .map(function(p) {
+      var policy = DATA.policies.find(function(x) { return x.id === p.policyId; });
+      return '<tr><td>' + esc(clientName(p.clientId)) + '</td><td>' + esc(policy?.policyNumber || '—') + '</td><td>' + Number(p.amount || 0).toLocaleString('en-US') + ' EGP</td><td>' + date(p.date) + '</td><td>' + esc(p.method || '—') + '</td><td>' + esc(p.note || '') + '</td></tr>';
+    })
+    .join('');
+  document.getElementById('paymentsBody').innerHTML = html || '<tr><td colspan="6"><div class="empty">لا توجد مدفوعات</div></td></tr>';
 }
 
 function renderClaims() {
-  let q = (document.getElementById('claimSearch')?.value || '').toLowerCase();
-  document.getElementById('claimsBody').innerHTML = DATA.claims.filter(c => [clientName(c.clientId), c.type, c.status].join(' ').toLowerCase().includes(q)).sort((a, b) => ms(b.updatedAt || b.createdAt) - ms(a.updatedAt || a.createdAt)).map(c => `<tr><td>${esc(clientName(c.clientId))}</td><td>${esc(c.type)}</td><td>${esc(c.policyNumber || DATA.policies.find(x => x.id === c.policyId)?.policyNumber || '—')}</td><td>${Number(c.amount || 0).toLocaleString('en-US')} EGP</td><td><span class="pill ${['rejected', 'settled'].includes(c.status) ? '' : 'blue'}">${esc(claimLabel(c.status))}</span></td><td>${date(c.updatedAt || c.createdAt)}</td><td><select onchange="changeClaim('${c.id}',this.value)"><option value="">Update</option><option value="under_review">Under Review</option><option value="documents_required">Documents Required</option><option value="approved">Approved</option><option value="settled">Settled</option><option value="rejected">Rejected</option></select></td></tr>`).join('') || '<tr><td colspan="7"><div class="empty">لا توجد مطالبات</div></td></tr>';
+  var q = (document.getElementById('claimSearch')?.value || '').toLowerCase();
+  var html = DATA.claims
+    .filter(function(c) {
+      var searchText = [clientName(c.clientId), c.type, c.status].join(' ').toLowerCase();
+      return searchText.includes(q);
+    })
+    .sort(function(a, b) { return ms(b.updatedAt || b.createdAt) - ms(a.updatedAt || a.createdAt); })
+    .map(function(c) {
+      var policy = DATA.policies.find(function(x) { return x.id === c.policyId; });
+      return '<tr><td>' + esc(clientName(c.clientId)) + '</td><td>' + esc(c.type) + '</td><td>' + esc(c.policyNumber || policy?.policyNumber || '—') + '</td><td>' + Number(c.amount || 0).toLocaleString('en-US') + ' EGP</td><td><span class="pill ' + (['rejected', 'settled'].includes(c.status) ? '' : 'blue') + '">' + esc(claimLabel(c.status)) + '</span></td><td>' + date(c.updatedAt || c.createdAt) + '</td><td><select onchange="changeClaim(\'' + c.id + '\',this.value)"><option value="">Update</option><option value="under_review">Under Review</option><option value="documents_required">Documents Required</option><option value="approved">Approved</option><option value="settled">Settled</option><option value="rejected">Rejected</option></select></td></tr>';
+    })
+    .join('');
+  document.getElementById('claimsBody').innerHTML = html || '<tr><td colspan="7"><div class="empty">لا توجد مطالبات</div></td></tr>';
 }
 
 function renderDocuments() {
-  let q = (document.getElementById('docSearch')?.value || '').toLowerCase();
-  document.getElementById('documentsBody').innerHTML = DATA.documents.filter(d => [clientName(d.clientId), d.fileName, d.fileType, d.verificationStatus].join(' ').toLowerCase().includes(q)).sort((a, b) => ms(b.createdAt) - ms(a.createdAt)).map(d => {
-    let st = String(d.verificationStatus || '').toLowerCase();
-    let badge = st === 'pending' ? '<span class="pill red">Pending Verification</span>' : st === 'approved' ? '<span class="pill">Approved</span>' : st === 'rejected' ? '<span class="pill red">Rejected</span>' : '<span class="pill blue">—</span>';
-    let url = d.dataUrl || d.downloadURL || d.fileUrl || d.url || '';
-    return `<tr><td>${esc(clientName(d.clientId))}</td><td>${esc(d.fileName || '—')}</td><td>${esc(d.fileType || '—')}</td><td>${d.uploadedBy === 'agent' ? '<span class="pill blue">Agent</span>' : '<span class="pill">Client</span>'}</td><td>${badge}</td><td>${date(d.createdAt)}</td><td><div class="actions"><button type="button" class="btn outline" style="padding:6px 9px" onclick="${url ? `window.open('${url}','_blank')` : `toast('لا يوجد رابط للملف')`}">فتح</button>${st === 'pending' ? `<button type="button" class="btn outline" style="padding:6px 9px" onclick="verifyDocument('${d.id}','approved')">اعتماد</button><button type="button" class="btn danger" style="padding:6px 9px" onclick="verifyDocument('${d.id}','rejected')">رفض</button>` : ''}</div></td></tr>`;
-  }).join('') || '<tr><td colspan="7"><div class="empty">لا توجد مستندات</div></td></tr>';
+  var q = (document.getElementById('docSearch')?.value || '').toLowerCase();
+  var html = DATA.documents
+    .filter(function(d) {
+      var searchText = [clientName(d.clientId), d.fileName, d.fileType, d.verificationStatus].join(' ').toLowerCase();
+      return searchText.includes(q);
+    })
+    .sort(function(a, b) { return ms(b.createdAt) - ms(a.createdAt); })
+    .map(function(d) {
+      var st = String(d.verificationStatus || '').toLowerCase();
+      var badge = st === 'pending' ? '<span class="pill red">Pending Verification</span>' : st === 'approved' ? '<span class="pill">Approved</span>' : st === 'rejected' ? '<span class="pill red">Rejected</span>' : '<span class="pill blue">—</span>';
+      var url = d.dataUrl || d.downloadURL || d.fileUrl || d.url || '';
+      var openBtn = url ? '<button class="btn outline" style="padding:6px 9px" onclick="window.open(\'' + url + '\',\'_blank\')">فتح</button>' : '<button class="btn outline" style="padding:6px 9px" onclick="toast(\'لا يوجد رابط للملف\')">فتح</button>';
+      var verifyBtns = st === 'pending' ? '<button class="btn outline" style="padding:6px 9px" onclick="verifyDocument(\'' + d.id + '\',\'approved\')">اعتماد</button><button class="btn danger" style="padding:6px 9px" onclick="verifyDocument(\'' + d.id + '\',\'rejected\')">رفض</button>' : '';
+      
+      return '<tr><td>' + esc(clientName(d.clientId)) + '</td><td>' + esc(d.fileName || '—') + '</td><td>' + esc(d.fileType || '—') + '</td><td>' + (d.uploadedBy === 'agent' ? '<span class="pill blue">Agent</span>' : '<span class="pill">Client</span>') + '</td><td>' + badge + '</td><td>' + date(d.createdAt) + '</td><td><div class="actions">' + openBtn + verifyBtns + '</div></td></tr>';
+    })
+    .join('');
+  document.getElementById('documentsBody').innerHTML = html || '<tr><td colspan="7"><div class="empty">لا توجد مستندات</div></td></tr>';
 }
 
 function renderConversations() {
-  let ids = [...new Set(DATA.messages.map(m => m.clientId).filter(Boolean))];
-  document.getElementById('conversationList').innerHTML = ids.map(id => {
-    let msx = DATA.messages.filter(m => m.clientId === id).sort((a, b) => ms(b.createdAt) - ms(a.createdAt)),
-        u = msx.some(m => m.sender === 'client' && !m.autoReply && !m.readByAdmin);
-    return `<div class="item ${u ? 'unread' : ''}" onclick="openClientChat('${id}')"><h4>${esc(clientName(id))} ${u ? '<span class="pill red">New</span>' : ''}</h4><p>${esc(msx[0]?.text || '')} • ${ago(msx[0]?.createdAt)} • ${msx.length} messages</p></div>`;
-  }).join('') || '<div class="empty">لا توجد محادثات</div>';
+  var ids = [];
+  DATA.messages.forEach(function(m) {
+    if (m.clientId && !ids.includes(m.clientId)) ids.push(m.clientId);
+  });
+  
+  var html = ids.map(function(id) {
+    var msgs = DATA.messages.filter(function(m) { return m.clientId === id; }).sort(function(a, b) { return ms(b.createdAt) - ms(a.createdAt); });
+    var unread = msgs.some(function(m) { return m.sender === 'client' && !m.autoReply && !m.readByAdmin; });
+    return '<div class="item ' + (unread ? 'unread' : '') + '" onclick="openClientChat(\'' + id + '\')"><h4>' + esc(clientName(id)) + (unread ? ' <span class="pill red">New</span>' : '') + '</h4><p>' + esc(msgs[0]?.text || '') + ' • ' + ago(msgs[0]?.createdAt) + ' • ' + msgs.length + ' messages</p></div>';
+  }).join('');
+  document.getElementById('conversationList').innerHTML = html || '<div class="empty">لا توجد محادثات</div>';
 }
 
 function renderRenewals() {
-  let q = (document.getElementById('renewalSearch')?.value || '').toLowerCase();
-  let a = DATA.policies.filter(p => days(p.endDate) >= 0 && days(p.endDate) <= 45).filter(p => [clientName(p.clientId), p.policyNumber, p.company].join(' ').toLowerCase().includes(q)).sort((a, b) => days(a.endDate) - days(b.endDate));
-  document.getElementById('renewalsBody').innerHTML = a.map(p => `<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(p.policyNumber)}</td><td>${esc(p.company)}</td><td>${date(p.endDate)}</td><td>${days(p.endDate)} يوم</td><td><button class="btn outline" onclick="notify('${p.clientId}','تذكير تجديد','وثيقتك تقترب من موعد التجديد.')">إرسال تذكير</button></td></tr>`).join('') || '<tr><td colspan="6"><div class="empty">لا توجد تجديدات قريبة</div></td></tr>';
+  var q = (document.getElementById('renewalSearch')?.value || '').toLowerCase();
+  var list = DATA.policies
+    .filter(function(p) { return days(p.endDate) >= 0 && days(p.endDate) <= 45; })
+    .filter(function(p) {
+      var searchText = [clientName(p.clientId), p.policyNumber, p.company].join(' ').toLowerCase();
+      return searchText.includes(q);
+    })
+    .sort(function(a, b) { return days(a.endDate) - days(b.endDate); });
+  
+  var html = list.map(function(p) {
+    return '<tr><td>' + esc(clientName(p.clientId)) + '</td><td>' + esc(p.policyNumber) + '</td><td>' + esc(p.company) + '</td><td>' + date(p.endDate) + '</td><td>' + days(p.endDate) + ' يوم</td><td><button class="btn outline" onclick="notify(\'' + p.clientId + '\',\'تذكير تجديد\',\'وثيقتك تقترب من موعد التجديد.\')">إرسال تذكير</button></td></tr>';
+  }).join('');
+  document.getElementById('renewalsBody').innerHTML = html || '<tr><td colspan="6"><div class="empty">لا توجد تجديدات قريبة</div></td></tr>';
 }
 
-async function runRenewalReminders() {
-  let a = DATA.policies.filter(p => [45, 30, 15, 7, 1].includes(days(p.endDate)));
-  for (const p of a) await notify(p.clientId, 'تذكير تجديد الوثيقة', `وثيقتك ${p.policyNumber || ''} تنتهي خلال ${days(p.endDate)} يوم.`);
-  toast('تم تشغيل التذكيرات');
+function runRenewalReminders() {
+  var list = DATA.policies.filter(function(p) { return [45, 30, 15, 7, 1].includes(days(p.endDate)); });
+  var promises = list.map(function(p) {
+    return notify(p.clientId, 'تذكير تجديد الوثيقة', 'وثيقتك ' + (p.policyNumber || '') + ' تنتهي خلال ' + days(p.endDate) + ' يوم.');
+  });
+  Promise.all(promises).then(function() {
+    toast('تم تشغيل التذكيرات');
+  });
 }
 
 function allCompanies() {
-  const map = {};
-  (DATA.policies || []).forEach(p => { if (p.company) { let k = p.company.trim(); map[k] = map[k] || { name: k, logo: '' }; } });
-  (DATA.companies || []).forEach(c => { if (c.name) { let k = c.name.trim(); map[k] = map[k] || { name: k, logo: c.logoUrl || c.logo || '' }; map[k].logo = c.logoUrl || c.logo || map[k].logo; } });
-  return Object.values(map).sort((a, b) => a.name.localeCompare(b.name));
+  var map = {};
+  (DATA.policies || []).forEach(function(p) {
+    if (p.company) {
+      var k = p.company.trim();
+      if (!map[k]) map[k] = { name: k, logo: '' };
+    }
+  });
+  (DATA.companies || []).forEach(function(c) {
+    if (c.name) {
+      var k = c.name.trim();
+      if (!map[k]) map[k] = { name: k, logo: '' };
+      map[k].logo = c.logoUrl || c.logo || map[k].logo;
+    }
+  });
+  return Object.values(map).sort(function(a, b) { return a.name.localeCompare(b.name); });
 }
 
 function renderCompanies() {
-  let a = allCompanies();
-  document.getElementById('companiesList').innerHTML = a.map(c => {
-    const key = encodeURIComponent(c.name);
-    return `<div class="item"><div class="name"><div style="width:48px;min-width:48px;height:48px;display:grid;place-items:center">${c.logo ? `<img src="${esc(c.logo)}" alt="" style="width:42px;height:42px;object-fit:contain;border-radius:10px;background:#fff" onerror="this.style.display='none'">` : `<div class="avatar">${esc(c.name.slice(0, 2))}</div>`}</div><div style="flex:1"><h4>${esc(c.name)}</h4><p>${DATA.policies.filter(p => p.company === c.name).length} وثيقة • ${(DATA.products || []).filter(p => (p.companyName || p.company) === c.name).length} منتج</p></div><button type="button" class="btn outline" style="padding:7px 12px;white-space:nowrap" onclick="openCompanyProfileEncoded('${key}')">فتح</button></div></div>`;
-  }).join('') || '<div class="empty">لا توجد شركات تأمين</div>';
+  var companies = allCompanies();
+  var html = companies.map(function(c) {
+    var key = encodeURIComponent(c.name);
+    var logoHtml = c.logo ? '<img src="' + esc(c.logo) + '" alt="" style="width:42px;height:42px;object-fit:contain;border-radius:10px;background:#fff" onerror="this.style.display=\'none\'">' : '<div class="avatar">' + esc(c.name.slice(0, 2)) + '</div>';
+    return '<div class="item"><div class="name"><div style="width:48px;min-width:48px;height:48px;display:grid;place-items:center">' + logoHtml + '</div><div style="flex:1"><h4>' + esc(c.name) + '</h4><p>' + DATA.policies.filter(function(p) { return p.company === c.name; }).length + ' وثيقة • ' + (DATA.products || []).filter(function(p) { return (p.companyName || p.company) === c.name; }).length + ' منتج</p></div><button class="btn outline" style="padding:7px 12px;white-space:nowrap" onclick="openCompanyProfileEncoded(\'' + key + '\')">فتح</button></div></div>';
+  }).join('');
+  document.getElementById('companiesList').innerHTML = html || '<div class="empty">لا توجد شركات تأمين</div>';
 }
 
-function openCompanyProfileEncoded(value) { try { openCompanyProfile(decodeURIComponent(value)); } catch (e) { toast('تعذر فتح بيانات الشركة'); } }
+function openCompanyProfileEncoded(value) {
+  try {
+    openCompanyProfile(decodeURIComponent(value));
+  } catch (e) {
+    toast('تعذر فتح بيانات الشركة');
+  }
+}
 
 function openCompanyProfile(name) {
-  const policies = DATA.policies.filter(p => String(p.company || '').trim() === String(name || '').trim());
-  const products = (DATA.products || []).filter(p => String(p.companyName || p.company || '').trim() === String(name || '').trim());
-  const company = (DATA.companies || []).find(c => String(c.name || '').trim() === String(name || '').trim()) || {};
+  var policies = DATA.policies.filter(function(p) { return String(p.company || '').trim() === String(name || '').trim(); });
+  var products = (DATA.products || []).filter(function(p) { return String(p.companyName || p.company || '').trim() === String(name || '').trim(); });
+  var company = (DATA.companies || []).find(function(c) { return String(c.name || '').trim() === String(name || '').trim(); }) || {};
 
   document.getElementById('companyProfileName').textContent = name;
-  document.getElementById('companyProfileMeta').textContent = `${policies.length} وثيقة • ${products.length} منتج`;
-  document.getElementById('companyProfileBody').innerHTML = `<div class="card" style="padding:15px;margin-bottom:15px"><div class="name"><div style="width:62px;height:62px;display:grid;place-items:center">${company.logoUrl || company.logo ? `<img src="${esc(company.logoUrl || company.logo)}" style="max-width:58px;max-height:58px;object-fit:contain" onerror="this.style.display='none'">` : `<div class="avatar" style="width:52px;height:52px">${esc(String(name).slice(0, 2))}</div>`}</div><div><h3 style="margin:0;color:var(--navy);font-family:Tajawal">${esc(name)}</h3><p class="muted" style="margin:4px 0">${esc(company.description || 'ملف شركة التأمين والوثائق المرتبطة بها')}</p></div></div></div><div class="card panel"><div class="panelhead"><h3>الوثائق المرتبطة بالشركة</h3><span class="pill blue">${policies.length}</span></div><table><thead><tr><th>العميل</th><th>الوثيقة</th><th>النوع</th><th>البداية</th><th>الانتهاء</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody>${policies.map(p => `<tr><td>${esc(clientName(p.clientId))}</td><td>${esc(p.policyNumber || '—')}</td><td>${esc(p.type || '—')}</td><td>${date(p.startDate)}</td><td>${date(p.endDate)}</td><td>${esc(p.status || '—')}</td><td><button type="button" class="btn outline" style="padding:5px 8px" onclick="openClientProfileEncoded('${encodeURIComponent(p.clientId)}')">عرض العميل</button></td></tr>`).join('') || '<tr><td colspan="7"><div class="empty">لا توجد وثائق مرتبطة بهذه الشركة</div></td></tr>'}</tbody></table></div><div class="card" style="margin-top:15px;padding:15px"><div class="panelhead" style="padding:0 0 12px"><h3>منتجات الشركة</h3><span class="pill">${products.length}</span></div>${products.map(p => `<div class="item"><b>${esc(p.name)}</b><p>${esc(p.description || '')}</p></div>`).join('') || '<div class="empty">لا توجد منتجات</div>'}</div>`;
+  document.getElementById('companyProfileMeta').textContent = policies.length + ' وثيقة • ' + products.length + ' منتج';
+  
+  var logoHtml = company.logoUrl || company.logo ? '<img src="' + esc(company.logoUrl || company.logo) + '" style="max-width:58px;max-height:58px;object-fit:contain" onerror="this.style.display=\'none\'">' : '<div class="avatar" style="width:52px;height:52px">' + esc(String(name).slice(0, 2)) + '</div>';
+  
+  var bodyHtml = '<div class="card" style="padding:15px;margin-bottom:15px"><div class="name"><div style="width:62px;height:62px;display:grid;place-items:center">' + logoHtml + '</div><div><h3 style="margin:0;color:var(--navy);font-family:Tajawal">' + esc(name) + '</h3><p class="muted" style="margin:4px 0">' + esc(company.description || 'ملف شركة التأمين والوثائق المرتبطة بها') + '</p></div></div></div>';
+  
+  bodyHtml += '<div class="card panel"><div class="panelhead"><h3>الوثائق المرتبطة بالشركة</h3><span class="pill blue">' + policies.length + '</span></div><table><thead><tr><th>العميل</th><th>الوثيقة</th><th>النوع</th><th>البداية</th><th>الانتهاء</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody>';
+  
+  bodyHtml += policies.map(function(p) {
+    return '<tr><td>' + esc(clientName(p.clientId)) + '</td><td>' + esc(p.policyNumber || '—') + '</td><td>' + esc(p.type || '—') + '</td><td>' + date(p.startDate) + '</td><td>' + date(p.endDate) + '</td><td>' + esc(p.status || '—') + '</td><td><button class="btn outline" style="padding:5px 8px" onclick="openClientProfileEncoded(\'' + encodeURIComponent(p.clientId) + '\')">عرض العميل</button></td></tr>';
+  }).join('') || '<tr><td colspan="7"><div class="empty">لا توجد وثائق مرتبطة بهذه الشركة</div></td></tr>';
+  
+  bodyHtml += '</tbody></table></div>';
+  
+  bodyHtml += '<div class="card" style="margin-top:15px;padding:15px"><div class="panelhead" style="padding:0 0 12px"><h3>منتجات الشركة</h3><span class="pill">' + products.length + '</span></div>';
+  bodyHtml += products.map(function(p) {
+    return '<div class="item"><b>' + esc(p.name) + '</b><p>' + esc(p.description || '') + '</p></div>';
+  }).join('') || '<div class="empty">لا توجد منتجات</div>';
+  bodyHtml += '</div>';
+  
+  document.getElementById('companyProfileBody').innerHTML = bodyHtml;
   modal('companyProfileModal');
 }
 
 function renderProducts() {
-  let a = DATA.products || [], q = (document.getElementById('productSearch')?.value || '').toLowerCase();
-  document.getElementById('productsGrid').innerHTML = a.filter(p => [p.name, p.companyName, p.company, p.description].join(' ').toLowerCase().includes(q)).map(p => {
-    let company = p.companyName || p.company || '—';
-    let feats = Array.isArray(p.features) ? p.features : String(p.features || p.benefits || '').split(/\r?\n/).filter(Boolean);
-    return `<div class="card" style="overflow:hidden">${p.imageUrl ? `<img src="${esc(p.imageUrl)}" style="width:100%;height:140px;object-fit:cover">` : `<div style="height:140px;background:linear-gradient(135deg,var(--navy),var(--navy2));display:grid;place-items:center;color:#fff;font:900 24px Tajawal">${esc(company)}</div>`}<div style="padding:15px"><div class="muted">${esc(company)}</div><h3 style="color:var(--navy);font-family:Tajawal;margin:5px 0">${esc(p.name)}</h3><p style="font-size:12px;margin:5px 0">${esc(p.description || '')}</p><ul style="font-size:11px;padding-right:15px;margin:8px 0">${feats.slice(0, 5).map(x => `<li>${esc(x)}</li>`).join('')}</ul><span class="pill">${esc(p.status || 'draft')}</span>${p.published === true || p.status === 'published' ? '<span class="pill blue" style="margin-inline-start:5px">ظاهر للمستخدم</span>' : ''}<div class="muted" style="font-size:9px;margin-top:8px">${esc(p.disclaimer || '')}</div></div></div>`;
-  }).join('') || '<div class="empty">لا توجد منتجات</div>';
-}
-
-function openCompanyModal() {
-  document.getElementById('coErr').textContent = '';
-  modal('companyModal');
-}
-
-async function createCompany() {
-  let name = document.getElementById('coName').value.trim(),
-      logo = document.getElementById('coLogo').value.trim(),
-      logoFile = document.getElementById('coLogoFile').files[0],
-      desc = document.getElementById('coDesc').value.trim(),
-      err = document.getElementById('coErr');
-  err.textContent = '';
-  if (!name) { err.textContent = 'أدخل اسم الشركة'; return; }
-  try {
-    if (logoFile) logo = await readSmallImage(logoFile, 250 * 1024);
-    await db.collection('companies').add({ name, logoUrl: logo, description: desc, active: true, createdBy: auth.currentUser.uid, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-    closeModal('companyModal');
-    await loadAll();
-    toast('تمت إضافة الشركة');
-    openCompanyProfile(name);
-  } catch (e) {
-    console.error(e);
-    err.textContent = e.message === 'image-too-large' ? 'حجم اللوجو كبير. الحد المقترح 250KB.' : 'تعذر حفظ الشركة';
-  }
-}
-
-function fillProductCompanies() {
-  let companies = allCompanies();
-  let prComp = document.getElementById('prCompany');
-  if (prComp) prComp.innerHTML = '<option value="">اختر الشركة</option>' + companies.map(c => `<option value="${esc(c.name)}">${esc(c.name)}</option>`).join('');
-}
-
-function openProductModal() {
-  document.getElementById('prErr').textContent = '';
-  fillProductCompanies();
-  modal('productModal');
-}
-
-async function readSmallImage(file, maxBytes) {
-  if (!file) return '';
-  if (file.size > maxBytes) throw new Error('image-too-large');
-  return await new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = () => resolve(r.result);
-    r.onerror = reject;
-    r.readAsDataURL(file);
+  var q = (document.getElementById('productSearch')?.value || '').toLowerCase();
+  var products = (DATA.products || []).filter(function(p) {
+    var searchText = [p.name, p.companyName, p.company, p.description].join(' ').toLowerCase();
+    return searchText.includes(q);
   });
-}
-
-async function createProduct() {
-  let companyVal = document.getElementById('prCompany').value,
-      name = document.getElementById('prName').value.trim(),
-      category = document.getElementById('prCategory').value,
-      desc = document.getElementById('prDesc').value.trim(),
-      features = document.getElementById('prFeatures').value.trim(),
-      status = document.getElementById('prStatus').value,
-      disclaimer = document.getElementById('prDisclaimer').value.trim(),
-      img = document.getElementById('prImage').value.trim(),
-      imgFile = document.getElementById('prImageFile').files[0],
-      logo = document.getElementById('prLogo').value.trim(),
-      logoFile = document.getElementById('prLogoFile').files[0],
-      err = document.getElementById('prErr');
-
-  err.textContent = '';
-  if (!companyVal || !name) { err.textContent = 'اختر الشركة وأدخل اسم المنتج'; return; }
-  try {
-    let company = allCompanies().find(c => c.name === companyVal) || {};
-    let published = status === 'published';
-    if (!logo) logo = company.logo || '';
-    if (imgFile) img = await readSmallImage(imgFile, 450 * 1024);
-    if (logoFile) logo = await readSmallImage(logoFile, 250 * 1024);
-
-    await db.collection('products').add({
-      companyId: company.id || null,
-      companyName: companyVal,
-      companyLogoUrl: logo,
-      name,
-      category,
-      description: desc,
-      features,
-      imageUrl: img,
-      status,
-      published,
-      disclaimer,
-      createdBy: auth.currentUser.uid,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      ...(published ? { publishedAt: firebase.firestore.FieldValue.serverTimestamp() } : {})
-    });
-    closeModal('productModal');
-    await loadAll();
-    toast(published ? 'تم نشر المنتج وربطه بواجهة العملاء' : 'تم حفظ المنتج كمسودة');
-  } catch (e) {
-    console.error(e);
-    err.textContent = e.message === 'image-too-large' ? 'حجم الصورة كبير. قلل الحجم ثم حاول مرة أخرى.' : 'تعذر حفظ المنتج';
-  }
+  
+  var html = products.map(function(p) {
+    var company = p.companyName || p.company || '—';
+    var feats = Array.isArray(p.features) ? p.features : String(p.features || p.benefits || '').split(/\r?\n/).filter(Boolean);
+    var imgHtml = p.imageUrl ? '<img src="' + esc(p.imageUrl) + '" style="width:100%;height:140px;object-fit:cover">' : '<div style="height:140px;background:linear-gradient(135deg,var(--navy),var(--navy2));display:grid;place-items:center;color:#fff;font:900 24px Tajawal">' + esc(company) + '</div>';
+    
+    return '<div class="card" style="overflow:hidden">' + imgHtml + '<div style="padding:15px"><div class="muted">' + esc(company) + '</div><h3 style="color:var(--navy);font-family:Tajawal;margin:5px 0">' + esc(p.name) + '</h3><p style="font-size:12px;margin:5px 0">' + esc(p.description || '') + '</p><ul style="font-size:11px;padding-right:15px;margin:8px 0">' + feats.slice(0, 5).map(function(x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul><span class="pill">' + esc(p.status || 'draft') + '</span>' + (p.published === true || p.status === 'published' ? '<span class="pill blue" style="margin-inline-start:5px">ظاهر للمستخدم</span>' : '') + '<div class="muted" style="font-size:9px;margin-top:8px">' + esc(p.disclaimer || '') + '</div></div></div>';
+  }).join('');
+  document.getElementById('productsGrid').innerHTML = html || '<div class="empty">لا توجد منتجات</div>';
 }
 
 function renderNotifications() {
-  document.getElementById('notificationsList').innerHTML = DATA.notifications.sort((a, b) => ms(b.createdAt) - ms(a.createdAt)).slice(0, 50).map(n => `<div class="item"><h4>${esc(n.title || 'Notification')} — ${esc(clientName(n.clientId))}</h4><p>${esc(n.body || '')} • ${date(n.createdAt)}</p></div>`).join('') || '<div class="empty">لا توجد إشعارات</div>';
+  var html = DATA.notifications
+    .sort(function(a, b) { return ms(b.createdAt) - ms(a.createdAt); })
+    .slice(0, 50)
+    .map(function(n) {
+      return '<div class="item"><h4>' + esc(n.title || 'Notification') + ' — ' + esc(clientName(n.clientId)) + '</h4><p>' + esc(n.body || '') + ' • ' + date(n.createdAt) + '</p></div>';
+    })
+    .join('');
+  document.getElementById('notificationsList').innerHTML = html || '<div class="empty">لا توجد إشعارات</div>';
 }
 
 function renderActivity() {
-  document.getElementById('activityList').innerHTML = DATA.activity.sort((a, b) => ms(b.createdAt) - ms(a.createdAt)).slice(0, 100).map(a => `<div class="item"><h4>${esc(a.action || a.type || 'Activity')}</h4><p>${esc(a.description || a.text || '')} • ${date(a.createdAt)}</p></div>`).join('') || '<div class="empty">لا يوجد سجل نشاط حتى الآن</div>';
+  var html = DATA.activity
+    .sort(function(a, b) { return ms(b.createdAt) - ms(a.createdAt); })
+    .slice(0, 100)
+    .map(function(a) {
+      return '<div class="item"><h4>' + esc(a.action || a.type || 'Activity') + '</h4><p>' + esc(a.description || a.text || '') + ' • ' + date(a.createdAt) + '</p></div>';
+    })
+    .join('');
+  document.getElementById('activityList').innerHTML = html || '<div class="empty">لا يوجد سجل نشاط حتى الآن</div>';
 }
 
 function renderReports() {
-  let active = DATA.policies.filter(x => days(x.endDate) >= 0).length,
-      exp = DATA.policies.filter(x => days(x.endDate) >= 0 && days(x.endDate) <= 45).length,
-      paid = DATA.payments.reduce((a, x) => a + (Number(x.amount) || 0), 0);
+  var active = DATA.policies.filter(function(x) { return days(x.endDate) >= 0; }).length;
+  var exp = DATA.policies.filter(function(x) { return days(x.endDate) >= 0 && days(x.endDate) <= 45; }).length;
+  var paid = DATA.payments.reduce(function(a, x) { return a + (Number(x.amount) || 0); }, 0);
 
   document.getElementById('rClients').textContent = DATA.clients.length;
   document.getElementById('rActive').textContent = active;
@@ -758,60 +878,71 @@ function renderReports() {
 }
 
 function renderAssessments() {
-  const q = (document.getElementById('assessmentSearch')?.value || '').toLowerCase();
-  const list = (DATA.assessments || []).filter(a => {
-    const c = DATA.clients.find(x => x.id === a.id || x.id === a.clientId);
-    return [a.name, a.businessActivity, a.occupation, a.businessName, c?.fullName, c?.phone].join(' ').toLowerCase().includes(q);
-  }).sort((a, b) => ms(b.updatedAt) - ms(a.updatedAt));
+  var q = (document.getElementById('assessmentSearch')?.value || '').toLowerCase();
+  var list = (DATA.assessments || []).filter(function(a) {
+    var c = DATA.clients.find(function(x) { return x.id === a.id || x.id === a.clientId; });
+    var searchText = [a.name, a.businessActivity, a.occupation, a.businessName, c?.fullName, c?.phone].join(' ').toLowerCase();
+    return searchText.includes(q);
+  }).sort(function(a, b) { return ms(b.updatedAt) - ms(a.updatedAt); });
 
-  const body = document.getElementById('assessmentsBody'); if (!body) return;
   document.getElementById('assessmentCount').textContent = list.length;
-  body.innerHTML = list.map(a => {
-    const id = a.id || a.clientId || '';
-    const score = Number(a.score);
-    const scoreHtml = Number.isFinite(score) ? `<span class="pill ${score < 50 ? 'red' : score < 70 ? 'blue' : ''}">${score}%</span>` : '—';
-    const valid = DATA.policies.filter(p => (p.clientId === id || p.clientId === a.clientId) && days(p.endDate) >= 0).length;
-    return `<tr><td>${esc(a.name || clientName(id))}</td><td>${esc(a.ownerType === 'yes' ? 'شركة / مؤسسة' : 'فرد')}</td><td>${esc(a.businessActivity || a.occupation || '—')}</td><td>${valid}</td><td>${scoreHtml}</td><td>${esc(a.label || '—')}</td><td>${date(a.updatedAt)}</td><td><button type="button" class="btn outline" style="padding:6px 9px" onclick="openAssessment('${id}')">عرض التقييم</button></td></tr>`;
-  }).join('') || '<tr><td colspan="8"><div class="empty">لا توجد تقييمات حماية محفوظة</div></td></tr>';
+  
+  var html = list.map(function(a) {
+    var id = a.id || a.clientId || '';
+    var score = Number(a.score);
+    var scoreHtml = Number.isFinite(score) ? '<span class="pill ' + (score < 50 ? 'red' : score < 70 ? 'blue' : '') + '">' + score + '%</span>' : '—';
+    var valid = DATA.policies.filter(function(p) { return (p.clientId === id || p.clientId === a.clientId) && days(p.endDate) >= 0; }).length;
+    var ownerLabel = a.ownerType === 'yes' ? 'شركة / مؤسسة' : 'فرد';
+    
+    return '<tr><td>' + esc(a.name || clientName(id)) + '</td><td>' + esc(ownerLabel) + '</td><td>' + esc(a.businessActivity || a.occupation || '—') + '</td><td>' + valid + '</td><td>' + scoreHtml + '</td><td>' + esc(a.label || '—') + '</td><td>' + date(a.updatedAt) + '</td><td><button class="btn outline" style="padding:6px 9px" onclick="openAssessment(\'' + id + '\')">عرض التقييم</button></td></tr>';
+  }).join('');
+  document.getElementById('assessmentsBody').innerHTML = html || '<tr><td colspan="8"><div class="empty">لا توجد تقييمات حماية محفوظة</div></td></tr>';
 }
 
 function openAssessment(id) {
-  const a = (DATA.assessments || []).find(x => (x.id || x.clientId) === id);
+  var a = (DATA.assessments || []).find(function(x) { return (x.id || x.clientId) === id; });
   if (!a) { toast('لم يتم العثور على التقييم'); return; }
-  const valid = DATA.policies.filter(p => (p.clientId === id || p.clientId === a.clientId) && days(p.endDate) >= 0);
-  document.getElementById('assessmentModalTitle').textContent = `تقييم حماية — ${a.name || clientName(id)}`;
-  document.getElementById('assessmentModalMeta').textContent = `${a.ownerType === 'yes' ? 'شركة / مؤسسة' : 'فرد'} • ${date(a.updatedAt)}`;
-  document.getElementById('assessmentModalBody').innerHTML = `
-    <div class="grid" style="grid-template-columns:repeat(4,1fr)">
-      <div class="card stat"><div class="k">مؤشر الحماية</div><div class="v">${Number(a.score) || 0}%</div></div>
-      <div class="card stat"><div class="k">التقييم</div><div class="v" style="font-size:15px">${esc(a.label || '—')}</div></div>
-      <div class="card stat"><div class="k">وثائق سارية</div><div class="v">${valid.length}</div></div>
-      <div class="card stat"><div class="k">المعالون / الموظفون</div><div class="v">${a.ownerType === 'yes' ? (Number(a.employees) || 0) : (Number(a.dependents) || 0)}</div></div>
-    </div>
-    <div class="two" style="margin-top:15px">
-      <div class="card" style="padding:15px"><h3 style="font-family:Tajawal;color:var(--navy)">البيانات الأساسية</h3>
-        <div class="item"><b>الاسم:</b> ${esc(a.name || '—')}</div>
-        <div class="item"><b>السن:</b> ${esc(a.age || '—')}</div>
-        <div class="item"><b>النوع:</b> ${esc(a.gender || '—')}</div>
-        <div class="item"><b>الوظيفة:</b> ${esc(a.occupation || '—')}</div>
-        <div class="item"><b>الدخل:</b> ${esc(a.income || '—')}</div>
-        <div class="item"><b>الوثائق المختارة:</b> ${esc((a.policies || []).concat(a.businessPolicies || []).join('، ') || '—')}</div>
-      </div>
-      <div class="card" style="padding:15px"><h3 style="font-family:Tajawal;color:var(--navy)">بيانات المنشأة</h3>
-        <div class="item"><b>اسم المنشأة:</b> ${esc(a.businessName || '—')}</div>
-        <div class="item"><b>النشاط:</b> ${esc(a.businessActivity || '—')}</div>
-        <div class="item"><b>عدد الموظفين:</b> ${esc(a.employees ?? '—')}</div>
-        <div class="item"><b>أسطول:</b> ${esc(a.fleet || '—')}</div>
-        <div class="item"><b>وثائق المنشأة:</b> ${esc((a.businessPolicies || []).join('، ') || '—')}</div>
-      </div>
-    </div>
-    <div class="card" style="padding:15px;margin-top:15px"><h3 style="font-family:Tajawal;color:var(--navy)">نقاط القوة</h3><p>${esc((a.strengths || []).join(' • ') || '—')}</p><h3 style="font-family:Tajawal;color:var(--navy)">فجوات الحماية المقترحة</h3><ul>${(a.gaps || []).map(x => `<li>${esc(x)}</li>`).join('') || '<li>لا توجد فجوات مسجلة</li>'}</ul></div>
-    <div class="actions" style="margin-top:15px"><button class="btn dark" onclick="closeModal('assessmentModal');openClientProfile('${id}')">فتح ملف العميل</button><button class="btn primary" onclick="closeModal('assessmentModal');openClientChat('${id}')">مناقشة النتيجة</button></div>`;
+  
+  var valid = DATA.policies.filter(function(p) { return (p.clientId === id || p.clientId === a.clientId) && days(p.endDate) >= 0; });
+  
+  document.getElementById('assessmentModalTitle').textContent = 'تقييم حماية — ' + (a.name || clientName(id));
+  document.getElementById('assessmentModalMeta').textContent = (a.ownerType === 'yes' ? 'شركة / مؤسسة' : 'فرد') + ' • ' + date(a.updatedAt);
+  
+  var bodyHtml = '<div class="grid" style="grid-template-columns:repeat(4,1fr)">';
+  bodyHtml += '<div class="card stat"><div class="k">مؤشر الحماية</div><div class="v">' + (Number(a.score) || 0) + '%</div></div>';
+  bodyHtml += '<div class="card stat"><div class="k">التقييم</div><div class="v" style="font-size:15px">' + esc(a.label || '—') + '</div></div>';
+  bodyHtml += '<div class="card stat"><div class="k">وثائق سارية</div><div class="v">' + valid.length + '</div></div>';
+  bodyHtml += '<div class="card stat"><div class="k">المعالون / الموظفون</div><div class="v">' + (a.ownerType === 'yes' ? (Number(a.employees) || 0) : (Number(a.dependents) || 0)) + '</div></div>';
+  bodyHtml += '</div>';
+  
+  bodyHtml += '<div class="two" style="margin-top:15px">';
+  bodyHtml += '<div class="card" style="padding:15px"><h3 style="font-family:Tajawal;color:var(--navy)">البيانات الأساسية</h3>';
+  bodyHtml += '<div class="item"><b>الاسم:</b> ' + esc(a.name || '—') + '</div>';
+  bodyHtml += '<div class="item"><b>السن:</b> ' + esc(a.age || '—') + '</div>';
+  bodyHtml += '<div class="item"><b>النوع:</b> ' + esc(a.gender || '—') + '</div>';
+  bodyHtml += '<div class="item"><b>الوظيفة:</b> ' + esc(a.occupation || '—') + '</div>';
+  bodyHtml += '<div class="item"><b>الدخل:</b> ' + esc(a.income || '—') + '</div>';
+  bodyHtml += '<div class="item"><b>الوثائق المختارة:</b> ' + esc((a.policies || []).concat(a.businessPolicies || []).join('، ') || '—') + '</div>';
+  bodyHtml += '</div>';
+  
+  bodyHtml += '<div class="card" style="padding:15px"><h3 style="font-family:Tajawal;color:var(--navy)">بيانات المنشأة</h3>';
+  bodyHtml += '<div class="item"><b>اسم المنشأة:</b> ' + esc(a.businessName || '—') + '</div>';
+  bodyHtml += '<div class="item"><b>النشاط:</b> ' + esc(a.businessActivity || '—') + '</div>';
+  bodyHtml += '<div class="item"><b>عدد الموظفين:</b> ' + esc(a.employees ?? '—') + '</div>';
+  bodyHtml += '<div class="item"><b>أسطول:</b> ' + esc(a.fleet || '—') + '</div>';
+  bodyHtml += '<div class="item"><b>وثائق المنشأة:</b> ' + esc((a.businessPolicies || []).join('، ') || '—') + '</div>';
+  bodyHtml += '</div></div>';
+  
+  bodyHtml += '<div class="card" style="padding:15px;margin-top:15px"><h3 style="font-family:Tajawal;color:var(--navy)">نقاط القوة</h3><p>' + esc((a.strengths || []).join(' • ') || '—') + '</p><h3 style="font-family:Tajawal;color:var(--navy)">فجوات الحماية المقترحة</h3><ul>' + (a.gaps || []).map(function(x) { return '<li>' + esc(x) + '</li>'; }).join('') || '<li>لا توجد فجوات مسجلة</li>' + '</ul></div>';
+  
+  bodyHtml += '<div class="actions" style="margin-top:15px"><button class="btn dark" onclick="closeModal(\'assessmentModal\');openClientProfile(\'' + id + '\')">فتح ملف العميل</button><button class="btn primary" onclick="closeModal(\'assessmentModal\');openClientChat(\'' + id + '\')">مناقشة النتيجة</button></div>';
+  
+  document.getElementById('assessmentModalBody').innerHTML = bodyHtml;
   modal('assessmentModal');
 }
 
 function updateBadge() {
-  let n = DATA.messages.filter(m => m.sender === 'client' && !m.autoReply && !m.readByAdmin).length;
+  var n = DATA.messages.filter(function(m) { return m.sender === 'client' && !m.autoReply && !m.readByAdmin; }).length;
   document.getElementById('msgBadge').textContent = n;
   document.getElementById('msgBadge').classList.toggle('hidden', !n);
   document.getElementById('sMessages').textContent = n;
@@ -820,8 +951,12 @@ function updateBadge() {
 
 function startMessages() {
   if (MSG_UNSUB) MSG_UNSUB();
-  MSG_UNSUB = db.collection('messages').onSnapshot(s => {
-    DATA.messages = s.docs.map(d => ({ id: d.id, ...d.data() }));
+  MSG_UNSUB = db.collection('messages').onSnapshot(function(snap) {
+    DATA.messages = snap.docs.map(function(d) {
+      var data = d.data();
+      data.id = d.id;
+      return data;
+    });
     updateBadge();
     renderConversations();
     renderClients();
@@ -832,243 +967,639 @@ function startMessages() {
 function openClientChat(id) {
   CURRENT_CHAT = id;
   document.getElementById('chatTitle').textContent = clientName(id);
-  show('messages');
+  showView('messages');
   if (CHAT_UNSUB) CHAT_UNSUB();
-  CHAT_UNSUB = db.collection('messages').where('clientId', '==', id).onSnapshot(s => {
-    let docs = s.docs.slice().sort((a, b) => ms(a.data().createdAt) - ms(b.data().createdAt));
-    document.getElementById('chatList').innerHTML = docs.map(d => {
-      let m = d.data();
-      return `<div class="bubble ${m.sender === 'agent' ? 'agent' : 'client'}">${esc(m.text)}${m.autoReply ? '<div style="font-size:9px;opacity:.65;margin-top:3px">Auto reply</div>' : ''}</div>`;
+  CHAT_UNSUB = db.collection('messages').where('clientId', '==', id).onSnapshot(function(snap) {
+    var docs = snap.docs.slice().sort(function(a, b) { return ms(a.data().createdAt) - ms(b.data().createdAt); });
+    var html = docs.map(function(d) {
+      var m = d.data();
+      return '<div class="bubble ' + (m.sender === 'agent' ? 'agent' : 'client') + '">' + esc(m.text) + (m.autoReply ? '<div style="font-size:9px;opacity:.65;margin-top:3px">Auto reply</div>' : '') + '</div>';
     }).join('') || '<div class="empty">لا توجد رسائل</div>';
+    document.getElementById('chatList').innerHTML = html;
     document.getElementById('chatList').scrollTop = 999999;
-    docs.filter(d => { let m = d.data(); return m.sender === 'client' && !m.autoReply && !m.readByAdmin; }).forEach(d => d.ref.update({ readByAdmin: true }).catch(() => { }));
+    
+    docs.filter(function(d) {
+      var m = d.data();
+      return m.sender === 'client' && !m.autoReply && !m.readByAdmin;
+    }).forEach(function(d) {
+      d.ref.update({ readByAdmin: true }).catch(function() {});
+    });
   });
 }
 
-async function sendMessage() {
-  let i = document.getElementById('chatInput'), text = i.value.trim();
+function sendMessage() {
+  var input = document.getElementById('chatInput');
+  var text = input.value.trim();
   if (!text || !CURRENT_CHAT) return;
-  i.value = '';
-  try {
-    await db.collection('messages').add({ clientId: CURRENT_CHAT, sender: 'agent', agentId: auth.currentUser.uid, text, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-    await logActivity('Agent replied', `Replied to ${clientName(CURRENT_CHAT)}`);
-  } catch (e) { toast('تعذر إرسال الرسالة'); }
+  input.value = '';
+  
+  db.collection('messages').add({
+    clientId: CURRENT_CHAT,
+    sender: 'agent',
+    agentId: auth.currentUser ? auth.currentUser.uid : '',
+    text: text,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function() {
+    return logActivity('Agent replied', 'Replied to ' + clientName(CURRENT_CHAT));
+  }).catch(function(e) {
+    toast('تعذر إرسال الرسالة');
+  });
 }
 
-function show(v, el) {
-  document.querySelectorAll('.view').forEach(x => x.classList.remove('active'));
-  let node = document.getElementById('v-' + v);
+function showView(view, el) {
+  document.querySelectorAll('.view').forEach(function(x) { x.classList.remove('active'); });
+  var node = document.getElementById('v-' + view);
   if (node) node.classList.add('active');
-  document.querySelectorAll('.nav button').forEach(x => x.classList.remove('active'));
-  (el || document.querySelector(`[data-view="${v}"]`))?.classList.add('active');
-  document.getElementById('title').textContent = t(v);
-  if (v === 'dashboard') renderDashboard();
+  document.querySelectorAll('.nav button').forEach(function(x) { x.classList.remove('active'); });
+  var target = el || document.querySelector('[data-view="' + view + '"]');
+  if (target) target.classList.add('active');
+  document.getElementById('title').textContent = t(view);
+  if (view === 'dashboard') renderDashboard();
 }
 
-function modal(id, s = true) { document.getElementById(id).classList.toggle('show', s); }
-function closeModal(id) { modal(id, false); }
+function modal(id, show) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  if (show === undefined) show = true;
+  el.classList.toggle('show', show);
+}
+
+function closeModal(id) {
+  modal(id, false);
+}
 
 function refreshSelects() {
-  ['pClient', 'payClient', 'clClient'].forEach(id => {
-    let s = document.getElementById(id);
+  ['pClient', 'payClient', 'clClient'].forEach(function(id) {
+    var s = document.getElementById(id);
     if (!s) return;
-    s.innerHTML = '<option value="">اختر العميل</option>' + DATA.clients.map(c => `<option value="${c.id}">${esc(c.fullName || c.username)}</option>`).join('');
+    s.innerHTML = '<option value="">اختر العميل</option>';
+    DATA.clients.forEach(function(c) {
+      s.innerHTML += '<option value="' + c.id + '">' + esc(c.fullName || c.username) + '</option>';
+    });
   });
 }
 
-function refreshPolicySelect(cid, pid) {
-  let client = document.getElementById(cid).value, s = document.getElementById(pid);
+function refreshPolicySelect(clientId, policyId) {
+  var client = document.getElementById(clientId).value;
+  var s = document.getElementById(policyId);
   if (!s) return;
-  s.innerHTML = '<option value="">اختر الوثيقة</option>' + DATA.policies.filter(p => p.clientId === client).map(p => `<option value="${p.id}">${esc(p.policyNumber || p.type)}</option>`).join('');
+  s.innerHTML = '<option value="">اختر الوثيقة</option>';
+  DATA.policies.filter(function(p) { return p.clientId === client; }).forEach(function(p) {
+    s.innerHTML += '<option value="' + p.id + '">' + esc(p.policyNumber || p.type) + '</option>';
+  });
 }
 
-function openClientModal() { document.getElementById('cErr').textContent = ''; modal('clientModal'); }
-function openPolicyModal(cid = '') { refreshSelects(); document.getElementById('pClient').value = cid || ''; modal('policyModal'); }
-function openPaymentModal(cid = '') { refreshSelects(); document.getElementById('payClient').value = cid || ''; refreshPolicySelect('payClient', 'payPolicy'); document.getElementById('payDate').value = new Date().toISOString().slice(0, 10); modal('paymentModal'); }
-function openClaimModal(cid = '') { refreshSelects(); document.getElementById('clClient').value = cid || ''; refreshPolicySelect('clClient', 'clPolicy'); modal('claimModal'); }
+function openClientModal() {
+  document.getElementById('cErr').textContent = '';
+  modal('clientModal');
+}
 
-function openClientProfileEncoded(v) { try { openClientProfile(decodeURIComponent(v)); } catch (e) { toast('تعذر فتح ملف العميل'); } }
+function openPolicyModal(cid) {
+  if (cid === undefined) cid = '';
+  refreshSelects();
+  document.getElementById('pClient').value = cid || '';
+  modal('policyModal');
+}
+
+function openPaymentModal(cid) {
+  if (cid === undefined) cid = '';
+  refreshSelects();
+  document.getElementById('payClient').value = cid || '';
+  refreshPolicySelect('payClient', 'payPolicy');
+  document.getElementById('payDate').value = new Date().toISOString().slice(0, 10);
+  modal('paymentModal');
+}
+
+function openClaimModal(cid) {
+  if (cid === undefined) cid = '';
+  refreshSelects();
+  document.getElementById('clClient').value = cid || '';
+  refreshPolicySelect('clClient', 'clPolicy');
+  modal('claimModal');
+}
+
+function openClientProfileEncoded(value) {
+  try {
+    openClientProfile(decodeURIComponent(value));
+  } catch (e) {
+    toast('تعذر فتح ملف العميل');
+  }
+}
+
+function openCompanyModal() {
+  document.getElementById('coErr').textContent = '';
+  modal('companyModal');
+}
+
+function openProductModal() {
+  document.getElementById('prErr').textContent = '';
+  fillProductCompanies();
+  modal('productModal');
+}
+
+function fillProductCompanies() {
+  var companies = allCompanies();
+  var prComp = document.getElementById('prCompany');
+  if (!prComp) return;
+  prComp.innerHTML = '<option value="">اختر الشركة</option>';
+  companies.forEach(function(c) {
+    prComp.innerHTML += '<option value="' + esc(c.name) + '">' + esc(c.name) + '</option>';
+  });
+}
 
 function openClientProfile(id) {
-  const c = DATA.clients.find(x => x.id === id); if (!c) { toast('لم يتم العثور على العميل'); return; }
-  const policies = DATA.policies.filter(x => x.clientId === id),
-        docs = DATA.documents.filter(x => x.clientId === id),
-        payments = DATA.payments.filter(x => x.clientId === id),
-        claims = DATA.claims.filter(x => x.clientId === id),
-        msgs = DATA.messages.filter(x => x.clientId === id),
-        assessment = (DATA.assessments || []).find(x => (x.id || x.clientId) === id);
+  var c = DATA.clients.find(function(x) { return x.id === id; });
+  if (!c) { toast('لم يتم العثور على العميل'); return; }
+  
+  var policies = DATA.policies.filter(function(x) { return x.clientId === id; });
+  var docs = DATA.documents.filter(function(x) { return x.clientId === id; });
+  var payments = DATA.payments.filter(function(x) { return x.clientId === id; });
+  var claims = DATA.claims.filter(function(x) { return x.clientId === id; });
+  var msgs = DATA.messages.filter(function(x) { return x.clientId === id; });
+  var assessment = (DATA.assessments || []).find(function(x) { return (x.id || x.clientId) === id; });
 
   document.getElementById('profileName').textContent = c.fullName || c.username || 'ملف العميل';
-  document.getElementById('profileMeta').textContent = `${c.phone || '—'} • ${c.username || '—'} • ID: ${id}`;
-  document.getElementById('profileBody').innerHTML = `<div class="grid" style="grid-template-columns:repeat(4,1fr)"><div class="card stat"><div class="k">الاسم</div><div class="v" style="font-size:16px">${esc(c.fullName)}</div></div><div class="card stat"><div class="k">الهاتف</div><div class="v" style="font-size:16px">${esc(c.phone)}</div></div><div class="card stat"><div class="k">الوثائق</div><div class="v">${policies.length}</div></div><div class="card stat"><div class="k">المطالبات</div><div class="v">${claims.length}</div></div><div class="card stat" style="grid-column: span 4"><div class="k">مؤشر الحماية</div><div class="v">${Number.isFinite(Number(assessment?.score)) ? Number(assessment.score) + '%' : '—'}</div></div></div><div class="actions" style="margin:15px 0"><button class="btn primary" onclick="openClientDocumentModal('${id}')">+ إضافة وثيقة</button><button class="btn outline" onclick="show('documents');document.getElementById('docSearch').value='${esc(c.fullName || '')}';renderDocuments()">📎 مستندات العميل</button><button class="btn dark" onclick="closeModal('clientProfileModal');openClientChat('${id}')">💬 المحادثة</button></div><div class="card panel"><div class="panelhead"><h3>وثائق العميل</h3></div><table><thead><tr><th>النوع</th><th>الشركة</th><th>رقم الوثيقة</th><th>الانتهاء</th><th>القسط</th><th>ملفات</th></tr></thead><tbody>${policies.map(p => `<tr><td>${esc(p.type)}</td><td>${esc(p.company)}</td><td>${esc(p.policyNumber)}</td><td>${date(p.endDate)}</td><td>${Number(p.premium || 0).toLocaleString('en-US')} EGP</td><td><button class="btn outline" style="padding:6px" onclick="openClientDocuments('${id}','${p.id}')">📎 فتح الملفات</button></td></tr>`).join('') || '<tr><td colspan="6"><div class="empty">لا توجد وثائق</div></td></tr>'}</tbody></table></div><div class="card panel" style="margin-top:15px"><div class="panelhead"><h3>مستندات العميل</h3></div><table><thead><tr><th>الملف</th><th>النوع</th><th>التاريخ</th><th>فتح</th></tr></thead><tbody>${docs.map(d => { let url = d.dataUrl || d.downloadURL || d.fileUrl || d.url || ''; return `<tr><td>${esc(d.fileName || '—')}</td><td>${esc(d.fileType || '—')}</td><td>${date(d.createdAt)}</td><td><button type="button" class="btn outline" style="padding:6px" onclick="${url ? `window.open('${url}','_blank')` : `toast('لا يوجد رابط للملف')`}">فتح</button></td></tr>`; }).join('') || '<tr><td colspan="4"><div class="empty">لا توجد مستندات</div></td></tr>'}</tbody></table></div><div class="grid" style="margin-top:15px;grid-template-columns:repeat(3,1fr)"><div class="card stat"><div class="k">المدفوعات</div><div class="v">${payments.length}</div></div><div class="card stat"><div class="k">المطالبات</div><div class="v">${claims.length}</div></div><div class="card stat"><div class="k">الرسائل</div><div class="v">${msgs.length}</div></div></div>`;
+  document.getElementById('profileMeta').textContent = (c.phone || '—') + ' • ' + (c.username || '—') + ' • ID: ' + id;
+  
+  var bodyHtml = '<div class="grid" style="grid-template-columns:repeat(4,1fr)">';
+  bodyHtml += '<div class="card stat"><div class="k">الاسم</div><div class="v" style="font-size:16px">' + esc(c.fullName) + '</div></div>';
+  bodyHtml += '<div class="card stat"><div class="k">الهاتف</div><div class="v" style="font-size:16px">' + esc(c.phone) + '</div></div>';
+  bodyHtml += '<div class="card stat"><div class="k">الوثائق</div><div class="v">' + policies.length + '</div></div>';
+  bodyHtml += '<div class="card stat"><div class="k">المطالبات</div><div class="v">' + claims.length + '</div></div>';
+  bodyHtml += '<div class="card stat" style="grid-column: span 4"><div class="k">مؤشر الحماية</div><div class="v">' + (Number.isFinite(Number(assessment?.score)) ? Number(assessment.score) + '%' : '—') + '</div></div>';
+  bodyHtml += '</div>';
+  
+  bodyHtml += '<div class="actions" style="margin:15px 0"><button class="btn primary" onclick="openClientDocumentModal(\'' + id + '\')">+ إضافة وثيقة</button><button class="btn outline" onclick="showView(\'documents\');document.getElementById(\'docSearch\').value=\'' + esc(c.fullName || '') + '\';renderDocuments()">📎 مستندات العميل</button><button class="btn dark" onclick="closeModal(\'clientProfileModal\');openClientChat(\'' + id + '\')">💬 المحادثة</button></div>';
+  
+  bodyHtml += '<div class="card panel"><div class="panelhead"><h3>وثائق العميل</h3></div><table><thead><tr><th>النوع</th><th>الشركة</th><th>رقم الوثيقة</th><th>الانتهاء</th><th>القسط</th><th>ملفات</th></tr></thead><tbody>';
+  bodyHtml += policies.map(function(p) {
+    return '<tr><td>' + esc(p.type) + '</td><td>' + esc(p.company) + '</td><td>' + esc(p.policyNumber) + '</td><td>' + date(p.endDate) + '</td><td>' + Number(p.premium || 0).toLocaleString('en-US') + ' EGP</td><td><button class="btn outline" style="padding:6px" onclick="openClientDocuments(\'' + id + '\',\'' + p.id + '\')">📎 فتح الملفات</button></td></tr>';
+  }).join('') || '<tr><td colspan="6"><div class="empty">لا توجد وثائق</div></td></tr>';
+  bodyHtml += '</tbody></table></div>';
+  
+  bodyHtml += '<div class="card panel" style="margin-top:15px"><div class="panelhead"><h3>مستندات العميل</h3></div><table><thead><tr><th>الملف</th><th>النوع</th><th>التاريخ</th><th>فتح</th></tr></thead><tbody>';
+  bodyHtml += docs.map(function(d) {
+    var url = d.dataUrl || d.downloadURL || d.fileUrl || d.url || '';
+    var btn = url ? '<button class="btn outline" style="padding:6px" onclick="window.open(\'' + url + '\',\'_blank\')">فتح</button>' : '<button class="btn outline" style="padding:6px" onclick="toast(\'لا يوجد رابط للملف\')">فتح</button>';
+    return '<tr><td>' + esc(d.fileName || '—') + '</td><td>' + esc(d.fileType || '—') + '</td><td>' + date(d.createdAt) + '</td><td>' + btn + '</td></tr>';
+  }).join('') || '<tr><td colspan="4"><div class="empty">لا توجد مستندات</div></td></tr>';
+  bodyHtml += '</tbody></table></div>';
+  
+  bodyHtml += '<div class="grid" style="margin-top:15px;grid-template-columns:repeat(3,1fr)">';
+  bodyHtml += '<div class="card stat"><div class="k">المدفوعات</div><div class="v">' + payments.length + '</div></div>';
+  bodyHtml += '<div class="card stat"><div class="k">المطالبات</div><div class="v">' + claims.length + '</div></div>';
+  bodyHtml += '<div class="card stat"><div class="k">الرسائل</div><div class="v">' + msgs.length + '</div></div>';
+  bodyHtml += '</div>';
+  
+  document.getElementById('profileBody').innerHTML = bodyHtml;
   modal('clientProfileModal');
 }
 
 function openClientDocuments(clientId, policyId) {
-  const docs = DATA.documents.filter(d => d.clientId === clientId && (d.policyId === policyId || !d.policyId));
-  const html = docs.map(d => { let url = d.dataUrl || d.downloadURL || d.fileUrl || d.url || ''; return `<div class="item"><h4>${esc(d.fileName || 'مستند')}</h4><p>${esc(d.fileType || '')} • ${date(d.createdAt)} • <button class="btn outline" style="padding:5px 8px" onclick="${url ? `window.open('${url}','_blank')` : `toast('لا يوجد رابط للملف')`}">فتح الملف</button></p></div>`; }).join('') || '<div class="empty">لا توجد ملفات مرتبطة بهذه الوثيقة</div>';
-  document.getElementById('profileBody').insertAdjacentHTML('beforeend', `<div class="card" style="margin-top:15px;padding:15px"><h3>ملفات الوثيقة</h3>${html}</div>`);
+  var docs = DATA.documents.filter(function(d) { return d.clientId === clientId && (d.policyId === policyId || !d.policyId); });
+  var html = docs.map(function(d) {
+    var url = d.dataUrl || d.downloadURL || d.fileUrl || d.url || '';
+    var btn = url ? '<button class="btn outline" style="padding:5px 8px" onclick="window.open(\'' + url + '\',\'_blank\')">فتح الملف</button>' : '<button class="btn outline" style="padding:5px 8px" onclick="toast(\'لا يوجد رابط للملف\')">فتح الملف</button>';
+    return '<div class="item"><h4>' + esc(d.fileName || 'مستند') + '</h4><p>' + esc(d.fileType || '') + ' • ' + date(d.createdAt) + ' • ' + btn + '</p></div>';
+  }).join('') || '<div class="empty">لا توجد ملفات مرتبطة بهذه الوثيقة</div>';
+  
+  var container = document.getElementById('profileBody');
+  container.insertAdjacentHTML('beforeend', '<div class="card" style="margin-top:15px;padding:15px"><h3>ملفات الوثيقة</h3>' + html + '</div>');
 }
 
-async function verifyDocument(id, status) {
-  const d = DATA.documents.find(x => x.id === id); if (!d) return;
-  try {
-    await db.collection('documents').doc(id).update({ verificationStatus: status, verifiedBy: auth.currentUser?.uid || '', verifiedAt: firebase.firestore.FieldValue.serverTimestamp() });
-    if (d.policyId) {
-      await db.collection('policies').doc(d.policyId).set({ verificationStatus: status, status: status === 'approved' ? 'active' : 'pending_verification', updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
-    }
-    await notify(d.clientId, status === 'approved' ? 'تم اعتماد المستند' : 'تم رفض المستند', status === 'approved' ? 'تم اعتماد المستند من الوسيط ويمكنك متابعة وثيقتك.' : 'تم رفض المستند ويحتاج إلى مراجعة أو إعادة رفع.');
-    await logActivity('Document verification', `${d.fileName || 'Document'} → ${status}`);
-    await loadAll();
-    toast(status === 'approved' ? 'تم اعتماد المستند' : 'تم رفض المستند');
-  } catch (e) { console.error(e); toast('تعذر تحديث حالة المستند'); }
+function openClientDocumentModal(id) {
+  UPLOAD_CLIENT_ID = id;
+  document.getElementById('uErr').textContent = '';
+  modal('clientDocModal');
 }
 
-async function logActivity(action, description) {
-  try { await db.collection('activity').add({ action, description, actorId: auth.currentUser?.uid || '', createdAt: firebase.firestore.FieldValue.serverTimestamp() }); } catch (e) { }
-}
+var UPLOAD_CLIENT_ID = null;
 
-async function notify(id, title, body) {
-  try { await db.collection('notifications').add({ clientId: id, title, body, read: false, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); } catch (e) { }
-}
-
-async function createClient() {
-  let name = document.getElementById('cName').value.trim(),
-      phone = document.getElementById('cPhone').value.trim(),
-      email = document.getElementById('cEmail').value.trim().toLowerCase(),
-      pass = document.getElementById('cPass').value,
-      err = document.getElementById('cErr');
-  err.textContent = '';
-  if (!name || !email || pass.length < 6) { err.textContent = 'أكمل البيانات وكلمة المرور 6 أحرف على الأقل'; return; }
-  try {
-    let cred = await auth.createUserWithEmailAndPassword(email, pass);
-    await db.collection('clients').doc(cred.user.uid).set({
-      fullName: name,
-      phone: phone,
-      username: email.split('@')[0],
-      email: email,
-      role: 'client',
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      createdBy: auth.currentUser.uid
-    });
-    await logActivity('Client created', `Created client ${name}`);
-    closeModal('clientModal');
-    await loadAll();
-    toast('تم إنشاء العميل بنجاح');
-  } catch (e) {
-    err.textContent = e.code?.includes('email-already') ? 'البريد الإلكتروني مستخدم بالفعل' : 'تعذر إنشاء العميل';
-  }
-}
-
-async function createPolicy() {
-  let cid = document.getElementById('pClient').value,
-      company = document.getElementById('pCompany').value.trim(),
-      type = document.getElementById('pType').value.trim(),
-      number = document.getElementById('pNumber').value.trim(),
-      premium = document.getElementById('pPremium').value,
-      start = document.getElementById('pStart').value,
-      end = document.getElementById('pEnd').value,
-      coverage = document.getElementById('pCoverage').value.trim(),
-      err = document.getElementById('pErr');
-
-  if (!cid || !company || !end) { err.textContent = 'اختر العميل والشركة وتاريخ الانتهاء'; return; }
-  try {
-    await db.collection('policies').add({
-      clientId: cid,
-      type,
-      company,
+function uploadClientDocument() {
+  var type = document.getElementById('uType').value.trim();
+  var company = document.getElementById('uCompany').value.trim();
+  var number = document.getElementById('uNumber').value.trim();
+  var premium = document.getElementById('uPremium').value;
+  var start = document.getElementById('uStart').value;
+  var end = document.getElementById('uEnd').value;
+  var fileInput = document.getElementById('uFile');
+  var err = document.getElementById('uErr');
+  
+  if (!UPLOAD_CLIENT_ID || !end) { err.textContent = 'أكمل بيانات الوثيقة'; return; }
+  if (!fileInput.files || !fileInput.files[0]) { err.textContent = 'اختر ملف الوثيقة'; return; }
+  
+  var file = fileInput.files[0];
+  if (file.size > 2 * 1024 * 1024) { err.textContent = 'الحد الأقصى 2MB'; return; }
+  
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var fileData = e.target.result;
+    
+    db.collection('policies').add({
+      clientId: UPLOAD_CLIENT_ID,
+      type: type,
+      company: company,
       policyNumber: number,
       premium: Number(premium) || 0,
       startDate: start,
       endDate: end,
-      coverage,
-      status: 'active',
-      createdBy: auth.currentUser.uid,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      status: 'pending_verification',
+      verificationStatus: 'pending',
+      source: 'client',
+      documentVerificationRequired: true,
+      createdBy: auth.currentUser ? auth.currentUser.uid : '',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(function(policyRef) {
+      return db.collection('documents').add({
+        clientId: UPLOAD_CLIENT_ID,
+        policyId: policyRef.id,
+        fileName: file.name,
+        fileType: file.type,
+        dataUrl: fileData,
+        uploadedBy: 'client',
+        verificationStatus: 'pending',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }).then(function() {
+      return notify(UPLOAD_CLIENT_ID, 'تم استلام الوثيقة', 'تم رفع الوثيقة وهي في انتظار مراجعة الوسيط.');
+    }).then(function() {
+      closeModal('clientDocModal');
+      return loadAll();
+    }).then(function() {
+      toast('تم حفظ الوثيقة في انتظار المراجعة');
+    }).catch(function(e) {
+      console.error(e);
+      err.textContent = 'تعذر حفظ الوثيقة';
     });
-    await notify(cid, 'وثيقة جديدة', 'تمت إضافة وثيقة جديدة إلى حسابك.');
-    await logActivity('Policy created', `Added policy for ${clientName(cid)}`);
-    closeModal('policyModal');
-    await loadAll();
-    toast('تم حفظ الوثيقة');
-  } catch (e) { err.textContent = 'تعذر حفظ الوثيقة'; }
+  };
+  reader.readAsDataURL(file);
 }
 
-async function createPayment() {
-  let cid = document.getElementById('payClient').value,
-      policyId = document.getElementById('payPolicy').value,
-      amount = document.getElementById('payAmount').value,
-      dateVal = document.getElementById('payDate').value,
-      method = document.getElementById('payMethod').value,
-      note = document.getElementById('payNote').value.trim(),
-      err = document.getElementById('payErr');
-
-  if (!cid || !amount || !dateVal) { err.textContent = 'أكمل العميل والمبلغ والتاريخ'; return; }
-  try {
-    await db.collection('payments').add({
-      clientId: cid,
-      policyId: policyId || null,
-      amount: Number(amount),
-      date: dateVal,
-      method,
-      note,
-      createdBy: auth.currentUser.uid,
+function createCompany() {
+  var name = document.getElementById('coName').value.trim();
+  var logo = document.getElementById('coLogo').value.trim();
+  var logoFile = document.getElementById('coLogoFile').files[0];
+  var desc = document.getElementById('coDesc').value.trim();
+  var err = document.getElementById('coErr');
+  
+  err.textContent = '';
+  if (!name) { err.textContent = 'أدخل اسم الشركة'; return; }
+  
+  var uploadLogo = function() {
+    return new Promise(function(resolve, reject) {
+      if (logoFile) {
+        readSmallImage(logoFile, 250 * 1024).then(resolve).catch(reject);
+      } else {
+        resolve(logo);
+      }
+    });
+  };
+  
+  uploadLogo().then(function(logoUrl) {
+    return db.collection('companies').add({
+      name: name,
+      logoUrl: logoUrl,
+      description: desc,
+      active: true,
+      createdBy: auth.currentUser ? auth.currentUser.uid : '',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    await notify(cid, 'تم تسجيل دفعة', 'تم تسجيل دفعة جديدة في حسابك.');
-    await logActivity('Payment recorded', `Payment for ${clientName(cid)}`);
-    closeModal('paymentModal');
-    await loadAll();
-    toast('تم تسجيل الدفعة');
-  } catch (e) { err.textContent = 'تعذر حفظ الدفعة'; }
+  }).then(function() {
+    closeModal('companyModal');
+    return loadAll();
+  }).then(function() {
+    toast('تمت إضافة الشركة');
+    openCompanyProfile(name);
+  }).catch(function(e) {
+    console.error(e);
+    err.textContent = e.message === 'image-too-large' ? 'حجم اللوجو كبير. الحد المقترح 250KB.' : 'تعذر حفظ الشركة';
+  });
 }
 
-async function createClaim() {
-  let cid = document.getElementById('clClient').value,
-      policyId = document.getElementById('clPolicy').value,
-      type = document.getElementById('clType').value.trim(),
-      amount = document.getElementById('clAmount').value,
-      status = document.getElementById('clStatus').value,
-      desc = document.getElementById('clDesc').value.trim(),
-      err = document.getElementById('clErr');
+function readSmallImage(file, maxBytes) {
+  return new Promise(function(resolve, reject) {
+    if (!file) return resolve('');
+    if (file.size > maxBytes) { reject(new Error('image-too-large')); return; }
+    var reader = new FileReader();
+    reader.onload = function() { resolve(reader.result); };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
 
-  if (!cid || !type) { err.textContent = 'اختر العميل واكتب نوع المطالبة'; return; }
-  let pol = DATA.policies.find(x => x.id === policyId);
-  try {
-    await db.collection('claims').add({
-      clientId: cid,
-      policyId: policyId || null,
-      policyNumber: pol?.policyNumber || '',
-      type,
-      amount: Number(amount) || 0,
-      status,
+function createProduct() {
+  var companyVal = document.getElementById('prCompany').value;
+  var name = document.getElementById('prName').value.trim();
+  var category = document.getElementById('prCategory').value;
+  var desc = document.getElementById('prDesc').value.trim();
+  var features = document.getElementById('prFeatures').value.trim();
+  var status = document.getElementById('prStatus').value;
+  var disclaimer = document.getElementById('prDisclaimer').value.trim();
+  var img = document.getElementById('prImage').value.trim();
+  var imgFile = document.getElementById('prImageFile').files[0];
+  var logo = document.getElementById('prLogo').value.trim();
+  var logoFile = document.getElementById('prLogoFile').files[0];
+  var err = document.getElementById('prErr');
+  
+  err.textContent = '';
+  if (!companyVal || !name) { err.textContent = 'اختر الشركة وأدخل اسم المنتج'; return; }
+  
+  var companies = allCompanies();
+  var company = companies.find(function(c) { return c.name === companyVal; }) || {};
+  var published = status === 'published';
+  if (!logo) logo = company.logo || '';
+  
+  var uploadImage = function() {
+    return readSmallImage(imgFile, 450 * 1024);
+  };
+  var uploadLogo = function() {
+    return readSmallImage(logoFile, 250 * 1024);
+  };
+  
+  Promise.all([uploadImage(), uploadLogo()]).then(function(results) {
+    var imgUrl = results[0] || img;
+    var logoUrl = results[1] || logo;
+    
+    return db.collection('products').add({
+      companyId: company.id || null,
+      companyName: companyVal,
+      companyLogoUrl: logoUrl,
+      name: name,
+      category: category,
       description: desc,
-      createdBy: auth.currentUser.uid,
+      features: features,
+      imageUrl: imgUrl,
+      status: status,
+      published: published,
+      disclaimer: disclaimer,
+      createdBy: auth.currentUser ? auth.currentUser.uid : '',
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    await notify(cid, 'تحديث مطالبة', 'تم تسجيل مطالبة ويمكنك متابعة حالتها من التطبيق.');
-    await logActivity('Claim created', `Claim for ${clientName(cid)}`);
+  }).then(function() {
+    closeModal('productModal');
+    return loadAll();
+  }).then(function() {
+    toast(published ? 'تم نشر المنتج وربطه بواجهة العملاء' : 'تم حفظ المنتج كمسودة');
+  }).catch(function(e) {
+    console.error(e);
+    err.textContent = e.message === 'image-too-large' ? 'حجم الصورة كبير. قلل الحجم ثم حاول مرة أخرى.' : 'تعذر حفظ المنتج';
+  });
+}
+
+function createClient() {
+  var name = document.getElementById('cName').value.trim();
+  var phone = document.getElementById('cPhone').value.trim();
+  var email = document.getElementById('cEmail').value.trim().toLowerCase();
+  var pass = document.getElementById('cPass').value;
+  var err = document.getElementById('cErr');
+  
+  err.textContent = '';
+  if (!name || !email || pass.length < 6) {
+    err.textContent = 'أكمل البيانات وكلمة المرور 6 أحرف على الأقل';
+    return;
+  }
+  
+  auth.createUserWithEmailAndPassword(email, pass)
+    .then(function(cred) {
+      return db.collection('clients').doc(cred.user.uid).set({
+        fullName: name,
+        phone: phone,
+        username: email.split('@')[0],
+        email: email,
+        role: 'client',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        createdBy: auth.currentUser ? auth.currentUser.uid : ''
+      });
+    })
+    .then(function() {
+      return logActivity('Client created', 'Created client ' + name);
+    })
+    .then(function() {
+      closeModal('clientModal');
+      return loadAll();
+    })
+    .then(function() {
+      toast('تم إنشاء العميل بنجاح');
+    })
+    .catch(function(e) {
+      err.textContent = e.code && e.code.includes('email-already') ? 'البريد الإلكتروني مستخدم بالفعل' : 'تعذر إنشاء العميل';
+    });
+}
+
+function createPolicy() {
+  var cid = document.getElementById('pClient').value;
+  var company = document.getElementById('pCompany').value.trim();
+  var type = document.getElementById('pType').value.trim();
+  var number = document.getElementById('pNumber').value.trim();
+  var premium = document.getElementById('pPremium').value;
+  var start = document.getElementById('pStart').value;
+  var end = document.getElementById('pEnd').value;
+  var coverage = document.getElementById('pCoverage').value.trim();
+  var err = document.getElementById('pErr');
+  
+  if (!cid || !company || !end) { err.textContent = 'اختر العميل والشركة وتاريخ الانتهاء'; return; }
+  
+  db.collection('policies').add({
+    clientId: cid,
+    type: type,
+    company: company,
+    policyNumber: number,
+    premium: Number(premium) || 0,
+    startDate: start,
+    endDate: end,
+    coverage: coverage,
+    status: 'active',
+    createdBy: auth.currentUser ? auth.currentUser.uid : '',
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(function() {
+    return notify(cid, 'وثيقة جديدة', 'تمت إضافة وثيقة جديدة إلى حسابك.');
+  })
+  .then(function() {
+    return logActivity('Policy created', 'Added policy for ' + clientName(cid));
+  })
+  .then(function() {
+    closeModal('policyModal');
+    return loadAll();
+  })
+  .then(function() {
+    toast('تم حفظ الوثيقة');
+  })
+  .catch(function(e) {
+    err.textContent = 'تعذر حفظ الوثيقة';
+  });
+}
+
+function createPayment() {
+  var cid = document.getElementById('payClient').value;
+  var policyId = document.getElementById('payPolicy').value;
+  var amount = document.getElementById('payAmount').value;
+  var dateVal = document.getElementById('payDate').value;
+  var method = document.getElementById('payMethod').value;
+  var note = document.getElementById('payNote').value.trim();
+  var err = document.getElementById('payErr');
+  
+  if (!cid || !amount || !dateVal) { err.textContent = 'أكمل العميل والمبلغ والتاريخ'; return; }
+  
+  db.collection('payments').add({
+    clientId: cid,
+    policyId: policyId || null,
+    amount: Number(amount),
+    date: dateVal,
+    method: method,
+    note: note,
+    createdBy: auth.currentUser ? auth.currentUser.uid : '',
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(function() {
+    return notify(cid, 'تم تسجيل دفعة', 'تم تسجيل دفعة جديدة في حسابك.');
+  })
+  .then(function() {
+    return logActivity('Payment recorded', 'Payment for ' + clientName(cid));
+  })
+  .then(function() {
+    closeModal('paymentModal');
+    return loadAll();
+  })
+  .then(function() {
+    toast('تم تسجيل الدفعة');
+  })
+  .catch(function(e) {
+    err.textContent = 'تعذر حفظ الدفعة';
+  });
+}
+
+function createClaim() {
+  var cid = document.getElementById('clClient').value;
+  var policyId = document.getElementById('clPolicy').value;
+  var type = document.getElementById('clType').value.trim();
+  var amount = document.getElementById('clAmount').value;
+  var status = document.getElementById('clStatus').value;
+  var desc = document.getElementById('clDesc').value.trim();
+  var err = document.getElementById('clErr');
+  
+  if (!cid || !type) { err.textContent = 'اختر العميل واكتب نوع المطالبة'; return; }
+  
+  var policy = DATA.policies.find(function(x) { return x.id === policyId; });
+  
+  db.collection('claims').add({
+    clientId: cid,
+    policyId: policyId || null,
+    policyNumber: policy?.policyNumber || '',
+    type: type,
+    amount: Number(amount) || 0,
+    status: status,
+    description: desc,
+    createdBy: auth.currentUser ? auth.currentUser.uid : '',
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(function() {
+    return notify(cid, 'تحديث مطالبة', 'تم تسجيل مطالبة ويمكنك متابعة حالتها من التطبيق.');
+  })
+  .then(function() {
+    return logActivity('Claim created', 'Claim for ' + clientName(cid));
+  })
+  .then(function() {
     closeModal('claimModal');
-    await loadAll();
+    return loadAll();
+  })
+  .then(function() {
     toast('تم تسجيل المطالبة');
-  } catch (e) { err.textContent = 'تعذر حفظ المطالبة'; }
+  })
+  .catch(function(e) {
+    err.textContent = 'تعذر حفظ المطالبة';
+  });
 }
 
-async function changeClaim(id, status) {
+function changeClaim(id, status) {
   if (!status) return;
-  try {
-    let c = DATA.claims.find(x => x.id === id);
-    await db.collection('claims').doc(id).update({ status, updatedAt: firebase.firestore.FieldValue.serverTimestamp(), updatedBy: auth.currentUser.uid });
-    await notify(c.clientId, 'تحديث حالة المطالبة', 'تم تحديث حالة مطالبتك إلى: ' + claimLabel(status));
-    await logActivity('Claim updated', `${clientName(c.clientId)} → ${claimLabel(status)}`);
-    await loadAll();
+  
+  var claim = DATA.claims.find(function(x) { return x.id === id; });
+  if (!claim) { toast('تعذر العثور على المطالبة'); return; }
+  
+  db.collection('claims').doc(id).update({
+    status: status,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedBy: auth.currentUser ? auth.currentUser.uid : ''
+  })
+  .then(function() {
+    return notify(claim.clientId, 'تحديث حالة المطالبة', 'تم تحديث حالة مطالبتك إلى: ' + claimLabel(status));
+  })
+  .then(function() {
+    return logActivity('Claim updated', clientName(claim.clientId) + ' → ' + claimLabel(status));
+  })
+  .then(function() {
+    return loadAll();
+  })
+  .then(function() {
     toast('تم تحديث الحالة');
-  } catch (e) { toast('تعذر تحديث المطالبة'); }
+  })
+  .catch(function(e) {
+    toast('تعذر تحديث المطالبة');
+  });
 }
 
-// Initial Run
+function verifyDocument(id, status) {
+  var doc = DATA.documents.find(function(x) { return x.id === id; });
+  if (!doc) { toast('تعذر العثور على المستند'); return; }
+  
+  db.collection('documents').doc(id).update({
+    verificationStatus: status,
+    verifiedBy: auth.currentUser ? auth.currentUser.uid : '',
+    verifiedAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(function() {
+    if (doc.policyId) {
+      return db.collection('policies').doc(doc.policyId).set({
+        verificationStatus: status,
+        status: status === 'approved' ? 'active' : 'pending_verification',
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    }
+  })
+  .then(function() {
+    var title = status === 'approved' ? 'تم اعتماد المستند' : 'تم رفض المستند';
+    var body = status === 'approved' ? 'تم اعتماد المستند من الوسيط ويمكنك متابعة وثيقتك.' : 'تم رفض المستند ويحتاج إلى مراجعة أو إعادة رفع.';
+    return notify(doc.clientId, title, body);
+  })
+  .then(function() {
+    return logActivity('Document verification', (doc.fileName || 'Document') + ' → ' + status);
+  })
+  .then(function() {
+    return loadAll();
+  })
+  .then(function() {
+    toast(status === 'approved' ? 'تم اعتماد المستند' : 'تم رفض المستند');
+  })
+  .catch(function(e) {
+    console.error(e);
+    toast('تعذر تحديث حالة المستند');
+  });
+}
+
+function logActivity(action, description) {
+  if (!auth.currentUser) return Promise.resolve();
+  return db.collection('activity').add({
+    action: action,
+    description: description,
+    actorId: auth.currentUser.uid,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).catch(function() {});
+}
+
+function notify(clientId, title, body) {
+  return db.collection('notifications').add({
+    clientId: clientId,
+    title: title,
+    body: body,
+    read: false,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).catch(function() {});
+}
+
 applyLang();
 </script>
 </body>
