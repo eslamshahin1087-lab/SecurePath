@@ -510,6 +510,27 @@ body{
 
 
   /* ---------- INSURANCE PRODUCTS / SIMPLY CLEVER ---------- */
+
+  /* ===== Insurance Protection Assessment ===== */
+  .protection-card{margin:12px 16px 8px;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:0 8px 22px rgba(22,34,61,.07);padding:15px;position:relative;overflow:hidden}
+  .protection-card:before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--gold),var(--navy));}
+  .protection-head{display:flex;align-items:center;gap:12px}
+  .protection-ring{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--navy) 0deg,var(--navy) var(--score-angle,0deg),#edf1f7 var(--score-angle,0deg),#edf1f7 360deg);position:relative;flex:0 0 72px}
+  .protection-ring:after{content:"";width:56px;height:56px;border-radius:50%;background:#fff;position:absolute}
+  .protection-ring b{position:relative;z-index:1;font-size:16px;color:var(--navy);font-weight:900}
+  .protection-copy{flex:1;min-width:0}.protection-copy h3{margin:0;color:var(--navy);font:900 15px Tajawal}.protection-copy p{margin:4px 0 0;font-size:10.5px;color:#817968;line-height:1.7}
+  .score-state{display:inline-flex;margin-top:7px;padding:4px 9px;border-radius:999px;background:#f7f4ea;color:#7c6b3b;font-size:9.5px;font-weight:800}
+  .protection-actions{display:flex;gap:8px;margin-top:12px}.protection-actions button{flex:1;border-radius:12px;padding:10px;border:1px solid var(--line);font-family:inherit;font-size:11.5px;font-weight:800;cursor:pointer}.protection-actions .primary{background:var(--navy);color:#fff;border-color:var(--navy)}.protection-actions .ghost{background:#fff;color:var(--navy)}
+  .assessment-screen{padding:0 0 94px;background:linear-gradient(180deg,#f8fafd 0%,var(--paper) 100%)}
+  .assessment-wrap{padding:14px 16px}.assessment-hero{border-radius:20px;padding:17px;background:linear-gradient(135deg,var(--navy),#163c72);color:#fff;box-shadow:0 12px 25px rgba(17,39,76,.16)}.assessment-hero h2{margin:0;font:900 20px Tajawal}.assessment-hero p{margin:6px 0 0;color:#dce6f3;font-size:11px;line-height:1.8}
+  .assessment-form{margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px}.form-section-title{font:900 13px Tajawal;color:var(--navy);margin:6px 0 12px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}.field label{font-size:10.5px;color:#756e60;font-weight:700}.field input,.field select{width:100%;box-sizing:border-box;border:1px solid #dfe4ec;border-radius:11px;padding:10px 9px;font-family:inherit;font-size:11.5px;background:#fbfcfe;color:var(--navy);outline:none}.field input:focus,.field select:focus{border-color:#9bb1d1;box-shadow:0 0 0 3px rgba(38,70,117,.08)}
+  .toggle-row{display:flex;gap:7px;flex-wrap:wrap}.toggle-option{border:1px solid #dfe4ec;background:#fbfcfe;border-radius:10px;padding:8px 10px;font-size:10.5px;color:#5f5a50;cursor:pointer}.toggle-option.active{background:#edf3fb;border-color:#a9bbd5;color:var(--navy);font-weight:800}
+  .policy-checks{display:grid;grid-template-columns:1fr 1fr;gap:7px}.policy-check{display:flex;align-items:center;gap:7px;border:1px solid #e5e8ed;border-radius:10px;padding:8px;font-size:10.5px;color:#5f5a50}.policy-check input{accent-color:var(--navy)}
+  .assessment-submit{width:100%;margin-top:13px;border:0;border-radius:13px;padding:12px;background:linear-gradient(135deg,var(--navy),#1a467f);color:#fff;font-family:inherit;font-weight:900;font-size:12px;cursor:pointer}.assessment-note{font-size:9.5px;color:#8c8577;line-height:1.8;margin:9px 2px 0}
+  .assessment-result{display:none;margin-top:12px}.result-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px}.result-score{text-align:center;padding:10px 0 4px}.result-score .big{font:900 42px Tajawal;color:var(--navy)}.result-score .label{font-size:11px;color:#837b6d}.result-meter{height:9px;background:#edf0f4;border-radius:999px;overflow:hidden;margin:12px 0}.result-meter span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#d9b55c,var(--navy));width:0;transition:width .7s ease}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.result-box{border:1px solid #e8eaf0;border-radius:11px;padding:9px}.result-box b{display:block;color:var(--navy);font-size:11px;margin-bottom:3px}.result-box span{font-size:10px;color:#777064;line-height:1.6}.gap-list{margin:8px 0 0;padding:0 18px 0 0}.gap-list li{font-size:10.5px;color:#655f55;line-height:1.8;margin-bottom:2px}.assessment-legal{margin:14px 0 0;background:#fffdf7;border:1px solid #eadfbf;border-radius:14px;padding:11px;color:#6e654f;font-size:9.5px;line-height:1.9}
+  .agent-card{margin:10px 16px 8px;border-radius:17px;background:#fff;border:1px solid var(--line);padding:13px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 18px rgba(22,34,61,.05)}.agent-card .agent-icon{width:38px;height:38px;border-radius:12px;background:var(--navy);color:var(--gold-soft);display:grid;place-items:center;font-size:17px}.agent-card .agent-copy{flex:1}.agent-card h4{margin:0;color:var(--navy);font:900 13px Tajawal}.agent-card p{margin:3px 0 0;font-size:9.5px;color:#857d6f}.agent-card button{border:0;background:var(--gold-soft);color:var(--navy);border-radius:10px;padding:9px 11px;font-family:inherit;font-size:10.5px;font-weight:900;cursor:pointer}
+  .home-legal{margin:12px 16px 96px;padding:12px 13px;background:#f8f5ec;border:1px solid #e7dcc0;border-radius:14px;color:#716954;font-size:9.3px;line-height:1.9}.home-legal strong{display:block;color:var(--navy);font-size:10.5px;margin-bottom:4px}
+
   .products-screen{padding:0 0 92px;background:var(--paper);}
   .products-hero{margin:0 16px 12px;border-radius:20px;padding:18px 16px;background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;box-shadow:0 10px 24px rgba(22,34,61,.16);}
   .products-hero .eyebrow{font-size:10px;color:var(--gold-soft);font-weight:700;letter-spacing:.5px;margin-bottom:5px;}
@@ -650,12 +671,104 @@ body{
       <div style="width:32px;height:32px;border-radius:50%;background:var(--navy);color:var(--gold-soft);display:grid;place-items:center;font-size:16px;">‹</div>
     </div>
 
+    <div class="protection-card">
+      <div class="protection-head">
+        <div class="protection-ring" id="homeProtectionRing" style="--score-angle:0deg"><b id="homeProtectionScore">—</b></div>
+        <div class="protection-copy">
+          <h3>حالة الحماية التأمينية</h3>
+          <p id="homeProtectionText">احصل على تقييم مبدئي لحالة حمايتك بناءً على بياناتك والوثائق السارية.</p>
+          <span class="score-state" id="homeProtectionState">لم يتم التقييم بعد</span>
+        </div>
+      </div>
+      <div class="protection-actions">
+        <button class="primary" onclick="go('assessment')">تقييم حمايتك التأمينية</button>
+        <button class="ghost" onclick="go('assessment');setTimeout(()=>loadExistingAssessment(),100)">تحديث التقييم</button>
+      </div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-icon">✉</div>
+      <div class="agent-copy"><h4>تواصل مع وكيلك</h4><p>استفسار، متابعة وثيقة، مطالبة أو طلب خدمة.</p></div>
+      <button onclick="openChat()">محادثة</button>
+    </div>
+
     <div class="section-title">وثائقك</div>
     <div class="policies" id="policyList">
       <div style="text-align:center;padding:40px 20px;color:#a8a190;font-size:13px;">جاري تحميل وثائقك...</div>
     </div>
+    <div class="home-legal"><strong>تنبيه قانوني وتشغيلي</strong>Secure PATH يعمل هنا كـ CRM وخدمة ومتابعة للعميل. أي إصدار أو توزيع رقمي لوثيقة تأمين يجب أن يكون مرتبطًا بالترخيص والموافقات والربط المعتمد مع شركة التأمين. الوثائق التي يرفعها العميل تسجل كـ <b>Pending Verification</b> حتى اعتماد الوسيط.<br><br>هذه الشاشة أداة تشغيلية وليست رأيًا قانونيًا أو إثباتًا للترخيص الرقمي.</div>
   </div>
 
+
+  <!-- INSURANCE PROTECTION ASSESSMENT -->
+  <div class="screen assessment-screen" id="assessment">
+    <div class="topbar" style="padding-bottom:14px;">
+      <div class="row">
+        <button onclick="go('home')" style="border:0;background:transparent;color:var(--navy);font-size:20px;cursor:pointer">‹</button>
+        <div style="text-align:right;flex:1"><p class="hi" style="color:#7c8ba0">Secure PATH</p><p class="name">تقييم حمايتك التأمينية</p></div>
+      </div>
+    </div>
+    <div class="assessment-wrap">
+      <div class="assessment-hero"><h2>كم أنت محمي؟</h2><p>أجب عن مجموعة قصيرة من الأسئلة. سيحسب التطبيق مؤشرًا إرشاديًا من 100% ويحدد أهم فجوات الحماية التي تستحق المراجعة مع الوسيط.</p></div>
+      <form class="assessment-form" id="assessmentForm" onsubmit="event.preventDefault();calculateProtectionScore()">
+        <div class="form-section-title">1) البيانات الأساسية</div>
+        <div class="form-grid">
+          <div class="field full"><label>الاسم</label><input id="as-name" required placeholder="الاسم بالكامل"></div>
+          <div class="field"><label>السن</label><input id="as-age" type="number" min="16" max="100" required placeholder="مثال: 35"></div>
+          <div class="field"><label>الجنس</label><select id="as-gender"><option value="">اختر</option><option value="male">ذكر</option><option value="female">أنثى</option></select></div>
+          <div class="field"><label>الوظيفة</label><input id="as-occupation" placeholder="الوظيفة / المهنة"></div>
+          <div class="field"><label>الحالة الاجتماعية</label><select id="as-marital"><option value="single">أعزب/غير متزوج</option><option value="married">متزوج</option><option value="other">أخرى</option></select></div>
+          <div class="field"><label>عدد المعالين</label><input id="as-dependents" type="number" min="0" max="20" value="0"></div>
+          <div class="field"><label>الدخل السنوي التقريبي</label><select id="as-income"><option value="low">أقل من 250 ألف</option><option value="mid">250 ألف – 1 مليون</option><option value="high">أكثر من 1 مليون</option></select></div>
+        </div>
+        <div class="form-section-title" style="margin-top:16px">2) هل تملك شركة أو مؤسسة؟</div>
+        <div class="toggle-row" id="as-owner-toggle">
+          <button type="button" class="toggle-option active" data-value="no" onclick="setAssessmentOwner('no',this)">لا</button>
+          <button type="button" class="toggle-option" data-value="yes" onclick="setAssessmentOwner('yes',this)">نعم</button>
+        </div>
+        <div id="businessFields" style="display:none;margin-top:10px">
+          <div class="form-grid">
+            <div class="field full"><label>اسم الشركة / المؤسسة</label><input id="as-business-name"></div>
+            <div class="field full"><label>النشاط الرئيسي</label><input id="as-business-activity" placeholder="مثال: تجارة، مقاولات، خدمات، تصنيع..." ></div>
+            <div class="field"><label>عدد العاملين</label><input id="as-employees" type="number" min="0" value="0"></div>
+            <div class="field"><label>هل لديك مركبات/أسطول؟</label><select id="as-fleet"><option value="no">لا</option><option value="yes">نعم</option></select></div>
+          </div>
+        </div>
+        <div class="form-section-title" style="margin-top:16px">3) الحماية الحالية والاحتياجات</div>
+        <div class="policy-checks">
+          <label class="policy-check"><input type="checkbox" value="health" id="as-health"> صحي</label>
+          <label class="policy-check"><input type="checkbox" value="life" id="as-life"> حياة</label>
+          <label class="policy-check"><input type="checkbox" value="auto" id="as-auto"> سيارات</label>
+          <label class="policy-check"><input type="checkbox" value="property" id="as-property"> ممتلكات</label>
+          <label class="policy-check"><input type="checkbox" value="accident" id="as-accident"> حوادث شخصية</label>
+          <label class="policy-check"><input type="checkbox" value="travel" id="as-travel"> سفر</label>
+          <label class="policy-check"><input type="checkbox" value="income" id="as-income-protection"> حماية الدخل</label>
+          <label class="policy-check"><input type="checkbox" value="liability" id="as-liability"> مسؤوليات</label>
+        </div>
+        <div id="businessPolicyChecks" style="display:none;margin-top:9px" class="policy-checks">
+          <label class="policy-check"><input type="checkbox" id="as-biz-property"> ممتلكات المنشأة</label>
+          <label class="policy-check"><input type="checkbox" id="as-biz-liability"> مسؤولية مدنية</label>
+          <label class="policy-check"><input type="checkbox" id="as-biz-interruption"> توقف الأعمال</label>
+          <label class="policy-check"><input type="checkbox" id="as-biz-medical"> طبي للعاملين</label>
+          <label class="policy-check"><input type="checkbox" id="as-biz-cyber"> مخاطر إلكترونية</label>
+          <label class="policy-check"><input type="checkbox" id="as-biz-key"> شخص رئيسي</label>
+        </div>
+        <button class="assessment-submit" type="submit">احسب مؤشر الحماية الآن</button>
+        <p class="assessment-note">المؤشر إرشادي وتشغيلي لمساعدة العميل والوسيط على تحديد فجوات الحماية، وليس تسعيرًا أو اكتتابًا أو رأيًا قانونيًا.</p>
+      </form>
+      <div class="assessment-result" id="assessmentResult">
+        <div class="result-card">
+          <div class="result-score"><div class="big" id="resultScore">0%</div><div class="label" id="resultLabel">—</div></div>
+          <div class="result-meter"><span id="resultBar"></span></div>
+          <div class="result-grid"><div class="result-box"><b>نقطة القوة</b><span id="resultStrength">—</span></div><div class="result-box"><b>الأولوية</b><span id="resultPriority">—</span></div></div>
+          <div class="form-section-title" style="margin-top:14px">فجوات الحماية المقترحة للمراجعة</div>
+          <ul class="gap-list" id="resultGaps"></ul>
+          <div class="protection-actions"><button class="primary" onclick="openChatWithAssessment()">ناقش النتيجة مع الوكيل</button><button class="ghost" onclick="go('home')">العودة للرئيسية</button></div>
+          <div class="assessment-legal"><strong>تنبيه قانوني</strong>هذه الشاشة أداة تشغيلية وليست رأيًا قانونيًا أو إثباتًا للترخيص الرقمي. Secure PATH يعمل هنا كـ CRM وخدمة ومتابعة للعميل. أي إصدار أو توزيع رقمي لوثيقة تأمين يجب أن يكون مرتبطًا بالترخيص والموافقات والربط المعتمد مع شركة التأمين. الوثائق التي يرفعها العميل تسجل كـ <b>Pending Verification</b> حتى اعتماد الوسيط.</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- INSURANCE PRODUCTS -->
   <div class="screen products-screen" id="products">
@@ -1014,6 +1127,108 @@ function startPublicProducts(){
   });
 }
 
+
+/* ============== Insurance Protection Assessment ============== */
+let ASSESSMENT_OWNER='no';
+let CURRENT_ASSESSMENT=null;
+function setAssessmentOwner(value,el){
+  ASSESSMENT_OWNER=value;
+  document.querySelectorAll('#as-owner-toggle .toggle-option').forEach(b=>b.classList.toggle('active',b.dataset.value===value));
+  document.getElementById('businessFields').style.display=value==='yes'?'block':'none';
+  document.getElementById('businessPolicyChecks').style.display=value==='yes'?'grid':'none';
+}
+function policyTypesFromCurrent(){
+  const types=new Set();
+  (CURRENT_POLICIES||[]).forEach(p=>{
+    const v=String(p.type||p.coverage||'').toLowerCase();
+    if(/صح|medical|health/.test(v))types.add('health');
+    if(/حيا|life/.test(v))types.add('life');
+    if(/سيار|motor|auto/.test(v))types.add('auto');
+    if(/ممتلك|منزل|حريق|property|fire/.test(v))types.add('property');
+    if(/حادث|accident/.test(v))types.add('accident');
+    if(/سفر|travel/.test(v))types.add('travel');
+    if(/دخل|income/.test(v))types.add('income');
+    if(/مسؤول|liability/.test(v))types.add('liability');
+  });
+  return types;
+}
+function loadExistingAssessment(){
+  const a=CURRENT_ASSESSMENT;if(!a)return;
+  const ids=['name','age','gender','occupation','marital','dependents','income','business-name','business-activity','employees','fleet'];
+  const vals={name:a.name,age:a.age,gender:a.gender,occupation:a.occupation,marital:a.marital,dependents:a.dependents,income:a.income,'business-name':a.businessName,'business-activity':a.businessActivity,employees:a.employees,fleet:a.fleet};
+  ids.forEach(k=>{const el=document.getElementById('as-'+k);if(el&&vals[k]!=null)el.value=vals[k]});
+  setAssessmentOwner(a.ownerType||'no',document.querySelector(`#as-owner-toggle .toggle-option[data-value="${a.ownerType||'no'}"]`));
+  const types=new Set(a.policies||[]); policyTypesFromCurrent().forEach(x=>types.add(x));
+  ['health','life','auto','property','accident','travel','income-protection','liability'].forEach(x=>{const el=document.getElementById('as-'+x);if(el)el.checked=types.has(x==='income-protection'?'income':x)});
+  ['property','liability','interruption','medical','cyber','key'].forEach(x=>{const el=document.getElementById('as-biz-'+x);if(el)el.checked=!!a.businessPolicies?.includes(x)});
+}
+function prepareAssessmentForm(){
+  if(!auth.currentUser)return;
+  const nameEl=document.getElementById('as-name');
+  if(nameEl && !nameEl.value)nameEl.value=document.getElementById('home-name')?.textContent||'';
+  const types=policyTypesFromCurrent();
+  ['health','life','auto','property','accident','travel','income','liability'].forEach(x=>{const id=x==='income'?'income-protection':x;const el=document.getElementById('as-'+id);if(el && types.has(x))el.checked=true;});
+  if(CURRENT_ASSESSMENT)loadExistingAssessment();
+}
+function assessmentLabel(score){if(score>=85)return 'حماية قوية';if(score>=70)return 'حماية جيدة';if(score>=50)return 'حماية متوسطة وتحتاج مراجعة';if(score>=30)return 'حماية منخفضة وتوجد فجوات مهمة';return 'حماية محدودة وتحتاج مراجعة عاجلة';}
+function calculateProtectionScore(){
+  const get=id=>document.getElementById(id);
+  const name=get('as-name').value.trim(), age=Number(get('as-age').value||0), dependents=Number(get('as-dependents').value||0);
+  if(!name||!age){showNotice('بيانات ناقصة','من فضلك أدخل الاسم والسن لإتمام التقييم.');return;}
+  const policies=[];['health','life','auto','property','accident','travel','income','liability'].forEach(x=>{if(get('as-'+(x==='income'?'income-protection':x))?.checked)policies.push(x)});
+  const bizPolicies=[];['property','liability','interruption','medical','cyber','key'].forEach(x=>{if(get('as-biz-'+x)?.checked)bizPolicies.push(x)});
+  const business=ASSESSMENT_OWNER==='yes';
+  let score=0, gaps=[], strengths=[];
+  if(business){
+    const weights={property:20,liability:20,interruption:15,medical:15,cyber:10,key:10};
+    bizPolicies.forEach(x=>score+=weights[x]||0);
+    if(get('as-fleet').value==='yes'&&get('as-auto').checked)score+=10;else if(get('as-fleet').value==='yes')gaps.push('مراجعة تأمين المركبات/الأسطول');
+    if(bizPolicies.includes('property'))strengths.push('حماية ممتلكات المنشأة');
+    if(bizPolicies.includes('liability'))strengths.push('المسؤولية المدنية');
+    if(!bizPolicies.includes('property'))gaps.push('ممتلكات ومخاطر الحريق والأخطار المرتبطة بالنشاط');
+    if(!bizPolicies.includes('liability'))gaps.push('المسؤولية المدنية تجاه الغير');
+    if(!bizPolicies.includes('interruption'))gaps.push('توقف الأعمال وفقد الدخل التشغيلي');
+    if(Number(get('as-employees').value||0)>0&&!bizPolicies.includes('medical'))gaps.push('المزايا الطبية للعاملين');
+    if(!bizPolicies.includes('cyber') && /تقنية|برمج|تجارة إلكترونية|خدمات|tech|software|ecommerce/i.test(get('as-business-activity').value))gaps.push('المخاطر الإلكترونية');
+    if(!bizPolicies.includes('key'))gaps.push('مخاطر الشخص الرئيسي واستمرارية الإدارة');
+  }else{
+    const weights={health:22,life:20,property:14,auto:10,accident:10,income:10,travel:4,liability:10};
+    policies.forEach(x=>score+=weights[x]||0);
+    if(dependents>0&&!policies.includes('life'))gaps.push('تأمين الحياة/حماية الأسرة والمعالين');
+    if(!policies.includes('health'))gaps.push('التأمين الطبي والمصروفات الصحية');
+    if(age>=30&&!policies.includes('income'))gaps.push('حماية الدخل والقدرة على الاستمرار المالي');
+    if(!policies.includes('accident'))gaps.push('الحوادث الشخصية والعجز');
+    if(!policies.includes('property'))gaps.push('حماية المنزل والممتلكات الشخصية');
+    if(!policies.includes('auto')&&get('as-auto').checked)gaps.push('تأمين السيارة والمسؤولية تجاه الغير');
+    if(!policies.includes('liability'))gaps.push('مراجعة احتياجات المسؤولية الشخصية');
+    if(policies.includes('health'))strengths.push('وجود حماية صحية');
+    if(policies.includes('life'))strengths.push('وجود حماية للحياة');
+    if(policies.includes('property'))strengths.push('حماية للممتلكات');
+  }
+  const currentValid=CURRENT_POLICIES.filter(p=>{const end=p.endDate;if(!end)return true;const d=typeof end.toDate==='function'?end.toDate():new Date(end);return d>=new Date()}).length;
+  if(currentValid>0){score+=Math.min(10,currentValid*2);strengths.push(`لديك ${currentValid} وثيقة سارية مرتبطة بحسابك`)}
+  if(age>=60)score-=3; if(age<25)score-=1; score=Math.max(0,Math.min(100,Math.round(score)));
+  if(!strengths.length)strengths.push('يمكن بناء حماية متدرجة حسب احتياجاتك');
+  gaps=[...new Set(gaps)].slice(0,5);
+  const result={score,label:assessmentLabel(score),ownerType:ASSESSMENT_OWNER,name,age,gender:get('as-gender').value,occupation:get('as-occupation').value,marital:get('as-marital').value,dependents,income:get('as-income').value,businessName:get('as-business-name').value,businessActivity:get('as-business-activity').value,employees:Number(get('as-employees').value||0),fleet:get('as-fleet').value,policies,businessPolicies:bizPolicies,gaps,strengths,updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+  CURRENT_ASSESSMENT=result;
+  renderAssessmentResult(result);
+  if(auth.currentUser){db.collection('insuranceAssessments').doc(auth.currentUser.uid).set(result,{merge:true}).catch(e=>console.error('assessment save',e));db.collection('clients').doc(auth.currentUser.uid).set({protectionScore:score,protectionScoreLabel:result.label,protectionAssessmentAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}).catch(e=>console.error('client score save',e));}
+}
+function renderAssessmentResult(r){
+  document.getElementById('assessmentResult').style.display='block';document.getElementById('resultScore').textContent=r.score+'%';document.getElementById('resultLabel').textContent=r.label;document.getElementById('resultBar').style.width=r.score+'%';document.getElementById('resultStrength').textContent=r.strengths.join(' • ');document.getElementById('resultPriority').textContent=r.gaps[0]||'استمرار المراجعة الدورية';document.getElementById('resultGaps').innerHTML=(r.gaps.length?r.gaps:['لا توجد فجوات رئيسية حسب البيانات المدخلة، مع ضرورة المراجعة مع الوسيط.']).map(x=>`<li>${escapeHtml(x)}</li>`).join('');}
+function updateHomeProtection(r){
+  const score=r?.score;const ring=document.getElementById('homeProtectionRing');const scoreEl=document.getElementById('homeProtectionScore');const state=document.getElementById('homeProtectionState');const text=document.getElementById('homeProtectionText');if(!ring||score==null)return;
+  scoreEl.textContent=score+'%';ring.style.setProperty('--score-angle',(score*3.6)+'deg');state.textContent=r.label;text.textContent='آخر تقييم مبني على بياناتك والوثائق السارية المرتبطة بالحساب. يمكنك تحديثه في أي وقت.';
+}
+async function loadProtectionAssessment(){
+  if(!auth.currentUser)return;
+  try{const doc=await db.collection('insuranceAssessments').doc(auth.currentUser.uid).get();if(doc.exists){CURRENT_ASSESSMENT=doc.data();updateHomeProtection(CURRENT_ASSESSMENT);loadExistingAssessment();}else{updateHomeProtection(null)}}catch(e){console.error('assessment load',e)}
+}
+function openChatWithAssessment(){
+  go('home');setTimeout(()=>{openChat();setTimeout(()=>{const input=document.getElementById('chat-input');if(input&&CURRENT_ASSESSMENT)input.value=`أرغب في مناقشة نتيجة تقييم الحماية التأمينية (${CURRENT_ASSESSMENT.score}%) ومعرفة فجوات الحماية المقترحة.`;},250)},120);
+}
+
 async function reconcileByPhone(uid, phone){
   if(!phone) return;
   try{
@@ -1157,8 +1372,14 @@ auth.onAuthStateChanged(function(user){
       const data = profile.data() || {};
       CURRENT_PHONE = data.phone || '';
       setAccountUI(data.fullName, data.username||'');
+      const ageFromProfile = data.age || (data.dateOfBirth ? Math.floor((Date.now()-new Date(data.dateOfBirth).getTime())/31557600000) : '');
+      const nameField=document.getElementById('as-name'); if(nameField) nameField.value=data.fullName||'';
+      const ageField=document.getElementById('as-age'); if(ageField&&ageFromProfile) ageField.value=ageFromProfile;
+      const genderField=document.getElementById('as-gender'); if(genderField&&data.gender) genderField.value=data.gender;
+      const occupationField=document.getElementById('as-occupation'); if(occupationField&&data.occupation) occupationField.value=data.occupation;
       loadPolicies();
       startPublicProducts();
+      loadProtectionAssessment();
       go('home');
     });
   }
@@ -1169,6 +1390,7 @@ function go(screen){
   document.getElementById(screen).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('on', n.dataset.t===screen));
   document.getElementById('navbar').style.display = ['login','signup','link'].includes(screen) ? 'none' : 'flex';
+  if(screen==='assessment')setTimeout(prepareAssessmentForm,30);
 }
 function filterCat(el,cat){
   document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
