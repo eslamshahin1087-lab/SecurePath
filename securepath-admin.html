@@ -490,31 +490,99 @@ async function col(n){
 
 function normalizeClientRecord(x){
   const c={...x};
-  if(!c.fullName && c.name)c.fullName=c.name;
-  if(!c.username && c.user)c.username=c.user;
-  if(!c.phone && (c.mobile||c.phoneNumber))c.phone=c.mobile||c.phoneNumber;
+  c.id=x.id||x.uid||x.userId||x.clientId||'';
+  if(!c.fullName)c.fullName=c.name||c.full_name||c.displayName||c.username||'';
+  if(!c.username)c.username=c.user||c.email||'';
+  if(!c.phone)c.phone=c.mobile||c.phoneNumber||c.telephone||'';
+  if(!c.email)c.email=c.emailAddress||'';
+  if(!c.occupation)c.occupation=c.job||c.profession||'';
+  if(!c.businessActivity)c.businessActivity=c.activity||c.companyActivity||'';
   return c;
 }
 function normalizePolicyRecord(x){
   const p={...x};
-  if(!p.policyNumber && (p.policyNo||p.policy_number))p.policyNumber=p.policyNo||p.policy_number;
-  if(!p.company && (p.insuranceCompany||p.companyName))p.company=p.insuranceCompany||p.companyName;
-  if(!p.startDate && p.start)p.startDate=p.start;
-  if(!p.endDate && (p.expiryDate||p.expirationDate))p.endDate=p.expiryDate||p.expirationDate;
+  p.id=x.id||x.policyId||'';
+  if(!p.policyNumber)p.policyNumber=p.policyNo||p.policy_number||x.number||'';
+  if(!p.company)p.company=p.insuranceCompany||p.companyName||x.insurer||'';
+  if(!p.startDate)p.startDate=p.start||p.effectiveDate||'';
+  if(!p.endDate)p.endDate=p.expiryDate||p.expirationDate||p.renewalDate||p.expiry||'';
+  if(!p.type)p.type=p.policyType||p.productType||'';
   return p;
 }
+
+// Canonical relationship resolver. Every related record is linked to the
+// actual Firestore client/policy document id in memory, without changing Firebase.
+function norm(v){return String(v??'').trim().toLowerCase()}
+function digits(v){return String(v??'').replace(/\\D/g,'')}
+function resolveClientId(ref, extra={}){
+  if(!ref && !extra)return '';
+  const r=String(ref??'').trim();
+  const rn=norm(r), rd=digits(r);
+  let c=DATA.clients.find(x=>String(x.id)===r);
+  if(c)return c.id;
+  c=DATA.clients.find(x=>String(x.uid||'')===r || String(x.userId||'')===r || String(x.clientId||'')===r);
+  if(c)return c.id;
+  if(rn)c=DATA.clients.find(x=>[x.username,x.email,x.fullName,x.name].some(v=>norm(v)===rn));
+  if(c)return c.id;
+  if(rd)c=DATA.clients.find(x=>digits(x.phone||x.mobile||x.phoneNumber)===rd);
+  if(c)return c.id;
+  const candidates=[extra.clientId,extra.userId,extra.uid,extra.clientUid,extra.clientEmail,extra.email,extra.username,extra.phone,extra.mobile,extra.policyHolderId].filter(Boolean);
+  for(const q of candidates){const id=resolveClientId(q);if(id)return id}
+  return '';
+}
+function resolvePolicyId(ref, extra={}){
+  const r=String(ref??'').trim();
+  if(!r)return '';
+  let p=DATA.policies.find(x=>String(x.id)===r);
+  if(p)return p.id;
+  const rn=norm(r);
+  p=DATA.policies.find(x=>norm(x.policyNumber)===rn);
+  if(p)return p.id;
+  p=DATA.policies.find(x=>norm(x.policyNo)===rn);
+  if(p)return p.id;
+  const number=extra.policyNumber||extra.policyNo||extra.policy_number||'';
+  if(number)return resolvePolicyId(number);
+  return '';
+}
+function normalizeRelations(){
+  DATA.clients=(DATA.clients||[]).map(normalizeClientRecord);
+  DATA.policies=(DATA.policies||[]).map(normalizePolicyRecord);
+
+  // Policies -> canonical client id
+  DATA.policies.forEach(p=>{
+    p.clientId=resolveClientId(p.clientId||p.clientID||p.customerId||p.userId||p.uid||p.clientUid||p.policyHolderId,{...p});
+  });
+
+  // Any collection that refers to a client/policy gets canonical ids.
+  ['payments','claims','messages','notifications','documents','activity'].forEach(name=>{
+    DATA[name]=(DATA[name]||[]).map(x=>{
+      const r={...x};
+      const cid=resolveClientId(r.clientId||r.clientID||r.customerId||r.userId||r.uid||r.clientUid||r.policyHolderId,{...r});
+      if(cid)r.clientId=cid;
+      const pid=resolvePolicyId(r.policyId||r.policyID||r.policyRef||r.documentPolicyId,{...r});
+      if(pid)r.policyId=pid;
+      if(!r.clientId && pid){const p=DATA.policies.find(q=>q.id===pid);if(p?.clientId)r.clientId=p.clientId}
+      return r;
+    });
+  });
+
+  // Assessment ids are client ids in the current application contract.
+  DATA.assessments=(DATA.assessments||[]).map(a=>{
+    const r={...a};
+    const cid=resolveClientId(r.clientId||r.clientID||r.customerId||r.userId||r.uid||r.id,{...r});
+    if(cid){r.clientId=cid;r.id=cid}
+    return r;
+  });
+}
 async function loadAll(){
-  // Data-preserving load: reads the existing Firestore collections only.
-  // No client, policy, document, message or other record is created, deleted, or overwritten here.
+  // Read-only synchronization layer: existing Firebase records are preserved.
   const names=['clients','policies','payments','claims','documents','messages','notifications','activity','products','companies','insuranceAssessments'];
   const vals=await Promise.all(names.map(col));
   names.forEach((n,i)=>{
-    if(n==='insuranceAssessments') DATA.assessments=vals[i].map(a=>({id:a.id||a.clientId||'',...a}));
+    if(n==='insuranceAssessments') DATA.assessments=vals[i];
     else DATA[n]=vals[i];
   });
-  // Compatibility with the older Admin files: preserve legacy field names in memory.
-  DATA.clients=(DATA.clients||[]).map(normalizeClientRecord);
-  DATA.policies=(DATA.policies||[]).map(normalizePolicyRecord);
+  normalizeRelations();
   renderAll();
   ensureRenewalNotifications().catch(console.error);
   if(window.__renewalTimer)clearInterval(window.__renewalTimer);
