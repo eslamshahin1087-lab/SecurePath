@@ -14,6 +14,13 @@
 <link rel="icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+
 <style>
   :root {
     --navy: #0E2A5C;
@@ -50,6 +57,7 @@
     justify-content: center;
     padding: 24px 8px;
     user-select: none;
+    min-height: 100vh;
   }
 
   .phone {
@@ -101,10 +109,11 @@
     background: radial-gradient(circle at 50% 7%, rgba(242, 189, 99, 0.18), transparent 28%),
                 linear-gradient(180deg, var(--navy) 0%, var(--navy) 40%, var(--paper) 40%);
     padding-bottom: 20px;
+    justify-content: center;
   }
 
   .brand-premium {
-    padding: 44px 20px 16px;
+    padding: 20px 20px 16px;
     text-align: center;
   }
 
@@ -190,6 +199,11 @@
     transform: scale(0.98);
   }
 
+  .btn-primary:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
   .switch-auth {
     text-align: center;
     font-size: 12px;
@@ -203,7 +217,7 @@
     text-decoration: underline;
   }
 
-  /* HOME HERO & SIMPLY CLEVER UI */
+  /* HOME HERO */
   .pro-topbar {
     padding: calc(26px + var(--safe-area-top)) 18px 20px;
     background: radial-gradient(circle at 90% -30%, rgba(242, 189, 99, 0.22), transparent 40%),
@@ -265,6 +279,11 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .bell:hover {
+    background: rgba(255, 255, 255, 0.15);
   }
 
   .bell-symbol {
@@ -292,6 +311,12 @@
     align-items: center;
     justify-content: space-between;
     backdrop-filter: blur(6px);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .protection-card:hover {
+    background: rgba(255, 255, 255, 0.12);
   }
 
   .protection-left span {
@@ -400,11 +425,15 @@
     text-align: center;
     box-shadow: var(--shadow);
     cursor: pointer;
-    transition: transform 0.15s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
   .quick-card:active {
     transform: scale(0.95);
+  }
+
+  .quick-card:hover {
+    box-shadow: var(--shadow-lg);
   }
 
   .quick-card b {
@@ -447,6 +476,11 @@
     overflow: hidden;
     box-shadow: var(--shadow);
     cursor: pointer;
+    transition: box-shadow 0.2s;
+  }
+
+  .p-card:hover {
+    box-shadow: var(--shadow-lg);
   }
 
   .p-seal {
@@ -536,9 +570,13 @@
     padding-bottom: var(--safe-area-bottom);
     background: rgba(255, 255, 255, 0.98);
     border-top: 1px solid var(--line);
-    display: flex;
+    display: none;
     z-index: 20;
     backdrop-filter: blur(10px);
+  }
+
+  .navbar.show {
+    display: flex;
   }
 
   .nav-item {
@@ -554,6 +592,7 @@
     border: none;
     position: relative;
     padding: 0;
+    transition: color 0.2s;
   }
 
   .nav-item .nav-icon {
@@ -603,6 +642,12 @@
     overflow-y: auto;
     box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
     position: relative;
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
   }
 
   .sheet .grabber {
@@ -652,6 +697,11 @@
     font-weight: 800;
     font-size: 13px;
     cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .actions button:hover {
+    opacity: 0.85;
   }
 
   .btn-gold {
@@ -680,6 +730,11 @@
     cursor: pointer;
     font-size: 14px;
     color: var(--navy);
+    transition: background 0.2s;
+  }
+
+  .close-x:hover {
+    background: #f0f0f0;
   }
 
   /* PREVIEW MODAL SPECIFIC */
@@ -778,6 +833,44 @@
     margin-top: 4px;
   }
 
+  /* LOADING SPINNER */
+  .spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 0.8s ease-in-out infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+  }
+
+  .empty-state .icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+
+  .empty-state h3 {
+    font-family: 'Tajawal', sans-serif;
+    color: var(--navy);
+    margin: 0 0 8px;
+  }
+
+  .empty-state p {
+    font-size: 12px;
+    margin: 0;
+  }
+
   /* RESPONSIVE FULLSCREEN FOR MOBILE */
   @media (max-width: 480px) {
     body {
@@ -812,15 +905,16 @@
 
     <div class="login-card">
       <h2>تسجيل الدخول</h2>
+      <div id="loginError" class="field" style="color:var(--red); font-size:12px; margin-bottom:10px; display:none;"></div>
       <div class="field">
         <label>البريد الإلكتروني</label>
-        <input type="email" id="loginEmail" placeholder="example@domain.com" value="client@securepath.com">
+        <input type="email" id="loginEmail" placeholder="example@domain.com">
       </div>
       <div class="field">
         <label>كلمة المرور</label>
-        <input type="password" id="loginPass" placeholder="••••••••" value="123456">
+        <input type="password" id="loginPass" placeholder="••••••••">
       </div>
-      <button class="btn-primary" onclick="handleLogin()">دخول المنصة</button>
+      <button class="btn-primary" id="loginBtn" onclick="handleLogin()">دخول المنصة</button>
       <div class="switch-auth">
         ليس لديك حساب؟ <b onclick="showScreen('signup')">إنشاء حساب جديد</b>
       </div>
@@ -834,6 +928,7 @@
     </div>
     <div class="login-card">
       <h2>حساب جديد</h2>
+      <div id="signupError" class="field" style="color:var(--red); font-size:12px; margin-bottom:10px; display:none;"></div>
       <div class="field">
         <label>الاسم الكامل</label>
         <input type="text" id="regName" placeholder="إسلام إبراهيم">
@@ -846,14 +941,14 @@
         <label>كلمة المرور</label>
         <input type="password" id="regPass" placeholder="••••••••">
       </div>
-      <button class="btn-primary" onclick="handleSignup()">تسجيل الحساب</button>
+      <button class="btn-primary" id="signupBtn" onclick="handleSignup()">تسجيل الحساب</button>
       <div class="switch-auth">
         لديك حساب بالفعل؟ <b onclick="showScreen('login')">تسجيل الدخول</b>
       </div>
     </div>
   </div>
 
-  <!-- 3. HOME SCREEN (Simply Clever) -->
+  <!-- 3. HOME SCREEN -->
   <div class="screen" id="home">
     <div class="pro-topbar">
       <div class="mini-brand">
@@ -863,7 +958,7 @@
       <div class="topbar-row">
         <div class="topbar-user">
           <p class="hi">مرحباً بك،</p>
-          <h1 class="name" id="userNameHome">إسلام إبراهيم</h1>
+          <h1 class="name" id="userNameHome">مستخدم</h1>
         </div>
         <div class="bell" onclick="showScreen('notifs')">
           <span class="bell-symbol">🔔</span>
@@ -961,7 +1056,7 @@
       </div>
     </div>
     <div class="policies" id="productsList" style="padding-top: 14px;">
-      <!-- Dynamic products from Firebase/State -->
+      <!-- Dynamic products from Firestore -->
     </div>
   </div>
 
@@ -996,12 +1091,18 @@
   <div class="screen" id="account">
     <div style="background: var(--navy); padding: 30px 20px; text-align: center; color: #fff;">
       <div style="width: 70px; height: 70px; border-radius: 50%; background: var(--gold); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 900; color: var(--navy);" id="accAvatar">
-        I
+        م
       </div>
-      <h2 style="margin: 0; font-family: 'Tajawal', sans-serif;" id="accName">إسلام إبراهيم</h2>
-      <p style="margin: 4px 0 0; font-size: 12px; color: var(--gold-soft);" id="accEmail">client@securepath.com</p>
+      <h2 style="margin: 0; font-family: 'Tajawal', sans-serif;" id="accName">مستخدم</h2>
+      <p style="margin: 4px 0 0; font-size: 12px; color: var(--gold-soft);" id="accEmail">user@securepath.com</p>
     </div>
     <div style="padding: 16px; display: flex; flex-direction: column; gap: 10px;">
+      <div class="p-card" style="padding: 14px; flex-direction:column; align-items:flex-start; gap:8px; cursor:default;">
+        <b>👤 بيانات العميل</b>
+        <div style="font-size:13px; color:var(--muted); padding:4px 0;">
+          <span>تم تسجيل الدخول كـ: <strong id="accLoginEmail">---</strong></span>
+        </div>
+      </div>
       <div class="p-card" style="padding: 14px;" onclick="runAssessmentUI()">
         <b>📊 إعادة تقييم الحماية التأمينية</b>
       </div>
@@ -1015,7 +1116,7 @@
   </div>
 
   <!-- BOTTOM NAVIGATION -->
-  <div class="navbar" id="mainNavbar" style="display: none;">
+  <div class="navbar" id="mainNavbar">
     <button class="nav-item on" id="nav-home" onclick="switchTab('home')">
       <span class="nav-icon">🏠</span>
       <span>الرئيسية</span>
@@ -1084,7 +1185,7 @@
       <div class="grabber"></div>
       <div class="close-x" onclick="closeModal('uploadDocModal')">✕</div>
       <h2>رفع مستند جديد</h2>
-      <div class="sub">سيتم مراجعة المستند وتغيير حالته إلى Pending Verification</div>
+      <div class="sub" id="uploadSub">سيتم مراجعة المستند وتغيير حالته إلى Pending Verification</div>
 
       <div class="field">
         <label>اسم المستند / نوعه</label>
@@ -1103,126 +1204,97 @@
         <label>اختر الملف (صورة أو PDF)</label>
         <input type="file" id="upDocFile" accept="image/*,application/pdf">
       </div>
+      <div id="uploadError" style="color:var(--red); font-size:12px; margin-top:8px; display:none;"></div>
 
       <div class="actions">
-        <button class="btn-gold" onclick="processDocUpload()">رفع وتأكيد</button>
+        <button class="btn-gold" id="uploadBtn" onclick="processDocUpload()">رفع وتأكيد</button>
       </div>
     </div>
   </div>
 
 </div>
 
-<!-- APPLICATION SCRIPT WITH ERROR-SAFE WRAPPER -->
 <script>
-window.addEventListener('error', function(e) {
-  console.warn('Caught unexpected JS Error:', e.error || e.message);
-  return true; // Prevents app crash
-});
+// Firebase Configuration (same as admin)
+var firebaseConfig = {
+  apiKey: 'AIzaSyCkRYPffAEBRivC2Si5T-ILL99ZrSq-dWM',
+  authDomain: 'path-1a672.firebaseapp.com',
+  projectId: 'path-1a672',
+  storageBucket: 'path-1a672.firebasestorage.app',
+  messagingSenderId: '616651183121',
+  appId: '1:616651183121:web:ba7f3cdec65a9df8014db0'
+};
 
-/* STATE MANAGEMENT & FIREBASE MOCK DATA HYDRATION */
-const STATE = {
-  currentUser: {
-    uid: "usr_islam_01",
-    name: "إسلام إبراهيم",
-    email: "client@securepath.com"
-  },
-  // Unified Collection Data
-  policies: [
-    {
-      id: "pol_01",
-      userId: "usr_islam_01",
-      title: "تأمين الشامل للمركبات",
-      company: "شركة أليانز للتأمين",
-      policyNumber: "AZ-99281-CAR",
-      type: "مركبات",
-      expiryDate: getFutureDate(20), // Expirings in 20 days (< 45 days)
-      sumInsured: "450,000 EGP",
-      status: "Active",
-      docUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-    },
-    {
-      id: "pol_02",
-      userId: "usr_islam_01",
-      title: "تأمين الطبي الخاص",
-      company: "شركة بوبا للتأمين",
-      policyNumber: "BP-44102-MED",
-      type: "طبي",
-      expiryDate: getFutureDate(120),
-      sumInsured: "1,000,000 EGP",
-      status: "Active",
-      docUrl: "https://via.placeholder.com/600x800.png?text=Medical+Policy+Document"
-    }
-  ],
-  documents: [
-    {
-      id: "doc_01",
-      userId: "usr_islam_01",
-      name: "بطاقة الرقم القومي",
-      category: "هوية شخصية",
-      status: "Verified",
-      uploadDate: "2026-01-10",
-      fileUrl: "https://via.placeholder.com/600x400.png?text=National+ID+Card",
-      fileType: "image"
-    },
-    {
-      id: "doc_02",
-      userId: "usr_islam_01",
-      name: "رخصة القيادة - إسلام إبراهيم",
-      category: "رخصة قيادة/مركبة",
-      status: "Pending Verification",
-      uploadDate: "2026-08-10",
-      fileUrl: "https://via.placeholder.com/600x400.png?text=Driving+License",
-      fileType: "image"
-    }
-  ],
-  products: [
-    {
-      id: "prod_01",
-      title: "تأمين السفر الدولي الشامل",
-      company: "SecurePath Protection",
-      price: "من 800 EGP/سنة",
-      desc: "تغطية الحالات الطبية الطارئة وإلغاء الرحلات حول العالم."
-    },
-    {
-      id: "prod_02",
-      title: "تأمين أخطار الحريق والسطو",
-      company: "GIG Insurance",
-      price: "من 1,500 EGP/سنة",
-      desc: "حماية الشرك والممتلكات ضد الحوادث والأخطار الطبيعية."
-    }
-  ],
+if (typeof firebase !== 'undefined' && !firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+var auth = firebase.auth();
+var db = firebase.firestore();
+
+// STATE
+var STATE = {
+  currentUser: null,
+  policies: [],
+  documents: [],
+  products: [],
   notifications: [],
   insuranceAssessments: {}
 };
 
-let activePreviewUrl = "";
-
-/* UTILITY FUNCTIONS */
-function getFutureDate(daysAhead) {
-  const d = new Date();
-  d.setDate(d.getDate() + daysAhead);
-  return d.toISOString().split('T')[0];
+// UTILITY FUNCTIONS
+function esc(v) {
+  if (!v) return '';
+  return String(v).replace(/[&<>'"]/g, function(c) {
+    var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' };
+    return map[c] || c;
+  });
 }
 
 function daysUntil(dateString) {
-  const target = new Date(dateString);
-  const today = new Date();
-  const diffTime = target - today;
+  if (!dateString) return 9999;
+  var target = new Date(dateString);
+  var today = new Date();
+  var diffTime = target - today;
   return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 }
 
-/* NAVIGATION & UI */
+function formatDate(ts) {
+  if (!ts) return '—';
+  var d = ts.toDate ? ts.toDate() : new Date(ts);
+  return isNaN(d) ? '—' : d.toLocaleDateString('ar-EG', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function showLoading(btnId, loadingText) {
+  var btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.disabled = true;
+  btn._originalText = btn.textContent;
+  btn.innerHTML = '<span class="spinner"></span> ' + (loadingText || 'جاري...');
+}
+
+function hideLoading(btnId) {
+  var btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.disabled = false;
+  if (btn._originalText) {
+    btn.textContent = btn._originalText;
+    btn._originalText = null;
+  }
+}
+
+// NAVIGATION
 function showScreen(screenId) {
   try {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const target = document.getElementById(screenId);
+    document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+    var target = document.getElementById(screenId);
     if (target) target.classList.add('active');
 
-    const nav = document.getElementById('mainNavbar');
+    var nav = document.getElementById('mainNavbar');
     if (screenId === 'login' || screenId === 'signup') {
-      nav.style.display = 'none';
+      nav.classList.remove('show');
     } else {
-      nav.style.display = 'flex';
+      nav.classList.add('show');
       updateNavHighlight(screenId);
     }
   } catch(e) {
@@ -1235,267 +1307,450 @@ function switchTab(tabId) {
 }
 
 function updateNavHighlight(activeId) {
-  document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('on'));
-  const activeBtn = document.getElementById(`nav-${activeId}`);
+  document.querySelectorAll('.nav-item').forEach(function(btn) { btn.classList.remove('on'); });
+  var activeBtn = document.getElementById('nav-' + activeId);
   if (activeBtn) activeBtn.classList.add('on');
 }
 
 function closeModal(modalId) {
-  const m = document.getElementById(modalId);
+  var m = document.getElementById(modalId);
   if (m) m.classList.remove('show');
 }
 
 function openModal(modalId) {
-  const m = document.getElementById(modalId);
+  var m = document.getElementById(modalId);
   if (m) m.classList.add('show');
 }
 
-/* INITIALIZATION & EXPIRY LOGIC (45 DAYS RULE) */
-function initApp() {
-  try {
-    checkExpiringPoliciesAndNotify();
-    calculateInsuranceAssessment();
-    renderAll();
-  } catch (err) {
-    console.warn("Init App handled error:", err);
-  }
-}
-
-// Check Expiry under 45 days and prevent duplicates
-function checkExpiringPoliciesAndNotify() {
-  const DAYS_THRESHOLD = 45;
-  STATE.policies.forEach(pol => {
-    const daysLeft = daysUntil(pol.expiryDate);
-    if (daysLeft <= DAYS_THRESHOLD && daysLeft >= 0) {
-      const notifKey = `renewal_alert_${pol.id}_45days`;
-      const exists = STATE.notifications.some(n => n.key === notifKey);
-      if (!exists) {
-        STATE.notifications.unshift({
-          id: 'notif_' + Date.now(),
-          key: notifKey,
-          title: 'تنبيه تجديد وثيقة وشيك',
-          message: `تنتهي الوثيقة (${pol.title}) خلال ${daysLeft} يومًا. يرجى المبادرة بالتجديد.`,
-          time: 'الآن',
-          type: 'warning'
-        });
-      }
-    }
-  });
-}
-
-/* INSURANCE ASSESSMENT LOGIC (%) & SAVE TO insuranceAssessments */
-function calculateInsuranceAssessment() {
-  let score = 0;
+// AUTH HANDLERS
+function handleLogin() {
+  var email = document.getElementById('loginEmail').value.trim();
+  var pass = document.getElementById('loginPass').value;
+  var errorEl = document.getElementById('loginError');
   
-  // 1. Check policies validity
-  const activePolicies = STATE.policies.filter(p => daysUntil(p.expiryDate) > 0);
+  errorEl.style.display = 'none';
+  
+  if (!email || !pass) {
+    errorEl.textContent = 'يرجى إدخال البريد الإلكتروني وكلمة المرور';
+    errorEl.style.display = 'block';
+    return;
+  }
+  
+  showLoading('loginBtn', 'جاري الدخول...');
+  
+  auth.signInWithEmailAndPassword(email, pass)
+    .then(function() {
+      hideLoading('loginBtn');
+    })
+    .catch(function(err) {
+      hideLoading('loginBtn');
+      errorEl.textContent = 'فشل تسجيل الدخول: ' + err.message;
+      errorEl.style.display = 'block';
+    });
+}
+
+function handleSignup() {
+  var name = document.getElementById('regName').value.trim();
+  var email = document.getElementById('regEmail').value.trim();
+  var pass = document.getElementById('regPass').value;
+  var errorEl = document.getElementById('signupError');
+  
+  errorEl.style.display = 'none';
+  
+  if (!name || !email || pass.length < 6) {
+    errorEl.textContent = 'يرجى ملء جميع الحقول (كلمة المرور 6 أحرف على الأقل)';
+    errorEl.style.display = 'block';
+    return;
+  }
+  
+  showLoading('signupBtn', 'جاري التسجيل...');
+  
+  auth.createUserWithEmailAndPassword(email, pass)
+    .then(function(cred) {
+      return db.collection('clients').doc(cred.user.uid).set({
+        fullName: name,
+        email: email,
+        username: email.split('@')[0],
+        phone: '',
+        role: 'client',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    })
+    .then(function() {
+      hideLoading('signupBtn');
+      // Auth state change will handle redirect
+    })
+    .catch(function(err) {
+      hideLoading('signupBtn');
+      errorEl.textContent = 'فشل إنشاء الحساب: ' + err.message;
+      errorEl.style.display = 'block';
+    });
+}
+
+function handleLogout() {
+  auth.signOut();
+}
+
+// LOAD DATA FROM FIRESTORE
+function loadUserData(uid) {
+  var promises = [];
+  
+  // Load policies
+  promises.push(
+    db.collection('policies')
+      .where('clientId', '==', uid)
+      .get()
+      .then(function(snap) {
+        STATE.policies = snap.docs.map(function(d) {
+          var data = d.data();
+          data.id = d.id;
+          return data;
+        });
+      })
+  );
+  
+  // Load documents
+  promises.push(
+    db.collection('documents')
+      .where('clientId', '==', uid)
+      .get()
+      .then(function(snap) {
+        STATE.documents = snap.docs.map(function(d) {
+          var data = d.data();
+          data.id = d.id;
+          return data;
+        });
+      })
+  );
+  
+  // Load notifications
+  promises.push(
+    db.collection('notifications')
+      .where('clientId', '==', uid)
+      .orderBy('createdAt', 'desc')
+      .limit(50)
+      .get()
+      .then(function(snap) {
+        STATE.notifications = snap.docs.map(function(d) {
+          var data = d.data();
+          data.id = d.id;
+          return data;
+        });
+      })
+      .catch(function() {
+        // If index not created, fallback without ordering
+        return db.collection('notifications')
+          .where('clientId', '==', uid)
+          .get()
+          .then(function(snap) {
+            STATE.notifications = snap.docs.map(function(d) {
+              var data = d.data();
+              data.id = d.id;
+              return data;
+            }).sort(function(a, b) {
+              return (b.createdAt || 0) - (a.createdAt || 0);
+            });
+          });
+      })
+  );
+  
+  // Load published products
+  promises.push(
+    db.collection('products')
+      .where('published', '==', true)
+      .get()
+      .then(function(snap) {
+        STATE.products = snap.docs.map(function(d) {
+          var data = d.data();
+          data.id = d.id;
+          return data;
+        });
+      })
+      .catch(function() {
+        STATE.products = [];
+      })
+  );
+  
+  // Load assessment
+  promises.push(
+    db.collection('insuranceAssessments')
+      .doc(uid)
+      .get()
+      .then(function(doc) {
+        if (doc.exists) {
+          STATE.insuranceAssessments[uid] = doc.data();
+        }
+      })
+      .catch(function() {})
+  );
+  
+  return Promise.all(promises);
+}
+
+// CALCULATE INSURANCE ASSESSMENT
+function calculateInsuranceAssessment() {
+  if (!STATE.currentUser) return { score: 0, status: 'غير متاح' };
+  
+  var score = 0;
+  var userPolicies = STATE.policies.filter(function(p) { return p.clientId === STATE.currentUser.uid; });
+  var activePolicies = userPolicies.filter(function(p) { return daysUntil(p.endDate) > 0; });
+  
   if (activePolicies.length >= 1) score += 40;
   if (activePolicies.length >= 2) score += 20;
-
-  // 2. Check verified documents
-  const verifiedDocs = STATE.documents.filter(d => d.status === 'Verified');
+  
+  var userDocs = STATE.documents.filter(function(d) { return d.clientId === STATE.currentUser.uid; });
+  var verifiedDocs = userDocs.filter(function(d) { 
+    return d.verificationStatus === 'approved' || d.verificationStatus === 'Verified'; 
+  });
   if (verifiedDocs.length >= 1) score += 20;
-
-  // 3. Check expiring alerts
-  const hasExpiring = STATE.policies.some(p => daysUntil(p.expiryDate) <= 45 && daysUntil(p.expiryDate) > 0);
+  
+  var hasExpiring = userPolicies.some(function(p) { 
+    return daysUntil(p.endDate) <= 45 && daysUntil(p.endDate) > 0; 
+  });
   if (hasExpiring) score = Math.max(score - 10, 20);
-
+  
   score = Math.min(Math.max(score, 15), 100);
-
-  // Save to insuranceAssessments DB/State
-  const assessmentResult = {
+  
+  var status = score > 70 ? 'ممتاز' : (score > 40 ? 'متوسط' : 'يحتاج تحسين');
+  
+  var result = {
     score: score,
     timestamp: new Date().toISOString(),
-    status: score > 70 ? "ممتاز" : (score > 40 ? "متوسط" : "يحتاج تحسين"),
-    details: `تم حساب التقييم بناءً على ${activePolicies.length} وثيقة مفعلة و ${verifiedDocs.length} مستند محقق.`
+    status: status,
+    details: 'تم حساب التقييم بناءً على ' + activePolicies.length + ' وثيقة مفعلة و ' + verifiedDocs.length + ' مستند محقق.'
   };
-
-  STATE.insuranceAssessments[STATE.currentUser.uid] = assessmentResult;
-  return assessmentResult;
+  
+  STATE.insuranceAssessments[STATE.currentUser.uid] = result;
+  
+  // Save to Firestore
+  db.collection('insuranceAssessments').doc(STATE.currentUser.uid).set(result)
+    .catch(function() {});
+  
+  return result;
 }
 
 function runAssessmentUI() {
-  const result = calculateInsuranceAssessment();
+  if (!STATE.currentUser) return;
+  var result = calculateInsuranceAssessment();
   renderAssessmentData(result);
-  alert(`تقييم الحماية التأمينية الحالي: ${result.score}%\nالحالة: ${result.status}\n${result.details}`);
+  alert('تقييم الحماية التأمينية الحالي: ' + result.score + '%\nالحالة: ' + result.status + '\n' + result.details);
 }
 
 function renderAssessmentData(res) {
-  const result = res || STATE.insuranceAssessments[STATE.currentUser.uid] || calculateInsuranceAssessment();
+  var result = res || STATE.insuranceAssessments[STATE.currentUser?.uid] || calculateInsuranceAssessment();
   
-  const scoreEl = document.getElementById('homeAssessmentScore');
-  const labelEl = document.getElementById('homeAssessmentLabel');
-  const circleEl = document.getElementById('scoreCircle');
+  var scoreEl = document.getElementById('homeAssessmentScore');
+  var labelEl = document.getElementById('homeAssessmentLabel');
+  var circleEl = document.getElementById('scoreCircle');
 
-  if (scoreEl) scoreEl.innerText = `${result.score}%`;
-  if (labelEl) labelEl.innerText = `مستوى الحماية: ${result.status}`;
+  if (scoreEl) scoreEl.innerText = result.score + '%';
+  if (labelEl) labelEl.innerText = 'مستوى الحماية: ' + result.status;
 
   if (circleEl) {
-    const offset = 157 - (157 * result.score) / 100;
+    var offset = 157 - (157 * result.score) / 100;
     circleEl.style.strokeDashoffset = offset;
   }
 }
 
-/* RENDER ENGINE */
+// RENDER FUNCTIONS
 function renderAll() {
+  if (!STATE.currentUser) return;
+  
   renderAssessmentData();
-
-  // Stats Counters
-  const activeCount = STATE.policies.filter(p => daysUntil(p.expiryDate) > 0).length;
-  const expiringCount = STATE.policies.filter(p => daysUntil(p.expiryDate) <= 45 && daysUntil(p.expiryDate) > 0).length;
-  const docsCount = STATE.documents.filter(d => d.status === 'Verified').length;
-
+  
+  var userPolicies = STATE.policies.filter(function(p) { return p.clientId === STATE.currentUser.uid; });
+  var userDocs = STATE.documents.filter(function(d) { return d.clientId === STATE.currentUser.uid; });
+  
+  // Stats
+  var activeCount = userPolicies.filter(function(p) { return daysUntil(p.endDate) > 0; }).length;
+  var expiringCount = userPolicies.filter(function(p) { return daysUntil(p.endDate) <= 45 && daysUntil(p.endDate) > 0; }).length;
+  var docsCount = userDocs.filter(function(d) { 
+    return d.verificationStatus === 'approved' || d.verificationStatus === 'Verified'; 
+  }).length;
+  
   document.getElementById('statActiveCount').innerText = activeCount;
   document.getElementById('statExpiringCount').innerText = expiringCount;
   document.getElementById('statDocsCount').innerText = docsCount;
-
-  // Policies Rendering
-  renderPoliciesList('homePoliciesList', STATE.policies.slice(0, 2));
-  renderPoliciesList('fullPoliciesList', STATE.policies);
-
-  // Products Rendering
+  
+  // Policies
+  renderPoliciesList('homePoliciesList', userPolicies.slice(0, 2));
+  renderPoliciesList('fullPoliciesList', userPolicies);
+  
+  // Products
   renderProductsList();
-
-  // Documents Rendering
-  renderDocumentsList();
-
-  // Notifications Rendering
+  
+  // Documents
+  renderDocumentsList(userDocs);
+  
+  // Notifications
   renderNotificationsList();
+  
+  // Update notification dot
+  var dot = document.getElementById('notifDot');
+  if (dot) {
+    var unread = STATE.notifications.filter(function(n) { return !n.read; }).length;
+    dot.style.display = unread > 0 ? 'block' : 'none';
+  }
 }
 
 function renderPoliciesList(containerId, list) {
-  const container = document.getElementById(containerId);
+  var container = document.getElementById(containerId);
   if (!container) return;
 
   if (list.length === 0) {
-    container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--muted); font-size:12px;">لا توجد وثائق متاحة حالياً</div>`;
+    container.innerHTML = '<div class="empty-state"><div class="icon">📄</div><h3>لا توجد وثائق</h3><p>لم يتم إضافة أي وثائق تأمينية حتى الآن</p></div>';
     return;
   }
 
-  container.innerHTML = list.map(p => {
-    const days = daysUntil(p.expiryDate);
-    const isWarn = days <= 45;
-    return `
-      <div class="p-card" onclick="openPolicyModal('${p.id}')">
-        <div class="p-seal ${isWarn ? 'warn' : ''}">
-          <div class="ring">${isWarn ? '⚠️' : '🛡️'}</div>
-        </div>
-        <div class="p-body">
-          <div class="top">
-            <h3>${p.title}</h3>
-            <span class="badge ${isWarn ? 'warn' : 'ok'}">${isWarn ? 'تجديد قريب' : 'سارية'}</span>
-          </div>
-          <div class="co">${p.company}</div>
-          <div class="p-foot">
-            <span>رقم الوثيقة: <b>${p.policyNumber}</b></span>
-            <span>متبقي: <b>${days} يوم</b></span>
-          </div>
-        </div>
-      </div>
-    `;
+  container.innerHTML = list.map(function(p) {
+    var days = daysUntil(p.endDate);
+    var isWarn = days <= 45;
+    var isExpired = days < 0;
+    var statusBadge = isExpired ? '<span class="badge warn">منتهية</span>' : (isWarn ? '<span class="badge warn">تجديد قريب</span>' : '<span class="badge ok">سارية</span>');
+    var icon = isExpired ? '⛔' : (isWarn ? '⚠️' : '🛡️');
+    var sealClass = isWarn || isExpired ? 'warn' : '';
+    
+    return '<div class="p-card" onclick="openPolicyModal(\'' + p.id + '\')">' +
+      '<div class="p-seal ' + sealClass + '">' +
+        '<div class="ring">' + icon + '</div>' +
+      '</div>' +
+      '<div class="p-body">' +
+        '<div class="top">' +
+          '<h3>' + esc(p.type || 'تأمين') + '</h3>' +
+          statusBadge +
+        '</div>' +
+        '<div class="co">' + esc(p.company || 'شركة تأمين') + '</div>' +
+        '<div class="p-foot">' +
+          '<span>رقم الوثيقة: <b>' + esc(p.policyNumber || '--') + '</b></span>' +
+          '<span>' + (isExpired ? 'انتهت' : 'متبقي: <b>' + days + ' يوم</b>') + '</span>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
   }).join('');
 }
 
 function renderProductsList() {
-  const container = document.getElementById('productsList');
+  var container = document.getElementById('productsList');
   if (!container) return;
 
-  container.innerHTML = STATE.products.map(pr => `
-    <div class="p-card">
-      <div class="p-seal">
-        <div class="ring">💎</div>
-      </div>
-      <div class="p-body">
-        <div class="top">
-          <h3>${pr.title}</h3>
-          <span class="badge ok">${pr.price}</span>
-        </div>
-        <div class="co">${pr.company}</div>
-        <p style="font-size:11px; color:var(--muted); margin:4px 0 0;">${pr.desc}</p>
-      </div>
-    </div>
-  `).join('');
-}
-
-function renderDocumentsList() {
-  const container = document.getElementById('documentsList');
-  if (!container) return;
-
-  if (STATE.documents.length === 0) {
-    container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--muted); font-size:12px;">لم يتم رفع مستندات بعد</div>`;
+  var products = STATE.products || [];
+  
+  if (products.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="icon">💎</div><h3>لا توجد منتجات</h3><p>سيتم إضافة منتجات تأمينية قريباً</p></div>';
     return;
   }
 
-  container.innerHTML = STATE.documents.map(d => {
-    const isPending = d.status === 'Pending Verification';
-    return `
-      <div class="p-card" onclick="openDocPreviewModal('${d.id}')">
-        <div class="p-seal">
-          <div class="ring">${d.fileType === 'pdf' ? '📄' : '🖼️'}</div>
-        </div>
-        <div class="p-body">
-          <div class="top">
-            <h3>${d.name}</h3>
-            <span class="badge ${isPending ? 'pending' : 'ok'}">${isPending ? 'قيد التحقق' : 'مفعل ومحقق'}</span>
-          </div>
-          <div class="co">التصنيف: ${d.category}</div>
-          <div class="p-foot">
-            <span>تاريخ الرفع: <b>${d.uploadDate}</b></span>
-            <span style="color:var(--navy-2); font-weight:700;">معاينة 👁️</span>
-          </div>
-        </div>
-      </div>
-    `;
+  container.innerHTML = products.map(function(pr) {
+    var feats = Array.isArray(pr.features) ? pr.features : String(pr.features || '').split(/\r?\n/).filter(Boolean);
+    var featHtml = feats.length > 0 ? '<ul style="font-size:11px;padding-right:15px;margin:4px 0;">' + 
+      feats.slice(0, 3).map(function(f) { return '<li>' + esc(f) + '</li>'; }).join('') + 
+      '</ul>' : '';
+    
+    return '<div class="p-card" style="cursor:default;">' +
+      '<div class="p-seal">' +
+        '<div class="ring">💎</div>' +
+      '</div>' +
+      '<div class="p-body">' +
+        '<div class="top">' +
+          '<h3>' + esc(pr.name || 'منتج') + '</h3>' +
+          '<span class="badge ok">' + esc(pr.companyName || pr.company || '') + '</span>' +
+        '</div>' +
+        '<div class="co">' + esc(pr.category || '') + '</div>' +
+        '<p style="font-size:11px; color:var(--muted); margin:4px 0 0;">' + esc(pr.description || '') + '</p>' +
+        featHtml +
+        (pr.disclaimer ? '<div style="font-size:8px; color:var(--muted); margin-top:4px;">' + esc(pr.disclaimer) + '</div>' : '') +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function renderDocumentsList(userDocs) {
+  var container = document.getElementById('documentsList');
+  if (!container) return;
+
+  var docsToRender = userDocs || STATE.documents.filter(function(d) { return d.clientId === STATE.currentUser?.uid; });
+
+  if (docsToRender.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="icon">📁</div><h3>لا توجد مستندات</h3><p>لم يتم رفع أي مستندات بعد</p></div>';
+    return;
+  }
+
+  container.innerHTML = docsToRender.map(function(d) {
+    var isPending = d.verificationStatus === 'pending' || d.verificationStatus === 'Pending Verification';
+    var isApproved = d.verificationStatus === 'approved' || d.verificationStatus === 'Verified';
+    var badgeClass = isPending ? 'pending' : (isApproved ? 'ok' : '');
+    var badgeText = isPending ? 'قيد التحقق' : (isApproved ? 'مفعل' : 'معلق');
+    var icon = d.fileType && d.fileType.includes('pdf') ? '📄' : '🖼️';
+    
+    return '<div class="p-card" onclick="openDocPreviewModal(\'' + d.id + '\')">' +
+      '<div class="p-seal">' +
+        '<div class="ring">' + icon + '</div>' +
+      '</div>' +
+      '<div class="p-body">' +
+        '<div class="top">' +
+          '<h3>' + esc(d.fileName || d.name || 'مستند') + '</h3>' +
+          '<span class="badge ' + badgeClass + '">' + badgeText + '</span>' +
+        '</div>' +
+        '<div class="co">التصنيف: ' + esc(d.category || '--') + '</div>' +
+        '<div class="p-foot">' +
+          '<span>تاريخ الرفع: <b>' + (d.uploadDate || (d.createdAt ? formatDate(d.createdAt) : '--')) + '</b></span>' +
+          '<span style="color:var(--navy-2); font-weight:700;">معاينة 👁️</span>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
   }).join('');
 }
 
 function renderNotificationsList() {
-  const container = document.getElementById('notificationsList');
-  const dot = document.getElementById('notifDot');
+  var container = document.getElementById('notificationsList');
   if (!container) return;
 
-  if (dot) dot.style.display = STATE.notifications.length > 0 ? 'block' : 'none';
+  var notifs = STATE.notifications || [];
 
-  if (STATE.notifications.length === 0) {
-    container.innerHTML = `<div style="text-align:center; padding:30px; color:var(--muted); font-size:12px;">لا توجد إشعارات جديدة</div>`;
+  if (notifs.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="icon">🔔</div><h3>لا توجد إشعارات</h3><p>سوف تظهر هنا جميع التنبيهات والإشعارات</p></div>';
     return;
   }
 
-  container.innerHTML = STATE.notifications.map(n => `
-    <div class="notif">
-      <div class="ic">🔔</div>
-      <div>
-        <h4>${n.title}</h4>
-        <p>${n.message}</p>
-        <time>${n.time}</time>
-      </div>
-    </div>
-  `).join('');
+  container.innerHTML = notifs.map(function(n) {
+    return '<div class="notif">' +
+      '<div class="ic">🔔</div>' +
+      '<div>' +
+        '<h4>' + esc(n.title || 'إشعار') + '</h4>' +
+        '<p>' + esc(n.body || n.message || '') + '</p>' +
+        '<time>' + (n.createdAt ? formatDate(n.createdAt) : 'الآن') + '</time>' +
+      '</div>' +
+    '</div>';
+  }).join('');
 }
 
-/* MODALS & ACTIONS HANDLERS */
+// MODAL HANDLERS
 function openPolicyModal(policyId) {
-  const p = STATE.policies.find(item => item.id === policyId);
+  var p = STATE.policies.find(function(item) { return item.id === policyId; });
   if (!p) return;
 
-  document.getElementById('mPolicyTitle').innerText = p.title;
-  document.getElementById('mPolicyCompany').innerText = p.company;
-  document.getElementById('mPolicyNum').innerText = p.policyNumber;
-  document.getElementById('mPolicyType').innerText = p.type;
-  document.getElementById('mPolicyExpiry').innerText = p.expiryDate;
-  document.getElementById('mPolicyAmount').innerText = p.sumInsured;
-  document.getElementById('mPolicyStatus').innerText = p.status;
+  document.getElementById('mPolicyTitle').innerText = p.type || 'تفاصيل الوثيقة';
+  document.getElementById('mPolicyCompany').innerText = p.company || 'شركة تأمين';
+  document.getElementById('mPolicyNum').innerText = p.policyNumber || '--';
+  document.getElementById('mPolicyType').innerText = p.type || '--';
+  document.getElementById('mPolicyExpiry').innerText = p.endDate || '--';
+  document.getElementById('mPolicyAmount').innerText = p.sumInsured || p.premium ? (p.premium || 0) + ' EGP' : '--';
+  document.getElementById('mPolicyStatus').innerText = p.status || 'نشط';
 
-  // Fix Action Buttons
-  const btnOpen = document.getElementById('btnOpenPolicyDoc');
-  const btnRenew = document.getElementById('btnRenewPolicy');
+  var btnOpen = document.getElementById('btnOpenPolicyDoc');
+  var btnRenew = document.getElementById('btnRenewPolicy');
 
   btnOpen.onclick = function() {
-    openDirectDocument(p.docUrl, p.title);
+    var url = p.docUrl || p.fileUrl || '';
+    if (url) {
+      window.open(url, '_blank');
+    } else {
+      alert('لا يوجد مستند مرفق لهذه الوثيقة');
+    }
   };
 
   btnRenew.onclick = function() {
-    alert(`تم إرسال طلب تجديد الوثيقة (${p.policyNumber}) إلى فريق SecurePath بنجاح.`);
+    alert('تم إرسال طلب تجديد الوثيقة (' + (p.policyNumber || '') + ') بنجاح.');
     closeModal('policyModal');
   };
 
@@ -1503,129 +1758,155 @@ function openPolicyModal(policyId) {
 }
 
 function openDocPreviewModal(docId) {
-  const d = STATE.documents.find(item => item.id === docId);
+  var d = STATE.documents.find(function(item) { return item.id === docId; });
   if (!d) return;
 
-  document.getElementById('mDocTitle').innerText = d.name;
-  document.getElementById('mDocStatus').innerText = `الحالة: ${d.status} | التصنيف: ${d.category}`;
+  document.getElementById('mDocTitle').innerText = d.fileName || d.name || 'مستند';
+  document.getElementById('mDocStatus').innerText = 'الحالة: ' + (d.verificationStatus || 'معلق') + ' | التصنيف: ' + (d.category || '--');
 
-  const container = document.getElementById('docPreviewContainer');
-  activePreviewUrl = d.fileUrl;
+  var container = document.getElementById('docPreviewContainer');
+  var url = d.dataUrl || d.downloadURL || d.fileUrl || d.url || '';
 
-  if (d.fileType === 'pdf' || d.fileUrl.endsWith('.pdf')) {
-    container.innerHTML = `<iframe src="${d.fileUrl}"></iframe>`;
+  if (url) {
+    if (url.includes('.pdf') || d.fileType === 'pdf' || (d.fileType && d.fileType.includes('pdf'))) {
+      container.innerHTML = '<iframe src="' + url + '"></iframe>';
+    } else {
+      container.innerHTML = '<img src="' + url + '" alt="Document Preview"/>';
+    }
   } else {
-    container.innerHTML = `<img src="${d.fileUrl}" alt="Document Preview"/>`;
+    container.innerHTML = '<div style="color:var(--muted);">لا توجد معاينة متاحة</div>';
   }
 
-  openModal('docPreviewModal');
-}
+  document.getElementById('btnDownloadDoc').onclick = function() {
+    if (url) {
+      window.open(url, '_blank');
+    } else {
+      alert('لا يوجد رابط للتحميل');
+    }
+  };
 
-function openDirectDocument(url, title) {
-  if (!url) {
-    alert('عذراً، المستند غير متوفر حالياً.');
-    return;
-  }
-  activePreviewUrl = url;
-  document.getElementById('mDocTitle').innerText = title || "مستند الوثيقة";
-  document.getElementById('mDocStatus').innerText = "المستند الرسمي للوثيقة";
-
-  const container = document.getElementById('docPreviewContainer');
-  if (url.includes('.pdf')) {
-    container.innerHTML = `<iframe src="${url}"></iframe>`;
-  } else {
-    container.innerHTML = `<img src="${url}" alt="Policy Document"/>`;
-  }
   openModal('docPreviewModal');
 }
 
 function triggerDocDownload() {
-  if (activePreviewUrl) {
-    window.open(activePreviewUrl, '_blank');
-  }
+  // Handled in openDocPreviewModal
 }
 
-/* UPLOAD DOCUMENT LOGIC (LINKED TO EXISTING COLLECTION WITHOUT NEW COLLECTION) */
+// UPLOAD DOCUMENT
 function openUploadDocModal() {
+  document.getElementById('uploadError').style.display = 'none';
+  document.getElementById('upDocName').value = '';
+  document.getElementById('upDocFile').value = '';
   openModal('uploadDocModal');
 }
 
 function processDocUpload() {
-  const nameInput = document.getElementById('upDocName').value.trim();
-  const categoryInput = document.getElementById('upDocCategory').value;
-  const fileInput = document.getElementById('upDocFile');
+  var nameInput = document.getElementById('upDocName').value.trim();
+  var categoryInput = document.getElementById('upDocCategory').value;
+  var fileInput = document.getElementById('upDocFile');
+  var errorEl = document.getElementById('uploadError');
+  
+  errorEl.style.display = 'none';
 
   if (!nameInput) {
-    alert('يرجى كتابة اسم المستند.');
+    errorEl.textContent = 'يرجى كتابة اسم المستند.';
+    errorEl.style.display = 'block';
     return;
   }
 
-  let fileUrl = "https://via.placeholder.com/600x400.png?text=Uploaded+Document";
-  let fileType = "image";
-
-  if (fileInput.files && fileInput.files[0]) {
-    const file = fileInput.files[0];
-    if (file.type.includes('pdf')) fileType = 'pdf';
-    fileUrl = URL.createObjectURL(file);
+  if (!fileInput.files || !fileInput.files[0]) {
+    errorEl.textContent = 'يرجى اختيار ملف.';
+    errorEl.style.display = 'block';
+    return;
   }
 
-  // Add directly to existing STATE.documents array
-  const newDoc = {
-    id: 'doc_' + Date.now(),
-    userId: STATE.currentUser.uid,
-    name: nameInput,
-    category: categoryInput,
-    status: 'Pending Verification', // Explicit state as requested
-    uploadDate: new Date().toISOString().split('T')[0],
-    fileUrl: fileUrl,
-    fileType: fileType
-  };
+  var file = fileInput.files[0];
+  if (file.size > 2 * 1024 * 1024) {
+    errorEl.textContent = 'حجم الملف كبير جداً. الحد الأقصى 2MB.';
+    errorEl.style.display = 'block';
+    return;
+  }
 
-  STATE.documents.unshift(newDoc);
+  showLoading('uploadBtn', 'جاري الرفع...');
+  var reader = new FileReader();
   
-  // Re-evaluate assessment and update view
-  calculateInsuranceAssessment();
-  renderAll();
-
-  closeModal('uploadDocModal');
-  document.getElementById('upDocName').value = '';
-  alert('تم رفع المستند بنجاح وهو الآن بالحالة: Pending Verification');
-  showScreen('documents');
+  reader.onload = function(e) {
+    var fileData = e.target.result;
+    
+    db.collection('documents').add({
+      clientId: STATE.currentUser.uid,
+      fileName: nameInput,
+      category: categoryInput,
+      fileType: file.type,
+      dataUrl: fileData,
+      verificationStatus: 'pending',
+      uploadedBy: 'client',
+      uploadDate: new Date().toISOString().split('T')[0],
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(function() {
+      hideLoading('uploadBtn');
+      closeModal('uploadDocModal');
+      alert('تم رفع المستند بنجاح وهو الآن قيد المراجعة.');
+      return loadUserData(STATE.currentUser.uid);
+    })
+    .then(function() {
+      renderAll();
+    })
+    .catch(function(err) {
+      hideLoading('uploadBtn');
+      errorEl.textContent = 'فشل رفع المستند: ' + err.message;
+      errorEl.style.display = 'block';
+    });
+  };
+  
+  reader.onerror = function() {
+    hideLoading('uploadBtn');
+    errorEl.textContent = 'فشل قراءة الملف. حاول مرة أخرى.';
+    errorEl.style.display = 'block';
+  };
+  
+  reader.readAsDataURL(file);
 }
 
-/* AUTHENTICATION MOCK HANDLERS */
-function handleLogin() {
-  const email = document.getElementById('loginEmail').value;
-  if (email) {
-    STATE.currentUser.email = email;
-    document.getElementById('userNameHome').innerText = STATE.currentUser.name;
-    document.getElementById('accName').innerText = STATE.currentUser.name;
-    document.getElementById('accEmail').innerText = email;
-    showScreen('home');
-  }
-}
-
-function handleSignup() {
-  const name = document.getElementById('regName').value || "إسلام إبراهيم";
-  const email = document.getElementById('regEmail').value || "client@securepath.com";
-
-  STATE.currentUser.name = name;
-  STATE.currentUser.email = email;
-
-  document.getElementById('userNameHome').innerText = name;
-  document.getElementById('accName').innerText = name;
-  document.getElementById('accEmail').innerText = email;
-
-  showScreen('home');
-}
-
-function handleLogout() {
-  showScreen('login');
-}
-
-/* BOOTSTRAP APP */
-document.addEventListener('DOMContentLoaded', () => {
-  initApp();
+// AUTH STATE LISTENER
+document.addEventListener('DOMContentLoaded', function() {
+  auth.onAuthStateChanged(function(user) {
+    if (user) {
+      // Load user data from Firestore
+      db.collection('clients').doc(user.uid).get()
+        .then(function(doc) {
+          var userData = doc.exists ? doc.data() : {};
+          
+          STATE.currentUser = {
+            uid: user.uid,
+            name: userData.fullName || user.displayName || 'مستخدم',
+            email: user.email || ''
+          };
+          
+          // Update UI
+          document.getElementById('userNameHome').innerText = STATE.currentUser.name;
+          document.getElementById('accName').innerText = STATE.currentUser.name;
+          document.getElementById('accEmail').innerText = STATE.currentUser.email;
+          document.getElementById('accLoginEmail').innerText = STATE.currentUser.email;
+          document.getElementById('accAvatar').innerText = STATE.currentUser.name.charAt(0);
+          
+          // Load data
+          return loadUserData(user.uid);
+        })
+        .then(function() {
+          renderAll();
+          showScreen('home');
+        })
+        .catch(function(err) {
+          console.error("Error loading user:", err);
+        });
+    } else {
+      // Not logged in
+      STATE.currentUser = null;
+      showScreen('login');
+    }
+  });
 });
 </script>
 </body>
