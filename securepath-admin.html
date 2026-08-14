@@ -2,8 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Secure PATH — Admin & Agent Center v3.0</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure PATH — لوحة التحكم الشاملة</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -12,6 +12,8 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 
 <style>
+/* ===== RESET & ROOT ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
   --navy: #0E2A5C;
   --navy-light: #1a3f7a;
@@ -34,15 +36,23 @@
   --radius-sm: 10px;
   --transition: all 0.3s ease;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { margin: 0; background: var(--paper); color: var(--text); font-family: 'Cairo', sans-serif; min-height: 100vh; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--text);
+  font-family: 'Cairo', sans-serif;
+  min-height: 100vh;
+}
+button { cursor: pointer; border: none; outline: none; font: inherit; }
+input, select, textarea { font: inherit; outline: none; }
+.hidden { display: none !important; }
+
+/* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--paper); }
 ::-webkit-scrollbar-thumb { background: var(--navy-light); border-radius: 10px; }
-button, input, select, textarea { font: inherit; }
-button { cursor: pointer; border: none; outline: none; }
-.hidden { display: none !important; }
 
+/* ===== BUTTONS ===== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -64,9 +74,10 @@ button { cursor: pointer; border: none; outline: none; }
 .btn-success:hover { background: #0e6a48; }
 .btn-danger { background: var(--red); color: #fff; }
 .btn-danger:hover { background: #a83d2e; }
-.btn-sm { padding: 5px 12px; font-size: 11px; }
+.btn-sm { padding: 5px 12px; font-size: 11px; border-radius: 6px; }
 .btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--navy); }
 
+/* ===== LOGIN ===== */
 #login {
   min-height: 100vh;
   display: grid;
@@ -80,12 +91,21 @@ button { cursor: pointer; border: none; outline: none; }
   padding: 40px 34px;
   box-shadow: 0 30px 80px rgba(0,0,0,0.3);
 }
-.login-box .logo { width: 70px; height: 70px; margin: 0 auto 16px; border-radius: 20px; background: var(--navy); display: grid; place-items: center; overflow: hidden; }
+.login-box .logo {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 16px;
+  border-radius: 20px;
+  background: var(--navy);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
 .login-box .logo img { width: 100%; height: 100%; object-fit: contain; }
 .login-box h1 { text-align: center; color: var(--navy); font-family: 'Tajawal', sans-serif; font-size: 24px; margin: 0 0 4px; }
 .login-box p { text-align: center; color: var(--muted); font-size: 13px; margin-bottom: 20px; }
 .field { margin-bottom: 14px; }
-.field label { display: block; font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+.field label { display: block; font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
 .field input, .field select, .field textarea {
   width: 100%;
   padding: 10px 14px;
@@ -98,13 +118,15 @@ button { cursor: pointer; border: none; outline: none; }
 }
 .field input:focus, .field select:focus, .field textarea:focus {
   border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(242,189,99,0.2);
+  box-shadow: 0 0 0 3px rgba(242,189,99,0.15);
 }
 .field textarea { resize: vertical; min-height: 60px; }
 
+/* ===== APP ===== */
 #app { display: none; min-height: 100vh; }
 .shell { display: flex; min-height: 100vh; }
 
+/* ===== SIDEBAR ===== */
 .sidebar {
   width: 250px;
   background: var(--navy);
@@ -179,6 +201,7 @@ button { cursor: pointer; border: none; outline: none; }
 }
 .sidebar .footer .logout-btn:hover { background: rgba(255,255,255,0.2); }
 
+/* ===== MAIN ===== */
 .main {
   margin-right: 250px;
   width: calc(100% - 250px);
@@ -187,7 +210,7 @@ button { cursor: pointer; border: none; outline: none; }
 .topbar {
   background: #fff;
   border-bottom: 1px solid var(--line);
-  padding: 16px 28px;
+  padding: 14px 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -197,17 +220,20 @@ button { cursor: pointer; border: none; outline: none; }
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 .topbar h1 { font-family: 'Tajawal', sans-serif; font-size: 20px; color: var(--navy); margin: 0; }
-.topbar .actions { display: flex; gap: 8px; align-items: center; }
+.topbar .actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .content { padding: 24px 28px; }
 
+/* ===== VIEWS ===== */
 .view { display: none; }
 .view.active { display: block; }
 
+/* ===== GRID ===== */
 .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-4 { grid-template-columns: repeat(4, 1fr); }
 
+/* ===== CARDS ===== */
 .card {
   background: #fff;
   border: 1px solid var(--line);
@@ -237,6 +263,7 @@ button { cursor: pointer; border: none; outline: none; }
 .stat-card .sub.green { color: var(--green); }
 .stat-card .sub.red { color: var(--red); }
 
+/* ===== TABLE ===== */
 .table-wrap { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th, td { padding: 10px 14px; border-bottom: 1px solid #eef1f5; text-align: right; }
@@ -245,6 +272,7 @@ tr:last-child td { border-bottom: none; }
 tr:hover td { background: #fafcff; }
 .empty { padding: 30px; text-align: center; color: var(--muted); font-size: 14px; }
 
+/* ===== BADGES ===== */
 .badge {
   display: inline-flex;
   padding: 3px 10px;
@@ -259,6 +287,7 @@ tr:hover td { background: #fafcff; }
 .badge-purple { background: #f0ebff; color: var(--purple); }
 .badge-gold { background: var(--gold-soft); color: #8a6d1b; }
 
+/* ===== TYPE BADGES ===== */
 .type-badge {
   display: inline-flex;
   padding: 3px 12px;
@@ -284,6 +313,7 @@ tr:hover td { background: #fafcff; }
 .type-badge.takaful { background: #d6d8db; color: #383d41; }
 .type-badge.other { background: #f0f0f0; color: #666; }
 
+/* ===== TOOLBAR ===== */
 .toolbar {
   display: flex;
   gap: 12px;
@@ -305,6 +335,7 @@ tr:hover td { background: #fafcff; }
 .toolbar .search input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(242,189,99,0.15); }
 .toolbar .actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
+/* ===== COMPANY CARDS ===== */
 .company-card {
   display: flex;
   align-items: center;
@@ -332,6 +363,7 @@ tr:hover td { background: #fafcff; }
 .company-card .info h4 { margin: 0; font-size: 14px; color: var(--navy); }
 .company-card .info p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
 
+/* ===== TYPE CARDS ===== */
 .type-card {
   border: 2px solid var(--line);
   border-radius: var(--radius);
@@ -345,6 +377,7 @@ tr:hover td { background: #fafcff; }
 .type-card h4 { font-family: 'Tajawal', sans-serif; color: var(--navy); margin: 0; font-size: 14px; }
 .type-card p { font-size: 11px; color: var(--muted); margin: 4px 0 0; }
 
+/* ===== MODALS ===== */
 .overlay {
   position: fixed;
   inset: 0;
@@ -399,53 +432,7 @@ tr:hover td { background: #fafcff; }
 }
 .modal .error { color: var(--red); font-size: 12px; margin-top: 4px; }
 
-.toast {
-  position: fixed;
-  bottom: 24px;
-  left: 24px;
-  background: var(--navy);
-  color: #fff;
-  padding: 14px 24px;
-  border-radius: var(--radius-sm);
-  z-index: 999;
-  display: none;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  font-weight: 600;
-  font-size: 14px;
-  animation: toastIn 0.4s ease;
-}
-@keyframes toastIn {
-  from { transform: translateY(30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-.toast.show { display: block; }
-
-.message-list { height: 380px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
-.bubble {
-  max-width: 80%;
-  padding: 10px 14px;
-  border-radius: 14px;
-  font-size: 13px;
-  line-height: 1.6;
-}
-.bubble.client { align-self: flex-end; background: var(--gold-soft); color: var(--navy); }
-.bubble.agent { align-self: flex-start; background: var(--navy); color: #fff; }
-.composer {
-  display: flex;
-  gap: 8px;
-  padding: 10px 12px;
-  border-top: 1px solid var(--line);
-}
-.composer input { flex: 1; border: 1.5px solid var(--line); border-radius: 20px; padding: 10px 16px; outline: none; }
-.composer input:focus { border-color: var(--gold); }
-
-.list-item { padding: 10px 14px; border-bottom: 1px solid var(--line); transition: var(--transition); cursor: pointer; }
-.list-item:hover { background: #fafcff; }
-.list-item:last-child { border-bottom: none; }
-.list-item h4 { margin: 0; font-size: 13px; color: var(--navy); }
-.list-item p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
-.list-item.unread { border-right: 3px solid var(--gold); background: #fdfaf5; }
-
+/* ===== FILE UPLOAD ===== */
 .file-upload-area {
   border: 2px dashed var(--line);
   border-radius: var(--radius-sm);
@@ -468,6 +455,57 @@ tr:hover td { background: #fafcff; }
 }
 .file-upload-area .upload-label:hover { background: #e2af5a; }
 
+/* ===== CHAT ===== */
+.message-list { height: 380px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+.bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.bubble.client { align-self: flex-end; background: var(--gold-soft); color: var(--navy); }
+.bubble.agent { align-self: flex-start; background: var(--navy); color: #fff; }
+.composer {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--line);
+}
+.composer input { flex: 1; border: 1.5px solid var(--line); border-radius: 20px; padding: 10px 16px; outline: none; }
+.composer input:focus { border-color: var(--gold); }
+
+/* ===== LIST ITEMS ===== */
+.list-item { padding: 10px 14px; border-bottom: 1px solid var(--line); transition: var(--transition); cursor: pointer; }
+.list-item:hover { background: #fafcff; }
+.list-item:last-child { border-bottom: none; }
+.list-item h4 { margin: 0; font-size: 13px; color: var(--navy); }
+.list-item p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
+.list-item.unread { border-right: 3px solid var(--gold); background: #fdfaf5; }
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  background: var(--navy);
+  color: #fff;
+  padding: 14px 24px;
+  border-radius: var(--radius-sm);
+  z-index: 999;
+  display: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  font-weight: 600;
+  font-size: 14px;
+  animation: toastIn 0.4s ease;
+}
+@keyframes toastIn {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.toast.show { display: block; }
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 992px) {
   .grid { grid-template-columns: repeat(2, 1fr); }
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
@@ -498,8 +536,8 @@ tr:hover td { background: #fafcff; }
     <div class="logo"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50,10 L90,25 L90,65 C90,80 50,95 50,95 C50,95 10,80 10,65 L10,25 Z' fill='%23F2BD63'/><path d='M50,20 L80,32 L80,60 C80,72 50,84 50,84 C50,84 20,72 20,60 L20,32 Z' fill='%230E2A5C'/></svg>" alt="Secure PATH"></div>
     <h1>Secure PATH</h1>
     <p>مركز تشغيل الوسيط — إدارة العملاء والوثائق والمطالبات</p>
-    <div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" autocomplete="username"></div>
-    <div class="field"><label>كلمة المرور</label><input id="pass" type="password" autocomplete="current-password"></div>
+    <div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" autocomplete="username" placeholder="admin@securepath.com"></div>
+    <div class="field"><label>كلمة المرور</label><input id="pass" type="password" autocomplete="current-password" placeholder="••••••••"></div>
     <div id="loginErr" style="color:var(--red);font-size:12px;margin-bottom:8px"></div>
     <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="login()">دخول لوحة التحكم</button>
   </div>
@@ -544,7 +582,7 @@ tr:hover td { background: #fafcff; }
         <h1 id="title">لوحة التحكم</h1>
         <div class="actions">
           <button class="btn btn-dark btn-sm" onclick="openModal('clientModal')">+ عميل جديد</button>
-          <button class="btn btn-primary btn-sm" onclick="openModal('policyModal')">+ وثيقة</button>
+          <button class="btn btn-primary btn-sm" onclick="openPolicyModal()">+ وثيقة</button>
         </div>
       </header>
 
@@ -605,7 +643,7 @@ tr:hover td { background: #fafcff; }
           <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>النوع</th><th>رقم الوثيقة</th><th>المبلغ</th><th>الحالة</th><th>آخر تحديث</th><th>إجراء</th></tr></thead><tbody id="claimsBody"></tbody></table></div></div></div>
         </div>
 
-        <!-- ===== DOCUMENTS (مع رفع المستندات) ===== -->
+        <!-- ===== DOCUMENTS ===== -->
         <div id="v-documents" class="view">
           <div class="toolbar">
             <div class="search"><input id="docSearch" oninput="renderDocuments()" placeholder="ابحث باسم الملف أو العميل"></div>
@@ -799,7 +837,7 @@ tr:hover td { background: #fafcff; }
   </div>
 </div>
 
-<!-- ===== DOCUMENT UPLOAD MODAL ===== -->
+<!-- Document Upload Modal -->
 <div id="docUploadModal" class="overlay">
   <div class="modal">
     <h2>📎 رفع مستند جديد</h2>
@@ -912,11 +950,11 @@ tr:hover td { background: #fafcff; }
 <div id="toast" class="toast"></div>
 
 <!-- ============================================================ -->
-<!-- JAVASCRIPT -->
+<!-- JAVASCRIPT - الكود الرئيسي -->
 <!-- ============================================================ -->
 <script>
 // ================================================================
-// FIREBASE CONFIG
+// 1. FIREBASE CONFIG
 // ================================================================
 var firebaseConfig = {
   apiKey: 'AIzaSyCkRYPffAEBRivC2Si5T-ILL99ZrSq-dWM',
@@ -935,46 +973,46 @@ var auth = firebase.auth();
 var db = firebase.firestore();
 
 // ================================================================
-// MASTER DATA - COMPLETE INSURANCE COMPANIES
+// 2. MASTER DATA - شركات التأمين في مصر
 // ================================================================
 var INSURANCE_COMPANIES = [
-  { id: 'misr', name: 'مصر للتأمين', logo: '' },
-  { id: 'misr_life', name: 'مصر لتأمينات الحياة', logo: '' },
-  { id: 'ecgs', name: 'الشركة المصرية لضمان الصادرات', logo: '' },
-  { id: 'allianz', name: 'أليانز للتأمين', logo: '' },
-  { id: 'allianz_life', name: 'أليانز لتأمينات الحياة', logo: '' },
-  { id: 'axa', name: 'أكسا للتأمين', logo: '' },
-  { id: 'axa_life', name: 'أكسا لتأمينات الحياة', logo: '' },
-  { id: 'gig', name: 'GIG للتأمين', logo: '' },
-  { id: 'gig_life', name: 'GIG لتأمينات الحياة', logo: '' },
-  { id: 'scs', name: 'قناة السويس للتأمين', logo: '' },
-  { id: 'mohandes', name: 'المهندس للتأمين', logo: '' },
-  { id: 'delta', name: 'الدلتا للتأمين', logo: '' },
-  { id: 'chubb', name: 'تشب للتأمين (Chubb)', logo: '' },
-  { id: 'royal', name: 'رويال للتأمين', logo: '' },
-  { id: 'tharwa', name: 'ثروة للتأمين', logo: '' },
-  { id: 'tharwa_life', name: 'ثروة لتأمينات الحياة', logo: '' },
-  { id: 'metlife', name: 'متلايف أليكو (MetLife)', logo: '' },
-  { id: 'qnbalahli', name: 'QNB الأهلي لتأمينات الحياة', logo: '' },
-  { id: 'orient_takaful', name: 'أورينت للتأمين التكافلي', logo: '' },
-  { id: 'misr_takaful', name: 'المصرية للتأمين التكافلي', logo: '' },
-  { id: 'misr_life_takaful', name: 'المصرية لتأمينات الحياة التكافلي', logo: '' },
-  { id: 'beit_takaful', name: 'بيت التأمين المصري السعودي', logo: '' },
-  { id: 'wathaq_takaful', name: 'وثاق للتأمين التكافلي', logo: '' },
-  { id: 'eskan', name: 'إسكان للتأمين', logo: '' },
-  { id: 'tokio_marine', name: 'طوكيو مارين مصر', logo: '' },
-  { id: 'tokio_marine_life', name: 'طوكيو مارين لتأمينات الحياة', logo: '' },
-  { id: 'arope', name: 'آروب للتأمين (Arope)', logo: '' },
-  { id: 'arope_life', name: 'آروب لتأمينات الحياة', logo: '' },
-  { id: 'medgulf', name: 'المتوسط والخليج للتأمين', logo: '' },
-  { id: 'aig', name: 'AIG للتأمين', logo: '' },
-  { id: 'ls_takaful', name: 'اللبنانية السويسرية تكافل مصر', logo: '' },
-  { id: 'bupa', name: 'بوبا إيجيبت للتأمين', logo: '' },
-  { id: 'africa_re', name: 'الشركة الأفريقية لإعادة التأمين', logo: '' }
+  { id: 'misr', name: 'مصر للتأمين' },
+  { id: 'misr_life', name: 'مصر لتأمينات الحياة' },
+  { id: 'ecgs', name: 'الشركة المصرية لضمان الصادرات' },
+  { id: 'allianz', name: 'أليانز للتأمين' },
+  { id: 'allianz_life', name: 'أليانز لتأمينات الحياة' },
+  { id: 'axa', name: 'أكسا للتأمين' },
+  { id: 'axa_life', name: 'أكسا لتأمينات الحياة' },
+  { id: 'gig', name: 'GIG للتأمين' },
+  { id: 'gig_life', name: 'GIG لتأمينات الحياة' },
+  { id: 'scs', name: 'قناة السويس للتأمين' },
+  { id: 'mohandes', name: 'المهندس للتأمين' },
+  { id: 'delta', name: 'الدلتا للتأمين' },
+  { id: 'chubb', name: 'تشب للتأمين (Chubb)' },
+  { id: 'royal', name: 'رويال للتأمين' },
+  { id: 'tharwa', name: 'ثروة للتأمين' },
+  { id: 'tharwa_life', name: 'ثروة لتأمينات الحياة' },
+  { id: 'metlife', name: 'متلايف أليكو (MetLife)' },
+  { id: 'qnbalahli', name: 'QNB الأهلي لتأمينات الحياة' },
+  { id: 'orient_takaful', name: 'أورينت للتأمين التكافلي' },
+  { id: 'misr_takaful', name: 'المصرية للتأمين التكافلي' },
+  { id: 'misr_life_takaful', name: 'المصرية لتأمينات الحياة التكافلي' },
+  { id: 'beit_takaful', name: 'بيت التأمين المصري السعودي' },
+  { id: 'wathaq_takaful', name: 'وثاق للتأمين التكافلي' },
+  { id: 'eskan', name: 'إسكان للتأمين' },
+  { id: 'tokio_marine', name: 'طوكيو مارين مصر' },
+  { id: 'tokio_marine_life', name: 'طوكيو مارين لتأمينات الحياة' },
+  { id: 'arope', name: 'آروب للتأمين (Arope)' },
+  { id: 'arope_life', name: 'آروب لتأمينات الحياة' },
+  { id: 'medgulf', name: 'المتوسط والخليج للتأمين' },
+  { id: 'aig', name: 'AIG للتأمين' },
+  { id: 'ls_takaful', name: 'اللبنانية السويسرية تكافل مصر' },
+  { id: 'bupa', name: 'بوبا إيجيبت للتأمين' },
+  { id: 'africa_re', name: 'الشركة الأفريقية لإعادة التأمين' }
 ];
 
 // ================================================================
-// MASTER DATA - COMPLETE INSURANCE TYPES
+// 3. MASTER DATA - أنواع التأمين
 // ================================================================
 var INSURANCE_TYPES = [
   { id: 'life_temporary', name: 'تأمين الحياة المؤقت', icon: '📋', color: 'life' },
@@ -1020,7 +1058,7 @@ var INSURANCE_TYPES = [
 ];
 
 // ================================================================
-// STATE
+// 4. STATE
 // ================================================================
 var DATA = {
   clients: [],
@@ -1042,7 +1080,7 @@ var CHAT_UNSUB = null;
 var MSG_UNSUB = null;
 
 // ================================================================
-// UTILITY FUNCTIONS
+// 5. UTILITY FUNCTIONS
 // ================================================================
 function esc(v) {
   if (!v) return '';
@@ -1135,7 +1173,7 @@ function closeModal(id) {
 }
 
 // ================================================================
-// AUTH
+// 6. AUTH
 // ================================================================
 function login() {
   var email = document.getElementById('email').value.trim();
@@ -1151,7 +1189,7 @@ function login() {
       startMessages();
     })
     .catch(function(err) {
-      document.getElementById('loginErr').textContent = 'تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور.';
+      document.getElementById('loginErr').textContent = 'تعذر تسجيل الدخول: ' + err.message;
     });
 }
 
@@ -1171,7 +1209,7 @@ auth.onAuthStateChanged(function(user) {
 });
 
 // ================================================================
-// DATA LOADING
+// 7. DATA LOADING
 // ================================================================
 function col(name) {
   return db.collection(name).get()
@@ -1208,8 +1246,6 @@ function loadAll() {
     
     renderAll();
     refreshAllSelects();
-    // Fill doc upload client select
-    refreshDocClientSelect();
   });
 }
 
@@ -1233,7 +1269,7 @@ function renderAll() {
 }
 
 // ================================================================
-// REFRESH ALL SELECTS
+// 8. REFRESH ALL SELECTS - المفتاح لحل مشكلة القوائم
 // ================================================================
 function refreshAllSelects() {
   refreshClientSelects();
@@ -1316,13 +1352,14 @@ function refreshPolicySelect(clientId, policyId) {
 }
 
 // ================================================================
-// DASHBOARD
+// 9. DASHBOARD
 // ================================================================
 function renderDashboard() {
   var openClaims = DATA.claims.filter(function(x) { return !['settled', 'rejected'].includes(x.status); }).length;
   var unread = DATA.messages.filter(function(x) { return x.sender === 'client' && !x.autoReply && !x.readByAdmin; }).length;
   var exp = DATA.policies.filter(function(x) { return days(x.endDate) >= 0 && days(x.endDate) <= 45; }).length;
   var total = DATA.payments.reduce(function(a, x) { return a + (Number(x.amount) || 0); }, 0);
+  var active = DATA.policies.filter(function(x) { return days(x.endDate) >= 0; }).length;
 
   document.getElementById('sClients').textContent = DATA.clients.length;
   document.getElementById('sPolicies').textContent = DATA.policies.length;
@@ -1331,8 +1368,6 @@ function renderDashboard() {
   document.getElementById('sExpiring').textContent = exp;
   document.getElementById('sPayments').textContent = total.toLocaleString('en-US');
   document.getElementById('sDocs').textContent = DATA.documents.length;
-
-  var active = DATA.policies.filter(function(x) { return days(x.endDate) >= 0; }).length;
   document.getElementById('sActive').textContent = active + ' سارية';
 
   var expiringHtml = DATA.policies
@@ -1357,7 +1392,7 @@ function renderDashboard() {
 }
 
 // ================================================================
-// CLIENTS
+// 10. CLIENTS
 // ================================================================
 function renderClients() {
   var q = (document.getElementById('clientSearch')?.value || '').toLowerCase();
@@ -1380,7 +1415,7 @@ function renderClients() {
 }
 
 // ================================================================
-// POLICIES
+// 11. POLICIES
 // ================================================================
 function renderPolicies() {
   var q = (document.getElementById('policySearch')?.value || '').toLowerCase();
@@ -1398,7 +1433,7 @@ function renderPolicies() {
 }
 
 // ================================================================
-// PAYMENTS
+// 12. PAYMENTS
 // ================================================================
 function renderPayments() {
   var q = (document.getElementById('paymentSearch')?.value || '').toLowerCase();
@@ -1416,7 +1451,7 @@ function renderPayments() {
 }
 
 // ================================================================
-// CLAIMS
+// 13. CLAIMS
 // ================================================================
 function renderClaims() {
   var q = (document.getElementById('claimSearch')?.value || '').toLowerCase();
@@ -1435,7 +1470,7 @@ function renderClaims() {
 }
 
 // ================================================================
-// DOCUMENTS (مع رفع المستندات)
+// 14. DOCUMENTS (مع رفع المستندات)
 // ================================================================
 function renderDocuments() {
   var q = (document.getElementById('docSearch')?.value || '').toLowerCase();
@@ -1458,7 +1493,7 @@ function renderDocuments() {
 }
 
 // ================================================================
-// UPLOAD DOCUMENT FUNCTION
+// 15. UPLOAD DOCUMENT
 // ================================================================
 function openDocUploadModal() {
   document.getElementById('docUploadErr').textContent = '';
@@ -1468,7 +1503,6 @@ function openDocUploadModal() {
   refreshDocClientSelect();
   openModal('docUploadModal');
   
-  // File input change handler
   document.getElementById('docFile').onchange = function(e) {
     var file = e.target.files[0];
     if (file) {
@@ -1531,7 +1565,7 @@ function uploadDocument() {
 }
 
 // ================================================================
-// CONVERSATIONS
+// 16. CONVERSATIONS
 // ================================================================
 function renderConversations() {
   var ids = [];
@@ -1548,7 +1582,7 @@ function renderConversations() {
 }
 
 // ================================================================
-// RENEWALS
+// 17. RENEWALS
 // ================================================================
 function renderRenewals() {
   var q = (document.getElementById('renewalSearch')?.value || '').toLowerCase();
@@ -1570,7 +1604,7 @@ function runRenewalReminders() {
 }
 
 // ================================================================
-// COMPANIES
+// 18. COMPANIES
 // ================================================================
 function renderCompanies() {
   var q = (document.getElementById('companySearch')?.value || '').toLowerCase();
@@ -1637,7 +1671,7 @@ function openCompanyProfile(value) {
 }
 
 // ================================================================
-// INSURANCE TYPES
+// 19. INSURANCE TYPES
 // ================================================================
 function renderInsuranceTypes() {
   var q = (document.getElementById('typeSearch')?.value || '').toLowerCase();
@@ -1663,7 +1697,7 @@ function renderInsuranceTypes() {
 }
 
 // ================================================================
-// PRODUCTS
+// 20. PRODUCTS
 // ================================================================
 function renderProducts() {
   var q = (document.getElementById('productSearch')?.value || '').toLowerCase();
@@ -1689,7 +1723,7 @@ function renderProducts() {
 }
 
 // ================================================================
-// REPORTS
+// 21. REPORTS
 // ================================================================
 function renderReports() {
   var active = DATA.policies.filter(function(x) { return days(x.endDate) >= 0; }).length;
@@ -1738,7 +1772,7 @@ function renderReports() {
 }
 
 // ================================================================
-// ASSESSMENTS
+// 22. ASSESSMENTS
 // ================================================================
 function renderAssessments() {
   var q = (document.getElementById('assessmentSearch')?.value || '').toLowerCase();
@@ -1771,7 +1805,7 @@ function openAssessment(id) {
 }
 
 // ================================================================
-// NOTIFICATIONS & ACTIVITY
+// 23. NOTIFICATIONS & ACTIVITY
 // ================================================================
 function renderNotifications() {
   var html = DATA.notifications
@@ -1796,7 +1830,7 @@ function renderActivity() {
 }
 
 // ================================================================
-// CHAT
+// 24. CHAT
 // ================================================================
 function updateBadge() {
   var n = DATA.messages.filter(function(m) { return m.sender === 'client' && !m.autoReply && !m.readByAdmin; }).length;
@@ -1856,7 +1890,7 @@ function sendMessage() {
 }
 
 // ================================================================
-// UI HELPERS
+// 25. UI HELPERS
 // ================================================================
 function showView(view, el) {
   document.querySelectorAll('.view').forEach(function(x) { x.classList.remove('active'); });
@@ -1871,7 +1905,7 @@ function showView(view, el) {
 }
 
 // ================================================================
-// MODAL OPENERS
+// 26. MODAL OPENERS
 // ================================================================
 function openPolicyModal(cid) {
   if (cid === undefined) cid = '';
@@ -1944,7 +1978,7 @@ function openClientProfile(id) {
 }
 
 // ================================================================
-// CRUD OPERATIONS
+// 27. CRUD OPERATIONS
 // ================================================================
 function createClient() {
   var name = document.getElementById('cName').value.trim();
@@ -1977,7 +2011,7 @@ function createClient() {
       toast('✅ تم إنشاء العميل بنجاح');
     })
     .catch(function(e) {
-      err.textContent = 'تعذر إنشاء العميل';
+      err.textContent = 'تعذر إنشاء العميل: ' + e.message;
     });
 }
 
@@ -2014,7 +2048,7 @@ function createPolicy() {
     toast('✅ تم حفظ الوثيقة بنجاح');
   })
   .catch(function(e) {
-    err.textContent = 'تعذر حفظ الوثيقة';
+    err.textContent = 'تعذر حفظ الوثيقة: ' + e.message;
   });
 }
 
@@ -2038,7 +2072,7 @@ function createInsuranceType() {
       toast('✅ تم إضافة نوع التأمين');
     })
     .catch(function(e) {
-      err.textContent = 'تعذر حفظ النوع';
+      err.textContent = 'تعذر حفظ النوع: ' + e.message;
     });
 }
 
@@ -2066,7 +2100,7 @@ function createCompany() {
       toast('✅ تمت إضافة الشركة');
     })
     .catch(function(e) {
-      err.textContent = 'تعذر حفظ الشركة';
+      err.textContent = 'تعذر حفظ الشركة: ' + e.message;
     });
 }
 
@@ -2106,7 +2140,7 @@ function createProduct() {
       toast('✅ تم حفظ المنتج');
     })
     .catch(function(e) {
-      err.textContent = 'تعذر حفظ المنتج';
+      err.textContent = 'تعذر حفظ المنتج: ' + e.message;
     });
 }
 
@@ -2134,7 +2168,7 @@ function createPayment() {
     toast('✅ تم تسجيل الدفعة');
   })
   .catch(function(e) {
-    err.textContent = 'تعذر حفظ الدفعة';
+    err.textContent = 'تعذر حفظ الدفعة: ' + e.message;
   });
 }
 
@@ -2162,7 +2196,7 @@ function createClaim() {
     toast('✅ تم تسجيل المطالبة');
   })
   .catch(function(e) {
-    err.textContent = 'تعذر حفظ المطالبة';
+    err.textContent = 'تعذر حفظ المطالبة: ' + e.message;
   });
 }
 
@@ -2196,10 +2230,10 @@ function notify(clientId, title, body) {
 }
 
 // ================================================================
-// INIT - FILL DROPDOWNS IMMEDIATELY
+// 28. INIT - ملء القوائم المنسدلة فوراً
 // ================================================================
 function initSelects() {
-  // Fill company selects
+  // شركات التأمين
   var companySelects = ['pCompany', 'prCompany'];
   companySelects.forEach(function(id) {
     var s = document.getElementById(id);
@@ -2210,7 +2244,7 @@ function initSelects() {
     });
   });
   
-  // Fill type selects
+  // أنواع التأمين
   var typeSelects = ['pType', 'prType'];
   typeSelects.forEach(function(id) {
     var s = document.getElementById(id);
@@ -2221,7 +2255,7 @@ function initSelects() {
     });
   });
   
-  // Fill client selects
+  // العملاء
   var clientSelects = ['pClient', 'payClient', 'clClient', 'docClient'];
   clientSelects.forEach(function(id) {
     var s = document.getElementById(id);
@@ -2230,7 +2264,7 @@ function initSelects() {
   });
 }
 
-// Initialize selects immediately
+// تشغيل التهيئة فوراً
 initSelects();
 </script>
 </body>
