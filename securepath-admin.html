@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Secure PATH — لوحة التحكم الشاملة</title>
+<title>Secure PATH — لوحة التحكم</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -16,7 +16,6 @@
 :root {
   --navy: #0E2A5C;
   --navy-light: #1a3f7a;
-  --navy-dark: #071D40;
   --gold: #F2BD63;
   --gold-light: #FFD98F;
   --gold-soft: #FFF2D7;
@@ -28,7 +27,6 @@
   --green: #16805B;
   --red: #C9543E;
   --blue: #2E67B1;
-  --purple: #7255B7;
   --shadow: 0 8px 24px rgba(14,42,92,0.08);
   --shadow-lg: 0 18px 45px rgba(14,42,92,0.15);
   --radius: 16px;
@@ -71,7 +69,6 @@ input, select, textarea { font: inherit; outline: none; }
 .btn-danger { background: var(--red); color: #fff; }
 .btn-danger:hover { background: #a83d2e; }
 .btn-sm { padding: 5px 12px; font-size: 11px; border-radius: 6px; }
-.btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--navy); }
 
 #login {
   min-height: 100vh;
@@ -271,8 +268,6 @@ tr:hover td { background: #fafcff; }
 .badge-danger { background: #fff0ed; color: var(--red); }
 .badge-warning { background: #fff3cd; color: #856404; }
 .badge-info { background: #e3f0ff; color: var(--blue); }
-.badge-purple { background: #f0ebff; color: var(--purple); }
-.badge-gold { background: var(--gold-soft); color: #8a6d1b; }
 
 .type-badge {
   display: inline-flex;
@@ -621,7 +616,7 @@ tr:hover td { background: #fafcff; }
           <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>النوع</th><th>رقم الوثيقة</th><th>المبلغ</th><th>الحالة</th><th>آخر تحديث</th><th>إجراء</th></tr></thead><tbody id="claimsBody"></tbody></table></div></div></div>
         </div>
 
-        <!-- ===== DOCUMENTS (مع زر رفع مستند) ===== -->
+        <!-- ===== DOCUMENTS ===== -->
         <div id="v-documents" class="view">
           <div class="toolbar">
             <div class="search"><input id="docSearch" oninput="renderDocuments()" placeholder="ابحث باسم الملف أو العميل"></div>
@@ -817,7 +812,7 @@ tr:hover td { background: #fafcff; }
   </div>
 </div>
 
-<!-- ===== DOCUMENT UPLOAD MODAL ===== -->
+<!-- Document Upload Modal -->
 <div id="docUploadModal" class="overlay">
   <div class="modal">
     <h2>📎 رفع مستند جديد</h2>
@@ -1450,7 +1445,7 @@ function renderClaims() {
 }
 
 // ================================================================
-// 14. DOCUMENTS (مع رفع المستندات)
+// 14. DOCUMENTS
 // ================================================================
 function renderDocuments() {
   var q = (document.getElementById('docSearch')?.value || '').toLowerCase();
