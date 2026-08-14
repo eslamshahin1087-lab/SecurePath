@@ -12,7 +12,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 
 <style>
-:root{--navy:#0E2A5C;--navy2:#164080;--gold:#F4C06B;--gold2:#F8DBA6;--paper:#F7F8FB;--white:#fff;--line:#E4E8EF;--text:#253044;--muted:#7C8798;--green:#2F7D58;--red:#B5482D;--blue:#2E67B1;--shadow:0 12px 35px rgba(14,42,92,.08)}
+:root{--navy:#0E2A5C;--navy2:#164080;--gold:#F4C06B;--gold2:#F8DBA6;--paper:#F7F8FB;--white:#fff;--line:#E4E8EF;--text:#253044;--muted:#7C8798;--green:#2F7D58;--red:#B5482D;--blue:#2E67B1;--purple:#7255B7;--shadow:0 12px 35px rgba(14,42,92,.08)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--text);font-family:Cairo,sans-serif}
 button,input,select,textarea{font:inherit}
@@ -69,11 +69,11 @@ button{cursor:pointer}
 .ok{color:var(--green)}
 .warn{color:var(--red)}
 
-.toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:15px}
-.search{max-width:360px;flex:1}
+.toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:15px;flex-wrap:wrap}
+.search{max-width:360px;flex:1;min-width:200px}
 .search input{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px}
 .panel{overflow:hidden}
-.panelhead{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.panelhead{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
 .panelhead h3{font:800 15px Tajawal;margin:0;color:var(--navy)}
 
 table{width:100%;border-collapse:collapse}
@@ -84,6 +84,9 @@ tr:last-child td{border-bottom:0}
 .pill{display:inline-flex;padding:4px 9px;border-radius:20px;font-size:10px;font-weight:800;background:#eef7f1;color:var(--green)}
 .pill.red{background:#fff0ed;color:var(--red)}
 .pill.blue{background:#eef4ff;color:var(--blue)}
+.pill.purple{background:#f0ebff;color:var(--purple)}
+.pill.gold{background:#fff8e7;color:#8a6d1b}
+
 .actions{display:flex;gap:5px;flex-wrap:wrap}
 .actions button{padding:7px 9px;border:1px solid var(--line);background:#fff;border-radius:8px;color:var(--navy);font-size:11px}
 .actions button:hover{background:#f4f7fb}
@@ -94,6 +97,8 @@ tr:last-child td{border-bottom:0}
 
 .two{display:grid;grid-template-columns:1.25fr .75fr;gap:15px;margin-top:15px}
 .three{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.four{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+
 .message-list{height:430px;overflow:auto;padding:15px;display:flex;flex-direction:column;gap:8px}
 .bubble{max-width:75%;padding:9px 12px;border-radius:13px;font-size:12px;line-height:1.7}
 .bubble.client{align-self:flex-end;background:var(--gold2);color:var(--navy)}
@@ -108,19 +113,32 @@ tr:last-child td{border-bottom:0}
 
 .overlay{position:fixed;inset:0;background:#071a3688;display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
 .overlay.show{display:flex}
-.modal{background:#fff;width:min(600px,96vw);max-height:90vh;overflow:auto;border-radius:20px;padding:22px}
+.modal{background:#fff;width:min(700px,96vw);max-height:90vh;overflow:auto;border-radius:20px;padding:22px}
 .modal h2{font:900 18px Tajawal;color:var(--navy);margin:0 0 15px 0}
 .formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .modalfoot{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}
 .toast{position:fixed;bottom:20px;left:20px;background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;z-index:100;display:none;box-shadow:0 10px 25px rgba(0,0,0,0.2)}
 .toast.show{display:block}
 
+/* Insurance Type Badge Colors */
+.type-badge{display:inline-flex;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:700}
+.type-badge.medical{background:#e3f0ff;color:#1a6bc4}
+.type-badge.life{background:#fce8f0;color:#b8306a}
+.type-badge.car{background:#e6f7ed;color:#1a8a4a}
+.type-badge.property{background:#fff3e6;color:#b86a1a}
+.type-badge.travel{background:#f0e6ff;color:#6a3ab8}
+.type-badge.engineering{background:#e6f0ff;color:#1a4a8a}
+.type-badge.liability{background:#fff0e6;color:#b84a1a}
+.type-badge.marine{background:#e6f7f7;color:#1a6a6a}
+.type-badge.agriculture{background:#f0f7e6;color:#4a8a1a}
+.type-badge.cyber{background:#f0e6f0;color:#7a2a7a}
+
 @media(max-width:900px){
   .side{width:76px}
   .brand b,.nav button span:not(.navicon),.sidefoot{display:none}
   .nav button{text-align:center;justify-content:center}
   .main{margin-right:76px;width:calc(100% - 76px)}
-  .grid{grid-template-columns:repeat(2,1fr)}
+  .grid,.four{grid-template-columns:repeat(2,1fr)}
   .two,.three{grid-template-columns:1fr}
   .content{padding:15px}
   .top{padding:0 15px}
@@ -128,7 +146,7 @@ tr:last-child td{border-bottom:0}
   .panel{overflow:auto}
 }
 @media(max-width:600px){
-  .grid{grid-template-columns:1fr}
+  .grid,.four{grid-template-columns:1fr}
   .formgrid{grid-template-columns:1fr}
   .toolbar{align-items:stretch;flex-direction:column}
   .search{max-width:none}
@@ -166,6 +184,7 @@ tr:last-child td{border-bottom:0}
         <button type="button" data-view="renewals" onclick="showView('renewals',this)"><span class="navicon">↻</span><span data-i="renewals">التجديدات</span></button>
         <button type="button" data-view="companies" onclick="showView('companies',this)"><span class="navicon">◆</span><span data-i="companies">شركات التأمين</span></button>
         <button type="button" data-view="products" onclick="showView('products',this)"><span class="navicon">▰</span><span data-i="products">المنتجات</span></button>
+        <button type="button" data-view="insuranceTypes" onclick="showView('insuranceTypes',this)"><span class="navicon">◈</span><span data-i="insuranceTypes">أنواع التأمين</span></button>
         <button type="button" data-view="reports" onclick="showView('reports',this)"><span class="navicon">▥</span><span data-i="reports">التقارير والتحليلات</span></button>
         <button type="button" data-view="assessments" onclick="showView('assessments',this)"><span class="navicon">◉</span><span data-i="assessments">تقييمات الحماية</span></button>
         <button type="button" data-view="compliance" onclick="showView('compliance',this)"><span class="navicon">✓</span><span data-i="compliance">الامتثال</span></button>
@@ -208,6 +227,11 @@ tr:last-child td{border-bottom:0}
           <div class="two">
             <div class="card"><div class="panelhead"><h3 data-i="expiringTitle">وثائق قريبة الانتهاء</h3><button class="btn outline" onclick="showView('policies')" data-i="viewAll">عرض الكل</button></div><div id="dashExpiring"></div></div>
             <div class="card"><div class="panelhead"><h3 data-i="recentActivity">آخر النشاطات</h3></div><div id="dashActivity" class="list"></div></div>
+          </div>
+          <!-- Insurance Types Summary -->
+          <div class="card" style="margin-top:15px">
+            <div class="panelhead"><h3>📊 توزيع أنواع التأمين</h3><span class="pill blue" id="typeCount">0 نوع</span></div>
+            <div id="insuranceTypeSummary" style="padding:15px;display:flex;flex-wrap:wrap;gap:8px"></div>
           </div>
         </div>
 
@@ -311,7 +335,20 @@ tr:last-child td{border-bottom:0}
 
         <!-- Companies -->
         <div id="v-companies" class="view">
-          <div class="card"><div class="panelhead"><h3>شركات التأمين</h3></div><div id="companiesList" class="list"></div></div>
+          <div class="toolbar">
+            <div class="search"><input id="companySearch" oninput="renderCompanies()" placeholder="ابحث باسم الشركة"></div>
+            <button class="btn outline" onclick="openCompanyModal()">+ إضافة شركة تأمين</button>
+          </div>
+          <div class="card"><div id="companiesList" class="list"></div></div>
+        </div>
+
+        <!-- Insurance Types -->
+        <div id="v-insuranceTypes" class="view">
+          <div class="toolbar">
+            <div class="search"><input id="typeSearch" oninput="renderInsuranceTypes()" placeholder="ابحث عن نوع التأمين"></div>
+            <button class="btn primary" onclick="openInsuranceTypeModal()">+ إضافة نوع تأمين</button>
+          </div>
+          <div class="four" id="insuranceTypesGrid"></div>
         </div>
 
         <!-- Products -->
@@ -334,6 +371,10 @@ tr:last-child td{border-bottom:0}
             <div class="card stat"><div class="k">الوثائق السارية</div><div id="rActive" class="v">0</div></div>
             <div class="card stat"><div class="k">تجديدات 45 يوم</div><div id="rRenewals" class="v">0</div></div>
             <div class="card stat"><div class="k">المدفوعات</div><div id="rPaid" class="v">0</div></div>
+          </div>
+          <div class="two" style="margin-top:15px">
+            <div class="card"><div class="panelhead"><h3>📊 توزيع الوثائق حسب النوع</h3></div><div id="reportTypeDistribution" style="padding:15px"></div></div>
+            <div class="card"><div class="panelhead"><h3>📈 توزيع الوثائق حسب الشركة</h3></div><div id="reportCompanyDistribution" style="padding:15px"></div></div>
           </div>
         </div>
 
@@ -374,28 +415,32 @@ tr:last-child td{border-bottom:0}
 <!-- Modals -->
 <div id="clientModal" class="overlay"><div class="modal"><h2 id="clientModalTitle">إضافة عميل جديد</h2><div class="formgrid"><div class="field"><label>الاسم الكامل</label><input id="cName"></div><div class="field"><label>الهاتف</label><input id="cPhone"></div></div><div class="formgrid"><div class="field"><label>البريد الإلكتروني</label><input id="cEmail"></div><div class="field"><label>كلمة المرور</label><input id="cPass" type="password"></div></div><div id="cErr" class="warn" style="font-size:12px"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('clientModal')">إلغاء</button><button class="btn primary" onclick="createClient()">حفظ وإنشاء الحساب</button></div></div></div>
 
-<div id="policyModal" class="overlay"><div class="modal"><h2>إضافة وثيقة</h2><div class="field"><label>العميل</label><select id="pClient"></select></div><div class="formgrid"><div class="field"><label>نوع التأمين</label><input id="pType"></div><div class="field"><label>شركة التأمين</label><input id="pCompany"></div></div><div class="formgrid"><div class="field"><label>رقم الوثيقة</label><input id="pNumber"></div><div class="field"><label>القسط</label><input id="pPremium" type="number"></div></div><div class="formgrid"><div class="field"><label>البداية</label><input id="pStart" type="date"></div><div class="field"><label>الانتهاء</label><input id="pEnd" type="date"></div></div><div class="field"><label>التغطية / ملاحظات</label><textarea id="pCoverage"></textarea></div><div id="pErr" class="warn" style="font-size:12px"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('policyModal')">إلغاء</button><button class="btn primary" onclick="createPolicy()">حفظ الوثيقة</button></div></div></div>
+<div id="policyModal" class="overlay"><div class="modal"><h2>إضافة وثيقة</h2><div class="field"><label>العميل</label><select id="pClient"></select></div><div class="formgrid"><div class="field"><label>نوع التأمين</label><select id="pType"><option value="">اختر النوع</option></select></div><div class="field"><label>شركة التأمين</label><select id="pCompany"><option value="">اختر الشركة</option></select></div></div><div class="formgrid"><div class="field"><label>رقم الوثيقة</label><input id="pNumber"></div><div class="field"><label>القسط السنوي</label><input id="pPremium" type="number"></div></div><div class="formgrid"><div class="field"><label>البداية</label><input id="pStart" type="date"></div><div class="field"><label>الانتهاء</label><input id="pEnd" type="date"></div></div><div class="field"><label>مبلغ التأمين</label><input id="pSumInsured" type="number" placeholder="مبلغ التغطية"></div><div class="field"><label>التغطية / ملاحظات</label><textarea id="pCoverage"></textarea></div><div id="pErr" class="warn" style="font-size:12px"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('policyModal')">إلغاء</button><button class="btn primary" onclick="createPolicy()">حفظ الوثيقة</button></div></div></div>
 
 <div id="paymentModal" class="overlay"><div class="modal"><h2>تسجيل دفعة</h2><div class="field"><label>العميل</label><select id="payClient" onchange="refreshPolicySelect('payClient','payPolicy')"></select></div><div class="field"><label>الوثيقة</label><select id="payPolicy"></select></div><div class="formgrid"><div class="field"><label>المبلغ</label><input id="payAmount" type="number"></div><div class="field"><label>التاريخ</label><input id="payDate" type="date"></div></div><div class="field"><label>طريقة الدفع</label><select id="payMethod"><option>Cash</option><option>Bank Transfer</option><option>Card</option><option>Wallet</option></select></div><div class="field"><label>ملاحظة</label><input id="payNote"></div><div id="payErr" class="warn" style="font-size:12px"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('paymentModal')">إلغاء</button><button class="btn primary" onclick="createPayment()">حفظ الدفعة</button></div></div></div>
 
-<div id="claimModal" class="overlay"><div class="modal"><h2>إضافة مطالبة</h2><div class="field"><label>العميل</label><select id="clClient" onchange="refreshPolicySelect('clClient','clPolicy')"></select></div><div class="field"><label>الوثيقة</label><select id="clPolicy"></select></div><div class="formgrid"><div class="field"><label>نوع المطالبة</label><input id="clType"></div><div class="field"><label>المبلغ</label><input id="clAmount" type="number"></div></div><div class="field"><label>الحالة</label><select id="clStatus"><option value="new">New</option><option value="under_review">Under Review</option><option value="documents_required">Documents Required</option><option value="approved">Approved</option><option value="settled">Settled</option><option value="rejected">Rejected</option></select></div><div class="field"><label>الوصف</label><textarea id="clDesc"></textarea></div><div id="clErr" class="warn" style="font-size:12px"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('claimModal')">إلغاء</button><button class="btn primary" onclick="createClaim()">حفظ المطالبة</button></div></div></div>
+<div id="claimModal" class="overlay"><div class="modal"><h2>إضافة مطالبة</h2><div class="field"><label>العميل</label><select id="clClient" onchange="refreshPolicySelect('clClient','clPolicy')"></select></div><div class="field"><label>الوثيقة</label><select id="clPolicy"></select></div><div class="formgrid"><div class="field"><label>نوع المطالبة</label><select id="clType"><option value="حريق">حريق</option><option value="حوادث مركبات">حوادث مركبات</option><option value="طبي">طبي</option><option value="حياة">حياة</option><option value="مسؤولية">مسؤولية</option><option value="سرقة">سرقة</option><option value="طبيعي">كوارث طبيعية</option><option value="أخرى">أخرى</option></select></div><div class="field"><label>المبلغ</label><input id="clAmount" type="number"></div></div><div class="field"><label>الحالة</label><select id="clStatus"><option value="new">New</option><option value="under_review">Under Review</option><option value="documents_required">Documents Required</option><option value="approved">Approved</option><option value="settled">Settled</option><option value="rejected">Rejected</option></select></div><div class="field"><label>الوصف</label><textarea id="clDesc"></textarea></div><div id="clErr" class="warn" style="font-size:12px"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('claimModal')">إلغاء</button><button class="btn primary" onclick="createClaim()">حفظ المطالبة</button></div></div></div>
 
 <div id="clientProfileModal" class="overlay"><div class="modal" style="width:min(1000px,97vw)"><div style="display:flex;justify-content:space-between"><div><h2 id="profileName">ملف العميل</h2><div id="profileMeta" class="muted"></div></div><button class="btn outline" onclick="closeModal('clientProfileModal')">✕</button></div><div id="profileBody" style="margin-top:15px"></div></div></div>
 
-<div id="clientDocModal" class="overlay"><div class="modal"><h2>إضافة وثيقة العميل</h2><div class="formgrid"><div class="field"><label>نوع التأمين</label><input id="uType"></div><div class="field"><label>شركة التأمين</label><input id="uCompany"></div></div><div class="formgrid"><div class="field"><label>رقم الوثيقة</label><input id="uNumber"></div><div class="field"><label>القسط</label><input id="uPremium" type="number"></div></div><div class="formgrid"><div class="field"><label>البداية</label><input id="uStart" type="date"></div><div class="field"><label>الانتهاء</label><input id="uEnd" type="date"></div></div><div class="field"><label>ملف الوثيقة</label><input id="uFile" type="file" accept=".pdf,.jpg,.jpeg,.png"></div><div id="uErr" class="warn"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('clientDocModal')">إلغاء</button><button class="btn primary" onclick="uploadClientDocument()">حفظ للمراجعة</button></div></div></div>
+<div id="clientDocModal" class="overlay"><div class="modal"><h2>إضافة وثيقة العميل</h2><div class="formgrid"><div class="field"><label>نوع التأمين</label><select id="uType"><option value="">اختر النوع</option></select></div><div class="field"><label>شركة التأمين</label><select id="uCompany"><option value="">اختر الشركة</option></select></div></div><div class="formgrid"><div class="field"><label>رقم الوثيقة</label><input id="uNumber"></div><div class="field"><label>القسط</label><input id="uPremium" type="number"></div></div><div class="formgrid"><div class="field"><label>البداية</label><input id="uStart" type="date"></div><div class="field"><label>الانتهاء</label><input id="uEnd" type="date"></div></div><div class="field"><label>ملف الوثيقة</label><input id="uFile" type="file" accept=".pdf,.jpg,.jpeg,.png"></div><div id="uErr" class="warn"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('clientDocModal')">إلغاء</button><button class="btn primary" onclick="uploadClientDocument()">حفظ للمراجعة</button></div></div></div>
 
 <div id="companyProfileModal" class="overlay"><div class="modal" style="width:min(1100px,97vw)"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div><h2 id="companyProfileName">شركة التأمين</h2><div id="companyProfileMeta" class="muted"></div></div><button type="button" class="btn outline" onclick="closeModal('companyProfileModal')">✕ إغلاق</button></div><div id="companyProfileBody" style="margin-top:15px"></div></div></div>
 
 <div id="companyModal" class="overlay"><div class="modal"><h2>إضافة شركة تأمين</h2><div class="field"><label>اسم الشركة</label><input id="coName"></div><div class="field"><label>لوجو الشركة — URL</label><input id="coLogo"></div><div class="field"><label>أو رفع لوجو الشركة</label><input id="coLogoFile" type="file" accept="image/png,image/jpeg,image/webp"></div><div class="field"><label>وصف مختصر</label><textarea id="coDesc"></textarea></div><div id="coErr" class="warn"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('companyModal')">إلغاء</button><button class="btn primary" onclick="createCompany()">حفظ الشركة</button></div></div></div>
 
-<div id="productModal" class="overlay"><div class="modal"><h2>إضافة منتج تأميني</h2><div class="formgrid"><div class="field"><label>شركة التأمين</label><select id="prCompany"></select></div><div class="field"><label>اسم المنتج</label><input id="prName"></div><div class="field"><label>تصنيف المنتج</label><select id="prCategory"><option value="car">سيارات</option><option value="health">صحي</option><option value="life">حياة</option><option value="home">ممتلكات</option><option value="travel">سفر</option><option value="other" selected>أخرى</option></select></div></div><div class="field"><label>الوصف</label><textarea id="prDesc"></textarea></div><div class="field"><label>المميزات — كل ميزة في سطر</label><textarea id="prFeatures"></textarea></div><div class="field"><label>صورة الإعلان URL</label><input id="prImage"></div><div class="field"><label>أو رفع صورة الإعلان</label><input id="prImageFile" type="file" accept="image/png,image/jpeg,image/webp"></div><div class="field"><label>لوجو الشركة للمنتج — URL</label><input id="prLogo"></div><div class="field"><label>أو رفع لوجو الشركة</label><input id="prLogoFile" type="file" accept="image/png,image/jpeg,image/webp"></div><div class="field"><label>الحالة</label><select id="prStatus"><option value="draft">Draft</option><option value="published">Published</option><option value="archived">Archived</option></select></div><div class="field"><label>Disclaimer</label><textarea id="prDisclaimer">المعلومات لأغراض التعريف والتوعية ولا تمثل إصدارًا أو ضمانًا لقبول وثيقة.</textarea></div><div id="prErr" class="warn"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('productModal')">إلغاء</button><button class="btn primary" onclick="createProduct()">حفظ</button></div></div></div>
+<div id="insuranceTypeModal" class="overlay"><div class="modal"><h2>إضافة نوع تأمين</h2><div class="field"><label>اسم نوع التأمين</label><input id="itName" placeholder="مثال: طبي، سيارات، حياة، إلخ"></div><div class="field"><label>الوصف</label><textarea id="itDesc" placeholder="وصف مختصر لهذا النوع"></textarea></div><div class="field"><label>لون التصنيف</label><select id="itColor"><option value="medical">طبي (أزرق)</option><option value="life">حياة (وردي)</option><option value="car">سيارات (أخضر)</option><option value="property">ممتلكات (برتقالي)</option><option value="travel">سفر (بنفسجي)</option><option value="engineering">هندسي (أزرق غامق)</option><option value="liability">مسؤولية (أحمر)</option><option value="marine">بحري (فيروزي)</option><option value="agriculture">زراعي (أخضر فاتح)</option><option value="cyber">سيبراني (أرجواني)</option></select></div><div id="itErr" class="warn"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('insuranceTypeModal')">إلغاء</button><button class="btn primary" onclick="createInsuranceType()">حفظ النوع</button></div></div></div>
+
+<div id="productModal" class="overlay"><div class="modal"><h2>إضافة منتج تأميني</h2><div class="formgrid"><div class="field"><label>شركة التأمين</label><select id="prCompany"></select></div><div class="field"><label>نوع التأمين</label><select id="prType"></select></div></div><div class="field"><label>اسم المنتج</label><input id="prName"></div><div class="field"><label>الوصف</label><textarea id="prDesc"></textarea></div><div class="field"><label>المميزات — كل ميزة في سطر</label><textarea id="prFeatures"></textarea></div><div class="field"><label>صورة الإعلان URL</label><input id="prImage"></div><div class="field"><label>أو رفع صورة الإعلان</label><input id="prImageFile" type="file" accept="image/png,image/jpeg,image/webp"></div><div class="field"><label>الحالة</label><select id="prStatus"><option value="draft">Draft</option><option value="published">Published</option><option value="archived">Archived</option></select></div><div class="field"><label>Disclaimer</label><textarea id="prDisclaimer">المعلومات لأغراض التعريف والتوعية ولا تمثل إصدارًا أو ضمانًا لقبول وثيقة.</textarea></div><div id="prErr" class="warn"></div><div class="modalfoot"><button class="btn outline" onclick="closeModal('productModal')">إلغاء</button><button class="btn primary" onclick="createProduct()">حفظ</button></div></div></div>
 
 <div id="assessmentModal" class="overlay"><div class="modal" style="width:min(850px,97vw)"><div style="display:flex;justify-content:space-between;align-items:center"><div><h2 id="assessmentModalTitle">تقييم الحماية</h2><div id="assessmentModalMeta" class="muted"></div></div><button class="btn outline" onclick="closeModal('assessmentModal')">✕</button></div><div id="assessmentModalBody" style="margin-top:15px"></div></div></div>
 
 <div id="toast" class="toast"></div>
 
 <script>
-// Firebase Configuration
+// ========================================
+// FIREBASE CONFIGURATION
+// ========================================
 var firebaseConfig = {
   apiKey: 'AIzaSyCkRYPffAEBRivC2Si5T-ILL99ZrSq-dWM',
   authDomain: 'path-1a672.firebaseapp.com',
@@ -412,45 +457,62 @@ if (typeof firebase !== 'undefined' && !firebase.apps.length) {
 var auth = firebase.auth();
 var db = firebase.firestore();
 
+// ========================================
+// MASTER DATA - INSURANCE TYPES & COMPANIES
+// ========================================
+var INSURANCE_TYPES = [
+  { id: 'medical', name: 'طبي', nameEn: 'Medical', icon: '🏥', color: 'medical', description: 'تغطية المصاريف الطبية والعلاجية' },
+  { id: 'life', name: 'حياة', nameEn: 'Life', icon: '❤️', color: 'life', description: 'تأمين على الحياة والوفيات' },
+  { id: 'car', name: 'سيارات', nameEn: 'Motor', icon: '🚗', color: 'car', description: 'تأمين المركبات بأنواعها' },
+  { id: 'property', name: 'ممتلكات', nameEn: 'Property', icon: '🏠', color: 'property', description: 'تأمين الممتلكات والأصول' },
+  { id: 'travel', name: 'سفر', nameEn: 'Travel', icon: '✈️', color: 'travel', description: 'تأمين السفر والإلغاء' },
+  { id: 'engineering', name: 'هندسي', nameEn: 'Engineering', icon: '🏗️', color: 'engineering', description: 'تأمين المشاريع الهندسية' },
+  { id: 'liability', name: 'مسؤولية', nameEn: 'Liability', icon: '⚖️', color: 'liability', description: 'تأمين المسؤولية المدنية' },
+  { id: 'marine', name: 'بحري', nameEn: 'Marine', icon: '🚢', color: 'marine', description: 'تأمين البضائع والنقل البحري' },
+  { id: 'agriculture', name: 'زراعي', nameEn: 'Agriculture', icon: '🌾', color: 'agriculture', description: 'تأمين المحاصيل والماشية' },
+  { id: 'cyber', name: 'سيبراني', nameEn: 'Cyber', icon: '💻', color: 'cyber', description: 'تأمين المخاطر الإلكترونية' }
+];
+
+var INSURANCE_COMPANIES = [
+  { id: 'allianz', name: 'أليانز مصر', nameEn: 'Allianz Egypt', logo: '' },
+  { id: 'bupa', name: 'بوبا مصر', nameEn: 'BUPA Egypt', logo: '' },
+  { id: 'gig', name: 'جيج للتأمين', nameEn: 'GIG Insurance', logo: '' },
+  { id: 'scs', name: 'قناة السويس للتأمين', nameEn: 'Suez Canal Insurance', logo: '' },
+  { id: 'misr', name: 'الشركة المصرية للتأمين', nameEn: 'Misr Insurance Company', logo: '' },
+  { id: 'national', name: 'الوطنية للتأمين', nameEn: 'National Insurance', logo: '' },
+  { id: 'oriental', name: 'الشرق للتأمين', nameEn: 'Oriental Insurance', logo: '' },
+  { id: 'delta', name: 'دلتا للتأمين', nameEn: 'Delta Insurance', logo: '' },
+  { id: 'pharaohs', name: 'فراعنة للتأمين', nameEn: 'Pharaohs Insurance', logo: '' },
+  { id: 'nile', name: 'النيل للتأمين', nameEn: 'Nile Insurance', logo: '' },
+  { id: 'axa', name: 'أكسا مصر', nameEn: 'AXA Egypt', logo: '' },
+  { id: 'metlife', name: 'ميت لايف مصر', nameEn: 'MetLife Egypt', logo: '' }
+];
+
+// ========================================
+// STATE
+// ========================================
 var LANG = localStorage.getItem('sp_admin_lang') || 'ar';
-var DATA = { clients: [], policies: [], payments: [], claims: [], documents: [], messages: [], notifications: [], activity: [], products: [], companies: [], assessments: [] };
+var DATA = { clients: [], policies: [], payments: [], claims: [], documents: [], messages: [], notifications: [], activity: [], products: [], companies: [], assessments: [], insuranceTypes: [] };
 var CURRENT_CHAT = null;
 var CHAT_UNSUB = null;
 var MSG_UNSUB = null;
 var UPLOAD_CLIENT_ID = null;
 
+// ========================================
+// I18N
+// ========================================
 var I18N = {
-  ar: { dashboard: 'لوحة التحكم', clients: 'العملاء', policies: 'الوثائق', payments: 'الأقساط والمدفوعات', claims: 'المطالبات', documents: 'المستندات', renewals: 'التجديدات', companies: 'شركات التأمين', products: 'المنتجات', reports: 'التقارير', compliance: 'الامتثال', messages: 'المحادثات', notifications: 'الإشعارات', activity: 'سجل النشاط', assessments: 'تقييمات الحماية', totalClients: 'إجمالي العملاء', totalPolicies: 'إجمالي الوثائق', openClaims: 'المطالبات المفتوحة', unread: 'الرسائل الجديدة', expiring: 'وثائق تنتهي قريبًا', payments: 'إجمالي المدفوعات', documents: 'المستندات', agents: 'المستخدم الحالي', expiringTitle: 'وثائق قريبة الانتهاء', viewAll: 'عرض الكل', recentActivity: 'آخر النشاطات', addClient: 'إضافة عميل', client: 'العميل', phone: 'الهاتف', lastMessage: 'آخر رسالة', status: 'الحالة', actions: 'إجراءات', conversations: 'المحادثات' },
-  en: { dashboard: 'Dashboard', clients: 'Clients', policies: 'Policies', payments: 'Payments', claims: 'Claims', documents: 'Documents', renewals: 'Renewals', companies: 'Insurance Companies', products: 'Insurance Products', reports: 'Reports', compliance: 'Compliance', messages: 'Messages', notifications: 'Notifications', activity: 'Activity Log', assessments: 'Protection Assessments', totalClients: 'Total Clients', totalPolicies: 'Total Policies', openClaims: 'Open Claims', unread: 'Unread Messages', expiring: 'Expiring Policies', payments: 'Total Payments', documents: 'Documents', agents: 'Current User', expiringTitle: 'Policies Expiring Soon', viewAll: 'View All', recentActivity: 'Recent Activity', addClient: 'Add Client', client: 'Client', phone: 'Phone', lastMessage: 'Last Message', status: 'Status', actions: 'Actions', conversations: 'Conversations' }
+  ar: { dashboard: 'لوحة التحكم', clients: 'العملاء', policies: 'الوثائق', payments: 'الأقساط والمدفوعات', claims: 'المطالبات', documents: 'المستندات', renewals: 'التجديدات', companies: 'شركات التأمين', products: 'المنتجات', insuranceTypes: 'أنواع التأمين', reports: 'التقارير', compliance: 'الامتثال', messages: 'المحادثات', notifications: 'الإشعارات', activity: 'سجل النشاط', assessments: 'تقييمات الحماية', totalClients: 'إجمالي العملاء', totalPolicies: 'إجمالي الوثائق', openClaims: 'المطالبات المفتوحة', unread: 'الرسائل الجديدة', expiring: 'وثائق تنتهي قريبًا', payments: 'إجمالي المدفوعات', documents: 'المستندات', agents: 'المستخدم الحالي', expiringTitle: 'وثائق قريبة الانتهاء', viewAll: 'عرض الكل', recentActivity: 'آخر النشاطات', addClient: 'إضافة عميل', client: 'العميل', phone: 'الهاتف', lastMessage: 'آخر رسالة', status: 'الحالة', actions: 'إجراءات', conversations: 'المحادثات' },
+  en: { dashboard: 'Dashboard', clients: 'Clients', policies: 'Policies', payments: 'Payments', claims: 'Claims', documents: 'Documents', renewals: 'Renewals', companies: 'Insurance Companies', products: 'Insurance Products', insuranceTypes: 'Insurance Types', reports: 'Reports', compliance: 'Compliance', messages: 'Messages', notifications: 'Notifications', activity: 'Activity Log', assessments: 'Protection Assessments', totalClients: 'Total Clients', totalPolicies: 'Total Policies', openClaims: 'Open Claims', unread: 'Unread Messages', expiring: 'Expiring Policies', payments: 'Total Payments', documents: 'Documents', agents: 'Current User', expiringTitle: 'Policies Expiring Soon', viewAll: 'View All', recentActivity: 'Recent Activity', addClient: 'Add Client', client: 'Client', phone: 'Phone', lastMessage: 'Last Message', status: 'Status', actions: 'Actions', conversations: 'Conversations' }
 };
 
 function t(key) {
   return I18N[LANG] && I18N[LANG][key] ? I18N[LANG][key] : key;
 }
 
-function applyLang() {
-  document.documentElement.lang = LANG;
-  document.documentElement.dir = LANG === 'ar' ? 'rtl' : 'ltr';
-  document.querySelectorAll('[data-i]').forEach(function(el) {
-    el.textContent = t(el.dataset.i);
-  });
-  document.getElementById('topLang').textContent = LANG === 'ar' ? 'English' : 'العربية';
-  document.getElementById('langBtn').textContent = LANG === 'ar' ? 'English' : 'العربية';
-  document.getElementById('loginSub').textContent = LANG === 'ar' ? 'مركز تشغيل الوسيط — العملاء والوثائق والمطالبات والمحادثات' : 'Agent Operations Center — clients, policies, claims and messages';
-  document.getElementById('emailLabel').textContent = LANG === 'ar' ? 'البريد الإلكتروني' : 'Email';
-  document.getElementById('passLabel').textContent = LANG === 'ar' ? 'كلمة المرور' : 'Password';
-  document.getElementById('loginBtn').textContent = LANG === 'ar' ? 'دخول لوحة التحكم' : 'Sign in';
-  document.getElementById('logoutBtn').textContent = LANG === 'ar' ? 'تسجيل الخروج' : 'Logout';
-  document.getElementById('quickClient').textContent = LANG === 'ar' ? '+ عميل جديد' : '+ New Client';
-}
-
-function toggleLang() {
-  LANG = LANG === 'ar' ? 'en' : 'ar';
-  localStorage.setItem('sp_admin_lang', LANG);
-  applyLang();
-  renderAll();
-}
-
+// ========================================
+// UTILITY FUNCTIONS
+// ========================================
 function esc(v) {
   if (!v) return '';
   return String(v).replace(/[&<>'"]/g, function(c) {
@@ -490,8 +552,34 @@ function days(end) {
 }
 
 function claimLabel(s) {
-  var map = { new: 'New', under_review: 'Under Review', documents_required: 'Documents Required', approved: 'Approved', settled: 'Settled', rejected: 'Rejected' };
+  var map = { new: 'جديد', under_review: 'قيد المراجعة', documents_required: 'مطلوب مستندات', approved: 'معتمد', settled: 'مسوى', rejected: 'مرفوض' };
   return map[s] || s || '—';
+}
+
+function getInsuranceTypeName(id) {
+  var type = INSURANCE_TYPES.find(function(t) { return t.id === id; });
+  return type ? type.name : id || '—';
+}
+
+function getInsuranceTypeColor(id) {
+  var type = INSURANCE_TYPES.find(function(t) { return t.id === id; });
+  return type ? type.color : '—';
+}
+
+function getInsuranceTypeIcon(id) {
+  var type = INSURANCE_TYPES.find(function(t) { return t.id === id; });
+  return type ? type.icon : '📄';
+}
+
+function getInsuranceTypeBadge(id) {
+  var name = getInsuranceTypeName(id);
+  var color = getInsuranceTypeColor(id);
+  return '<span class="type-badge ' + color + '">' + esc(name) + '</span>';
+}
+
+function getCompanyName(id) {
+  var company = INSURANCE_COMPANIES.find(function(c) { return c.id === id; });
+  return company ? company.name : id || '—';
 }
 
 function toast(m) {
@@ -501,6 +589,9 @@ function toast(m) {
   setTimeout(function() { x.classList.remove('show'); }, 2600);
 }
 
+// ========================================
+// AUTH FUNCTIONS
+// ========================================
 function login() {
   var email = document.getElementById('email').value.trim();
   var pass = document.getElementById('pass').value;
@@ -536,6 +627,35 @@ auth.onAuthStateChanged(function(user) {
   }
 });
 
+// ========================================
+// LANG FUNCTIONS
+// ========================================
+function applyLang() {
+  document.documentElement.lang = LANG;
+  document.documentElement.dir = LANG === 'ar' ? 'rtl' : 'ltr';
+  document.querySelectorAll('[data-i]').forEach(function(el) {
+    el.textContent = t(el.dataset.i);
+  });
+  document.getElementById('topLang').textContent = LANG === 'ar' ? 'English' : 'العربية';
+  document.getElementById('langBtn').textContent = LANG === 'ar' ? 'English' : 'العربية';
+  document.getElementById('loginSub').textContent = LANG === 'ar' ? 'مركز تشغيل الوسيط — العملاء والوثائق والمطالبات والمحادثات' : 'Agent Operations Center — clients, policies, claims and messages';
+  document.getElementById('emailLabel').textContent = LANG === 'ar' ? 'البريد الإلكتروني' : 'Email';
+  document.getElementById('passLabel').textContent = LANG === 'ar' ? 'كلمة المرور' : 'Password';
+  document.getElementById('loginBtn').textContent = LANG === 'ar' ? 'دخول لوحة التحكم' : 'Sign in';
+  document.getElementById('logoutBtn').textContent = LANG === 'ar' ? 'تسجيل الخروج' : 'Logout';
+  document.getElementById('quickClient').textContent = LANG === 'ar' ? '+ عميل جديد' : '+ New Client';
+}
+
+function toggleLang() {
+  LANG = LANG === 'ar' ? 'en' : 'ar';
+  localStorage.setItem('sp_admin_lang', LANG);
+  applyLang();
+  renderAll();
+}
+
+// ========================================
+// DATA LOADING
+// ========================================
 function col(name) {
   return db.collection(name).get()
     .then(function(snap) {
@@ -552,7 +672,7 @@ function col(name) {
 }
 
 function loadAll() {
-  var names = ['clients', 'policies', 'payments', 'claims', 'documents', 'messages', 'notifications', 'activity', 'products', 'companies', 'insuranceAssessments'];
+  var names = ['clients', 'policies', 'payments', 'claims', 'documents', 'messages', 'notifications', 'activity', 'products', 'companies', 'insuranceAssessments', 'insuranceTypes'];
   var promises = names.map(function(n) { return col(n); });
   
   Promise.all(promises).then(function(results) {
@@ -563,10 +683,22 @@ function loadAll() {
         DATA[n] = results[i];
       }
     });
+    
+    // Merge with master data
+    if (DATA.insuranceTypes.length === 0) {
+      DATA.insuranceTypes = INSURANCE_TYPES;
+    }
+    if (DATA.companies.length === 0) {
+      DATA.companies = INSURANCE_COMPANIES;
+    }
+    
     renderAll();
   });
 }
 
+// ========================================
+// RENDER FUNCTIONS
+// ========================================
 function renderAll() {
   renderDashboard();
   renderClients();
@@ -580,12 +712,16 @@ function renderAll() {
   renderRenewals();
   renderCompanies();
   renderProducts();
+  renderInsuranceTypes();
   renderReports();
   renderAssessments();
   refreshSelects();
   updateBadge();
 }
 
+// ========================================
+// DASHBOARD
+// ========================================
 function renderDashboard() {
   var openClaims = DATA.claims.filter(function(x) { return !['settled', 'rejected'].includes(x.status); }).length;
   var unread = DATA.messages.filter(function(x) { return x.sender === 'client' && !x.autoReply && !x.readByAdmin; }).length;
@@ -612,16 +748,18 @@ function renderDashboard() {
   document.getElementById('sActive').textContent = active + (LANG === 'ar' ? ' سارية' : ' active');
   document.getElementById('sProtectionAvg').textContent = avg === null ? '—' : avg + '%';
 
+  // Expiring policies
   var expiringHtml = DATA.policies
     .filter(function(p) { return days(p.endDate) >= 0 && days(p.endDate) <= 45; })
     .sort(function(a, b) { return days(a.endDate) - days(b.endDate); })
     .slice(0, 8)
     .map(function(p) {
-      return '<div class="item"><b>' + esc(clientName(p.clientId)) + '</b><p>' + esc(p.company) + ' • ' + esc(p.policyNumber) + ' • ' + date(p.endDate) + ' <span class="pill red">' + days(p.endDate) + ' ' + (LANG === 'ar' ? 'يوم' : 'days') + '</span></p></div>';
+      return '<div class="item"><b>' + esc(clientName(p.clientId)) + '</b><p>' + esc(getCompanyName(p.company)) + ' • ' + esc(p.policyNumber) + ' • ' + date(p.endDate) + ' <span class="pill red">' + days(p.endDate) + ' ' + (LANG === 'ar' ? 'يوم' : 'days') + '</span></p></div>';
     })
     .join('') || '<div class="empty">—</div>';
   document.getElementById('dashExpiring').innerHTML = expiringHtml;
 
+  // Activity
   var activityHtml = DATA.activity
     .slice()
     .sort(function(a, b) { return ms(b.createdAt) - ms(a.createdAt); })
@@ -631,8 +769,41 @@ function renderDashboard() {
     })
     .join('') || '<div class="empty">—</div>';
   document.getElementById('dashActivity').innerHTML = activityHtml;
+
+  // Insurance Type Summary
+  renderInsuranceTypeSummary();
 }
 
+function renderInsuranceTypeSummary() {
+  var container = document.getElementById('insuranceTypeSummary');
+  if (!container) return;
+  
+  var typeCount = {};
+  DATA.policies.forEach(function(p) {
+    var type = p.type || 'other';
+    typeCount[type] = (typeCount[type] || 0) + 1;
+  });
+  
+  document.getElementById('typeCount').textContent = Object.keys(typeCount).length + ' نوع';
+  
+  var html = '';
+  for (var typeId in typeCount) {
+    var count = typeCount[typeId];
+    var name = getInsuranceTypeName(typeId);
+    var icon = getInsuranceTypeIcon(typeId);
+    var color = getInsuranceTypeColor(typeId);
+    html += '<div class="item" style="flex:1;min-width:100px;text-align:center;border-color:' + color + ';border-width:2px;">' +
+      '<div style="font-size:20px;">' + icon + '</div>' +
+      '<b>' + esc(name) + '</b>' +
+      '<div><span class="pill blue">' + count + ' وثيقة</span></div>' +
+    '</div>';
+  }
+  container.innerHTML = html || '<div class="empty">لا توجد وثائق بعد</div>';
+}
+
+// ========================================
+// CLIENTS
+// ========================================
 function renderClients() {
   var q = (document.getElementById('clientSearch')?.value || '').toLowerCase();
   var html = DATA.clients
@@ -654,20 +825,27 @@ function renderClients() {
   document.getElementById('clientsBody').innerHTML = html || '<tr><td colspan="8"><div class="empty">لا يوجد عملاء</div></td></tr>';
 }
 
+// ========================================
+// POLICIES
+// ========================================
 function renderPolicies() {
   var q = (document.getElementById('policySearch')?.value || '').toLowerCase();
   var html = DATA.policies
     .filter(function(p) {
-      var searchText = [clientName(p.clientId), p.company, p.policyNumber, p.type].join(' ').toLowerCase();
+      var searchText = [clientName(p.clientId), getCompanyName(p.company), p.policyNumber, getInsuranceTypeName(p.type)].join(' ').toLowerCase();
       return searchText.includes(q);
     })
     .map(function(p) {
-      return '<tr><td>' + esc(clientName(p.clientId)) + '</td><td>' + esc(p.type) + '</td><td>' + esc(p.company) + '</td><td>' + esc(p.policyNumber) + '</td><td>' + Number(p.premium || 0).toLocaleString('en-US') + ' EGP</td><td>' + date(p.endDate) + '</td><td>' + (days(p.endDate) < 0 ? '<span class="pill red">Expired</span>' : days(p.endDate) <= 30 ? '<span class="pill red">Expiring</span>' : '<span class="pill">Active</span>') + '</td></tr>';
+      var typeBadge = getInsuranceTypeBadge(p.type);
+      return '<tr><td>' + esc(clientName(p.clientId)) + '</td><td>' + typeBadge + '</td><td>' + esc(getCompanyName(p.company)) + '</td><td>' + esc(p.policyNumber) + '</td><td>' + Number(p.premium || 0).toLocaleString('en-US') + ' EGP</td><td>' + date(p.endDate) + '</td><td>' + (days(p.endDate) < 0 ? '<span class="pill red">منتهية</span>' : days(p.endDate) <= 30 ? '<span class="pill red">تنتهي قريباً</span>' : '<span class="pill">سارية</span>') + '</td></tr>';
     })
     .join('');
   document.getElementById('policiesBody').innerHTML = html || '<tr><td colspan="7"><div class="empty">لا توجد وثائق</div></td></tr>';
 }
 
+// ========================================
+// PAYMENTS
+// ========================================
 function renderPayments() {
   var q = (document.getElementById('paymentSearch')?.value || '').toLowerCase();
   var html = DATA.payments
@@ -684,6 +862,9 @@ function renderPayments() {
   document.getElementById('paymentsBody').innerHTML = html || '<tr><td colspan="6"><div class="empty">لا توجد مدفوعات</div></td></tr>';
 }
 
+// ========================================
+// CLAIMS
+// ========================================
 function renderClaims() {
   var q = (document.getElementById('claimSearch')?.value || '').toLowerCase();
   var html = DATA.claims
@@ -694,12 +875,15 @@ function renderClaims() {
     .sort(function(a, b) { return ms(b.updatedAt || b.createdAt) - ms(a.updatedAt || a.createdAt); })
     .map(function(c) {
       var policy = DATA.policies.find(function(x) { return x.id === c.policyId; });
-      return '<tr><td>' + esc(clientName(c.clientId)) + '</td><td>' + esc(c.type) + '</td><td>' + esc(c.policyNumber || policy?.policyNumber || '—') + '</td><td>' + Number(c.amount || 0).toLocaleString('en-US') + ' EGP</td><td><span class="pill ' + (['rejected', 'settled'].includes(c.status) ? '' : 'blue') + '">' + esc(claimLabel(c.status)) + '</span></td><td>' + date(c.updatedAt || c.createdAt) + '</td><td><select onchange="changeClaim(\'' + c.id + '\',this.value)"><option value="">Update</option><option value="under_review">Under Review</option><option value="documents_required">Documents Required</option><option value="approved">Approved</option><option value="settled">Settled</option><option value="rejected">Rejected</option></select></td></tr>';
+      return '<tr><td>' + esc(clientName(c.clientId)) + '</td><td>' + esc(c.type) + '</td><td>' + esc(c.policyNumber || policy?.policyNumber || '—') + '</td><td>' + Number(c.amount || 0).toLocaleString('en-US') + ' EGP</td><td><span class="pill ' + (['rejected', 'settled'].includes(c.status) ? '' : 'blue') + '">' + esc(claimLabel(c.status)) + '</span></td><td>' + date(c.updatedAt || c.createdAt) + '</td><td><select onchange="changeClaim(\'' + c.id + '\',this.value)"><option value="">تحديث</option><option value="under_review">قيد المراجعة</option><option value="documents_required">مطلوب مستندات</option><option value="approved">معتمد</option><option value="settled">مسوى</option><option value="rejected">مرفوض</option></select></td></tr>';
     })
     .join('');
   document.getElementById('claimsBody').innerHTML = html || '<tr><td colspan="7"><div class="empty">لا توجد مطالبات</div></td></tr>';
 }
 
+// ========================================
+// DOCUMENTS
+// ========================================
 function renderDocuments() {
   var q = (document.getElementById('docSearch')?.value || '').toLowerCase();
   var html = DATA.documents
@@ -710,17 +894,20 @@ function renderDocuments() {
     .sort(function(a, b) { return ms(b.createdAt) - ms(a.createdAt); })
     .map(function(d) {
       var st = String(d.verificationStatus || '').toLowerCase();
-      var badge = st === 'pending' ? '<span class="pill red">Pending Verification</span>' : st === 'approved' ? '<span class="pill">Approved</span>' : st === 'rejected' ? '<span class="pill red">Rejected</span>' : '<span class="pill blue">—</span>';
+      var badge = st === 'pending' ? '<span class="pill red">قيد المراجعة</span>' : st === 'approved' ? '<span class="pill">معتمد</span>' : st === 'rejected' ? '<span class="pill red">مرفوض</span>' : '<span class="pill blue">—</span>';
       var url = d.dataUrl || d.downloadURL || d.fileUrl || d.url || '';
       var openBtn = url ? '<button class="btn outline" style="padding:6px 9px" onclick="window.open(\'' + url + '\',\'_blank\')">فتح</button>' : '<button class="btn outline" style="padding:6px 9px" onclick="toast(\'لا يوجد رابط للملف\')">فتح</button>';
       var verifyBtns = st === 'pending' ? '<button class="btn outline" style="padding:6px 9px" onclick="verifyDocument(\'' + d.id + '\',\'approved\')">اعتماد</button><button class="btn danger" style="padding:6px 9px" onclick="verifyDocument(\'' + d.id + '\',\'rejected\')">رفض</button>' : '';
       
-      return '<tr><td>' + esc(clientName(d.clientId)) + '</td><td>' + esc(d.fileName || '—') + '</td><td>' + esc(d.fileType || '—') + '</td><td>' + (d.uploadedBy === 'agent' ? '<span class="pill blue">Agent</span>' : '<span class="pill">Client</span>') + '</td><td>' + badge + '</td><td>' + date(d.createdAt) + '</td><td><div class="actions">' + openBtn + verifyBtns + '</div></td></tr>';
+      return '<tr><td>' + esc(clientName(d.clientId)) + '</td><td>' + esc(d.fileName || '—') + '</td><td>' + esc(d.fileType || '—') + '</td><td>' + (d.uploadedBy === 'agent' ? '<span class="pill blue">وكيل</span>' : '<span class="pill">عميل</span>') + '</td><td>' + badge + '</td><td>' + date(d.createdAt) + '</td><td><div class="actions">' + openBtn + verifyBtns + '</div></td></tr>';
     })
     .join('');
   document.getElementById('documentsBody').innerHTML = html || '<tr><td colspan="7"><div class="empty">لا توجد مستندات</div></td></tr>';
 }
 
+// ========================================
+// CONVERSATIONS
+// ========================================
 function renderConversations() {
   var ids = [];
   DATA.messages.forEach(function(m) {
@@ -730,23 +917,26 @@ function renderConversations() {
   var html = ids.map(function(id) {
     var msgs = DATA.messages.filter(function(m) { return m.clientId === id; }).sort(function(a, b) { return ms(b.createdAt) - ms(a.createdAt); });
     var unread = msgs.some(function(m) { return m.sender === 'client' && !m.autoReply && !m.readByAdmin; });
-    return '<div class="item ' + (unread ? 'unread' : '') + '" onclick="openClientChat(\'' + id + '\')"><h4>' + esc(clientName(id)) + (unread ? ' <span class="pill red">New</span>' : '') + '</h4><p>' + esc(msgs[0]?.text || '') + ' • ' + ago(msgs[0]?.createdAt) + ' • ' + msgs.length + ' messages</p></div>';
+    return '<div class="item ' + (unread ? 'unread' : '') + '" onclick="openClientChat(\'' + id + '\')"><h4>' + esc(clientName(id)) + (unread ? ' <span class="pill red">جديد</span>' : '') + '</h4><p>' + esc(msgs[0]?.text || '') + ' • ' + ago(msgs[0]?.createdAt) + ' • ' + msgs.length + ' رسائل</p></div>';
   }).join('');
   document.getElementById('conversationList').innerHTML = html || '<div class="empty">لا توجد محادثات</div>';
 }
 
+// ========================================
+// RENEWALS
+// ========================================
 function renderRenewals() {
   var q = (document.getElementById('renewalSearch')?.value || '').toLowerCase();
   var list = DATA.policies
     .filter(function(p) { return days(p.endDate) >= 0 && days(p.endDate) <= 45; })
     .filter(function(p) {
-      var searchText = [clientName(p.clientId), p.policyNumber, p.company].join(' ').toLowerCase();
+      var searchText = [clientName(p.clientId), p.policyNumber, getCompanyName(p.company)].join(' ').toLowerCase();
       return searchText.includes(q);
     })
     .sort(function(a, b) { return days(a.endDate) - days(b.endDate); });
   
   var html = list.map(function(p) {
-    return '<tr><td>' + esc(clientName(p.clientId)) + '</td><td>' + esc(p.policyNumber) + '</td><td>' + esc(p.company) + '</td><td>' + date(p.endDate) + '</td><td>' + days(p.endDate) + ' يوم</td><td><button class="btn outline" onclick="notify(\'' + p.clientId + '\',\'تذكير تجديد\',\'وثيقتك تقترب من موعد التجديد.\')">إرسال تذكير</button></td></tr>';
+    return '<tr><td>' + esc(clientName(p.clientId)) + '</td><td>' + esc(p.policyNumber) + '</td><td>' + esc(getCompanyName(p.company)) + '</td><td>' + date(p.endDate) + '</td><td>' + days(p.endDate) + ' يوم</td><td><button class="btn outline" onclick="notify(\'' + p.clientId + '\',\'تذكير تجديد\',\'وثيقتك ' + (p.policyNumber || '') + ' تقترب من موعد التجديد.\')">إرسال تذكير</button></td></tr>';
   }).join('');
   document.getElementById('renewalsBody').innerHTML = html || '<tr><td colspan="6"><div class="empty">لا توجد تجديدات قريبة</div></td></tr>';
 }
@@ -761,59 +951,46 @@ function runRenewalReminders() {
   });
 }
 
-function allCompanies() {
-  var map = {};
-  (DATA.policies || []).forEach(function(p) {
-    if (p.company) {
-      var k = p.company.trim();
-      if (!map[k]) map[k] = { name: k, logo: '' };
-    }
-  });
-  (DATA.companies || []).forEach(function(c) {
-    if (c.name) {
-      var k = c.name.trim();
-      if (!map[k]) map[k] = { name: k, logo: '' };
-      map[k].logo = c.logoUrl || c.logo || map[k].logo;
-    }
-  });
-  return Object.values(map).sort(function(a, b) { return a.name.localeCompare(b.name); });
-}
-
+// ========================================
+// COMPANIES
+// ========================================
 function renderCompanies() {
-  var companies = allCompanies();
+  var q = (document.getElementById('companySearch')?.value || '').toLowerCase();
+  var companies = DATA.companies.filter(function(c) {
+    return c.name.toLowerCase().includes(q) || (c.nameEn || '').toLowerCase().includes(q);
+  });
+  
   var html = companies.map(function(c) {
-    var key = encodeURIComponent(c.name);
+    var key = encodeURIComponent(c.id || c.name);
+    var policyCount = DATA.policies.filter(function(p) { return p.company === c.id || p.company === c.name; }).length;
+    var productCount = (DATA.products || []).filter(function(p) { return p.company === c.id || p.company === c.name || p.companyName === c.name; }).length;
+    
     var logoHtml = c.logo ? '<img src="' + esc(c.logo) + '" alt="" style="width:42px;height:42px;object-fit:contain;border-radius:10px;background:#fff" onerror="this.style.display=\'none\'">' : '<div class="avatar">' + esc(c.name.slice(0, 2)) + '</div>';
-    return '<div class="item"><div class="name"><div style="width:48px;min-width:48px;height:48px;display:grid;place-items:center">' + logoHtml + '</div><div style="flex:1"><h4>' + esc(c.name) + '</h4><p>' + DATA.policies.filter(function(p) { return p.company === c.name; }).length + ' وثيقة • ' + (DATA.products || []).filter(function(p) { return (p.companyName || p.company) === c.name; }).length + ' منتج</p></div><button class="btn outline" style="padding:7px 12px;white-space:nowrap" onclick="openCompanyProfileEncoded(\'' + key + '\')">فتح</button></div></div>';
+    
+    return '<div class="item"><div class="name"><div style="width:48px;min-width:48px;height:48px;display:grid;place-items:center">' + logoHtml + '</div><div style="flex:1"><h4>' + esc(c.name) + '</h4><p>' + policyCount + ' وثيقة • ' + productCount + ' منتج</p></div><button class="btn outline" style="padding:7px 12px;white-space:nowrap" onclick="openCompanyProfile(\'' + key + '\')">فتح</button></div></div>';
   }).join('');
   document.getElementById('companiesList').innerHTML = html || '<div class="empty">لا توجد شركات تأمين</div>';
 }
 
-function openCompanyProfileEncoded(value) {
-  try {
-    openCompanyProfile(decodeURIComponent(value));
-  } catch (e) {
-    toast('تعذر فتح بيانات الشركة');
-  }
-}
+function openCompanyProfile(value) {
+  var company = DATA.companies.find(function(c) { return c.id === value || c.name === value; });
+  if (!company) { toast('لم يتم العثور على الشركة'); return; }
+  
+  var policies = DATA.policies.filter(function(p) { return p.company === company.id || p.company === company.name; });
+  var products = (DATA.products || []).filter(function(p) { return p.company === company.id || p.company === company.name || p.companyName === company.name; });
 
-function openCompanyProfile(name) {
-  var policies = DATA.policies.filter(function(p) { return String(p.company || '').trim() === String(name || '').trim(); });
-  var products = (DATA.products || []).filter(function(p) { return String(p.companyName || p.company || '').trim() === String(name || '').trim(); });
-  var company = (DATA.companies || []).find(function(c) { return String(c.name || '').trim() === String(name || '').trim(); }) || {};
-
-  document.getElementById('companyProfileName').textContent = name;
+  document.getElementById('companyProfileName').textContent = company.name;
   document.getElementById('companyProfileMeta').textContent = policies.length + ' وثيقة • ' + products.length + ' منتج';
   
-  var logoHtml = company.logoUrl || company.logo ? '<img src="' + esc(company.logoUrl || company.logo) + '" style="max-width:58px;max-height:58px;object-fit:contain" onerror="this.style.display=\'none\'">' : '<div class="avatar" style="width:52px;height:52px">' + esc(String(name).slice(0, 2)) + '</div>';
+  var bodyHtml = '<div class="card" style="padding:15px;margin-bottom:15px"><div class="name"><div style="width:62px;height:62px;display:grid;place-items:center">' + 
+    (company.logo ? '<img src="' + esc(company.logo) + '" style="max-width:58px;max-height:58px;object-fit:contain" onerror="this.style.display=\'none\'">' : '<div class="avatar" style="width:52px;height:52px">' + esc(company.name.slice(0, 2)) + '</div>') + 
+    '</div><div><h3 style="margin:0;color:var(--navy);font-family:Tajawal">' + esc(company.name) + '</h3><p class="muted" style="margin:4px 0">' + esc(company.description || 'ملف شركة التأمين والوثائق المرتبطة بها') + '</p></div></div></div>';
   
-  var bodyHtml = '<div class="card" style="padding:15px;margin-bottom:15px"><div class="name"><div style="width:62px;height:62px;display:grid;place-items:center">' + logoHtml + '</div><div><h3 style="margin:0;color:var(--navy);font-family:Tajawal">' + esc(name) + '</h3><p class="muted" style="margin:4px 0">' + esc(company.description || 'ملف شركة التأمين والوثائق المرتبطة بها') + '</p></div></div></div>';
-  
-  bodyHtml += '<div class="card panel"><div class="panelhead"><h3>الوثائق المرتبطة بالشركة</h3><span class="pill blue">' + policies.length + '</span></div><table><thead><tr><th>العميل</th><th>الوثيقة</th><th>النوع</th><th>البداية</th><th>الانتهاء</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody>';
+  bodyHtml += '<div class="card panel"><div class="panelhead"><h3>الوثائق المرتبطة بالشركة</h3><span class="pill blue">' + policies.length + '</span></div><table><thead><tr><th>العميل</th><th>النوع</th><th>رقم الوثيقة</th><th>الانتهاء</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody>';
   
   bodyHtml += policies.map(function(p) {
-    return '<tr><td>' + esc(clientName(p.clientId)) + '</td><td>' + esc(p.policyNumber || '—') + '</td><td>' + esc(p.type || '—') + '</td><td>' + date(p.startDate) + '</td><td>' + date(p.endDate) + '</td><td>' + esc(p.status || '—') + '</td><td><button class="btn outline" style="padding:5px 8px" onclick="openClientProfileEncoded(\'' + encodeURIComponent(p.clientId) + '\')">عرض العميل</button></td></tr>';
-  }).join('') || '<tr><td colspan="7"><div class="empty">لا توجد وثائق مرتبطة بهذه الشركة</div></td></tr>';
+    return '<tr><td>' + esc(clientName(p.clientId)) + '</td><td>' + getInsuranceTypeBadge(p.type) + '</td><td>' + esc(p.policyNumber || '—') + '</td><td>' + date(p.endDate) + '</td><td>' + (days(p.endDate) < 0 ? '<span class="pill red">منتهية</span>' : days(p.endDate) <= 30 ? '<span class="pill red">تنتهي قريباً</span>' : '<span class="pill">سارية</span>') + '</td><td><button class="btn outline" style="padding:5px 8px" onclick="openClientProfile(\'' + p.clientId + '\')">عرض العميل</button></td></tr>';
+  }).join('') || '<tr><td colspan="6"><div class="empty">لا توجد وثائق مرتبطة بهذه الشركة</div></td></tr>';
   
   bodyHtml += '</tbody></table></div>';
   
@@ -827,6 +1004,33 @@ function openCompanyProfile(name) {
   modal('companyProfileModal');
 }
 
+// ========================================
+// INSURANCE TYPES
+// ========================================
+function renderInsuranceTypes() {
+  var q = (document.getElementById('typeSearch')?.value || '').toLowerCase();
+  var types = DATA.insuranceTypes.filter(function(t) {
+    return t.name.includes(q) || (t.nameEn || '').toLowerCase().includes(q);
+  });
+  
+  var html = types.map(function(t) {
+    var policyCount = DATA.policies.filter(function(p) { return p.type === t.id; }).length;
+    return '<div class="card" style="overflow:hidden;border-color:' + t.color + ';border-width:2px;">' +
+      '<div style="background:var(--paper);padding:20px;text-align:center;font-size:40px;">' + t.icon + '</div>' +
+      '<div style="padding:15px;text-align:center;">' +
+        '<h3 style="color:var(--navy);font-family:Tajawal;margin:0;">' + esc(t.name) + '</h3>' +
+        '<div class="muted" style="font-size:11px;margin:4px 0;">' + esc(t.description || '') + '</div>' +
+        '<span class="pill blue">' + policyCount + ' وثيقة</span>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+  
+  document.getElementById('insuranceTypesGrid').innerHTML = html || '<div class="empty">لا توجد أنواع تأمين</div>';
+}
+
+// ========================================
+// PRODUCTS
+// ========================================
 function renderProducts() {
   var q = (document.getElementById('productSearch')?.value || '').toLowerCase();
   var products = (DATA.products || []).filter(function(p) {
@@ -835,37 +1039,20 @@ function renderProducts() {
   });
   
   var html = products.map(function(p) {
-    var company = p.companyName || p.company || '—';
+    var company = getCompanyName(p.company || p.companyName);
+    var typeName = getInsuranceTypeName(p.type);
+    var typeIcon = getInsuranceTypeIcon(p.type);
     var feats = Array.isArray(p.features) ? p.features : String(p.features || p.benefits || '').split(/\r?\n/).filter(Boolean);
     var imgHtml = p.imageUrl ? '<img src="' + esc(p.imageUrl) + '" style="width:100%;height:140px;object-fit:cover">' : '<div style="height:140px;background:linear-gradient(135deg,var(--navy),var(--navy2));display:grid;place-items:center;color:#fff;font:900 24px Tajawal">' + esc(company) + '</div>';
     
-    return '<div class="card" style="overflow:hidden">' + imgHtml + '<div style="padding:15px"><div class="muted">' + esc(company) + '</div><h3 style="color:var(--navy);font-family:Tajawal;margin:5px 0">' + esc(p.name) + '</h3><p style="font-size:12px;margin:5px 0">' + esc(p.description || '') + '</p><ul style="font-size:11px;padding-right:15px;margin:8px 0">' + feats.slice(0, 5).map(function(x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul><span class="pill">' + esc(p.status || 'draft') + '</span>' + (p.published === true || p.status === 'published' ? '<span class="pill blue" style="margin-inline-start:5px">ظاهر للمستخدم</span>' : '') + '<div class="muted" style="font-size:9px;margin-top:8px">' + esc(p.disclaimer || '') + '</div></div></div>';
+    return '<div class="card" style="overflow:hidden">' + imgHtml + '<div style="padding:15px"><div class="muted">' + esc(company) + ' • ' + typeIcon + ' ' + esc(typeName) + '</div><h3 style="color:var(--navy);font-family:Tajawal;margin:5px 0">' + esc(p.name) + '</h3><p style="font-size:12px;margin:5px 0">' + esc(p.description || '') + '</p><ul style="font-size:11px;padding-right:15px;margin:8px 0">' + feats.slice(0, 5).map(function(x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul><span class="pill">' + esc(p.status || 'draft') + '</span>' + (p.published === true || p.status === 'published' ? '<span class="pill blue" style="margin-inline-start:5px">ظاهر للمستخدم</span>' : '') + '<div class="muted" style="font-size:9px;margin-top:8px">' + esc(p.disclaimer || '') + '</div></div></div>';
   }).join('');
   document.getElementById('productsGrid').innerHTML = html || '<div class="empty">لا توجد منتجات</div>';
 }
 
-function renderNotifications() {
-  var html = DATA.notifications
-    .sort(function(a, b) { return ms(b.createdAt) - ms(a.createdAt); })
-    .slice(0, 50)
-    .map(function(n) {
-      return '<div class="item"><h4>' + esc(n.title || 'Notification') + ' — ' + esc(clientName(n.clientId)) + '</h4><p>' + esc(n.body || '') + ' • ' + date(n.createdAt) + '</p></div>';
-    })
-    .join('');
-  document.getElementById('notificationsList').innerHTML = html || '<div class="empty">لا توجد إشعارات</div>';
-}
-
-function renderActivity() {
-  var html = DATA.activity
-    .sort(function(a, b) { return ms(b.createdAt) - ms(a.createdAt); })
-    .slice(0, 100)
-    .map(function(a) {
-      return '<div class="item"><h4>' + esc(a.action || a.type || 'Activity') + '</h4><p>' + esc(a.description || a.text || '') + ' • ' + date(a.createdAt) + '</p></div>';
-    })
-    .join('');
-  document.getElementById('activityList').innerHTML = html || '<div class="empty">لا يوجد سجل نشاط حتى الآن</div>';
-}
-
+// ========================================
+// REPORTS
+// ========================================
 function renderReports() {
   var active = DATA.policies.filter(function(x) { return days(x.endDate) >= 0; }).length;
   var exp = DATA.policies.filter(function(x) { return days(x.endDate) >= 0 && days(x.endDate) <= 45; }).length;
@@ -875,8 +1062,79 @@ function renderReports() {
   document.getElementById('rActive').textContent = active;
   document.getElementById('rRenewals').textContent = exp;
   document.getElementById('rPaid').textContent = paid.toLocaleString('en-US') + ' EGP';
+  
+  // Type Distribution
+  renderReportTypeDistribution();
+  renderReportCompanyDistribution();
 }
 
+function renderReportTypeDistribution() {
+  var container = document.getElementById('reportTypeDistribution');
+  if (!container) return;
+  
+  var typeCount = {};
+  DATA.policies.forEach(function(p) {
+    var type = p.type || 'other';
+    typeCount[type] = (typeCount[type] || 0) + 1;
+  });
+  
+  var sorted = Object.keys(typeCount).sort(function(a, b) { return typeCount[b] - typeCount[a]; });
+  var html = sorted.map(function(typeId) {
+    var count = typeCount[typeId];
+    var name = getInsuranceTypeName(typeId);
+    var icon = getInsuranceTypeIcon(typeId);
+    var color = getInsuranceTypeColor(typeId);
+    var percent = DATA.policies.length ? Math.round((count / DATA.policies.length) * 100) : 0;
+    
+    return '<div class="item" style="border-color:' + color + ';border-right:4px solid ' + color + ';">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+        '<div><span style="font-size:18px;">' + icon + '</span> <b>' + esc(name) + '</b></div>' +
+        '<div><span class="pill blue">' + count + ' (' + percent + '%)</span></div>' +
+      '</div>' +
+      '<div style="width:100%;height:6px;background:var(--line);border-radius:3px;margin-top:6px;">' +
+        '<div style="width:' + percent + '%;height:6px;background:' + color + ';border-radius:3px;"></div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+  
+  container.innerHTML = html || '<div class="empty">لا توجد بيانات</div>';
+}
+
+function renderReportCompanyDistribution() {
+  var container = document.getElementById('reportCompanyDistribution');
+  if (!container) return;
+  
+  var companyCount = {};
+  DATA.policies.forEach(function(p) {
+    var company = p.company || 'other';
+    companyCount[company] = (companyCount[company] || 0) + 1;
+  });
+  
+  var sorted = Object.keys(companyCount).sort(function(a, b) { return companyCount[b] - companyCount[a]; });
+  var html = sorted.slice(0, 10).map(function(companyId) {
+    var count = companyCount[companyId];
+    var name = getCompanyName(companyId);
+    var percent = DATA.policies.length ? Math.round((count / DATA.policies.length) * 100) : 0;
+    var colors = ['#0E2A5C', '#164080', '#F4C06B', '#2F7D58', '#B5482D', '#2E67B1', '#7255B7', '#1a6bc4', '#b8306a', '#1a8a4a'];
+    var colorIndex = sorted.indexOf(companyId) % colors.length;
+    
+    return '<div class="item">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+        '<div><b>' + esc(name) + '</b></div>' +
+        '<div><span class="pill blue">' + count + ' (' + percent + '%)</span></div>' +
+      '</div>' +
+      '<div style="width:100%;height:6px;background:var(--line);border-radius:3px;margin-top:6px;">' +
+        '<div style="width:' + percent + '%;height:6px;background:' + colors[colorIndex] + ';border-radius:3px;"></div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+  
+  container.innerHTML = html || '<div class="empty">لا توجد بيانات</div>';
+}
+
+// ========================================
+// ASSESSMENTS
+// ========================================
 function renderAssessments() {
   var q = (document.getElementById('assessmentSearch')?.value || '').toLowerCase();
   var list = (DATA.assessments || []).filter(function(a) {
@@ -941,6 +1199,34 @@ function openAssessment(id) {
   modal('assessmentModal');
 }
 
+// ========================================
+// NOTIFICATIONS & ACTIVITY
+// ========================================
+function renderNotifications() {
+  var html = DATA.notifications
+    .sort(function(a, b) { return ms(b.createdAt) - ms(a.createdAt); })
+    .slice(0, 50)
+    .map(function(n) {
+      return '<div class="item"><h4>' + esc(n.title || 'Notification') + ' — ' + esc(clientName(n.clientId)) + '</h4><p>' + esc(n.body || '') + ' • ' + date(n.createdAt) + '</p></div>';
+    })
+    .join('');
+  document.getElementById('notificationsList').innerHTML = html || '<div class="empty">لا توجد إشعارات</div>';
+}
+
+function renderActivity() {
+  var html = DATA.activity
+    .sort(function(a, b) { return ms(b.createdAt) - ms(a.createdAt); })
+    .slice(0, 100)
+    .map(function(a) {
+      return '<div class="item"><h4>' + esc(a.action || a.type || 'Activity') + '</h4><p>' + esc(a.description || a.text || '') + ' • ' + date(a.createdAt) + '</p></div>';
+    })
+    .join('');
+  document.getElementById('activityList').innerHTML = html || '<div class="empty">لا يوجد سجل نشاط حتى الآن</div>';
+}
+
+// ========================================
+// CHAT / MESSAGES
+// ========================================
 function updateBadge() {
   var n = DATA.messages.filter(function(m) { return m.sender === 'client' && !m.autoReply && !m.readByAdmin; }).length;
   document.getElementById('msgBadge').textContent = n;
@@ -973,7 +1259,7 @@ function openClientChat(id) {
     var docs = snap.docs.slice().sort(function(a, b) { return ms(a.data().createdAt) - ms(b.data().createdAt); });
     var html = docs.map(function(d) {
       var m = d.data();
-      return '<div class="bubble ' + (m.sender === 'agent' ? 'agent' : 'client') + '">' + esc(m.text) + (m.autoReply ? '<div style="font-size:9px;opacity:.65;margin-top:3px">Auto reply</div>' : '') + '</div>';
+      return '<div class="bubble ' + (m.sender === 'agent' ? 'agent' : 'client') + '">' + esc(m.text) + (m.autoReply ? '<div style="font-size:9px;opacity:.65;margin-top:3px">رد تلقائي</div>' : '') + '</div>';
     }).join('') || '<div class="empty">لا توجد رسائل</div>';
     document.getElementById('chatList').innerHTML = html;
     document.getElementById('chatList').scrollTop = 999999;
@@ -1006,6 +1292,9 @@ function sendMessage() {
   });
 }
 
+// ========================================
+// UI HELPERS
+// ========================================
 function showView(view, el) {
   document.querySelectorAll('.view').forEach(function(x) { x.classList.remove('active'); });
   var node = document.getElementById('v-' + view);
@@ -1029,6 +1318,29 @@ function closeModal(id) {
 }
 
 function refreshSelects() {
+  // Populate insurance types in selects
+  var typeSelects = ['pType', 'uType', 'prType'];
+  typeSelects.forEach(function(id) {
+    var s = document.getElementById(id);
+    if (!s) return;
+    s.innerHTML = '<option value="">اختر النوع</option>';
+    DATA.insuranceTypes.forEach(function(t) {
+      s.innerHTML += '<option value="' + t.id + '">' + t.name + ' ' + t.icon + '</option>';
+    });
+  });
+  
+  // Populate companies in selects
+  var companySelects = ['pCompany', 'uCompany', 'prCompany'];
+  companySelects.forEach(function(id) {
+    var s = document.getElementById(id);
+    if (!s) return;
+    s.innerHTML = '<option value="">اختر الشركة</option>';
+    DATA.companies.forEach(function(c) {
+      s.innerHTML += '<option value="' + (c.id || c.name) + '">' + c.name + '</option>';
+    });
+  });
+  
+  // Populate clients
   ['pClient', 'payClient', 'clClient'].forEach(function(id) {
     var s = document.getElementById(id);
     if (!s) return;
@@ -1049,6 +1361,9 @@ function refreshPolicySelect(clientId, policyId) {
   });
 }
 
+// ========================================
+// MODAL OPENERS
+// ========================================
 function openClientModal() {
   document.getElementById('cErr').textContent = '';
   modal('clientModal');
@@ -1078,33 +1393,22 @@ function openClaimModal(cid) {
   modal('claimModal');
 }
 
-function openClientProfileEncoded(value) {
-  try {
-    openClientProfile(decodeURIComponent(value));
-  } catch (e) {
-    toast('تعذر فتح ملف العميل');
-  }
-}
-
 function openCompanyModal() {
   document.getElementById('coErr').textContent = '';
   modal('companyModal');
 }
 
-function openProductModal() {
-  document.getElementById('prErr').textContent = '';
-  fillProductCompanies();
-  modal('productModal');
+function openInsuranceTypeModal() {
+  document.getElementById('itErr').textContent = '';
+  document.getElementById('itName').value = '';
+  document.getElementById('itDesc').value = '';
+  modal('insuranceTypeModal');
 }
 
-function fillProductCompanies() {
-  var companies = allCompanies();
-  var prComp = document.getElementById('prCompany');
-  if (!prComp) return;
-  prComp.innerHTML = '<option value="">اختر الشركة</option>';
-  companies.forEach(function(c) {
-    prComp.innerHTML += '<option value="' + esc(c.name) + '">' + esc(c.name) + '</option>';
-  });
+function openProductModal() {
+  document.getElementById('prErr').textContent = '';
+  refreshSelects();
+  modal('productModal');
 }
 
 function openClientProfile(id) {
@@ -1133,7 +1437,7 @@ function openClientProfile(id) {
   
   bodyHtml += '<div class="card panel"><div class="panelhead"><h3>وثائق العميل</h3></div><table><thead><tr><th>النوع</th><th>الشركة</th><th>رقم الوثيقة</th><th>الانتهاء</th><th>القسط</th><th>ملفات</th></tr></thead><tbody>';
   bodyHtml += policies.map(function(p) {
-    return '<tr><td>' + esc(p.type) + '</td><td>' + esc(p.company) + '</td><td>' + esc(p.policyNumber) + '</td><td>' + date(p.endDate) + '</td><td>' + Number(p.premium || 0).toLocaleString('en-US') + ' EGP</td><td><button class="btn outline" style="padding:6px" onclick="openClientDocuments(\'' + id + '\',\'' + p.id + '\')">📎 فتح الملفات</button></td></tr>';
+    return '<tr><td>' + getInsuranceTypeBadge(p.type) + '</td><td>' + esc(getCompanyName(p.company)) + '</td><td>' + esc(p.policyNumber) + '</td><td>' + date(p.endDate) + '</td><td>' + Number(p.premium || 0).toLocaleString('en-US') + ' EGP</td><td><button class="btn outline" style="padding:6px" onclick="openClientDocuments(\'' + id + '\',\'' + p.id + '\')">📎 فتح الملفات</button></td></tr>';
   }).join('') || '<tr><td colspan="6"><div class="empty">لا توجد وثائق</div></td></tr>';
   bodyHtml += '</tbody></table></div>';
   
@@ -1170,12 +1474,144 @@ function openClientDocuments(clientId, policyId) {
 function openClientDocumentModal(id) {
   UPLOAD_CLIENT_ID = id;
   document.getElementById('uErr').textContent = '';
+  refreshSelects();
   modal('clientDocModal');
 }
 
+// ========================================
+// CRUD OPERATIONS
+// ========================================
+function createClient() {
+  var name = document.getElementById('cName').value.trim();
+  var phone = document.getElementById('cPhone').value.trim();
+  var email = document.getElementById('cEmail').value.trim().toLowerCase();
+  var pass = document.getElementById('cPass').value;
+  var err = document.getElementById('cErr');
+  
+  err.textContent = '';
+  if (!name || !email || pass.length < 6) {
+    err.textContent = 'أكمل البيانات وكلمة المرور 6 أحرف على الأقل';
+    return;
+  }
+  
+  auth.createUserWithEmailAndPassword(email, pass)
+    .then(function(cred) {
+      return db.collection('clients').doc(cred.user.uid).set({
+        fullName: name,
+        phone: phone,
+        username: email.split('@')[0],
+        email: email,
+        role: 'client',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        createdBy: auth.currentUser ? auth.currentUser.uid : ''
+      });
+    })
+    .then(function() {
+      return logActivity('Client created', 'Created client ' + name);
+    })
+    .then(function() {
+      closeModal('clientModal');
+      return loadAll();
+    })
+    .then(function() {
+      toast('تم إنشاء العميل بنجاح');
+    })
+    .catch(function(e) {
+      err.textContent = e.code && e.code.includes('email-already') ? 'البريد الإلكتروني مستخدم بالفعل' : 'تعذر إنشاء العميل';
+    });
+}
+
+function createPolicy() {
+  var cid = document.getElementById('pClient').value;
+  var type = document.getElementById('pType').value;
+  var company = document.getElementById('pCompany').value;
+  var number = document.getElementById('pNumber').value.trim();
+  var premium = document.getElementById('pPremium').value;
+  var start = document.getElementById('pStart').value;
+  var end = document.getElementById('pEnd').value;
+  var sumInsured = document.getElementById('pSumInsured').value;
+  var coverage = document.getElementById('pCoverage').value.trim();
+  var err = document.getElementById('pErr');
+  
+  if (!cid || !type || !company || !end) {
+    err.textContent = 'اختر العميل والنوع والشركة وتاريخ الانتهاء';
+    return;
+  }
+  
+  db.collection('policies').add({
+    clientId: cid,
+    type: type,
+    company: company,
+    policyNumber: number,
+    premium: Number(premium) || 0,
+    sumInsured: Number(sumInsured) || 0,
+    startDate: start,
+    endDate: end,
+    coverage: coverage,
+    status: 'active',
+    createdBy: auth.currentUser ? auth.currentUser.uid : '',
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(function() {
+    return notify(cid, 'وثيقة جديدة', 'تمت إضافة وثيقة ' + getInsuranceTypeName(type) + ' جديدة إلى حسابك.');
+  })
+  .then(function() {
+    return logActivity('Policy created', 'Added ' + getInsuranceTypeName(type) + ' policy for ' + clientName(cid));
+  })
+  .then(function() {
+    closeModal('policyModal');
+    return loadAll();
+  })
+  .then(function() {
+    toast('تم حفظ الوثيقة');
+  })
+  .catch(function(e) {
+    err.textContent = 'تعذر حفظ الوثيقة';
+  });
+}
+
+function createInsuranceType() {
+  var name = document.getElementById('itName').value.trim();
+  var desc = document.getElementById('itDesc').value.trim();
+  var color = document.getElementById('itColor').value;
+  var err = document.getElementById('itErr');
+  
+  err.textContent = '';
+  if (!name) {
+    err.textContent = 'أدخل اسم نوع التأمين';
+    return;
+  }
+  
+  var id = name.replace(/\s/g, '_').toLowerCase();
+  var icon = '📄';
+  var iconMap = {
+    'طبي': '🏥', 'سيارات': '🚗', 'حياة': '❤️', 'ممتلكات': '🏠',
+    'سفر': '✈️', 'هندسي': '🏗️', 'مسؤولية': '⚖️', 'بحري': '🚢',
+    'زراعي': '🌾', 'سيبراني': '💻'
+  };
+  for (var key in iconMap) {
+    if (name.includes(key)) { icon = iconMap[key]; break; }
+  }
+  
+  var newType = { id: id, name: name, nameEn: name, icon: icon, color: color, description: desc };
+  
+  db.collection('insuranceTypes').doc(id).set(newType)
+    .then(function() {
+      DATA.insuranceTypes.push(newType);
+      closeModal('insuranceTypeModal');
+      renderInsuranceTypes();
+      refreshSelects();
+      toast('تم إضافة نوع التأمين بنجاح');
+    })
+    .catch(function(e) {
+      err.textContent = 'تعذر حفظ النوع: ' + e.message;
+    });
+}
+
 function uploadClientDocument() {
-  var type = document.getElementById('uType').value.trim();
-  var company = document.getElementById('uCompany').value.trim();
+  var type = document.getElementById('uType').value;
+  var company = document.getElementById('uCompany').value;
   var number = document.getElementById('uNumber').value.trim();
   var premium = document.getElementById('uPremium').value;
   var start = document.getElementById('uStart').value;
@@ -1183,11 +1619,20 @@ function uploadClientDocument() {
   var fileInput = document.getElementById('uFile');
   var err = document.getElementById('uErr');
   
-  if (!UPLOAD_CLIENT_ID || !end) { err.textContent = 'أكمل بيانات الوثيقة'; return; }
-  if (!fileInput.files || !fileInput.files[0]) { err.textContent = 'اختر ملف الوثيقة'; return; }
+  if (!UPLOAD_CLIENT_ID || !type || !company || !end) {
+    err.textContent = 'أكمل جميع بيانات الوثيقة';
+    return;
+  }
+  if (!fileInput.files || !fileInput.files[0]) {
+    err.textContent = 'اختر ملف الوثيقة';
+    return;
+  }
   
   var file = fileInput.files[0];
-  if (file.size > 2 * 1024 * 1024) { err.textContent = 'الحد الأقصى 2MB'; return; }
+  if (file.size > 2 * 1024 * 1024) {
+    err.textContent = 'الحد الأقصى 2MB';
+    return;
+  }
   
   var reader = new FileReader();
   reader.onload = function(e) {
@@ -1243,6 +1688,8 @@ function createCompany() {
   err.textContent = '';
   if (!name) { err.textContent = 'أدخل اسم الشركة'; return; }
   
+  var id = name.replace(/\s/g, '_').toLowerCase();
+  
   var uploadLogo = function() {
     return new Promise(function(resolve, reject) {
       if (logoFile) {
@@ -1254,86 +1701,66 @@ function createCompany() {
   };
   
   uploadLogo().then(function(logoUrl) {
-    return db.collection('companies').add({
-      name: name,
-      logoUrl: logoUrl,
-      description: desc,
-      active: true,
-      createdBy: auth.currentUser ? auth.currentUser.uid : '',
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
+    var company = { id: id, name: name, nameEn: name, logo: logoUrl, description: desc };
+    return db.collection('companies').doc(id).set(company)
+      .then(function() {
+        DATA.companies.push(company);
+        return company;
+      });
   }).then(function() {
     closeModal('companyModal');
-    return loadAll();
-  }).then(function() {
+    renderCompanies();
+    refreshSelects();
     toast('تمت إضافة الشركة');
-    openCompanyProfile(name);
   }).catch(function(e) {
     console.error(e);
     err.textContent = e.message === 'image-too-large' ? 'حجم اللوجو كبير. الحد المقترح 250KB.' : 'تعذر حفظ الشركة';
   });
 }
 
-function readSmallImage(file, maxBytes) {
-  return new Promise(function(resolve, reject) {
-    if (!file) return resolve('');
-    if (file.size > maxBytes) { reject(new Error('image-too-large')); return; }
-    var reader = new FileReader();
-    reader.onload = function() { resolve(reader.result); };
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
 function createProduct() {
-  var companyVal = document.getElementById('prCompany').value;
+  var company = document.getElementById('prCompany').value;
+  var type = document.getElementById('prType').value;
   var name = document.getElementById('prName').value.trim();
-  var category = document.getElementById('prCategory').value;
   var desc = document.getElementById('prDesc').value.trim();
   var features = document.getElementById('prFeatures').value.trim();
   var status = document.getElementById('prStatus').value;
   var disclaimer = document.getElementById('prDisclaimer').value.trim();
   var img = document.getElementById('prImage').value.trim();
   var imgFile = document.getElementById('prImageFile').files[0];
-  var logo = document.getElementById('prLogo').value.trim();
-  var logoFile = document.getElementById('prLogoFile').files[0];
   var err = document.getElementById('prErr');
   
   err.textContent = '';
-  if (!companyVal || !name) { err.textContent = 'اختر الشركة وأدخل اسم المنتج'; return; }
+  if (!company || !type || !name) {
+    err.textContent = 'أكمل جميع بيانات المنتج';
+    return;
+  }
   
-  var companies = allCompanies();
-  var company = companies.find(function(c) { return c.name === companyVal; }) || {};
   var published = status === 'published';
-  if (!logo) logo = company.logo || '';
   
   var uploadImage = function() {
     return readSmallImage(imgFile, 450 * 1024);
   };
-  var uploadLogo = function() {
-    return readSmallImage(logoFile, 250 * 1024);
-  };
   
-  Promise.all([uploadImage(), uploadLogo()]).then(function(results) {
-    var imgUrl = results[0] || img;
-    var logoUrl = results[1] || logo;
-    
-    return db.collection('products').add({
-      companyId: company.id || null,
-      companyName: companyVal,
-      companyLogoUrl: logoUrl,
+  uploadImage().then(function(imgUrl) {
+    var product = {
+      company: company,
+      companyName: getCompanyName(company),
+      type: type,
+      typeName: getInsuranceTypeName(type),
       name: name,
-      category: category,
       description: desc,
       features: features,
-      imageUrl: imgUrl,
+      imageUrl: imgUrl || img,
       status: status,
       published: published,
       disclaimer: disclaimer,
       createdBy: auth.currentUser ? auth.currentUser.uid : '',
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
+    };
+    
+    return db.collection('products').add(product);
   }).then(function() {
     closeModal('productModal');
     return loadAll();
@@ -1342,91 +1769,6 @@ function createProduct() {
   }).catch(function(e) {
     console.error(e);
     err.textContent = e.message === 'image-too-large' ? 'حجم الصورة كبير. قلل الحجم ثم حاول مرة أخرى.' : 'تعذر حفظ المنتج';
-  });
-}
-
-function createClient() {
-  var name = document.getElementById('cName').value.trim();
-  var phone = document.getElementById('cPhone').value.trim();
-  var email = document.getElementById('cEmail').value.trim().toLowerCase();
-  var pass = document.getElementById('cPass').value;
-  var err = document.getElementById('cErr');
-  
-  err.textContent = '';
-  if (!name || !email || pass.length < 6) {
-    err.textContent = 'أكمل البيانات وكلمة المرور 6 أحرف على الأقل';
-    return;
-  }
-  
-  auth.createUserWithEmailAndPassword(email, pass)
-    .then(function(cred) {
-      return db.collection('clients').doc(cred.user.uid).set({
-        fullName: name,
-        phone: phone,
-        username: email.split('@')[0],
-        email: email,
-        role: 'client',
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        createdBy: auth.currentUser ? auth.currentUser.uid : ''
-      });
-    })
-    .then(function() {
-      return logActivity('Client created', 'Created client ' + name);
-    })
-    .then(function() {
-      closeModal('clientModal');
-      return loadAll();
-    })
-    .then(function() {
-      toast('تم إنشاء العميل بنجاح');
-    })
-    .catch(function(e) {
-      err.textContent = e.code && e.code.includes('email-already') ? 'البريد الإلكتروني مستخدم بالفعل' : 'تعذر إنشاء العميل';
-    });
-}
-
-function createPolicy() {
-  var cid = document.getElementById('pClient').value;
-  var company = document.getElementById('pCompany').value.trim();
-  var type = document.getElementById('pType').value.trim();
-  var number = document.getElementById('pNumber').value.trim();
-  var premium = document.getElementById('pPremium').value;
-  var start = document.getElementById('pStart').value;
-  var end = document.getElementById('pEnd').value;
-  var coverage = document.getElementById('pCoverage').value.trim();
-  var err = document.getElementById('pErr');
-  
-  if (!cid || !company || !end) { err.textContent = 'اختر العميل والشركة وتاريخ الانتهاء'; return; }
-  
-  db.collection('policies').add({
-    clientId: cid,
-    type: type,
-    company: company,
-    policyNumber: number,
-    premium: Number(premium) || 0,
-    startDate: start,
-    endDate: end,
-    coverage: coverage,
-    status: 'active',
-    createdBy: auth.currentUser ? auth.currentUser.uid : '',
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-  })
-  .then(function() {
-    return notify(cid, 'وثيقة جديدة', 'تمت إضافة وثيقة جديدة إلى حسابك.');
-  })
-  .then(function() {
-    return logActivity('Policy created', 'Added policy for ' + clientName(cid));
-  })
-  .then(function() {
-    closeModal('policyModal');
-    return loadAll();
-  })
-  .then(function() {
-    toast('تم حفظ الوثيقة');
-  })
-  .catch(function(e) {
-    err.textContent = 'تعذر حفظ الوثيقة';
   });
 }
 
@@ -1439,7 +1781,10 @@ function createPayment() {
   var note = document.getElementById('payNote').value.trim();
   var err = document.getElementById('payErr');
   
-  if (!cid || !amount || !dateVal) { err.textContent = 'أكمل العميل والمبلغ والتاريخ'; return; }
+  if (!cid || !amount || !dateVal) {
+    err.textContent = 'أكمل العميل والمبلغ والتاريخ';
+    return;
+  }
   
   db.collection('payments').add({
     clientId: cid,
@@ -1472,13 +1817,16 @@ function createPayment() {
 function createClaim() {
   var cid = document.getElementById('clClient').value;
   var policyId = document.getElementById('clPolicy').value;
-  var type = document.getElementById('clType').value.trim();
+  var type = document.getElementById('clType').value;
   var amount = document.getElementById('clAmount').value;
   var status = document.getElementById('clStatus').value;
   var desc = document.getElementById('clDesc').value.trim();
   var err = document.getElementById('clErr');
   
-  if (!cid || !type) { err.textContent = 'اختر العميل واكتب نوع المطالبة'; return; }
+  if (!cid || !type) {
+    err.textContent = 'اختر العميل واكتب نوع المطالبة';
+    return;
+  }
   
   var policy = DATA.policies.find(function(x) { return x.id === policyId; });
   
@@ -1578,6 +1926,20 @@ function verifyDocument(id, status) {
   });
 }
 
+function readSmallImage(file, maxBytes) {
+  return new Promise(function(resolve, reject) {
+    if (!file) return resolve('');
+    if (file.size > maxBytes) { reject(new Error('image-too-large')); return; }
+    var reader = new FileReader();
+    reader.onload = function() { resolve(reader.result); };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// ========================================
+// LOGGING & NOTIFICATIONS
+// ========================================
 function logActivity(action, description) {
   if (!auth.currentUser) return Promise.resolve();
   return db.collection('activity').add({
@@ -1598,6 +1960,9 @@ function notify(clientId, title, body) {
   }).catch(function() {});
 }
 
+// ========================================
+// INIT
+// ========================================
 applyLang();
 </script>
 </body>
