@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Secure PATH — Admin & Agent Center</title>
+<title>Secure PATH — Admin & Agent Center v3.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -12,7 +12,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 
 <style>
-/* ===== ROOT VARIABLES ===== */
 :root {
   --navy: #0E2A5C;
   --navy-light: #1a3f7a;
@@ -35,27 +34,11 @@
   --radius-sm: 10px;
   --transition: all 0.3s ease;
 }
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  margin: 0;
-  background: var(--paper);
-  color: var(--text);
-  font-family: 'Cairo', sans-serif;
-  min-height: 100vh;
-}
-
-/* ===== SCROLLBAR ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { margin: 0; background: var(--paper); color: var(--text); font-family: 'Cairo', sans-serif; min-height: 100vh; }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--paper); }
 ::-webkit-scrollbar-thumb { background: var(--navy-light); border-radius: 10px; }
-
-/* ===== BUTTONS ===== */
 button, input, select, textarea { font: inherit; }
 button { cursor: pointer; border: none; outline: none; }
 .hidden { display: none !important; }
@@ -64,7 +47,7 @@ button { cursor: pointer; border: none; outline: none; }
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 10px 20px;
+  padding: 9px 18px;
   border-radius: var(--radius-sm);
   font-weight: 700;
   font-size: 13px;
@@ -77,12 +60,13 @@ button { cursor: pointer; border: none; outline: none; }
 .btn-dark:hover { background: var(--navy-light); transform: translateY(-1px); }
 .btn-outline { background: #fff; border: 1.5px solid var(--line); color: var(--navy); }
 .btn-outline:hover { border-color: var(--navy); background: var(--paper); }
-.btn-danger { background: #fff0ed; color: var(--red); }
-.btn-danger:hover { background: #fde8e3; }
-.btn-sm { padding: 6px 12px; font-size: 11px; }
+.btn-success { background: var(--green); color: #fff; }
+.btn-success:hover { background: #0e6a48; }
+.btn-danger { background: var(--red); color: #fff; }
+.btn-danger:hover { background: #a83d2e; }
+.btn-sm { padding: 5px 12px; font-size: 11px; }
 .btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--navy); }
 
-/* ===== LOGIN ===== */
 #login {
   min-height: 100vh;
   display: grid;
@@ -96,41 +80,15 @@ button { cursor: pointer; border: none; outline: none; }
   padding: 40px 34px;
   box-shadow: 0 30px 80px rgba(0,0,0,0.3);
 }
-.login-box .logo {
-  width: 70px;
-  height: 70px;
-  margin: 0 auto 16px;
-  border-radius: 20px;
-  background: var(--navy);
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-}
+.login-box .logo { width: 70px; height: 70px; margin: 0 auto 16px; border-radius: 20px; background: var(--navy); display: grid; place-items: center; overflow: hidden; }
 .login-box .logo img { width: 100%; height: 100%; object-fit: contain; }
-.login-box h1 {
-  text-align: center;
-  color: var(--navy);
-  font-family: 'Tajawal', sans-serif;
-  font-size: 24px;
-  margin: 0 0 4px;
-}
-.login-box p {
-  text-align: center;
-  color: var(--muted);
-  font-size: 13px;
-  margin-bottom: 20px;
-}
+.login-box h1 { text-align: center; color: var(--navy); font-family: 'Tajawal', sans-serif; font-size: 24px; margin: 0 0 4px; }
+.login-box p { text-align: center; color: var(--muted); font-size: 13px; margin-bottom: 20px; }
 .field { margin-bottom: 14px; }
-.field label {
-  display: block;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 5px;
-}
+.field label { display: block; font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
 .field input, .field select, .field textarea {
   width: 100%;
-  padding: 11px 14px;
+  padding: 10px 14px;
   border: 1.5px solid var(--line);
   border-radius: var(--radius-sm);
   outline: none;
@@ -144,11 +102,9 @@ button { cursor: pointer; border: none; outline: none; }
 }
 .field textarea { resize: vertical; min-height: 60px; }
 
-/* ===== APP LAYOUT ===== */
 #app { display: none; min-height: 100vh; }
 .shell { display: flex; min-height: 100vh; }
 
-/* ===== SIDEBAR ===== */
 .sidebar {
   width: 250px;
   background: var(--navy);
@@ -172,18 +128,8 @@ button { cursor: pointer; border: none; outline: none; }
   border-bottom: 1px solid rgba(255,255,255,0.1);
   flex-shrink: 0;
 }
-.sidebar .brand img {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: #fff;
-  object-fit: contain;
-}
-.sidebar .brand b {
-  font-family: 'Tajawal', sans-serif;
-  font-size: 18px;
-  font-weight: 900;
-}
+.sidebar .brand img { width: 40px; height: 40px; border-radius: 12px; background: #fff; object-fit: contain; }
+.sidebar .brand b { font-family: 'Tajawal', sans-serif; font-size: 18px; font-weight: 900; }
 .sidebar .nav {
   padding-top: 14px;
   flex: 1;
@@ -211,14 +157,7 @@ button { cursor: pointer; border: none; outline: none; }
 .sidebar .nav button span { flex: 1; }
 .sidebar .nav button:hover { background: rgba(255,255,255,0.08); color: #fff; }
 .sidebar .nav button.active { background: var(--gold); color: var(--navy); }
-.sidebar .nav .badge {
-  background: var(--red);
-  color: #fff;
-  border-radius: 20px;
-  padding: 1px 8px;
-  font-size: 10px;
-  font-weight: 800;
-}
+.sidebar .nav .badge { background: var(--red); color: #fff; border-radius: 20px; padding: 1px 8px; font-size: 10px; font-weight: 800; }
 .sidebar .footer {
   flex-shrink: 0;
   color: #8aa0be;
@@ -240,7 +179,6 @@ button { cursor: pointer; border: none; outline: none; }
 }
 .sidebar .footer .logout-btn:hover { background: rgba(255,255,255,0.2); }
 
-/* ===== MAIN CONTENT ===== */
 .main {
   margin-right: 250px;
   width: calc(100% - 250px);
@@ -258,26 +196,14 @@ button { cursor: pointer; border: none; outline: none; }
   z-index: 50;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
-.topbar h1 {
-  font-family: 'Tajawal', sans-serif;
-  font-size: 20px;
-  color: var(--navy);
-  margin: 0;
-}
+.topbar h1 { font-family: 'Tajawal', sans-serif; font-size: 20px; color: var(--navy); margin: 0; }
 .topbar .actions { display: flex; gap: 8px; align-items: center; }
-
 .content { padding: 24px 28px; }
 
-/* ===== VIEWS ===== */
 .view { display: none; }
 .view.active { display: block; }
 
-/* ===== CARDS & GRID ===== */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-4 { grid-template-columns: repeat(4, 1fr); }
@@ -292,7 +218,7 @@ button { cursor: pointer; border: none; outline: none; }
 }
 .card:hover { box-shadow: var(--shadow-lg); }
 .card-header {
-  padding: 16px 20px;
+  padding: 14px 18px;
   border-bottom: 1px solid var(--line);
   display: flex;
   justify-content: space-between;
@@ -300,53 +226,25 @@ button { cursor: pointer; border: none; outline: none; }
   flex-wrap: wrap;
   gap: 8px;
 }
-.card-header h3 {
-  font-family: 'Tajawal', sans-serif;
-  font-size: 15px;
-  color: var(--navy);
-  margin: 0;
-}
-.card-body { padding: 18px 20px; }
+.card-header h3 { font-family: 'Tajawal', sans-serif; font-size: 15px; color: var(--navy); margin: 0; }
+.card-body { padding: 16px 18px; }
 .card-body.p-0 { padding: 0; }
 
-.stat-card { padding: 20px; text-align: center; }
+.stat-card { padding: 18px 20px; text-align: center; }
 .stat-card .label { font-size: 12px; color: var(--muted); font-weight: 600; }
-.stat-card .value {
-  font-family: 'Tajawal', sans-serif;
-  font-size: 32px;
-  font-weight: 900;
-  color: var(--navy);
-  margin-top: 4px;
-}
+.stat-card .value { font-family: 'Tajawal', sans-serif; font-size: 28px; font-weight: 900; color: var(--navy); margin-top: 4px; }
 .stat-card .sub { font-size: 11px; margin-top: 4px; }
 .stat-card .sub.green { color: var(--green); }
 .stat-card .sub.red { color: var(--red); }
 
-/* ===== TABLE ===== */
 .table-wrap { overflow-x: auto; }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
-th, td {
-  padding: 12px 16px;
-  border-bottom: 1px solid #eef1f5;
-  text-align: right;
-}
-th {
-  background: #f8faff;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { padding: 10px 14px; border-bottom: 1px solid #eef1f5; text-align: right; }
+th { background: #f8faff; color: var(--muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
 tr:last-child td { border-bottom: none; }
 tr:hover td { background: #fafcff; }
-.empty { padding: 40px; text-align: center; color: var(--muted); font-size: 14px; }
+.empty { padding: 30px; text-align: center; color: var(--muted); font-size: 14px; }
 
-/* ===== BADGES ===== */
 .badge {
   display: inline-flex;
   padding: 3px 10px;
@@ -361,7 +259,6 @@ tr:hover td { background: #fafcff; }
 .badge-purple { background: #f0ebff; color: var(--purple); }
 .badge-gold { background: var(--gold-soft); color: #8a6d1b; }
 
-/* ===== TYPE BADGES ===== */
 .type-badge {
   display: inline-flex;
   padding: 3px 12px;
@@ -387,7 +284,6 @@ tr:hover td { background: #fafcff; }
 .type-badge.takaful { background: #d6d8db; color: #383d41; }
 .type-badge.other { background: #f0f0f0; color: #666; }
 
-/* ===== TOOLBAR ===== */
 .toolbar {
   display: flex;
   gap: 12px;
@@ -396,11 +292,7 @@ tr:hover td { background: #fafcff; }
   margin-bottom: 16px;
   flex-wrap: wrap;
 }
-.toolbar .search {
-  flex: 1;
-  min-width: 200px;
-  max-width: 360px;
-}
+.toolbar .search { flex: 1; min-width: 200px; max-width: 360px; }
 .toolbar .search input {
   width: 100%;
   padding: 10px 14px;
@@ -413,21 +305,20 @@ tr:hover td { background: #fafcff; }
 .toolbar .search input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(242,189,99,0.15); }
 .toolbar .actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
-/* ===== COMPANY CARDS ===== */
 .company-card {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 14px 16px;
+  padding: 12px 16px;
   border-bottom: 1px solid var(--line);
   transition: var(--transition);
 }
 .company-card:hover { background: #fafcff; }
 .company-card:last-child { border-bottom: none; }
 .company-card .logo {
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
   border-radius: 12px;
   background: var(--gold-soft);
   display: grid;
@@ -436,31 +327,24 @@ tr:hover td { background: #fafcff; }
   font-size: 16px;
   color: var(--navy);
 }
-.company-card .logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 12px;
-}
+.company-card .logo img { width: 100%; height: 100%; object-fit: contain; border-radius: 12px; }
 .company-card .info { flex: 1; }
 .company-card .info h4 { margin: 0; font-size: 14px; color: var(--navy); }
 .company-card .info p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
 
-/* ===== TYPE CARDS ===== */
 .type-card {
   border: 2px solid var(--line);
   border-radius: var(--radius);
-  padding: 20px;
+  padding: 18px;
   text-align: center;
   transition: var(--transition);
   background: #fff;
 }
 .type-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
-.type-card .icon { font-size: 36px; margin-bottom: 8px; }
+.type-card .icon { font-size: 32px; margin-bottom: 6px; }
 .type-card h4 { font-family: 'Tajawal', sans-serif; color: var(--navy); margin: 0; font-size: 14px; }
 .type-card p { font-size: 11px; color: var(--muted); margin: 4px 0 0; }
 
-/* ===== MODALS ===== */
 .overlay {
   position: fixed;
   inset: 0;
@@ -479,7 +363,7 @@ tr:hover td { background: #fafcff; }
   max-height: 90vh;
   overflow-y: auto;
   border-radius: 20px;
-  padding: 28px;
+  padding: 24px 28px;
   box-shadow: 0 30px 80px rgba(0,0,0,0.3);
   animation: modalIn 0.3s ease;
 }
@@ -487,19 +371,13 @@ tr:hover td { background: #fafcff; }
   from { transform: scale(0.95) translateY(20px); opacity: 0; }
   to { transform: scale(1) translateY(0); opacity: 1; }
 }
-.modal h2 {
-  font-family: 'Tajawal', sans-serif;
-  font-size: 20px;
-  color: var(--navy);
-  margin: 0 0 16px;
-}
+.modal h2 { font-family: 'Tajawal', sans-serif; font-size: 20px; color: var(--navy); margin: 0 0 16px; }
 .modal .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.modal .form-grid.three { grid-template-columns: 1fr 1fr 1fr; }
 .modal .field { margin-bottom: 10px; }
 .modal .field label { font-size: 12px; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px; }
 .modal .field input, .modal .field select, .modal .field textarea {
   width: 100%;
-  padding: 10px 12px;
+  padding: 9px 12px;
   border: 1.5px solid var(--line);
   border-radius: var(--radius-sm);
   outline: none;
@@ -515,13 +393,12 @@ tr:hover td { background: #fafcff; }
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  margin-top: 18px;
-  padding-top: 16px;
+  margin-top: 16px;
+  padding-top: 14px;
   border-top: 1px solid var(--line);
 }
 .modal .error { color: var(--red); font-size: 12px; margin-top: 4px; }
 
-/* ===== TOAST ===== */
 .toast {
   position: fixed;
   bottom: 24px;
@@ -543,15 +420,7 @@ tr:hover td { background: #fafcff; }
 }
 .toast.show { display: block; }
 
-/* ===== CHAT ===== */
-.message-list {
-  height: 400px;
-  overflow-y: auto;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+.message-list { height: 380px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
 .bubble {
   max-width: 80%;
   padding: 10px 14px;
@@ -559,45 +428,46 @@ tr:hover td { background: #fafcff; }
   font-size: 13px;
   line-height: 1.6;
 }
-.bubble.client {
-  align-self: flex-end;
-  background: var(--gold-soft);
-  color: var(--navy);
-}
-.bubble.agent {
-  align-self: flex-start;
-  background: var(--navy);
-  color: #fff;
-}
+.bubble.client { align-self: flex-end; background: var(--gold-soft); color: var(--navy); }
+.bubble.agent { align-self: flex-start; background: var(--navy); color: #fff; }
 .composer {
   display: flex;
   gap: 8px;
-  padding: 12px;
+  padding: 10px 12px;
   border-top: 1px solid var(--line);
 }
-.composer input {
-  flex: 1;
-  border: 1.5px solid var(--line);
-  border-radius: 20px;
-  padding: 10px 16px;
-  outline: none;
-}
+.composer input { flex: 1; border: 1.5px solid var(--line); border-radius: 20px; padding: 10px 16px; outline: none; }
 .composer input:focus { border-color: var(--gold); }
 
-/* ===== LIST ITEMS ===== */
-.list-item {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--line);
-  transition: var(--transition);
-  cursor: pointer;
-}
+.list-item { padding: 10px 14px; border-bottom: 1px solid var(--line); transition: var(--transition); cursor: pointer; }
 .list-item:hover { background: #fafcff; }
 .list-item:last-child { border-bottom: none; }
 .list-item h4 { margin: 0; font-size: 13px; color: var(--navy); }
 .list-item p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
 .list-item.unread { border-right: 3px solid var(--gold); background: #fdfaf5; }
 
-/* ===== RESPONSIVE ===== */
+.file-upload-area {
+  border: 2px dashed var(--line);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  text-align: center;
+  transition: var(--transition);
+  background: #fafcff;
+}
+.file-upload-area:hover { border-color: var(--gold); background: var(--gold-soft); }
+.file-upload-area input[type="file"] { display: none; }
+.file-upload-area .upload-label {
+  display: inline-block;
+  padding: 8px 20px;
+  background: var(--gold);
+  color: var(--navy);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.file-upload-area .upload-label:hover { background: #e2af5a; }
+
 @media (max-width: 992px) {
   .grid { grid-template-columns: repeat(2, 1fr); }
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
@@ -625,18 +495,13 @@ tr:hover td { background: #fafcff; }
 <!-- ===== LOGIN ===== -->
 <div id="login">
   <div class="login-box">
-    <div class="logo">
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50,10 L90,25 L90,65 C90,80 50,95 50,95 C50,95 10,80 10,65 L10,25 Z' fill='%23F2BD63'/><path d='M50,20 L80,32 L80,60 C80,72 50,84 50,84 C50,84 20,72 20,60 L20,32 Z' fill='%230E2A5C'/></svg>" alt="Secure PATH">
-    </div>
+    <div class="logo"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50,10 L90,25 L90,65 C90,80 50,95 50,95 C50,95 10,80 10,65 L10,25 Z' fill='%23F2BD63'/><path d='M50,20 L80,32 L80,60 C80,72 50,84 50,84 C50,84 20,72 20,60 L20,32 Z' fill='%230E2A5C'/></svg>" alt="Secure PATH"></div>
     <h1>Secure PATH</h1>
     <p>مركز تشغيل الوسيط — إدارة العملاء والوثائق والمطالبات</p>
     <div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" autocomplete="username"></div>
     <div class="field"><label>كلمة المرور</label><input id="pass" type="password" autocomplete="current-password"></div>
     <div id="loginErr" style="color:var(--red);font-size:12px;margin-bottom:8px"></div>
     <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="login()">دخول لوحة التحكم</button>
-    <div style="text-align:center;margin-top:12px">
-      <button class="btn btn-outline btn-sm" onclick="toggleLang()">English</button>
-    </div>
   </div>
 </div>
 
@@ -678,8 +543,8 @@ tr:hover td { background: #fafcff; }
       <header class="topbar">
         <h1 id="title">لوحة التحكم</h1>
         <div class="actions">
-          <button class="btn btn-outline btn-sm" onclick="toggleLang()">English</button>
           <button class="btn btn-dark btn-sm" onclick="openModal('clientModal')">+ عميل جديد</button>
+          <button class="btn btn-primary btn-sm" onclick="openModal('policyModal')">+ وثيقة</button>
         </div>
       </header>
 
@@ -689,7 +554,7 @@ tr:hover td { background: #fafcff; }
           <div class="grid">
             <div class="card stat-card"><div class="label">إجمالي العملاء</div><div class="value" id="sClients">0</div><div class="sub green">CRM</div></div>
             <div class="card stat-card"><div class="label">إجمالي الوثائق</div><div class="value" id="sPolicies">0</div><div class="sub green" id="sActive">0 سارية</div></div>
-            <div class="card stat-card"><div class="label">المطالبات المفتوحة</div><div class="value" id="sClaims">0</div><div class="sub red">متابعة مطلوبة</div></div>
+            <div class="card stat-card"><div class="label">المطالبات المفتوحة</div><div class="value" id="sClaims">0</div><div class="sub red">متابعة</div></div>
             <div class="card stat-card"><div class="label">الرسائل الجديدة</div><div class="value" id="sMessages">0</div><div class="sub">Real-time</div></div>
           </div>
           <div class="grid" style="margin-top:16px">
@@ -740,10 +605,11 @@ tr:hover td { background: #fafcff; }
           <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>النوع</th><th>رقم الوثيقة</th><th>المبلغ</th><th>الحالة</th><th>آخر تحديث</th><th>إجراء</th></tr></thead><tbody id="claimsBody"></tbody></table></div></div></div>
         </div>
 
-        <!-- ===== DOCUMENTS ===== -->
+        <!-- ===== DOCUMENTS (مع رفع المستندات) ===== -->
         <div id="v-documents" class="view">
           <div class="toolbar">
             <div class="search"><input id="docSearch" oninput="renderDocuments()" placeholder="ابحث باسم الملف أو العميل"></div>
+            <div class="actions"><button class="btn btn-primary" onclick="openDocUploadModal()">+ رفع مستند</button></div>
           </div>
           <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>المستند</th><th>النوع</th><th>المصدر</th><th>الحالة</th><th>التاريخ</th><th>إجراء</th></tr></thead><tbody id="documentsBody"></tbody></table></div></div></div>
         </div>
@@ -785,7 +651,7 @@ tr:hover td { background: #fafcff; }
 
         <!-- ===== PRODUCTS ===== -->
         <div id="v-products" class="view">
-          <div class="card" style="padding:14px 18px;margin-bottom:16px;background:var(--gold-soft);border-color:var(--gold)">
+          <div class="card" style="padding:12px 16px;margin-bottom:16px;background:var(--gold-soft);border-color:var(--gold)">
             <b>📌 النشر للمستخدم:</b> أي منتج حالته <span class="badge badge-success">Published</span> سيظهر تلقائياً في تطبيق العميل.
           </div>
           <div class="toolbar">
@@ -813,7 +679,7 @@ tr:hover td { background: #fafcff; }
         <div id="v-assessments" class="view">
           <div class="toolbar">
             <div class="search"><input id="assessmentSearch" oninput="renderAssessments()" placeholder="ابحث باسم العميل"></div>
-            <div class="actions"><button class="btn btn-outline" onclick="renderAssessments()">↻ تحديث</button></div>
+            <div class="actions"><button class="btn btn-outline btn-sm" onclick="renderAssessments()">↻ تحديث</button></div>
           </div>
           <div class="card"><div class="card-header"><h3>تقييمات الحماية التأمينية</h3><span class="badge badge-info" id="assessmentCount">0</span></div><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>الصفة</th><th>النشاط</th><th>الوثائق السارية</th><th>المؤشر</th><th>التقييم</th><th>آخر تحديث</th><th>إجراء</th></tr></thead><tbody id="assessmentsBody"></tbody></table></div></div></div>
         </div>
@@ -822,8 +688,8 @@ tr:hover td { background: #fafcff; }
         <div id="v-compliance" class="view">
           <div class="card"><div class="card-body">
             <h3 style="font-family:'Tajawal',sans-serif;color:var(--navy)">مركز الامتثال</h3>
-            <p style="line-height:1.8;font-size:14px">Secure PATH يعمل كـ CRM وخدمة ومتابعة للعميل. أي إصدار أو توزيع رقمي لوثيقة تأمين يجب أن يكون مرتبطاً بالترخيص والموافقات والربط المعتمد مع شركة التأمين.</p>
-            <div class="list-item" style="border:1px solid var(--line);border-radius:var(--radius-sm);margin-top:8px"><b>تنبيه قانوني</b><p style="font-size:12px;color:var(--muted);margin-top:4px">هذه الشاشة أداة تشغيلية وليست رأياً قانونياً أو إثباتاً للترخيص الرقمي.</p></div>
+            <p style="line-height:1.8;font-size:14px">Secure PATH يعمل كـ CRM وخدمة ومتابعة للعميل.</p>
+            <div class="list-item" style="border:1px solid var(--line);border-radius:var(--radius-sm);margin-top:8px"><b>تنبيه قانوني</b><p style="font-size:12px;color:var(--muted);margin-top:4px">هذه الشاشة أداة تشغيلية وليست رأياً قانونياً.</p></div>
           </div></div>
         </div>
 
@@ -933,13 +799,37 @@ tr:hover td { background: #fafcff; }
   </div>
 </div>
 
+<!-- ===== DOCUMENT UPLOAD MODAL ===== -->
+<div id="docUploadModal" class="overlay">
+  <div class="modal">
+    <h2>📎 رفع مستند جديد</h2>
+    <div class="field"><label>العميل</label><select id="docClient"></select></div>
+    <div class="form-grid">
+      <div class="field"><label>اسم المستند</label><input id="docName" placeholder="مثال: بطاقة الرقم القومي"></div>
+      <div class="field"><label>نوع المستند</label><select id="docType"><option value="هوية شخصية">هوية شخصية</option><option value="رخصة قيادة">رخصة قيادة</option><option value="تقرير طبي">تقرير طبي</option><option value="عقد تأمين">عقد تأمين</option><option value="فاتورة">فاتورة</option><option value="أخرى">أخرى</option></select></div>
+    </div>
+    <div class="field">
+      <label>اختر الملف</label>
+      <div class="file-upload-area">
+        <input type="file" id="docFile" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+        <label for="docFile" class="upload-label">📤 اختر ملف</label>
+        <div id="docFileName" style="margin-top:8px;font-size:12px;color:var(--muted)">لم يتم اختيار ملف</div>
+      </div>
+    </div>
+    <div id="docUploadErr" class="error"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('docUploadModal')">إلغاء</button>
+      <button class="btn btn-primary" onclick="uploadDocument()">رفع المستند</button>
+    </div>
+  </div>
+</div>
+
 <!-- Company Modal -->
 <div id="companyModal" class="overlay">
   <div class="modal">
     <h2>إضافة شركة تأمين</h2>
     <div class="field"><label>اسم الشركة</label><input id="coName"></div>
     <div class="field"><label>لوجو (URL)</label><input id="coLogo"></div>
-    <div class="field"><label>أو رفع لوجو</label><input id="coLogoFile" type="file" accept="image/*"></div>
     <div class="field"><label>وصف</label><textarea id="coDesc" rows="2"></textarea></div>
     <div id="coErr" class="error"></div>
     <div class="modal-footer">
@@ -1045,57 +935,38 @@ var auth = firebase.auth();
 var db = firebase.firestore();
 
 // ================================================================
-// MASTER DATA - COMPLETE INSURANCE COMPANIES (جميع الشركات)
+// MASTER DATA - COMPLETE INSURANCE COMPANIES
 // ================================================================
 var INSURANCE_COMPANIES = [
-  // شركات حكومية
   { id: 'misr', name: 'مصر للتأمين', logo: '' },
   { id: 'misr_life', name: 'مصر لتأمينات الحياة', logo: '' },
   { id: 'ecgs', name: 'الشركة المصرية لضمان الصادرات', logo: '' },
-  
-  // مجموعة أليانز
   { id: 'allianz', name: 'أليانز للتأمين', logo: '' },
   { id: 'allianz_life', name: 'أليانز لتأمينات الحياة', logo: '' },
-  
-  // مجموعة أكسا
   { id: 'axa', name: 'أكسا للتأمين', logo: '' },
   { id: 'axa_life', name: 'أكسا لتأمينات الحياة', logo: '' },
-  
-  // مجموعة GIG
   { id: 'gig', name: 'GIG للتأمين', logo: '' },
   { id: 'gig_life', name: 'GIG لتأمينات الحياة', logo: '' },
-  
-  // شركات مصرية
   { id: 'scs', name: 'قناة السويس للتأمين', logo: '' },
   { id: 'mohandes', name: 'المهندس للتأمين', logo: '' },
   { id: 'delta', name: 'الدلتا للتأمين', logo: '' },
-  
-  // شركات دولية
   { id: 'chubb', name: 'تشب للتأمين (Chubb)', logo: '' },
   { id: 'royal', name: 'رويال للتأمين', logo: '' },
-  
-  // مجموعة ثروة
   { id: 'tharwa', name: 'ثروة للتأمين', logo: '' },
   { id: 'tharwa_life', name: 'ثروة لتأمينات الحياة', logo: '' },
-  
-  // متلايف
   { id: 'metlife', name: 'متلايف أليكو (MetLife)', logo: '' },
   { id: 'qnbalahli', name: 'QNB الأهلي لتأمينات الحياة', logo: '' },
-  
-  // شركات التكافل
   { id: 'orient_takaful', name: 'أورينت للتأمين التكافلي', logo: '' },
-  { id: 'misr_takaful', name: 'المصرية للتأمين التكافلي (ممتلكات)', logo: '' },
+  { id: 'misr_takaful', name: 'المصرية للتأمين التكافلي', logo: '' },
   { id: 'misr_life_takaful', name: 'المصرية لتأمينات الحياة التكافلي', logo: '' },
   { id: 'beit_takaful', name: 'بيت التأمين المصري السعودي', logo: '' },
   { id: 'wathaq_takaful', name: 'وثاق للتأمين التكافلي', logo: '' },
-  
-  // شركات متخصصة
   { id: 'eskan', name: 'إسكان للتأمين', logo: '' },
-  { id: 'tokio_marine', name: 'طوكيو مارين مصر (ممتلكات)', logo: '' },
+  { id: 'tokio_marine', name: 'طوكيو مارين مصر', logo: '' },
   { id: 'tokio_marine_life', name: 'طوكيو مارين لتأمينات الحياة', logo: '' },
   { id: 'arope', name: 'آروب للتأمين (Arope)', logo: '' },
   { id: 'arope_life', name: 'آروب لتأمينات الحياة', logo: '' },
-  { id: 'medgulf', name: 'المتوسط والخليج للتأمين (ميدجلف)', logo: '' },
+  { id: 'medgulf', name: 'المتوسط والخليج للتأمين', logo: '' },
   { id: 'aig', name: 'AIG للتأمين', logo: '' },
   { id: 'ls_takaful', name: 'اللبنانية السويسرية تكافل مصر', logo: '' },
   { id: 'bupa', name: 'بوبا إيجيبت للتأمين', logo: '' },
@@ -1103,68 +974,49 @@ var INSURANCE_COMPANIES = [
 ];
 
 // ================================================================
-// MASTER DATA - COMPLETE INSURANCE TYPES (جميع أنواع التأمين)
+// MASTER DATA - COMPLETE INSURANCE TYPES
 // ================================================================
 var INSURANCE_TYPES = [
-  // تأمينات الحياة
   { id: 'life_temporary', name: 'تأمين الحياة المؤقت', icon: '📋', color: 'life' },
   { id: 'life_whole', name: 'تأمين الحياة مدى الحياة', icon: '🔄', color: 'life' },
-  { id: 'life_mixed', name: 'تأمين الحياة المختلط (الادخاري)', icon: '💰', color: 'investment' },
-  { id: 'life_unit', name: 'تأمين الحياة الاستثماري (Unit-Linked)', icon: '📈', color: 'investment' },
-  { id: 'pension', name: 'تأمين دفعات التقاعد والمعاشات', icon: '👴', color: 'pension' },
-  { id: 'savings', name: 'عمليات تكوين الأموال وعقود الادخار', icon: '🏦', color: 'investment' },
-  
-  // تأمينات صحية
+  { id: 'life_mixed', name: 'تأمين الحياة المختلط', icon: '💰', color: 'investment' },
+  { id: 'life_unit', name: 'تأمين الحياة الاستثماري', icon: '📈', color: 'investment' },
+  { id: 'pension', name: 'تأمين دفعات التقاعد', icon: '👴', color: 'pension' },
+  { id: 'savings', name: 'عمليات تكوين الأموال', icon: '🏦', color: 'investment' },
   { id: 'accident', name: 'تأمين الحوادث الشخصية', icon: '🩹', color: 'medical' },
-  { id: 'medical', name: 'تأمين العلاج الطبي الفردي والجماعي', icon: '🏥', color: 'medical' },
+  { id: 'medical', name: 'تأمين العلاج الطبي', icon: '🏥', color: 'medical' },
   { id: 'medical_specialized', name: 'التأمين الطبي المتخصص', icon: '🔬', color: 'health' },
   { id: 'health_comprehensive', name: 'منظومة التأمين الصحي الشامل', icon: '❤️', color: 'health' },
-  
-  // تأمينات الممتلكات
   { id: 'fire', name: 'التأمين ضد أخطار الحريق', icon: '🔥', color: 'property' },
   { id: 'theft', name: 'تأمين السرقة والسطو', icon: '🔒', color: 'property' },
   { id: 'cash_transport', name: 'تأمين نقل النقدية', icon: '💰', color: 'property' },
   { id: 'fidelity', name: 'تأمين خيانة الأمانة', icon: '⚖️', color: 'liability' },
-  
-  // تأمينات السيارات
   { id: 'car_comprehensive', name: 'التأمين التكميلي على السيارات', icon: '🚗', color: 'car' },
   { id: 'car_mandatory', name: 'التأمين الإجباري على السيارات', icon: '🚦', color: 'car' },
-  
-  // تأمينات النقل
   { id: 'marine_cargo', name: 'تأمين النقل البحري للبضائع', icon: '🚢', color: 'marine' },
   { id: 'air_cargo', name: 'تأمين النقل الجوي للبضائع', icon: '✈️', color: 'travel' },
   { id: 'land_cargo', name: 'تأمين النقل البري', icon: '🚛', color: 'marine' },
-  { id: 'hull_marine', name: 'تأمين أجسام السفن والآلات البحرية', icon: '⛴️', color: 'marine' },
+  { id: 'hull_marine', name: 'تأمين أجسام السفن', icon: '⛴️', color: 'marine' },
   { id: 'hull_air', name: 'تأمين أجسام الطائرات', icon: '🛩️', color: 'travel' },
-  
-  // تأمينات هندسية
   { id: 'contractors', name: 'تأمين كافة أخطار المقاولين', icon: '🏗️', color: 'engineering' },
   { id: 'erection', name: 'تأمين كافة أخطار التركيب', icon: '🔧', color: 'engineering' },
   { id: 'machinery', name: 'تأمين عطب الماكينات', icon: '⚙️', color: 'engineering' },
   { id: 'profit_loss', name: 'تأمين خسارة الأرباح', icon: '📊', color: 'engineering' },
   { id: 'oil_gas', name: 'تأمينات البترول والغاز', icon: '🛢️', color: 'engineering' },
   { id: 'energy', name: 'تأمينات الطاقة والكهرباء', icon: '⚡', color: 'engineering' },
-  
-  // تأمينات زراعية
-  { id: 'agriculture', name: 'التأمين الزراعي والثروة الحيوانية', icon: '🌾', color: 'agriculture' },
-  
-  // تأمينات الائتمان
-  { id: 'credit', name: 'تأمين الائتمان وضمان عدم السداد', icon: '💳', color: 'export' },
+  { id: 'agriculture', name: 'التأمين الزراعي', icon: '🌾', color: 'agriculture' },
+  { id: 'credit', name: 'تأمين الائتمان', icon: '💳', color: 'export' },
   { id: 'export_guarantee', name: 'تأمين ضمان الصادرات', icon: '📦', color: 'export' },
-  
-  // تأمينات المسؤولية
-  { id: 'liability_general', name: 'تأمين المسؤولية المدنية العامة', icon: '⚖️', color: 'liability' },
+  { id: 'liability_general', name: 'تأمين المسؤولية المدنية', icon: '⚖️', color: 'liability' },
   { id: 'liability_professional', name: 'تأمين المسؤولية المهنية', icon: '👨‍⚕️', color: 'liability' },
-  
-  // تأمينات متخصصة
   { id: 'terrorism', name: 'تأمين أخطار الإرهاب', icon: '⚠️', color: 'other' },
   { id: 'cyber', name: 'التأمين ضد المخاطر الإلكترونية', icon: '💻', color: 'cyber' },
-  { id: 'takaful', name: 'التأمين التكافلي (ممتلكات وحياة)', icon: '🤝', color: 'takaful' },
+  { id: 'takaful', name: 'التأمين التكافلي', icon: '🤝', color: 'takaful' },
   { id: 'micro', name: 'التأمين متناهي الصغر', icon: '🌱', color: 'micro' },
-  { id: 'travel', name: 'تأمين السفر ورعاية المصريين بالخارج', icon: '✈️', color: 'travel' },
-  { id: 'railway', name: 'تأمين حوادث القطارات والمترو', icon: '🚆', color: 'other' },
-  { id: 'students', name: 'التأمين على طلاب المدارس والجامعات', icon: '🎓', color: 'medical' },
-  { id: 'social', name: 'التأمين الاجتماعي الحكومي', icon: '🏛️', color: 'pension' }
+  { id: 'travel', name: 'تأمين السفر', icon: '✈️', color: 'travel' },
+  { id: 'railway', name: 'تأمين حوادث القطارات', icon: '🚆', color: 'other' },
+  { id: 'students', name: 'التأمين على الطلاب', icon: '🎓', color: 'medical' },
+  { id: 'social', name: 'التأمين الاجتماعي', icon: '🏛️', color: 'pension' }
 ];
 
 // ================================================================
@@ -1319,16 +1171,6 @@ auth.onAuthStateChanged(function(user) {
 });
 
 // ================================================================
-// LANG
-// ================================================================
-function toggleLang() {
-  var el = document.getElementById('topLang');
-  if (el) el.textContent = el.textContent === 'English' ? 'العربية' : 'English';
-  var el2 = document.getElementById('langBtn');
-  if (el2) el2.textContent = el2.textContent === 'English' ? 'العربية' : 'English';
-}
-
-// ================================================================
 // DATA LOADING
 // ================================================================
 function col(name) {
@@ -1361,12 +1203,13 @@ function loadAll() {
       }
     });
     
-    // Use master data if Firebase is empty
     if (DATA.types.length === 0) DATA.types = INSURANCE_TYPES;
     if (DATA.companies.length === 0) DATA.companies = INSURANCE_COMPANIES;
     
     renderAll();
     refreshAllSelects();
+    // Fill doc upload client select
+    refreshDocClientSelect();
   });
 }
 
@@ -1390,13 +1233,14 @@ function renderAll() {
 }
 
 // ================================================================
-// REFRESH ALL SELECTS - SOLUTION FOR DROPDOWNS
+// REFRESH ALL SELECTS
 // ================================================================
 function refreshAllSelects() {
   refreshClientSelects();
   refreshTypeSelects();
   refreshCompanySelects();
   refreshPolicySelects();
+  refreshDocClientSelect();
 }
 
 function refreshClientSelects() {
@@ -1411,6 +1255,17 @@ function refreshClientSelects() {
     });
     if (val) s.value = val;
   });
+}
+
+function refreshDocClientSelect() {
+  var s = document.getElementById('docClient');
+  if (!s) return;
+  var val = s.value;
+  s.innerHTML = '<option value="">اختر العميل</option>';
+  DATA.clients.forEach(function(c) {
+    s.innerHTML += '<option value="' + c.id + '">' + esc(c.fullName || c.username) + '</option>';
+  });
+  if (val) s.value = val;
 }
 
 function refreshTypeSelects() {
@@ -1573,14 +1428,14 @@ function renderClaims() {
     .map(function(c) {
       var policy = DATA.policies.find(function(x) { return x.id === c.policyId; });
       var statusBadge = c.status === 'approved' ? '<span class="badge badge-success">معتمد</span>' : c.status === 'rejected' ? '<span class="badge badge-danger">مرفوض</span>' : c.status === 'settled' ? '<span class="badge badge-info">مسوى</span>' : '<span class="badge badge-warning">قيد المراجعة</span>';
-      return '<tr><td>' + esc(clientName(c.clientId)) + '</td><td>' + esc(c.type) + '</td><td>' + esc(c.policyNumber || policy?.policyNumber || '—') + '</td><td>' + Number(c.amount || 0).toLocaleString('en-US') + ' EGP</td><td>' + statusBadge + '</td><td>' + date(c.updatedAt || c.createdAt) + '</td><td><select onchange="changeClaim(\'' + c.id + '\',this.value)" style="padding:4px 8px;border-radius:6px;border:1px solid var(--line)"><option value="">تحديث</option><option value="under_review">قيد المراجعة</option><option value="approved">معتمد</option><option value="settled">مسوى</option><option value="rejected">مرفوض</option></select></td></tr>';
+      return '<tr><td>' + esc(clientName(c.clientId)) + '</td><td>' + esc(c.type) + '</td><td>' + esc(c.policyNumber || policy?.policyNumber || '—') + '</td><td>' + Number(c.amount || 0).toLocaleString('en-US') + ' EGP</td><td>' + statusBadge + '</td><td>' + date(c.updatedAt || c.createdAt) + '</td><td><select onchange="changeClaim(\'' + c.id + '\',this.value)" style="padding:4px 8px;border-radius:6px;border:1px solid var(--line);font-size:12px"><option value="">تحديث</option><option value="under_review">قيد المراجعة</option><option value="approved">معتمد</option><option value="settled">مسوى</option><option value="rejected">مرفوض</option></select></td></tr>';
     })
     .join('');
   document.getElementById('claimsBody').innerHTML = html || '<tr><td colspan="7"><div class="empty">لا توجد مطالبات</div></td></tr>';
 }
 
 // ================================================================
-// DOCUMENTS
+// DOCUMENTS (مع رفع المستندات)
 // ================================================================
 function renderDocuments() {
   var q = (document.getElementById('docSearch')?.value || '').toLowerCase();
@@ -1600,6 +1455,79 @@ function renderDocuments() {
     })
     .join('');
   document.getElementById('documentsBody').innerHTML = html || '<tr><td colspan="7"><div class="empty">لا توجد مستندات</div></td></tr>';
+}
+
+// ================================================================
+// UPLOAD DOCUMENT FUNCTION
+// ================================================================
+function openDocUploadModal() {
+  document.getElementById('docUploadErr').textContent = '';
+  document.getElementById('docName').value = '';
+  document.getElementById('docFile').value = '';
+  document.getElementById('docFileName').textContent = 'لم يتم اختيار ملف';
+  refreshDocClientSelect();
+  openModal('docUploadModal');
+  
+  // File input change handler
+  document.getElementById('docFile').onchange = function(e) {
+    var file = e.target.files[0];
+    if (file) {
+      document.getElementById('docFileName').textContent = '📎 ' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+    } else {
+      document.getElementById('docFileName').textContent = 'لم يتم اختيار ملف';
+    }
+  };
+}
+
+function uploadDocument() {
+  var clientId = document.getElementById('docClient').value;
+  var fileName = document.getElementById('docName').value.trim();
+  var fileType = document.getElementById('docType').value;
+  var fileInput = document.getElementById('docFile');
+  var err = document.getElementById('docUploadErr');
+  
+  err.textContent = '';
+  
+  if (!clientId) { err.textContent = 'يرجى اختيار العميل'; return; }
+  if (!fileName) { err.textContent = 'يرجى إدخال اسم المستند'; return; }
+  if (!fileInput.files || !fileInput.files[0]) { err.textContent = 'يرجى اختيار ملف'; return; }
+  
+  var file = fileInput.files[0];
+  if (file.size > 5 * 1024 * 1024) {
+    err.textContent = 'حجم الملف كبير جداً. الحد الأقصى 5MB';
+    return;
+  }
+  
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var fileData = e.target.result;
+    
+    db.collection('documents').add({
+      clientId: clientId,
+      fileName: fileName,
+      fileType: fileType,
+      fileOriginalName: file.name,
+      fileSize: file.size,
+      dataUrl: fileData,
+      uploadedBy: 'agent',
+      verificationStatus: 'pending',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(function() {
+      closeModal('docUploadModal');
+      toast('✅ تم رفع المستند بنجاح');
+      return loadAll();
+    })
+    .catch(function(error) {
+      err.textContent = 'فشل رفع المستند: ' + error.message;
+    });
+  };
+  
+  reader.onerror = function() {
+    err.textContent = 'فشل قراءة الملف';
+  };
+  
+  reader.readAsDataURL(file);
 }
 
 // ================================================================
@@ -1642,7 +1570,7 @@ function runRenewalReminders() {
 }
 
 // ================================================================
-// COMPANIES - مع عرض جميع الشركات وربطها
+// COMPANIES
 // ================================================================
 function renderCompanies() {
   var q = (document.getElementById('companySearch')?.value || '').toLowerCase();
@@ -1709,7 +1637,7 @@ function openCompanyProfile(value) {
 }
 
 // ================================================================
-// INSURANCE TYPES - مع عرض جميع الأنواع وربطها
+// INSURANCE TYPES
 // ================================================================
 function renderInsuranceTypes() {
   var q = (document.getElementById('typeSearch')?.value || '').toLowerCase();
@@ -2240,17 +2168,21 @@ function createClaim() {
 
 function changeClaim(id, status) {
   if (!status) return;
-  db.collection('claims').doc(id).update({ status: status })
+  db.collection('claims').doc(id).update({ status: status, updatedAt: firebase.firestore.FieldValue.serverTimestamp() })
     .then(function() { return loadAll(); })
     .then(function() { toast('✅ تم تحديث الحالة'); })
     .catch(function() { toast('❌ تعذر التحديث'); });
 }
 
 function verifyDocument(id, status) {
-  db.collection('documents').doc(id).update({ verificationStatus: status })
-    .then(function() { return loadAll(); })
-    .then(function() { toast(status === 'approved' ? '✅ تم الاعتماد' : '✅ تم الرفض'); })
-    .catch(function() { toast('❌ تعذر التحديث'); });
+  db.collection('documents').doc(id).update({ 
+    verificationStatus: status,
+    verifiedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    verifiedBy: auth.currentUser ? auth.currentUser.uid : ''
+  })
+  .then(function() { return loadAll(); })
+  .then(function() { toast(status === 'approved' ? '✅ تم الاعتماد' : '✅ تم الرفض'); })
+  .catch(function() { toast('❌ تعذر التحديث'); });
 }
 
 function notify(clientId, title, body) {
@@ -2290,7 +2222,7 @@ function initSelects() {
   });
   
   // Fill client selects
-  var clientSelects = ['pClient', 'payClient', 'clClient'];
+  var clientSelects = ['pClient', 'payClient', 'clClient', 'docClient'];
   clientSelects.forEach(function(id) {
     var s = document.getElementById(id);
     if (!s) return;
