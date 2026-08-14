@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Secure PATH — Admin & Agent Center v3.1</title>
+<title>Secure PATH — Admin & Agent Center</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -184,22 +184,22 @@ tr:last-child td{border-bottom:0}
     <aside class="side">
       <div class="brand"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50,10 L90,25 L90,65 C90,80 50,95 50,95 C50,95 10,80 10,65 L10,25 Z' fill='%23F2BD63'/><path d='M50,20 L80,32 L80,60 C80,72 50,84 50,84 C50,84 20,72 20,60 L20,32 Z' fill='%230E2A5C'/></svg>" alt="Secure PATH"><b>Secure PATH</b></div>
       <nav class="nav">
-        <button type="button" data-view="dashboard" onclick="showView('dashboard',this)"><span class="navicon">▦</span><span data-i="dashboard">لوحة التحكم</span></button>
-        <button type="button" data-view="clients" onclick="showView('clients',this)"><span class="navicon">♙</span><span data-i="clients">العملاء</span></button>
-        <button type="button" data-view="policies" onclick="showView('policies',this)"><span class="navicon">▣</span><span data-i="policies">الوثائق</span></button>
-        <button type="button" data-view="payments" onclick="showView('payments',this)"><span class="navicon">₣</span><span data-i="payments">المدفوعات</span></button>
-        <button type="button" data-view="claims" onclick="showView('claims',this)"><span class="navicon">!</span><span data-i="claims">المطالبات</span></button>
-        <button type="button" data-view="documents" onclick="showView('documents',this)"><span class="navicon">▤</span><span data-i="documents">المستندات</span></button>
-        <button type="button" data-view="renewals" onclick="showView('renewals',this)"><span class="navicon">↻</span><span data-i="renewals">التجديدات</span></button>
-        <button type="button" data-view="companies" onclick="showView('companies',this)"><span class="navicon">◆</span><span data-i="companies">شركات التأمين</span></button>
-        <button type="button" data-view="types" onclick="showView('types',this)"><span class="navicon">◈</span><span data-i="types">أنواع التأمين</span></button>
-        <button type="button" data-view="products" onclick="showView('products',this)"><span class="navicon">▰</span><span data-i="products">المنتجات</span></button>
-        <button type="button" data-view="reports" onclick="showView('reports',this)"><span class="navicon">▥</span><span data-i="reports">التقارير</span></button>
-        <button type="button" data-view="assessments" onclick="showView('assessments',this)"><span class="navicon">◉</span><span data-i="assessments">تقييمات الحماية</span></button>
-        <button type="button" data-view="compliance" onclick="showView('compliance',this)"><span class="navicon">✓</span><span data-i="compliance">الامتثال</span></button>
-        <button type="button" data-view="messages" onclick="showView('messages',this)"><span class="navicon">✉</span><span data-i="messages">المحادثات</span><b id="msgBadge" class="badge hidden">0</b></button>
-        <button type="button" data-view="notifications" onclick="showView('notifications',this)"><span class="navicon">◉</span><span data-i="notifications">الإشعارات</span></button>
-        <button type="button" data-view="activity" onclick="showView('activity',this)"><span class="navicon">◷</span><span data-i="activity">سجل النشاط</span></button>
+        <button type="button" data-view="dashboard" onclick="showView('dashboard',this)"><span class="navicon">▦</span> لوحة التحكم</button>
+        <button type="button" data-view="clients" onclick="showView('clients',this)"><span class="navicon">♙</span> العملاء</button>
+        <button type="button" data-view="policies" onclick="showView('policies',this)"><span class="navicon">▣</span> الوثائق</button>
+        <button type="button" data-view="payments" onclick="showView('payments',this)"><span class="navicon">₣</span> المدفوعات</button>
+        <button type="button" data-view="claims" onclick="showView('claims',this)"><span class="navicon">!</span> المطالبات</button>
+        <button type="button" data-view="documents" onclick="showView('documents',this)"><span class="navicon">▤</span> المستندات</button>
+        <button type="button" data-view="renewals" onclick="showView('renewals',this)"><span class="navicon">↻</span> التجديدات</button>
+        <button type="button" data-view="companies" onclick="showView('companies',this)"><span class="navicon">◆</span> شركات التأمين</button>
+        <button type="button" data-view="types" onclick="showView('types',this)"><span class="navicon">◈</span> أنواع التأمين</button>
+        <button type="button" data-view="products" onclick="showView('products',this)"><span class="navicon">▰</span> المنتجات</button>
+        <button type="button" data-view="reports" onclick="showView('reports',this)"><span class="navicon">▥</span> التقارير</button>
+        <button type="button" data-view="assessments" onclick="showView('assessments',this)"><span class="navicon">◉</span> تقييمات الحماية</button>
+        <button type="button" data-view="compliance" onclick="showView('compliance',this)"><span class="navicon">✓</span> الامتثال</button>
+        <button type="button" data-view="messages" onclick="showView('messages',this)"><span class="navicon">✉</span> المحادثات<b id="msgBadge" class="badge hidden">0</b></button>
+        <button type="button" data-view="notifications" onclick="showView('notifications',this)"><span class="navicon">◉</span> الإشعارات</button>
+        <button type="button" data-view="activity" onclick="showView('activity',this)"><span class="navicon">◷</span> سجل النشاط</button>
       </nav>
       <div class="sidefoot">
         <span id="userEmail">—</span><br>
@@ -535,28 +535,10 @@ tr:last-child td{border-bottom:0}
 <div id="typeModal" class="overlay">
   <div class="modal">
     <h2>إضافة نوع تأمين جديد</h2>
-    <div class="field"><label>اسم النوع</label><input id="tName" placeholder="مثال: تأمين الحياة المؤقت"></div>
-    <div class="field"><label>الوصف</label><textarea id="tDesc" rows="2" placeholder="وصف مختصر"></textarea></div>
-    <div class="field"><label>التصنيف الرئيسي</label><select id="tCategory"><option value="life">تأمينات الحياة</option><option value="health">تأمينات صحية</option><option value="property">تأمينات الممتلكات</option><option value="motor">تأمينات السيارات</option><option value="marine">تأمينات النقل والبحري</option><option value="engineering">تأمينات هندسية</option><option value="agriculture">تأمينات زراعية</option><option value="liability">تأمينات المسؤولية</option><option value="credit">تأمينات الائتمان</option><option value="cyber">تأمينات إلكترونية</option><option value="takaful">تأمين تكافلي</option><option value="micro">تأمين متناهي الصغر</option><option value="travel">تأمين السفر</option><option value="other">أخرى</option></select></div>
-    <div class="field"><label>اللون</label><select id="tColor">
-      <option value="medical">طبي (أزرق)</option>
-      <option value="life">حياة (وردي)</option>
-      <option value="car">سيارات (أخضر)</option>
-      <option value="property">ممتلكات (برتقالي)</option>
-      <option value="travel">سفر (بنفسجي)</option>
-      <option value="engineering">هندسي (أزرق غامق)</option>
-      <option value="liability">مسؤولية (أحمر)</option>
-      <option value="marine">بحري (فيروزي)</option>
-      <option value="agriculture">زراعي (أخضر فاتح)</option>
-      <option value="cyber">سيبراني (أرجواني)</option>
-      <option value="health">صحي (أخضر غامق)</option>
-      <option value="investment">استثماري (أزرق فاتح)</option>
-      <option value="pension">معاشات (ذهبي)</option>
-      <option value="export">صادرات (فيروزي فاتح)</option>
-      <option value="micro">متناهي الصغر (وردي فاتح)</option>
-      <option value="takaful">تكافلي (رمادي)</option>
-      <option value="other">أخرى (رمادي)</option>
-    </select></div>
+    <div class="field"><label>اسم النوع</label><input id="tName"></div>
+    <div class="field"><label>الوصف</label><textarea id="tDesc" rows="2"></textarea></div>
+    <div class="field"><label>التصنيف الرئيسي</label><select id="tCategory"><option value="life">تأمينات الحياة</option><option value="health">تأمينات صحية</option><option value="property">تأمينات الممتلكات</option><option value="motor">تأمينات السيارات</option><option value="marine">تأمينات النقل</option><option value="engineering">تأمينات هندسية</option><option value="agriculture">تأمينات زراعية</option><option value="liability">تأمينات المسؤولية</option><option value="credit">تأمينات الائتمان</option><option value="cyber">تأمينات إلكترونية</option><option value="takaful">تأمين تكافلي</option><option value="micro">تأمين متناهي الصغر</option><option value="travel">تأمين السفر</option><option value="other">أخرى</option></select></div>
+    <div class="field"><label>اللون</label><select id="tColor"><option value="medical">طبي (أزرق)</option><option value="life">حياة (وردي)</option><option value="car">سيارات (أخضر)</option><option value="property">ممتلكات (برتقالي)</option><option value="travel">سفر (بنفسجي)</option><option value="engineering">هندسي (أزرق غامق)</option><option value="liability">مسؤولية (أحمر)</option><option value="marine">بحري (فيروزي)</option><option value="agriculture">زراعي (أخضر فاتح)</option><option value="cyber">سيبراني (أرجواني)</option><option value="health">صحي (أخضر غامق)</option><option value="investment">استثماري (أزرق فاتح)</option><option value="pension">معاشات (ذهبي)</option><option value="export">صادرات (فيروزي فاتح)</option><option value="micro">متناهي الصغر (وردي فاتح)</option><option value="takaful">تكافلي (رمادي)</option><option value="other">أخرى (رمادي)</option></select></div>
     <div id="tErr" class="warn" style="font-size:12px"></div>
     <div class="modalfoot">
       <button class="btn outline" onclick="closeModal('typeModal')">إلغاء</button>
@@ -605,9 +587,9 @@ tr:last-child td{border-bottom:0}
 
 <!-- ==================== JAVASCRIPT ==================== -->
 <script>
-// ========================================
+// =============================================
 // FIREBASE CONFIG
-// ========================================
+// =============================================
 var firebaseConfig = {
   apiKey: 'AIzaSyCkRYPffAEBRivC2Si5T-ILL99ZrSq-dWM',
   authDomain: 'path-1a672.firebaseapp.com',
@@ -624,142 +606,126 @@ if (typeof firebase !== 'undefined' && !firebase.apps.length) {
 var auth = firebase.auth();
 var db = firebase.firestore();
 
-// ========================================
-// MASTER DATA - COMPLETE INSURANCE COMPANIES IN EGYPT
-// ========================================
+// =============================================
+// MASTER DATA - COMPLETE INSURANCE COMPANIES
+// =============================================
 var INSURANCE_COMPANIES = [
-  // شركات التأمين الحكومية
-  { id: 'misr', name: 'مصر للتأمين', logo: '' },
-  { id: 'misr_life', name: 'مصر لتأمينات الحياة', logo: '' },
-  { id: 'ecgs', name: 'الشركة المصرية لضمان الصادرات', logo: '' },
-  
-  // مجموعة أليانز
-  { id: 'allianz', name: 'أليانز للتأمين', logo: '' },
-  { id: 'allianz_life', name: 'أليانز لتأمينات الحياة', logo: '' },
-  
-  // مجموعة أكسا
-  { id: 'axa', name: 'أكسا للتأمين', logo: '' },
-  { id: 'axa_life', name: 'أكسا لتأمينات الحياة', logo: '' },
-  
-  // مجموعة GIG
-  { id: 'gig', name: 'GIG للتأمين', logo: '' },
-  { id: 'gig_life', name: 'GIG لتأمينات الحياة', logo: '' },
-  
-  // شركات تأمين مصرية
-  { id: 'scs', name: 'شركة قناة السويس للتأمين', logo: '' },
-  { id: 'mohandes', name: 'شركة المهندس للتأمين', logo: '' },
-  { id: 'delta', name: 'شركة الدلتا للتأمين', logo: '' },
-  
-  // شركات تأمين دولية
-  { id: 'chubb', name: 'تشب للتأمين (Chubb)', logo: '' },
-  { id: 'royal', name: 'رويال للتأمين', logo: '' },
-  
-  // مجموعة ثروة
-  { id: 'tharwa', name: 'ثروة للتأمين', logo: '' },
-  { id: 'tharwa_life', name: 'ثروة لتأمينات الحياة', logo: '' },
-  
-  // متلايف
-  { id: 'metlife', name: 'متلايف أليكو (MetLife)', logo: '' },
-  { id: 'qnbalahli', name: 'QNB الأهلي لتأمينات الحياة', logo: '' },
-  
-  // شركات التكافل
-  { id: 'orient_takaful', name: 'أورينت للتأمين التكافلي', logo: '' },
-  { id: 'misr_takaful', name: 'المصرية للتأمين التكافلي (ممتلكات)', logo: '' },
-  { id: 'misr_life_takaful', name: 'المصرية لتأمينات الحياة التكافلي', logo: '' },
-  { id: 'beit_takaful', name: 'بيت التأمين المصري السعودي', logo: '' },
-  { id: 'wathaq_takaful', name: 'وثاق للتأمين التكافلي', logo: '' },
-  
-  // شركات تأمين متخصصة
-  { id: 'eskan', name: 'إسكان للتأمين', logo: '' },
-  { id: 'tokio_marine', name: 'طوكيو مارين مصر (ممتلكات)', logo: '' },
-  { id: 'tokio_marine_life', name: 'طوكيو مارين لتأمينات الحياة', logo: '' },
-  { id: 'arope', name: 'آروب للتأمين (Arope)', logo: '' },
-  { id: 'arope_life', name: 'آروب لتأمينات الحياة', logo: '' },
-  { id: 'medgulf', name: 'المتوسط والخليج للتأمين (ميدجلف)', logo: '' },
-  { id: 'aig', name: 'AIG للتأمين', logo: '' },
-  { id: 'ls_takaful', name: 'اللبنانية السويسرية تكافل مصر', logo: '' },
-  { id: 'bupa', name: 'بوبا إيجيبت للتأمين', logo: '' },
-  { id: 'africa_re', name: 'الشركة الأفريقية لإعادة التأمين (فرع مصر)', logo: '' }
+  { id: 'misr', name: 'مصر للتأمين' },
+  { id: 'misr_life', name: 'مصر لتأمينات الحياة' },
+  { id: 'ecgs', name: 'الشركة المصرية لضمان الصادرات' },
+  { id: 'allianz', name: 'أليانز للتأمين' },
+  { id: 'allianz_life', name: 'أليانز لتأمينات الحياة' },
+  { id: 'axa', name: 'أكسا للتأمين' },
+  { id: 'axa_life', name: 'أكسا لتأمينات الحياة' },
+  { id: 'gig', name: 'GIG للتأمين' },
+  { id: 'gig_life', name: 'GIG لتأمينات الحياة' },
+  { id: 'scs', name: 'شركة قناة السويس للتأمين' },
+  { id: 'mohandes', name: 'شركة المهندس للتأمين' },
+  { id: 'delta', name: 'شركة الدلتا للتأمين' },
+  { id: 'chubb', name: 'تشب للتأمين (Chubb)' },
+  { id: 'royal', name: 'رويال للتأمين' },
+  { id: 'tharwa', name: 'ثروة للتأمين' },
+  { id: 'tharwa_life', name: 'ثروة لتأمينات الحياة' },
+  { id: 'metlife', name: 'متلايف أليكو (MetLife)' },
+  { id: 'qnbalahli', name: 'QNB الأهلي لتأمينات الحياة' },
+  { id: 'orient_takaful', name: 'أورينت للتأمين التكافلي' },
+  { id: 'misr_takaful', name: 'المصرية للتأمين التكافلي (ممتلكات)' },
+  { id: 'misr_life_takaful', name: 'المصرية لتأمينات الحياة التكافلي' },
+  { id: 'beit_takaful', name: 'بيت التأمين المصري السعودي' },
+  { id: 'wathaq_takaful', name: 'وثاق للتأمين التكافلي' },
+  { id: 'eskan', name: 'إسكان للتأمين' },
+  { id: 'tokio_marine', name: 'طوكيو مارين مصر (ممتلكات)' },
+  { id: 'tokio_marine_life', name: 'طوكيو مارين لتأمينات الحياة' },
+  { id: 'arope', name: 'آروب للتأمين (Arope)' },
+  { id: 'arope_life', name: 'آروب لتأمينات الحياة' },
+  { id: 'medgulf', name: 'المتوسط والخليج للتأمين (ميدجلف)' },
+  { id: 'aig', name: 'AIG للتأمين' },
+  { id: 'ls_takaful', name: 'اللبنانية السويسرية تكافل مصر' },
+  { id: 'bupa', name: 'بوبا إيجيبت للتأمين' },
+  { id: 'africa_re', name: 'الشركة الأفريقية لإعادة التأمين (فرع مصر)' }
 ];
 
-// ========================================
-// MASTER DATA - COMPLETE INSURANCE TYPES IN EGYPT
-// ========================================
+// =============================================
+// MASTER DATA - COMPLETE INSURANCE TYPES
+// =============================================
 var INSURANCE_TYPES = [
   // تأمينات الحياة
-  { id: 'life_temporary', name: 'تأمين الحياة المؤقت', icon: '📋', color: 'life', category: 'life', description: 'تأمين لفترة محددة مع دفع تعويض في حالة الوفاة' },
-  { id: 'life_whole', name: 'تأمين الحياة مدى الحياة', icon: '🔄', color: 'life', category: 'life', description: 'تأمين يغطي مدى الحياة بالكامل' },
-  { id: 'life_mixed', name: 'تأمين الحياة المختلط (الادخاري)', icon: '💰', color: 'investment', category: 'life', description: 'يجمع بين التأمين والادخار' },
-  { id: 'life_unit', name: 'تأمين الحياة الاستثماري (Unit-Linked)', icon: '📈', color: 'investment', category: 'life', description: 'تأمين مرتبط بوحدات استثمارية' },
-  { id: 'pension', name: 'تأمين دفعات التقاعد والمعاشات التكميلية', icon: '👴', color: 'pension', category: 'life', description: 'تأمين معاشات تقاعدية تكميلية' },
-  { id: 'savings', name: 'عمليات تكوين الأموال وعقود الادخار', icon: '🏦', color: 'investment', category: 'life', description: 'عقود ادخار وتكوين أموال' },
-  
+  { id: 'life_temporary', name: 'تأمين الحياة المؤقت', icon: '📋', color: 'life' },
+  { id: 'life_whole', name: 'تأمين الحياة مدى الحياة', icon: '🔄', color: 'life' },
+  { id: 'life_mixed', name: 'تأمين الحياة المختلط (الادخاري)', icon: '💰', color: 'investment' },
+  { id: 'life_unit', name: 'تأمين الحياة الاستثماري (Unit-Linked)', icon: '📈', color: 'investment' },
+  { id: 'pension', name: 'تأمين دفعات التقاعد والمعاشات التكميلية', icon: '👴', color: 'pension' },
+  { id: 'savings', name: 'عمليات تكوين الأموال وعقود الادخار', icon: '🏦', color: 'investment' },
   // تأمينات صحية
-  { id: 'accident', name: 'تأمين الحوادث الشخصية', icon: '🩹', color: 'medical', category: 'health', description: 'تغطية حوادث الإصابة الشخصية' },
-  { id: 'medical', name: 'تأمين العلاج الطبي الفردي والجماعي', icon: '🏥', color: 'medical', category: 'health', description: 'تأمين طبي للأفراد والمجموعات' },
-  { id: 'medical_specialized', name: 'التأمين الطبي المتخصص', icon: '🔬', color: 'health', category: 'health', description: 'تأمين طبي للتخصصات الدقيقة' },
-  
+  { id: 'accident', name: 'تأمين الحوادث الشخصية', icon: '🩹', color: 'medical' },
+  { id: 'medical', name: 'تأمين العلاج الطبي الفردي والجماعي', icon: '🏥', color: 'medical' },
+  { id: 'medical_specialized', name: 'التأمين الطبي المتخصص', icon: '🔬', color: 'health' },
   // تأمينات الممتلكات
-  { id: 'fire', name: 'التأمين ضد أخطار الحريق والأخطار الحليفة', icon: '🔥', color: 'property', category: 'property', description: 'تغطية أضرار الحريق وما يرتبط به' },
-  { id: 'theft', name: 'تأمين السرقة والسطو', icon: '🔒', color: 'property', category: 'property', description: 'تأمين ضد عمليات السرقة' },
-  { id: 'cash_transport', name: 'تأمين نقل النقدية', icon: '💰', color: 'property', category: 'property', description: 'تأمين نقل الأموال النقدية' },
-  { id: 'fidelity', name: 'تأمين خيانة الأمانة', icon: '⚖️', color: 'liability', category: 'liability', description: 'تأمين ضد خيانة الموظفين' },
-  
+  { id: 'fire', name: 'التأمين ضد أخطار الحريق والأخطار الحليفة', icon: '🔥', color: 'property' },
+  { id: 'theft', name: 'تأمين السرقة والسطو', icon: '🔒', color: 'property' },
+  { id: 'cash_transport', name: 'تأمين نقل النقدية', icon: '💰', color: 'property' },
+  { id: 'fidelity', name: 'تأمين خيانة الأمانة', icon: '⚖️', color: 'liability' },
   // تأمينات السيارات
-  { id: 'car_comprehensive', name: 'التأمين التكميلي على السيارات', icon: '🚗', color: 'car', category: 'motor', description: 'تأمين شامل للمركبات' },
-  { id: 'car_mandatory', name: 'التأمين الإجباري على السيارات (المسؤولية المدنية)', icon: '🚦', color: 'car', category: 'motor', description: 'تأمين إجباري للمسؤولية المدنية' },
-  
+  { id: 'car_comprehensive', name: 'التأمين التكميلي على السيارات', icon: '🚗', color: 'car' },
+  { id: 'car_mandatory', name: 'التأمين الإجباري على السيارات (المسؤولية المدنية)', icon: '🚦', color: 'car' },
   // تأمينات النقل
-  { id: 'marine_cargo', name: 'تأمين النقل البحري للبضائع', icon: '🚢', color: 'marine', category: 'marine', description: 'تأمين البضائع المنقولة بحراً' },
-  { id: 'air_cargo', name: 'تأمين النقل الجوي للبضائع', icon: '✈️', color: 'travel', category: 'marine', description: 'تأمين البضائع المنقولة جواً' },
-  { id: 'land_cargo', name: 'تأمين النقل البري والنظري', icon: '🚛', color: 'marine', category: 'marine', description: 'تأمين النقل البري' },
-  { id: 'hull_marine', name: 'تأمين أجسام السفن والآلات البحرية', icon: '⛴️', color: 'marine', category: 'marine', description: 'تأمين السفن والمعدات البحرية' },
-  { id: 'hull_air', name: 'تأمين أجسام الطائرات والمعدات الجوية', icon: '🛩️', color: 'travel', category: 'marine', description: 'تأمين الطائرات' },
-  
+  { id: 'marine_cargo', name: 'تأمين النقل البحري للبضائع', icon: '🚢', color: 'marine' },
+  { id: 'air_cargo', name: 'تأمين النقل الجوي للبضائع', icon: '✈️', color: 'travel' },
+  { id: 'land_cargo', name: 'تأمين النقل البري والنظري', icon: '🚛', color: 'marine' },
+  { id: 'hull_marine', name: 'تأمين أجسام السفن والآلات البحرية', icon: '⛴️', color: 'marine' },
+  { id: 'hull_air', name: 'تأمين أجسام الطائرات والمعدات الجوية', icon: '🛩️', color: 'travel' },
   // تأمينات هندسية
-  { id: 'contractors', name: 'تأمين كافة أخطار المقاولين', icon: '🏗️', color: 'engineering', category: 'engineering', description: 'تغطية شاملة للمقاولين' },
-  { id: 'erection', name: 'تأمين كافة أخطار التركيب', icon: '🔧', color: 'engineering', category: 'engineering', description: 'تأمين أعمال التركيب' },
-  { id: 'machinery', name: 'تأمين عطب الماكينات والمعدات الهندسية', icon: '⚙️', color: 'engineering', category: 'engineering', description: 'تأمين أعطال الماكينات' },
-  { id: 'profit_loss', name: 'تأمين خسارة الأرباح الناتجة عن العطب الهندسي أو الحريق', icon: '📊', color: 'engineering', category: 'engineering', description: 'تأمين خسارة الأرباح' },
-  { id: 'oil_gas', name: 'تأمينات البترول والغاز', icon: '🛢️', color: 'engineering', category: 'engineering', description: 'تأمينات قطاع البترول والغاز' },
-  { id: 'energy', name: 'تأمينات الطاقة والكهرباء', icon: '⚡', color: 'engineering', category: 'engineering', description: 'تأمينات قطاع الطاقة' },
-  
+  { id: 'contractors', name: 'تأمين كافة أخطار المقاولين', icon: '🏗️', color: 'engineering' },
+  { id: 'erection', name: 'تأمين كافة أخطار التركيب', icon: '🔧', color: 'engineering' },
+  { id: 'machinery', name: 'تأمين عطب الماكينات والمعدات الهندسية', icon: '⚙️', color: 'engineering' },
+  { id: 'profit_loss', name: 'تأمين خسارة الأرباح الناتجة عن العطب الهندسي أو الحريق', icon: '📊', color: 'engineering' },
+  { id: 'oil_gas', name: 'تأمينات البترول والغاز', icon: '🛢️', color: 'engineering' },
+  { id: 'energy', name: 'تأمينات الطاقة والكهرباء', icon: '⚡', color: 'engineering' },
   // تأمينات زراعية
-  { id: 'agriculture', name: 'التأمين الزراعي وعلى الثروة الحيوانية والداجنة', icon: '🌾', color: 'agriculture', category: 'agriculture', description: 'تأمين المزارع والثروة الحيوانية' },
-  
+  { id: 'agriculture', name: 'التأمين الزراعي وعلى الثروة الحيوانية والداجنة', icon: '🌾', color: 'agriculture' },
   // تأمينات الائتمان
-  { id: 'credit', name: 'تأمين الائتمان وضمان عدم السداد', icon: '💳', color: 'export', category: 'credit', description: 'تأمين مخاطر عدم السداد' },
-  { id: 'export_guarantee', name: 'تأمين ضمان الصادرات', icon: '📦', color: 'export', category: 'credit', description: 'تأمين الصادرات' },
-  
+  { id: 'credit', name: 'تأمين الائتمان وضمان عدم السداد', icon: '💳', color: 'export' },
+  { id: 'export_guarantee', name: 'تأمين ضمان الصادرات', icon: '📦', color: 'export' },
   // تأمينات المسؤولية
-  { id: 'liability_general', name: 'تأمين المسؤولية المدنية العامة', icon: '⚖️', color: 'liability', category: 'liability', description: 'تأمين المسؤولية المدنية' },
-  { id: 'liability_professional', name: 'تأمين المسؤولية المهنية (للأطباء والمهندسين والمحاسبين)', icon: '👨‍⚕️', color: 'liability', category: 'liability', description: 'تأمين المسؤولية المهنية' },
-  
+  { id: 'liability_general', name: 'تأمين المسؤولية المدنية العامة', icon: '⚖️', color: 'liability' },
+  { id: 'liability_professional', name: 'تأمين المسؤولية المهنية (للأطباء والمهندسين والمحاسبين)', icon: '👨‍⚕️', color: 'liability' },
   // تأمينات متخصصة
-  { id: 'terrorism', name: 'تأمين أخطار الإرهاب والعنف السياسي', icon: '⚠️', color: 'other', category: 'other', description: 'تأمين مخاطر الإرهاب' },
-  { id: 'cyber', name: 'التأمين ضد المخاطر الإلكترونية (Cyber Insurance)', icon: '💻', color: 'cyber', category: 'cyber', description: 'تأمين المخاطر الإلكترونية' },
-  { id: 'takaful', name: 'التأمين التكافلي (ممتلكات وحياة)', icon: '🤝', color: 'takaful', category: 'takaful', description: 'تأمين تكافلي إسلامي' },
-  { id: 'micro', name: 'التأمين متناهي الصغر (Microinsurance)', icon: '🌱', color: 'micro', category: 'micro', description: 'تأمين محدود القيمة' },
-  { id: 'travel', name: 'تأمين السفر ورعاية المصريين بالخارج', icon: '✈️', color: 'travel', category: 'travel', description: 'تأمين السفر للمصريين بالخارج' },
-  { id: 'railway', name: 'تأمين حوادث القطارات والمترو والطرق السريعة', icon: '🚆', color: 'other', category: 'other', description: 'تأمين حوادث الطرق' },
-  { id: 'students', name: 'التأمين على طلاب المدارس والجامعات', icon: '🎓', color: 'medical', category: 'health', description: 'تأمين الطلاب' },
-  { id: 'social', name: 'التأمين الاجتماعي والمعاشات الحكومي', icon: '🏛️', color: 'pension', category: 'life', description: 'التأمين الاجتماعي الحكومي' },
-  { id: 'health_comprehensive', name: 'منظومة التأمين الصحي الشامل', icon: '❤️', color: 'health', category: 'health', description: 'التأمين الصحي الشامل' }
+  { id: 'terrorism', name: 'تأمين أخطار الإرهاب والعنف السياسي', icon: '⚠️', color: 'other' },
+  { id: 'cyber', name: 'التأمين ضد المخاطر الإلكترونية (Cyber Insurance)', icon: '💻', color: 'cyber' },
+  { id: 'takaful', name: 'التأمين التكافلي (ممتلكات وحياة)', icon: '🤝', color: 'takaful' },
+  { id: 'micro', name: 'التأمين متناهي الصغر (Microinsurance)', icon: '🌱', color: 'micro' },
+  { id: 'travel', name: 'تأمين السفر ورعاية المصريين بالخارج', icon: '✈️', color: 'travel' },
+  { id: 'railway', name: 'تأمين حوادث القطارات والمترو والطرق السريعة', icon: '🚆', color: 'other' },
+  { id: 'students', name: 'التأمين على طلاب المدارس والجامعات', icon: '🎓', color: 'medical' },
+  { id: 'social', name: 'التأمين الاجتماعي والمعاشات الحكومي', icon: '🏛️', color: 'pension' },
+  { id: 'health_comprehensive', name: 'منظومة التأمين الصحي الشامل', icon: '❤️', color: 'health' }
 ];
 
-// ========================================
+// =============================================
 // STATE
-// ========================================
+// =============================================
 var LANG = localStorage.getItem('sp_admin_lang') || 'ar';
-var DATA = { clients: [], policies: [], payments: [], claims: [], documents: [], messages: [], notifications: [], activity: [], products: [], companies: [], assessments: [], types: [] };
+var DATA = {
+  clients: [],
+  policies: [],
+  payments: [],
+  claims: [],
+  documents: [],
+  messages: [],
+  notifications: [],
+  activity: [],
+  products: [],
+  companies: [],
+  assessments: [],
+  types: []
+};
 var CURRENT_CHAT = null;
 var CHAT_UNSUB = null;
 var MSG_UNSUB = null;
-var UPLOAD_CLIENT_ID = null;
 
-// ========================================
+// =============================================
 // UTILITY FUNCTIONS
-// ========================================
+// =============================================
 function esc(v) {
   if (!v) return '';
   return String(v).replace(/[&<>'"]/g, function(c) {
@@ -803,30 +769,24 @@ function claimLabel(s) {
   return map[s] || s || '—';
 }
 
-// ========================================
+// =============================================
 // INSURANCE TYPE HELPERS
-// ========================================
+// =============================================
 function getTypeName(id) {
-  var type = DATA.types.length > 0 ? DATA.types.find(function(t) { return t.id === id; }) : null;
-  if (!type) {
-    type = INSURANCE_TYPES.find(function(t) { return t.id === id; });
-  }
+  var type = DATA.types.find(function(t) { return t.id === id; });
+  if (!type) type = INSURANCE_TYPES.find(function(t) { return t.id === id; });
   return type ? type.name : id || '—';
 }
 
 function getTypeColor(id) {
-  var type = DATA.types.length > 0 ? DATA.types.find(function(t) { return t.id === id; }) : null;
-  if (!type) {
-    type = INSURANCE_TYPES.find(function(t) { return t.id === id; });
-  }
+  var type = DATA.types.find(function(t) { return t.id === id; });
+  if (!type) type = INSURANCE_TYPES.find(function(t) { return t.id === id; });
   return type ? type.color : 'other';
 }
 
 function getTypeIcon(id) {
-  var type = DATA.types.length > 0 ? DATA.types.find(function(t) { return t.id === id; }) : null;
-  if (!type) {
-    type = INSURANCE_TYPES.find(function(t) { return t.id === id; });
-  }
+  var type = DATA.types.find(function(t) { return t.id === id; });
+  if (!type) type = INSURANCE_TYPES.find(function(t) { return t.id === id; });
   return type ? type.icon : '📄';
 }
 
@@ -837,10 +797,8 @@ function getTypeBadge(id) {
 }
 
 function getCompanyName(id) {
-  var company = DATA.companies.length > 0 ? DATA.companies.find(function(c) { return c.id === id; }) : null;
-  if (!company) {
-    company = INSURANCE_COMPANIES.find(function(c) { return c.id === id; });
-  }
+  var company = DATA.companies.find(function(c) { return c.id === id; });
+  if (!company) company = INSURANCE_COMPANIES.find(function(c) { return c.id === id; });
   return company ? company.name : id || '—';
 }
 
@@ -861,9 +819,9 @@ function closeModal(id) {
   if (el) el.classList.remove('show');
 }
 
-// ========================================
+// =============================================
 // AUTH
-// ========================================
+// =============================================
 function login() {
   var email = document.getElementById('email').value.trim();
   var pass = document.getElementById('pass').value;
@@ -897,9 +855,9 @@ auth.onAuthStateChanged(function(user) {
   }
 });
 
-// ========================================
+// =============================================
 // LANG
-// ========================================
+// =============================================
 function toggleLang() {
   LANG = LANG === 'ar' ? 'en' : 'ar';
   localStorage.setItem('sp_admin_lang', LANG);
@@ -910,9 +868,9 @@ function toggleLang() {
   renderAll();
 }
 
-// ========================================
+// =============================================
 // DATA LOADING
-// ========================================
+// =============================================
 function col(name) {
   return db.collection(name).get()
     .then(function(snap) {
@@ -943,13 +901,8 @@ function loadAll() {
       }
     });
     
-    // Merge with master data if empty
-    if (DATA.types.length === 0) {
-      DATA.types = INSURANCE_TYPES;
-    }
-    if (DATA.companies.length === 0) {
-      DATA.companies = INSURANCE_COMPANIES;
-    }
+    if (DATA.types.length === 0) DATA.types = INSURANCE_TYPES;
+    if (DATA.companies.length === 0) DATA.companies = INSURANCE_COMPANIES;
     
     renderAll();
     refreshAllSelects();
@@ -975,9 +928,9 @@ function renderAll() {
   updateBadge();
 }
 
-// ========================================
-// REFRESH ALL SELECTS
-// ========================================
+// =============================================
+// REFRESH ALL SELECTS (CRITICAL FIX)
+// =============================================
 function refreshAllSelects() {
   refreshClientSelects();
   refreshTypeSelects();
@@ -1001,7 +954,6 @@ function refreshTypeSelects() {
     var s = document.getElementById(id);
     if (!s) return;
     s.innerHTML = '<option value="">اختر النوع</option>';
-    // Use the complete list from INSURANCE_TYPES
     var allTypes = DATA.types.length > 0 ? DATA.types : INSURANCE_TYPES;
     allTypes.forEach(function(t) {
       s.innerHTML += '<option value="' + t.id + '">' + t.icon + ' ' + esc(t.name) + '</option>';
@@ -1037,9 +989,9 @@ function refreshPolicySelect(clientId, policyId) {
   });
 }
 
-// ========================================
+// =============================================
 // DASHBOARD
-// ========================================
+// =============================================
 function renderDashboard() {
   var openClaims = DATA.claims.filter(function(x) { return !['settled', 'rejected'].includes(x.status); }).length;
   var unread = DATA.messages.filter(function(x) { return x.sender === 'client' && !x.autoReply && !x.readByAdmin; }).length;
@@ -1066,7 +1018,6 @@ function renderDashboard() {
   document.getElementById('sActive').textContent = active + ' سارية';
   document.getElementById('sProtectionAvg').textContent = avg === null ? '—' : avg + '%';
 
-  // Expiring policies
   var expiringHtml = DATA.policies
     .filter(function(p) { return days(p.endDate) >= 0 && days(p.endDate) <= 45; })
     .sort(function(a, b) { return days(a.endDate) - days(b.endDate); })
@@ -1077,7 +1028,6 @@ function renderDashboard() {
     .join('') || '<div class="empty">—</div>';
   document.getElementById('dashExpiring').innerHTML = expiringHtml;
 
-  // Activity
   var activityHtml = DATA.activity
     .slice()
     .sort(function(a, b) { return ms(b.createdAt) - ms(a.createdAt); })
@@ -1088,7 +1038,6 @@ function renderDashboard() {
     .join('') || '<div class="empty">—</div>';
   document.getElementById('dashActivity').innerHTML = activityHtml;
 
-  // Insurance Type Summary
   var typeCount = {};
   DATA.policies.forEach(function(p) {
     var type = p.type || 'other';
@@ -1112,9 +1061,9 @@ function renderDashboard() {
   container.innerHTML = html || '<div class="empty">لا توجد وثائق بعد</div>';
 }
 
-// ========================================
+// =============================================
 // CLIENTS
-// ========================================
+// =============================================
 function renderClients() {
   var q = (document.getElementById('clientSearch')?.value || '').toLowerCase();
   var html = DATA.clients
@@ -1136,9 +1085,9 @@ function renderClients() {
   document.getElementById('clientsBody').innerHTML = html || '<tr><td colspan="8"><div class="empty">لا يوجد عملاء</div></td></tr>';
 }
 
-// ========================================
+// =============================================
 // POLICIES
-// ========================================
+// =============================================
 function renderPolicies() {
   var q = (document.getElementById('policySearch')?.value || '').toLowerCase();
   var html = DATA.policies
@@ -1154,9 +1103,9 @@ function renderPolicies() {
   document.getElementById('policiesBody').innerHTML = html || '<tr><td colspan="7"><div class="empty">لا توجد وثائق</div></td></tr>';
 }
 
-// ========================================
+// =============================================
 // PAYMENTS
-// ========================================
+// =============================================
 function renderPayments() {
   var q = (document.getElementById('paymentSearch')?.value || '').toLowerCase();
   var html = DATA.payments
@@ -1173,9 +1122,9 @@ function renderPayments() {
   document.getElementById('paymentsBody').innerHTML = html || '<tr><td colspan="6"><div class="empty">لا توجد مدفوعات</div></td></tr>';
 }
 
-// ========================================
+// =============================================
 // CLAIMS
-// ========================================
+// =============================================
 function renderClaims() {
   var q = (document.getElementById('claimSearch')?.value || '').toLowerCase();
   var html = DATA.claims
@@ -1192,9 +1141,9 @@ function renderClaims() {
   document.getElementById('claimsBody').innerHTML = html || '<tr><td colspan="7"><div class="empty">لا توجد مطالبات</div></td></tr>';
 }
 
-// ========================================
+// =============================================
 // DOCUMENTS
-// ========================================
+// =============================================
 function renderDocuments() {
   var q = (document.getElementById('docSearch')?.value || '').toLowerCase();
   var html = DATA.documents
@@ -1216,9 +1165,9 @@ function renderDocuments() {
   document.getElementById('documentsBody').innerHTML = html || '<tr><td colspan="7"><div class="empty">لا توجد مستندات</div></td></tr>';
 }
 
-// ========================================
+// =============================================
 // CONVERSATIONS
-// ========================================
+// =============================================
 function renderConversations() {
   var ids = [];
   DATA.messages.forEach(function(m) {
@@ -1233,9 +1182,9 @@ function renderConversations() {
   document.getElementById('conversationList').innerHTML = html || '<div class="empty">لا توجد محادثات</div>';
 }
 
-// ========================================
+// =============================================
 // RENEWALS
-// ========================================
+// =============================================
 function renderRenewals() {
   var q = (document.getElementById('renewalSearch')?.value || '').toLowerCase();
   var list = DATA.policies
@@ -1262,9 +1211,9 @@ function runRenewalReminders() {
   });
 }
 
-// ========================================
+// =============================================
 // COMPANIES
-// ========================================
+// =============================================
 function renderCompanies() {
   var q = (document.getElementById('companySearch')?.value || '').toLowerCase();
   var companies = DATA.companies.filter(function(c) {
@@ -1307,9 +1256,9 @@ function openCompanyProfile(value) {
   openModal('companyProfileModal');
 }
 
-// ========================================
+// =============================================
 // INSURANCE TYPES
-// ========================================
+// =============================================
 function renderInsuranceTypes() {
   var q = (document.getElementById('typeSearch')?.value || '').toLowerCase();
   var types = DATA.types.filter(function(t) {
@@ -1331,9 +1280,9 @@ function renderInsuranceTypes() {
   document.getElementById('typesGrid').innerHTML = html || '<div class="empty">لا توجد أنواع تأمين</div>';
 }
 
-// ========================================
+// =============================================
 // PRODUCTS
-// ========================================
+// =============================================
 function renderProducts() {
   var q = (document.getElementById('productSearch')?.value || '').toLowerCase();
   var products = (DATA.products || []).filter(function(p) {
@@ -1353,9 +1302,9 @@ function renderProducts() {
   document.getElementById('productsGrid').innerHTML = html || '<div class="empty">لا توجد منتجات</div>';
 }
 
-// ========================================
+// =============================================
 // REPORTS
-// ========================================
+// =============================================
 function renderReports() {
   var active = DATA.policies.filter(function(x) { return days(x.endDate) >= 0; }).length;
   var exp = DATA.policies.filter(function(x) { return days(x.endDate) >= 0 && days(x.endDate) <= 45; }).length;
@@ -1435,9 +1384,9 @@ function renderReportCompanyDistribution() {
   container.innerHTML = html || '<div class="empty">لا توجد بيانات</div>';
 }
 
-// ========================================
+// =============================================
 // ASSESSMENTS
-// ========================================
+// =============================================
 function renderAssessments() {
   var q = (document.getElementById('assessmentSearch')?.value || '').toLowerCase();
   var list = (DATA.assessments || []).filter(function(a) {
@@ -1493,9 +1442,9 @@ function openAssessment(id) {
   openModal('assessmentModal');
 }
 
-// ========================================
+// =============================================
 // NOTIFICATIONS & ACTIVITY
-// ========================================
+// =============================================
 function renderNotifications() {
   var html = DATA.notifications
     .sort(function(a, b) { return ms(b.createdAt) - ms(a.createdAt); })
@@ -1518,9 +1467,9 @@ function renderActivity() {
   document.getElementById('activityList').innerHTML = html || '<div class="empty">لا يوجد سجل نشاط</div>';
 }
 
-// ========================================
+// =============================================
 // CHAT
-// ========================================
+// =============================================
 function updateBadge() {
   var n = DATA.messages.filter(function(m) { return m.sender === 'client' && !m.autoReply && !m.readByAdmin; }).length;
   document.getElementById('msgBadge').textContent = n;
@@ -1586,9 +1535,9 @@ function sendMessage() {
   });
 }
 
-// ========================================
+// =============================================
 // UI HELPERS
-// ========================================
+// =============================================
 function showView(view, el) {
   document.querySelectorAll('.view').forEach(function(x) { x.classList.remove('active'); });
   var node = document.getElementById('v-' + view);
@@ -1601,9 +1550,9 @@ function showView(view, el) {
   if (view === 'dashboard') renderDashboard();
 }
 
-// ========================================
+// =============================================
 // MODAL OPENERS
-// ========================================
+// =============================================
 function openPolicyModal(cid) {
   if (cid === undefined) cid = '';
   refreshAllSelects();
@@ -1707,15 +1656,13 @@ function openClientDocuments(clientId, policyId) {
 }
 
 function openClientDocumentModal(id) {
-  UPLOAD_CLIENT_ID = id;
-  document.getElementById('uErr').textContent = '';
-  refreshAllSelects();
-  openModal('clientDocModal');
+  // This is a placeholder - you can add document upload functionality here
+  toast('سيتم إضافة هذه الميزة قريباً');
 }
 
-// ========================================
+// =============================================
 // CRUD OPERATIONS
-// ========================================
+// =============================================
 function createClient() {
   var name = document.getElementById('cName').value.trim();
   var phone = document.getElementById('cPhone').value.trim();
@@ -1778,12 +1725,12 @@ function createPolicy() {
     clientId: cid,
     type: type,
     company: company,
-    policyNumber: number,
+    policyNumber: number || 'POL-' + Date.now(),
     premium: Number(premium) || 0,
     sumInsured: Number(sumInsured) || 0,
-    startDate: start,
+    startDate: start || new Date().toISOString().split('T')[0],
     endDate: end,
-    coverage: coverage,
+    coverage: coverage || '',
     status: status || 'active',
     createdBy: auth.currentUser ? auth.currentUser.uid : '',
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -1803,7 +1750,7 @@ function createPolicy() {
     toast('تم حفظ الوثيقة');
   })
   .catch(function(e) {
-    err.textContent = 'تعذر حفظ الوثيقة';
+    err.textContent = 'تعذر حفظ الوثيقة: ' + e.message;
   });
 }
 
@@ -2141,9 +2088,9 @@ function notify(clientId, title, body) {
   }).catch(function() {});
 }
 
-// ========================================
+// =============================================
 // INIT
-// ========================================
+// =============================================
 </script>
 </body>
 </html>
