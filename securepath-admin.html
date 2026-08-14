@@ -16,6 +16,7 @@
 :root {
   --navy: #0E2A5C;
   --navy-light: #1a3f7a;
+  --navy-dark: #071D40;
   --gold: #F2BD63;
   --gold-light: #FFD98F;
   --gold-soft: #FFF2D7;
@@ -27,6 +28,7 @@
   --green: #16805B;
   --red: #C9543E;
   --blue: #2E67B1;
+  --purple: #7255B7;
   --shadow: 0 8px 24px rgba(14,42,92,0.08);
   --shadow-lg: 0 18px 45px rgba(14,42,92,0.15);
   --radius: 16px;
@@ -268,6 +270,7 @@ tr:hover td { background: #fafcff; }
 .badge-danger { background: #fff0ed; color: var(--red); }
 .badge-warning { background: #fff3cd; color: #856404; }
 .badge-info { background: #e3f0ff; color: var(--blue); }
+.badge-purple { background: #f0ebff; color: var(--purple); }
 
 .type-badge {
   display: inline-flex;
@@ -948,7 +951,7 @@ var auth = firebase.auth();
 var db = firebase.firestore();
 
 // ================================================================
-// 2. MASTER DATA - شركات التأمين في مصر
+// 2. MASTER DATA - شركات التأمين في مصر (33 شركة)
 // ================================================================
 var INSURANCE_COMPANIES = [
   { id: 'misr', name: 'مصر للتأمين' },
@@ -987,7 +990,7 @@ var INSURANCE_COMPANIES = [
 ];
 
 // ================================================================
-// 3. MASTER DATA - أنواع التأمين
+// 3. MASTER DATA - أنواع التأمين (39 نوع)
 // ================================================================
 var INSURANCE_TYPES = [
   { id: 'life_temporary', name: 'تأمين الحياة المؤقت', icon: '📋', color: 'life' },
@@ -1085,8 +1088,9 @@ function ago(ts) {
 }
 
 function clientName(id) {
+  if (!id) return '—';
   var c = DATA.clients.find(function(x) { return x.id === id; });
-  return c ? (c.fullName || c.name || c.username || id || '—') : (id || '—');
+  return c ? (c.fullName || c.name || c.username || id) : id;
 }
 
 function days(end) {
@@ -1124,13 +1128,15 @@ function getTypeBadge(id) {
 }
 
 function getCompanyName(id) {
+  if (!id) return '—';
   var company = DATA.companies.find(function(c) { return c.id === id; });
   if (!company) company = INSURANCE_COMPANIES.find(function(c) { return c.id === id; });
-  return company ? company.name : id || '—';
+  return company ? company.name : id;
 }
 
 function toast(m) {
   var x = document.getElementById('toast');
+  if (!x) return;
   x.textContent = m;
   x.classList.add('show');
   clearTimeout(x._timer);
@@ -1244,7 +1250,7 @@ function renderAll() {
 }
 
 // ================================================================
-// 8. REFRESH ALL SELECTS
+// 8. REFRESH ALL SELECTS - المفتاح لحل مشكلة القوائم
 // ================================================================
 function refreshAllSelects() {
   refreshClientSelects();
@@ -1445,7 +1451,7 @@ function renderClaims() {
 }
 
 // ================================================================
-// 14. DOCUMENTS
+// 14. DOCUMENTS (مع رفع المستندات)
 // ================================================================
 function renderDocuments() {
   var q = (document.getElementById('docSearch')?.value || '').toLowerCase();
@@ -1468,7 +1474,7 @@ function renderDocuments() {
 }
 
 // ================================================================
-// 15. UPLOAD DOCUMENT
+// 15. UPLOAD DOCUMENT - وظيفة رفع المستند
 // ================================================================
 function openDocUploadModal() {
   document.getElementById('docUploadErr').textContent = '';
