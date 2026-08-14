@@ -12,7 +12,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 
 <style>
-/* ===== RESET & ROOT ===== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
   --navy: #0E2A5C;
@@ -46,13 +45,10 @@ body {
 button { cursor: pointer; border: none; outline: none; font: inherit; }
 input, select, textarea { font: inherit; outline: none; }
 .hidden { display: none !important; }
-
-/* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--paper); }
 ::-webkit-scrollbar-thumb { background: var(--navy-light); border-radius: 10px; }
 
-/* ===== BUTTONS ===== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -77,7 +73,6 @@ input, select, textarea { font: inherit; outline: none; }
 .btn-sm { padding: 5px 12px; font-size: 11px; border-radius: 6px; }
 .btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--navy); }
 
-/* ===== LOGIN ===== */
 #login {
   min-height: 100vh;
   display: grid;
@@ -122,11 +117,9 @@ input, select, textarea { font: inherit; outline: none; }
 }
 .field textarea { resize: vertical; min-height: 60px; }
 
-/* ===== APP ===== */
 #app { display: none; min-height: 100vh; }
 .shell { display: flex; min-height: 100vh; }
 
-/* ===== SIDEBAR ===== */
 .sidebar {
   width: 250px;
   background: var(--navy);
@@ -201,7 +194,6 @@ input, select, textarea { font: inherit; outline: none; }
 }
 .sidebar .footer .logout-btn:hover { background: rgba(255,255,255,0.2); }
 
-/* ===== MAIN ===== */
 .main {
   margin-right: 250px;
   width: calc(100% - 250px);
@@ -223,17 +215,14 @@ input, select, textarea { font: inherit; outline: none; }
 .topbar .actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .content { padding: 24px 28px; }
 
-/* ===== VIEWS ===== */
 .view { display: none; }
 .view.active { display: block; }
 
-/* ===== GRID ===== */
 .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-4 { grid-template-columns: repeat(4, 1fr); }
 
-/* ===== CARDS ===== */
 .card {
   background: #fff;
   border: 1px solid var(--line);
@@ -263,7 +252,6 @@ input, select, textarea { font: inherit; outline: none; }
 .stat-card .sub.green { color: var(--green); }
 .stat-card .sub.red { color: var(--red); }
 
-/* ===== TABLE ===== */
 .table-wrap { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th, td { padding: 10px 14px; border-bottom: 1px solid #eef1f5; text-align: right; }
@@ -272,7 +260,6 @@ tr:last-child td { border-bottom: none; }
 tr:hover td { background: #fafcff; }
 .empty { padding: 30px; text-align: center; color: var(--muted); font-size: 14px; }
 
-/* ===== BADGES ===== */
 .badge {
   display: inline-flex;
   padding: 3px 10px;
@@ -287,7 +274,6 @@ tr:hover td { background: #fafcff; }
 .badge-purple { background: #f0ebff; color: var(--purple); }
 .badge-gold { background: var(--gold-soft); color: #8a6d1b; }
 
-/* ===== TYPE BADGES ===== */
 .type-badge {
   display: inline-flex;
   padding: 3px 12px;
@@ -313,7 +299,6 @@ tr:hover td { background: #fafcff; }
 .type-badge.takaful { background: #d6d8db; color: #383d41; }
 .type-badge.other { background: #f0f0f0; color: #666; }
 
-/* ===== TOOLBAR ===== */
 .toolbar {
   display: flex;
   gap: 12px;
@@ -335,7 +320,6 @@ tr:hover td { background: #fafcff; }
 .toolbar .search input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(242,189,99,0.15); }
 .toolbar .actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
-/* ===== COMPANY CARDS ===== */
 .company-card {
   display: flex;
   align-items: center;
@@ -363,7 +347,6 @@ tr:hover td { background: #fafcff; }
 .company-card .info h4 { margin: 0; font-size: 14px; color: var(--navy); }
 .company-card .info p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
 
-/* ===== TYPE CARDS ===== */
 .type-card {
   border: 2px solid var(--line);
   border-radius: var(--radius);
@@ -377,7 +360,6 @@ tr:hover td { background: #fafcff; }
 .type-card h4 { font-family: 'Tajawal', sans-serif; color: var(--navy); margin: 0; font-size: 14px; }
 .type-card p { font-size: 11px; color: var(--muted); margin: 4px 0 0; }
 
-/* ===== MODALS ===== */
 .overlay {
   position: fixed;
   inset: 0;
@@ -432,7 +414,6 @@ tr:hover td { background: #fafcff; }
 }
 .modal .error { color: var(--red); font-size: 12px; margin-top: 4px; }
 
-/* ===== FILE UPLOAD ===== */
 .file-upload-area {
   border: 2px dashed var(--line);
   border-radius: var(--radius-sm);
@@ -455,7 +436,6 @@ tr:hover td { background: #fafcff; }
 }
 .file-upload-area .upload-label:hover { background: #e2af5a; }
 
-/* ===== CHAT ===== */
 .message-list { height: 380px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
 .bubble {
   max-width: 80%;
@@ -475,7 +455,6 @@ tr:hover td { background: #fafcff; }
 .composer input { flex: 1; border: 1.5px solid var(--line); border-radius: 20px; padding: 10px 16px; outline: none; }
 .composer input:focus { border-color: var(--gold); }
 
-/* ===== LIST ITEMS ===== */
 .list-item { padding: 10px 14px; border-bottom: 1px solid var(--line); transition: var(--transition); cursor: pointer; }
 .list-item:hover { background: #fafcff; }
 .list-item:last-child { border-bottom: none; }
@@ -483,7 +462,6 @@ tr:hover td { background: #fafcff; }
 .list-item p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
 .list-item.unread { border-right: 3px solid var(--gold); background: #fdfaf5; }
 
-/* ===== TOAST ===== */
 .toast {
   position: fixed;
   bottom: 24px;
@@ -505,7 +483,6 @@ tr:hover td { background: #fafcff; }
 }
 .toast.show { display: block; }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 992px) {
   .grid { grid-template-columns: repeat(2, 1fr); }
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
@@ -568,6 +545,7 @@ tr:hover td { background: #fafcff; }
         <button data-view="messages" onclick="showView('messages',this)"><span class="icon">✉</span><span>المحادثات</span><b id="msgBadge" class="badge hidden">0</b></button>
         <button data-view="notifications" onclick="showView('notifications',this)"><span class="icon">◉</span><span>الإشعارات</span></button>
         <button data-view="activity" onclick="showView('activity',this)"><span class="icon">◷</span><span>سجل النشاط</span></button>
+        <button data-view="compliance" onclick="showView('compliance',this)"><span class="icon">✓</span><span>الامتثال</span></button>
       </nav>
       <div class="footer">
         <span id="userEmail">—</span>
@@ -643,11 +621,13 @@ tr:hover td { background: #fafcff; }
           <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>النوع</th><th>رقم الوثيقة</th><th>المبلغ</th><th>الحالة</th><th>آخر تحديث</th><th>إجراء</th></tr></thead><tbody id="claimsBody"></tbody></table></div></div></div>
         </div>
 
-        <!-- ===== DOCUMENTS ===== -->
+        <!-- ===== DOCUMENTS (مع زر رفع مستند) ===== -->
         <div id="v-documents" class="view">
           <div class="toolbar">
             <div class="search"><input id="docSearch" oninput="renderDocuments()" placeholder="ابحث باسم الملف أو العميل"></div>
-            <div class="actions"><button class="btn btn-primary" onclick="openDocUploadModal()">+ رفع مستند</button></div>
+            <div class="actions">
+              <button class="btn btn-primary" onclick="openDocUploadModal()">📤 رفع مستند</button>
+            </div>
           </div>
           <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>المستند</th><th>النوع</th><th>المصدر</th><th>الحالة</th><th>التاريخ</th><th>إجراء</th></tr></thead><tbody id="documentsBody"></tbody></table></div></div></div>
         </div>
@@ -837,7 +817,7 @@ tr:hover td { background: #fafcff; }
   </div>
 </div>
 
-<!-- Document Upload Modal -->
+<!-- ===== DOCUMENT UPLOAD MODAL ===== -->
 <div id="docUploadModal" class="overlay">
   <div class="modal">
     <h2>📎 رفع مستند جديد</h2>
@@ -950,7 +930,7 @@ tr:hover td { background: #fafcff; }
 <div id="toast" class="toast"></div>
 
 <!-- ============================================================ -->
-<!-- JAVASCRIPT - الكود الرئيسي -->
+<!-- JAVASCRIPT -->
 <!-- ============================================================ -->
 <script>
 // ================================================================
@@ -1269,7 +1249,7 @@ function renderAll() {
 }
 
 // ================================================================
-// 8. REFRESH ALL SELECTS - المفتاح لحل مشكلة القوائم
+// 8. REFRESH ALL SELECTS
 // ================================================================
 function refreshAllSelects() {
   refreshClientSelects();
