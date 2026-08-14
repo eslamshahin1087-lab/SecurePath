@@ -13,7 +13,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -139,6 +139,8 @@
     padding: 24px 20px;
     border: 1px solid rgba(14, 42, 92, 0.08);
     box-shadow: var(--shadow-lg);
+    max-height: 85vh;
+    overflow-y: auto;
   }
 
   .login-card h2 {
@@ -223,6 +225,26 @@
   .btn-primary:disabled {
     opacity: 0.7;
     cursor: not-allowed;
+  }
+
+  .btn-secondary {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 14px;
+    background: var(--gold);
+    color: var(--navy);
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 8px;
+    box-shadow: 0 8px 18px rgba(242, 189, 99, 0.25);
+    transition: transform 0.1s;
+  }
+
+  .btn-secondary:active {
+    transform: scale(0.98);
   }
 
   .btn-gold-small {
@@ -434,7 +456,7 @@
     color: #B9C8DB;
   }
 
-  /* ===== COMPANIES SLIDER ===== */
+  /* COMPANIES SLIDER */
   .companies-slider-section {
     padding: 10px 0 8px;
     background: #fff;
@@ -1581,6 +1603,234 @@
     cursor: not-allowed;
   }
 
+  /* ===== WHEEL OF FORTUNE ===== */
+  .wheel-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+  }
+
+  .wheel-wrapper {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 0 auto;
+  }
+
+  .wheel-canvas {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+    transition: transform 0.5s ease;
+    cursor: pointer;
+  }
+
+  .wheel-pointer {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 30px solid var(--red);
+    z-index: 10;
+    filter: drop-shadow(0 2px 8px rgba(201, 84, 62, 0.3));
+  }
+
+  .wheel-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--navy);
+    box-shadow: 0 0 0 4px #fff, 0 4px 20px rgba(0,0,0,0.15);
+    z-index: 5;
+    font-family: 'Tajawal', sans-serif;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .wheel-center:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+
+  .wheel-center:active {
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+
+  .wheel-result {
+    margin-top: 16px;
+    padding: 14px 20px;
+    border-radius: 14px;
+    background: var(--gold-soft);
+    border: 2px solid var(--gold);
+    text-align: center;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    width: 100%;
+    transition: all 0.5s ease;
+  }
+
+  .wheel-result .result-icon {
+    font-size: 28px;
+    margin-left: 10px;
+  }
+
+  .wheel-result .result-text {
+    font-family: 'Tajawal', sans-serif;
+  }
+
+  .wheel-result.wheel-result-success {
+    background: #e6f7ed !important;
+    border-color: var(--green) !important;
+    animation: celebrate-bounce 0.6s ease-in-out 2;
+  }
+
+  .wheel-result.wheel-result-fail {
+    background: #fff0ed !important;
+    border-color: var(--red) !important;
+  }
+
+  .wheel-info {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  .wheel-spin-btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-2));
+    color: var(--navy);
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(242, 189, 99, 0.3);
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .wheel-spin-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 30px rgba(242, 189, 99, 0.4);
+  }
+
+  .wheel-spin-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .wheel-disabled {
+    text-align: center;
+    padding: 20px;
+    color: var(--muted);
+  }
+
+  .wheel-disabled .icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+
+  .wheel-disabled h3 {
+    font-family: 'Tajawal', sans-serif;
+    color: var(--navy);
+    margin: 0 0 8px;
+  }
+
+  /* ===== WHEEL CELEBRATION ===== */
+  @keyframes confetti-fall {
+    0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(400px) rotate(720deg); opacity: 0; }
+  }
+
+  @keyframes celebrate-bounce {
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(1.2); }
+    60% { transform: scale(0.9); }
+    80% { transform: scale(1.05); }
+  }
+
+  .wheel-celebration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    pointer-events: none;
+    display: none;
+    overflow: hidden;
+  }
+
+  .wheel-celebration.active {
+    display: block;
+    pointer-events: auto;
+  }
+
+  .wheel-celebration .confetti {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    animation: confetti-fall 3s ease-in forwards;
+    top: -20px;
+  }
+
+  .wheel-celebration .celebrate-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Tajawal', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--gold);
+    text-shadow: 0 4px 30px rgba(242, 189, 99, 0.5);
+    animation: celebrate-bounce 1s ease-in-out 3;
+    text-align: center;
+    background: rgba(14, 42, 92, 0.85);
+    padding: 20px 35px;
+    border-radius: 20px;
+    border: 3px solid var(--gold);
+    backdrop-filter: blur(10px);
+    pointer-events: none;
+    min-width: 200px;
+  }
+
+  .wheel-celebration .celebrate-text .icon {
+    font-size: 40px;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .wheel-celebration .celebrate-text .sub {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--gold-2);
+  }
+
   /* RESPONSIVE */
   @media (max-width: 480px) {
     body {
@@ -1637,6 +1887,23 @@
     }
     .advice-option {
       min-width: unset;
+    }
+    .wheel-wrapper {
+      width: 220px;
+      height: 220px;
+    }
+    .wheel-center {
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
+    }
+    .wheel-celebration .celebrate-text {
+      font-size: 20px;
+      padding: 15px 20px;
+      min-width: 150px;
+    }
+    .wheel-celebration .celebrate-text .icon {
+      font-size: 30px;
     }
   }
 </style>
@@ -1821,7 +2088,7 @@
       </div>
     </div>
 
-    <!-- ===== COMPANIES SLIDER ===== -->
+    <!-- COMPANIES SLIDER -->
     <div class="companies-slider-section" id="companiesSlider">
       <div class="slider-title">
         🏢 شركاؤنا في التأمين <span>·</span>
@@ -1893,7 +2160,6 @@
       <h2>📝 كيف تفضل التواصل؟</h2>
       <div class="sub">اختر إحدى الطرق التالية للحصول على استشارتك</div>
       
-      <!-- Option Selector -->
       <div class="advice-options">
         <div class="advice-option active" id="optText" onclick="selectAdviceOption('text')">
           <span class="option-icon">✏️</span>
@@ -1909,7 +2175,6 @@
         </div>
       </div>
       
-      <!-- Text Form -->
       <div class="advice-form-container active" id="adviceTextContainer">
         <div id="adviceSuccess" style="display:none;">
           <div style="text-align:center;padding:30px 20px;">
@@ -1930,7 +2195,6 @@
         </div>
       </div>
       
-      <!-- WhatsApp Container -->
       <div class="advice-whatsapp-container" id="adviceWhatsappContainer">
         <div class="wa-big-icon">💬</div>
         <h3>تواصل معنا عبر واتساب</h3>
@@ -2007,13 +2271,17 @@
           <span>تم تسجيل الدخول كـ: <strong id="accLoginEmail">---</strong></span>
         </div>
       </div>
-      <div class="p-card" style="padding: 14px;" onclick="runFullAssessment()">
+      <div class="p-card" style="padding: 14px; cursor:pointer;" onclick="runFullAssessment()">
         <b>📊 إجراء تقييم الحماية الشامل</b>
       </div>
-      <div class="p-card" style="padding: 14px;" onclick="showScreen('documents')">
+      <div class="p-card" style="padding: 14px; cursor:pointer;" onclick="showScreen('documents')">
         <b>📂 ملفاتي ومستنداتي التحقق</b>
       </div>
-      <div class="p-card" style="padding: 14px; color: var(--red);" onclick="handleLogout()">
+      <div class="p-card" style="padding: 14px; background: linear-gradient(135deg, var(--gold-soft), #FFF5E2); border-color: var(--gold); cursor:pointer;" onclick="openWheelModal()">
+        <b>🎰 جرب حظك</b>
+        <div style="font-size:11px; color:var(--muted); margin-top:2px;">اضغط لجرب حظك اليوم</div>
+      </div>
+      <div class="p-card" style="padding: 14px; color: var(--red); cursor:pointer;" onclick="handleLogout()">
         <b>🚪 تسجيل الخروج</b>
       </div>
     </div>
@@ -2196,6 +2464,20 @@
     </div>
   </div>
 
+  <!-- ====== WHEEL MODAL ====== -->
+  <div class="overlay" id="wheelModal">
+    <div class="sheet" style="padding-bottom: calc(30px + var(--safe-area-bottom));">
+      <div class="grabber"></div>
+      <div class="close-x" onclick="closeModal('wheelModal')">✕</div>
+      <h2>🎰 جرب حظك</h2>
+      <div class="sub" id="wheelSub">جرب حظك اليوم واربح جوائز حصرية</div>
+      
+      <div class="wheel-container" id="wheelContainer">
+        <!-- يتم ملؤها بواسطة JavaScript -->
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -2229,8 +2511,22 @@ var STATE = {
   products: [],
   notifications: [],
   companies: [],
-  insuranceAssessments: []
+  insuranceAssessments: [],
+  wheelLastSpin: null,
+  wheelResult: null,
+  wheelPrizeIndex: null
 };
+
+// ============================================================
+// WHEEL PRIZES
+// ============================================================
+var wheelPrizes = [
+  { text: '🍀 حظ سعيد', icon: '🍀', color: '#4CAF50' },
+  { text: '💳 كارت خصم طبي', icon: '💳', color: '#2196F3' },
+  { text: '🔻 10% خصم', icon: '🔻', color: '#FF9800' },
+  { text: '💬 استشارة مجانية', icon: '💬', color: '#9C27B0' },
+  { text: '📚 يوم توعية مجاني', icon: '📚', color: '#E91E63' }
+];
 
 // ============================================================
 // UTILITY FUNCTIONS
@@ -2336,7 +2632,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Show/hide business fields based on client type
   var clientType = document.getElementById('regClientType');
   if (clientType) {
     clientType.addEventListener('change', function() {
@@ -2345,6 +2640,11 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('businessActivityField').style.display = isCorporate ? 'block' : 'none';
       document.getElementById('employeesField').style.display = isCorporate ? 'block' : 'none';
     });
+  }
+  
+  // طلب إذن الإشعارات
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
   }
 });
 
@@ -2543,6 +2843,15 @@ function loadUserData(uid) {
             email: STATE.userData.email || ''
           };
           updateUserUI(STATE.userData);
+          if (STATE.userData.wheelLastSpin) {
+            STATE.wheelLastSpin = STATE.userData.wheelLastSpin;
+          }
+          if (STATE.userData.wheelResult) {
+            STATE.wheelResult = STATE.userData.wheelResult;
+          }
+          if (STATE.userData.wheelPrizeIndex !== undefined) {
+            STATE.wheelPrizeIndex = STATE.userData.wheelPrizeIndex;
+          }
         }
         return doc;
       })
@@ -2619,7 +2928,6 @@ function loadUserData(uid) {
       })
   );
   
-  // Load companies for slider
   promises.push(
     db.collection('companies')
       .get()
@@ -2655,12 +2963,11 @@ function loadUserData(uid) {
 }
 
 // ============================================================
-// COMPANIES SLIDER RENDER - FIXED
+// COMPANIES SLIDER RENDER
 // ============================================================
 function renderCompaniesSlider() {
   var track = document.getElementById('sliderTrack');
   var countEl = document.getElementById('companiesCount');
-  var wrapper = document.getElementById('sliderWrapper');
   
   if (!track) return;
   
@@ -2668,7 +2975,6 @@ function renderCompaniesSlider() {
   
   if (countEl) countEl.textContent = companies.length;
   
-  // Clear track
   track.innerHTML = '';
   
   if (companies.length === 0) {
@@ -2676,10 +2982,8 @@ function renderCompaniesSlider() {
     return;
   }
   
-  // Create the slider items
-  var items = [];
+  var allItems = [];
   
-  // Create two copies for seamless infinite scroll
   for (var copy = 0; copy < 2; copy++) {
     companies.forEach(function(c) {
       var logoHtml = '';
@@ -2698,7 +3002,6 @@ function renderCompaniesSlider() {
         '<span class="company-name">' + esc(c.name || 'شركة') + '</span>' +
         '<span class="company-badge">شريك</span>';
       
-      // Add hover pause
       div.addEventListener('mouseenter', function() {
         track.classList.add('paused');
       });
@@ -2710,10 +3013,9 @@ function renderCompaniesSlider() {
     });
   }
   
-  // Reset animation after a short delay to ensure proper rendering
   setTimeout(function() {
     track.style.animation = 'none';
-    track.offsetHeight; // trigger reflow
+    track.offsetHeight;
     track.style.animation = 'scroll-slider ' + Math.max(20, companies.length * 2) + 's linear infinite';
   }, 100);
 }
@@ -2736,7 +3038,6 @@ function getRecommendedPolicies(userData, existingPolicies, currentPolicies) {
   var recommendations = [];
   var ownedPolicies = existingPolicies || [];
   
-  // 1. LIFE INSURANCE
   if (!ownedPolicies.includes('life')) {
     recommendations.push({
       id: 'life',
@@ -2746,7 +3047,6 @@ function getRecommendedPolicies(userData, existingPolicies, currentPolicies) {
     });
   }
   
-  // 2. MEDICAL INSURANCE
   if (!ownedPolicies.includes('medical')) {
     recommendations.push({
       id: 'medical',
@@ -2756,7 +3056,6 @@ function getRecommendedPolicies(userData, existingPolicies, currentPolicies) {
     });
   }
   
-  // 3. CAR INSURANCE
   var carRelated = ['سائق', 'نقل', 'مواصلات', 'سيارات', 'تاكسي', 'أجرة', 'مندوب'];
   var hasCar = carRelated.some(function(kw) {
     return (userData.occupation || '').toLowerCase().includes(kw) ||
@@ -2771,7 +3070,6 @@ function getRecommendedPolicies(userData, existingPolicies, currentPolicies) {
     });
   }
   
-  // 4. PROPERTY INSURANCE
   var isBusinessOwner = userData.clientType === 'corporate' || 
                         (userData.businessName && userData.businessName.length > 0);
   if (isBusinessOwner && !ownedPolicies.includes('property')) {
@@ -2783,7 +3081,6 @@ function getRecommendedPolicies(userData, existingPolicies, currentPolicies) {
     });
   }
   
-  // 5. LIABILITY INSURANCE
   var professional = ['طبيب', 'محامي', 'مهندس', 'مستشار', 'محاسب', 'مدير', 'استشاري'];
   var isProfessional = professional.some(function(kw) {
     return (userData.occupation || '').toLowerCase().includes(kw);
@@ -2888,7 +3185,6 @@ function showAssessmentResults(result) {
   
   var html = '';
   
-  // Score Card
   html += '<div class="result-card">';
   html += '<div class="result-header">';
   html += '<span class="icon">📊</span>';
@@ -2902,7 +3198,6 @@ function showAssessmentResults(result) {
   html += '</div>';
   html += '</div>';
   
-  // Profile Info Card
   html += '<div class="result-card">';
   html += '<div class="result-header">';
   html += '<span class="icon">👤</span>';
@@ -2917,7 +3212,6 @@ function showAssessmentResults(result) {
   html += '</div>';
   html += '</div>';
   
-  // Recommendations Card
   html += '<div class="result-card">';
   html += '<div class="result-header">';
   html += '<span class="icon">💡</span>';
@@ -2942,7 +3236,6 @@ function showAssessmentResults(result) {
   html += '</div>';
   html += '</div>';
   
-  // Next Steps Card
   html += '<div class="result-card">';
   html += '<div class="result-header">';
   html += '<span class="icon">📋</span>';
@@ -2973,7 +3266,6 @@ function showAssessmentResults(result) {
 function renderAll() {
   if (!STATE.currentUser) return;
   
-  // Update assessment score on home screen
   var userData = STATE.userData || {};
   var existingPolicies = userData.existingPolicies || [];
   var currentPolicies = STATE.policies.filter(function(p) { 
@@ -3030,7 +3322,6 @@ function renderAll() {
     dot.style.display = unread > 0 ? 'block' : 'none';
   }
   
-  // Render companies slider
   renderCompaniesSlider();
 }
 
@@ -3411,6 +3702,242 @@ function submitAdvice() {
 }
 
 // ============================================================
+// WHEEL OF FORTUNE
+// ============================================================
+function openWheelModal() {
+  if (!STATE.currentUser) {
+    alert('يرجى تسجيل الدخول أولاً');
+    return;
+  }
+  
+  var canSpin = true;
+  var lastSpin = STATE.wheelLastSpin;
+  
+  if (lastSpin) {
+    var lastDate = new Date(lastSpin);
+    var now = new Date();
+    var monthsDiff = (now.getFullYear() - lastDate.getFullYear()) * 12 + (now.getMonth() - lastDate.getMonth());
+    if (monthsDiff < 1) {
+      canSpin = false;
+    }
+  }
+  
+  var container = document.getElementById('wheelContainer');
+  
+  if (!canSpin) {
+    var nextMonth = new Date(lastSpin);
+    nextMonth.setMonth(nextMonth.getMonth() + 1);
+    var nextDateStr = nextMonth.toLocaleDateString('ar-EG', { day: 'numeric', month: 'long', year: 'numeric' });
+    
+    container.innerHTML = `
+      <div class="wheel-disabled">
+        <div class="icon">⏳</div>
+        <h3>لقد جربت حظك هذا الشهر!</h3>
+        <p>يمكنك المحاولة مرة أخرى في <strong>${nextDateStr}</strong></p>
+        <p style="font-size:12px;color:var(--muted);margin-top:8px;">
+          ${STATE.wheelResult ? 'نتيجتك السابقة: ' + STATE.wheelResult : ''}
+        </p>
+        <button class="btn-gold-small" onclick="closeModal('wheelModal')">حسناً</button>
+      </div>
+    `;
+    openModal('wheelModal');
+    return;
+  }
+  
+  var wheelHtml = `
+    <div class="wheel-wrapper">
+      <div class="wheel-pointer"></div>
+      <canvas id="wheelCanvas" class="wheel-canvas" width="280" height="280"></canvas>
+      <div class="wheel-center" onclick="spinWheel()">🎰</div>
+    </div>
+    <button class="wheel-spin-btn" id="wheelSpinBtn" onclick="spinWheel()">🎰 اضغط للدوران</button>
+    <div class="wheel-result" id="wheelResult">اضغط على الزر أو المركز للدوران</div>
+    <div class="wheel-info">⚠️ يمكنك المحاولة مرة واحدة فقط كل شهر</div>
+  `;
+  
+  container.innerHTML = wheelHtml;
+  openModal('wheelModal');
+  
+  drawWheel();
+}
+
+function drawWheel() {
+  var canvas = document.getElementById('wheelCanvas');
+  if (!canvas) return;
+  
+  var ctx = canvas.getContext('2d');
+  var centerX = canvas.width / 2;
+  var centerY = canvas.height / 2;
+  var radius = Math.min(canvas.width, canvas.height) / 2 - 10;
+  var numSegments = wheelPrizes.length;
+  var arcSize = (2 * Math.PI) / numSegments;
+  
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  for (var i = 0; i < numSegments; i++) {
+    var startAngle = i * arcSize;
+    var endAngle = startAngle + arcSize;
+    
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+    ctx.closePath();
+    
+    ctx.fillStyle = wheelPrizes[i].color;
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    
+    var midAngle = startAngle + arcSize / 2;
+    var textRadius = radius * 0.65;
+    var x = centerX + Math.cos(midAngle) * textRadius;
+    var y = centerY + Math.sin(midAngle) * textRadius;
+    
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(midAngle + Math.PI / 2);
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 12px Cairo, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    var text = wheelPrizes[i].text;
+    ctx.fillText(text, 0, 0);
+    ctx.restore();
+  }
+  
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, 30, 0, 2 * Math.PI);
+  ctx.fillStyle = '#fff';
+  ctx.fill();
+  ctx.strokeStyle = '#ddd';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+}
+
+function spinWheel() {
+  var canvas = document.getElementById('wheelCanvas');
+  var resultEl = document.getElementById('wheelResult');
+  var btn = document.getElementById('wheelSpinBtn');
+  
+  if (!canvas || !resultEl) return;
+  if (btn && btn.disabled) return;
+  
+  if (btn) btn.disabled = true;
+  resultEl.className = 'wheel-result';
+  resultEl.innerHTML = '🔄 جاري الدوران...';
+  
+  var oldCelebration = document.querySelector('.wheel-celebration');
+  if (oldCelebration) oldCelebration.remove();
+  
+  var numSegments = wheelPrizes.length;
+  var segmentAngle = 360 / numSegments;
+  
+  var prizeIndex = Math.floor(Math.random() * numSegments);
+  var prize = wheelPrizes[prizeIndex];
+  
+  var targetAngle = 360 - (prizeIndex * segmentAngle + segmentAngle / 2);
+  var spinAngle = Math.random() * 360 + 720;
+  var totalRotation = spinAngle + targetAngle;
+  
+  canvas.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+  canvas.style.transform = 'rotate(' + totalRotation + 'deg)';
+  
+  setTimeout(function() {
+    resultEl.className = 'wheel-result wheel-result-success';
+    resultEl.innerHTML = '<span class="result-icon">' + prize.icon + '</span><span class="result-text">🎉 ' + prize.text + ' 🎉</span>';
+    
+    STATE.wheelResult = prize.text;
+    STATE.wheelLastSpin = new Date().toISOString();
+    STATE.wheelPrizeIndex = prizeIndex;
+    
+    if (STATE.currentUser) {
+      db.collection('clients').doc(STATE.currentUser.uid).update({
+        wheelLastSpin: STATE.wheelLastSpin,
+        wheelResult: STATE.wheelResult,
+        wheelPrizeIndex: prizeIndex
+      }).catch(function() {});
+    }
+    
+    showCelebration(prize);
+    sendWheelNotification(prize);
+    
+    if (btn) btn.disabled = false;
+    if (btn) btn.textContent = '🎰 جرب حظك مرة أخرى';
+    
+  }, 4200);
+}
+
+function showCelebration(prize) {
+  var oldCelebration = document.querySelector('.wheel-celebration');
+  if (oldCelebration) oldCelebration.remove();
+  
+  var celebration = document.createElement('div');
+  celebration.className = 'wheel-celebration active';
+  
+  var colors = ['#F2BD63', '#FF6B6B', '#4CAF50', '#2196F3', '#9C27B0', '#FF9800', '#E91E63', '#00BCD4'];
+  for (var i = 0; i < 80; i++) {
+    var confetti = document.createElement('div');
+    confetti.className = 'confetti';
+    confetti.style.left = Math.random() * 100 + '%';
+    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.width = (Math.random() * 8 + 6) + 'px';
+    confetti.style.height = (Math.random() * 8 + 6) + 'px';
+    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    confetti.style.animationDelay = (Math.random() * 2) + 's';
+    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+    celebration.appendChild(confetti);
+  }
+  
+  var textDiv = document.createElement('div');
+  textDiv.className = 'celebrate-text';
+  textDiv.innerHTML = `
+    <span class="icon">${prize.icon}</span>
+    🎊 ${prize.text} 🎊
+    <span class="sub">تهانينا! لقد ربحت الجائزة</span>
+  `;
+  celebration.appendChild(textDiv);
+  
+  document.body.appendChild(celebration);
+  
+  setTimeout(function() {
+    celebration.classList.remove('active');
+    setTimeout(function() {
+      celebration.remove();
+    }, 500);
+  }, 4000);
+}
+
+function sendWheelNotification(prize) {
+  if (!STATE.currentUser) return;
+  
+  var message = '🎉 تهانينا! لقد ربحت "' + prize.text + '" من عجلة حظك!';
+  
+  db.collection('notifications').add({
+    clientId: STATE.currentUser.uid,
+    clientName: STATE.currentUser.name,
+    title: '🎰 جرب حظك',
+    body: message,
+    type: 'wheel_win',
+    read: false,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).catch(function() {});
+  
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification('🎰 جرب حظك', {
+      body: message,
+      icon: '🎉'
+    });
+  }
+  
+  var dot = document.getElementById('notifDot');
+  if (dot) {
+    dot.style.display = 'block';
+  }
+}
+
+// ============================================================
 // CHAT FUNCTIONS
 // ============================================================
 function toggleChat() {
@@ -3569,6 +4096,13 @@ document.addEventListener('DOMContentLoaded', function() {
             email: userData.email || user.email || ''
           };
           STATE.userData = userData;
+          
+          if (userData.wheelLastSpin) {
+            STATE.wheelLastSpin = userData.wheelLastSpin;
+          }
+          if (userData.wheelResult) {
+            STATE.wheelResult = userData.wheelResult;
+          }
           
           updateUserUI(userData);
           return loadUserData(user.uid);
