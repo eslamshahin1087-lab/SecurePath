@@ -649,47 +649,37 @@ var INSURANCE_COMPANIES = [
 // MASTER DATA - COMPLETE INSURANCE TYPES
 // =============================================
 var INSURANCE_TYPES = [
-  // تأمينات الحياة
   { id: 'life_temporary', name: 'تأمين الحياة المؤقت', icon: '📋', color: 'life' },
   { id: 'life_whole', name: 'تأمين الحياة مدى الحياة', icon: '🔄', color: 'life' },
   { id: 'life_mixed', name: 'تأمين الحياة المختلط (الادخاري)', icon: '💰', color: 'investment' },
   { id: 'life_unit', name: 'تأمين الحياة الاستثماري (Unit-Linked)', icon: '📈', color: 'investment' },
   { id: 'pension', name: 'تأمين دفعات التقاعد والمعاشات التكميلية', icon: '👴', color: 'pension' },
   { id: 'savings', name: 'عمليات تكوين الأموال وعقود الادخار', icon: '🏦', color: 'investment' },
-  // تأمينات صحية
   { id: 'accident', name: 'تأمين الحوادث الشخصية', icon: '🩹', color: 'medical' },
   { id: 'medical', name: 'تأمين العلاج الطبي الفردي والجماعي', icon: '🏥', color: 'medical' },
   { id: 'medical_specialized', name: 'التأمين الطبي المتخصص', icon: '🔬', color: 'health' },
-  // تأمينات الممتلكات
   { id: 'fire', name: 'التأمين ضد أخطار الحريق والأخطار الحليفة', icon: '🔥', color: 'property' },
   { id: 'theft', name: 'تأمين السرقة والسطو', icon: '🔒', color: 'property' },
   { id: 'cash_transport', name: 'تأمين نقل النقدية', icon: '💰', color: 'property' },
   { id: 'fidelity', name: 'تأمين خيانة الأمانة', icon: '⚖️', color: 'liability' },
-  // تأمينات السيارات
   { id: 'car_comprehensive', name: 'التأمين التكميلي على السيارات', icon: '🚗', color: 'car' },
   { id: 'car_mandatory', name: 'التأمين الإجباري على السيارات (المسؤولية المدنية)', icon: '🚦', color: 'car' },
-  // تأمينات النقل
   { id: 'marine_cargo', name: 'تأمين النقل البحري للبضائع', icon: '🚢', color: 'marine' },
   { id: 'air_cargo', name: 'تأمين النقل الجوي للبضائع', icon: '✈️', color: 'travel' },
   { id: 'land_cargo', name: 'تأمين النقل البري والنظري', icon: '🚛', color: 'marine' },
   { id: 'hull_marine', name: 'تأمين أجسام السفن والآلات البحرية', icon: '⛴️', color: 'marine' },
   { id: 'hull_air', name: 'تأمين أجسام الطائرات والمعدات الجوية', icon: '🛩️', color: 'travel' },
-  // تأمينات هندسية
   { id: 'contractors', name: 'تأمين كافة أخطار المقاولين', icon: '🏗️', color: 'engineering' },
   { id: 'erection', name: 'تأمين كافة أخطار التركيب', icon: '🔧', color: 'engineering' },
   { id: 'machinery', name: 'تأمين عطب الماكينات والمعدات الهندسية', icon: '⚙️', color: 'engineering' },
   { id: 'profit_loss', name: 'تأمين خسارة الأرباح الناتجة عن العطب الهندسي أو الحريق', icon: '📊', color: 'engineering' },
   { id: 'oil_gas', name: 'تأمينات البترول والغاز', icon: '🛢️', color: 'engineering' },
   { id: 'energy', name: 'تأمينات الطاقة والكهرباء', icon: '⚡', color: 'engineering' },
-  // تأمينات زراعية
   { id: 'agriculture', name: 'التأمين الزراعي وعلى الثروة الحيوانية والداجنة', icon: '🌾', color: 'agriculture' },
-  // تأمينات الائتمان
   { id: 'credit', name: 'تأمين الائتمان وضمان عدم السداد', icon: '💳', color: 'export' },
   { id: 'export_guarantee', name: 'تأمين ضمان الصادرات', icon: '📦', color: 'export' },
-  // تأمينات المسؤولية
   { id: 'liability_general', name: 'تأمين المسؤولية المدنية العامة', icon: '⚖️', color: 'liability' },
   { id: 'liability_professional', name: 'تأمين المسؤولية المهنية (للأطباء والمهندسين والمحاسبين)', icon: '👨‍⚕️', color: 'liability' },
-  // تأمينات متخصصة
   { id: 'terrorism', name: 'تأمين أخطار الإرهاب والعنف السياسي', icon: '⚠️', color: 'other' },
   { id: 'cyber', name: 'التأمين ضد المخاطر الإلكترونية (Cyber Insurance)', icon: '💻', color: 'cyber' },
   { id: 'takaful', name: 'التأمين التكافلي (ممتلكات وحياة)', icon: '🤝', color: 'takaful' },
@@ -901,6 +891,7 @@ function loadAll() {
       }
     });
     
+    // If no data from Firebase, use master data
     if (DATA.types.length === 0) DATA.types = INSURANCE_TYPES;
     if (DATA.companies.length === 0) DATA.companies = INSURANCE_COMPANIES;
     
@@ -1656,7 +1647,6 @@ function openClientDocuments(clientId, policyId) {
 }
 
 function openClientDocumentModal(id) {
-  // This is a placeholder - you can add document upload functionality here
   toast('سيتم إضافة هذه الميزة قريباً');
 }
 
@@ -1769,31 +1759,6 @@ function createInsuranceType() {
   
   var id = name.replace(/\s/g, '_').toLowerCase();
   var icon = '📄';
-  var iconMap = {
-    'تأمين الحياة المؤقت': '📋', 'تأمين الحياة مدى الحياة': '🔄',
-    'تأمين الحياة المختلط': '💰', 'تأمين الحياة الاستثماري': '📈',
-    'تأمين دفعات التقاعد': '👴', 'عمليات تكوين الأموال': '🏦',
-    'تأمين الحوادث الشخصية': '🩹', 'تأمين العلاج الطبي': '🏥',
-    'التأمين الطبي المتخصص': '🔬', 'التأمين ضد أخطار الحريق': '🔥',
-    'تأمين السرقة والسطو': '🔒', 'تأمين نقل النقدية': '💰',
-    'تأمين خيانة الأمانة': '⚖️', 'التأمين التكميلي على السيارات': '🚗',
-    'التأمين الإجباري على السيارات': '🚦', 'تأمين النقل البحري': '🚢',
-    'تأمين النقل الجوي': '✈️', 'تأمين النقل البري': '🚛',
-    'تأمين أجسام السفن': '⛴️', 'تأمين أجسام الطائرات': '🛩️',
-    'تأمين كافة أخطار المقاولين': '🏗️', 'تأمين كافة أخطار التركيب': '🔧',
-    'تأمين عطب الماكينات': '⚙️', 'تأمين خسارة الأرباح': '📊',
-    'تأمينات البترول والغاز': '🛢️', 'تأمينات الطاقة والكهرباء': '⚡',
-    'التأمين الزراعي': '🌾', 'تأمين الائتمان': '💳',
-    'تأمين ضمان الصادرات': '📦', 'تأمين المسؤولية المدنية': '⚖️',
-    'تأمين المسؤولية المهنية': '👨‍⚕️', 'تأمين أخطار الإرهاب': '⚠️',
-    'التأمين ضد المخاطر الإلكترونية': '💻', 'التأمين التكافلي': '🤝',
-    'التأمين متناهي الصغر': '🌱', 'تأمين السفر': '✈️',
-    'تأمين حوادث القطارات': '🚆', 'التأمين على طلاب المدارس': '🎓',
-    'التأمين الاجتماعي': '🏛️', 'منظومة التأمين الصحي الشامل': '❤️'
-  };
-  for (var key in iconMap) {
-    if (name.includes(key)) { icon = iconMap[key]; break; }
-  }
   
   var newType = { id: id, name: name, icon: icon, color: color, category: category, description: desc };
   
