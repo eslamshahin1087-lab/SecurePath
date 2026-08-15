@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no">
-<title>Secure PATH — منصة متابعة وثائق التأمين</title>
+<title>وثيقتي — منصة متابعة وثائق التأمين</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0E2A5C">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="SecurePath">
+<meta name="apple-mobile-web-app-title" content="وثيقتي">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,46 +47,10 @@
     --gradient-gold: linear-gradient(135deg,var(--gold),var(--gold-2));
     --gradient-navy: linear-gradient(145deg,var(--navy-3),var(--navy) 70%);
     --gradient-card: linear-gradient(145deg,#FFFFFF,#F8FAFD);
-    --sidebar-width:260px;
-    --sidebar-collapsed:80px;
   }
 
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   body { margin:0; font-family:'Cairo',sans-serif; background:#EAF0F7; color:var(--slate); display:flex; justify-content:center; padding:24px 8px; user-select:none; min-height:100vh; }
-
-  body.lang-en { direction:ltr; }
-  body.lang-en .phone, body.lang-en .screen, body.lang-en .topbar-left .hi, 
-  body.lang-en .topbar-left .name, body.lang-en .slider-title, body.lang-en .section-head h2,
-  body.lang-en .p-body .top, body.lang-en .p-foot, body.lang-en .stat span,
-  body.lang-en .protection-left, body.lang-en .protection-left span,
-  body.lang-en .protection-left strong, body.lang-en .protection-left small,
-  body.lang-en .login-card h2, body.lang-en .field label, body.lang-en .field input,
-  body.lang-en .field select, body.lang-en .field textarea, body.lang-en .switch-auth,
-  body.lang-en .detail-row, body.lang-en .detail-row span:first-child,
-  body.lang-en .checkbox-group label, body.lang-en .notif, body.lang-en .notif h4,
-  body.lang-en .notif p, body.lang-en .notif time, body.lang-en .result-card .result-header,
-  body.lang-en .result-card .result-header h3, body.lang-en .result-card .result-body,
-  body.lang-en .advice-card h2, body.lang-en .advice-card .sub,
-  body.lang-en .advice-option .option-title, body.lang-en .advice-option .option-desc,
-  body.lang-en .char-counter, body.lang-en .wheel-result, body.lang-en .wheel-disabled,
-  body.lang-en .wheel-disabled h3, body.lang-en .wheel-disabled p,
-  body.lang-en .chat-widget .chat-header .chat-title,
-  body.lang-en .chat-widget .chat-messages .msg,
-  body.lang-en .chat-widget .chat-input-area input,
-  body.lang-en .terms-text, body.lang-en .account-header h2,
-  body.lang-en .account-header p, body.lang-en .page-top,
-  body.lang-en .page-top h1, body.lang-en .page-top p,
-  body.lang-en .empty-state, body.lang-en .empty-state h3,
-  body.lang-en .empty-state p, body.lang-en .advice-success h3,
-  body.lang-en .advice-success p, body.lang-en .wheel-celebration .celebrate-text,
-  body.lang-en .slider-item .company-name, body.lang-en .slider-item .company-badge,
-  body.lang-en .companies-slider-section .slider-title { direction:ltr; text-align:left; }
-
-  body.lang-en .detail-row span:last-child { text-align:right; }
-  body.lang-en .result-card .result-body ul { padding-right:0; padding-left:20px; }
-  body.lang-en .char-counter { text-align:right; }
-  body.lang-en .chat-widget .chat-messages .msg .msg-time { text-align:right; }
-  body.lang-en .terms-text ul { padding-right:0; padding-left:20px; }
 
   .phone {
     width:390px; max-width:100%; height:820px; background:var(--paper);
@@ -178,13 +142,6 @@
   }
   .btn-gold-small:active { transform:scale(0.97); }
 
-  .btn-outline-sm {
-    padding:8px 16px; border:1.5px solid var(--line); border-radius:10px;
-    background:transparent; color:var(--navy); font-family:'Tajawal',sans-serif;
-    font-weight:700; font-size:12px; cursor:pointer; transition:all 0.3s ease;
-  }
-  .btn-outline-sm:hover { border-color:var(--gold); background:var(--gold-soft); }
-
   .switch-auth { text-align:center; font-size:12px; color:var(--muted); margin-top:16px; }
   .switch-auth b { color:var(--navy-2); cursor:pointer; text-decoration:underline; }
 
@@ -214,19 +171,6 @@
   }
 
   .topbar-right { display:flex; align-items:center; gap:8px; flex-shrink:0; }
-
-  .lang-toggle {
-    padding:5px 12px; border-radius:20px; border:1.5px solid rgba(255,255,255,0.2);
-    background:rgba(255,255,255,0.08); color:var(--gold-2);
-    display:flex; align-items:center; justify-content:center; cursor:pointer;
-    transition:all 0.3s ease; font-size:11px; font-weight:700;
-    font-family:'Tajawal',sans-serif; gap:4px; height:34px; min-width:65px;
-    backdrop-filter:blur(4px);
-  }
-  .lang-toggle:hover { background:rgba(255,255,255,0.16); border-color:var(--gold); transform:scale(1.03); }
-  .lang-toggle:active { transform:scale(0.95); }
-  .lang-toggle .lang-icon { font-size:14px; }
-  .lang-toggle .lang-text { font-size:11px; }
 
   .bell {
     width:38px; height:38px; border-radius:12px;
@@ -820,8 +764,6 @@
     .quick-card { padding:10px 2px; }
     .quick-card b { font-size:9px; }
     .qicon { width:32px; height:32px; font-size:14px; }
-    .lang-toggle { font-size:10px; padding:4px 10px; min-width:55px; height:30px; }
-    .lang-toggle .lang-text { font-size:10px; }
     .bell { width:34px; height:34px; }
     .bell .bell-symbol { font-size:14px; }
   }
@@ -835,64 +777,64 @@
   <!-- ====== LOGIN SCREEN ====== -->
   <div class="screen active" id="login">
     <div class="brand brand-premium">
-      <img class="brand-logo-full" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 80'><path d='M30,15 L55,25 L55,50 C55,65 30,75 30,75 C30,75 5,65 5,50 L5,25 Z' fill='%23F2BD63'/><path d='M30,22 L47,30 L47,48 C47,58 30,66 30,66 C30,66 13,58 13,48 L13,30 Z' fill='%230E2A5C'/><text x='70' y='42' font-family='Tajawal,sans-serif' font-weight='900' font-size='24' fill='%23FFFFFF'>Secure <tspan fill='%23F2BD63'>PATH</tspan></text><text x='72' y='58' font-family='Cairo,sans-serif' font-size='10' fill='%23FFF2D7' letter-spacing='1'>INSURANCE PLATFORM</text></svg>">
-      <div class="brand-tagline" id="loginTagline">✨ منظومتك التأمينية الذكية والشاملة</div>
+      <img class="brand-logo-full" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 80'><path d='M30,15 L55,25 L55,50 C55,65 30,75 30,75 C30,75 5,65 5,50 L5,25 Z' fill='%23F2BD63'/><path d='M30,22 L47,30 L47,48 C47,58 30,66 30,66 C30,66 13,58 13,48 L13,30 Z' fill='%230E2A5C'/><text x='70' y='42' font-family='Tajawal,sans-serif' font-weight='900' font-size='24' fill='%23FFFFFF'>وثي<span tspan fill='%23F2BD63'>قتي</tspan></text><text x='72' y='58' font-family='Cairo,sans-serif' font-size='10' fill='%23FFF2D7' letter-spacing='1'>INSURANCE PLATFORM</text></svg>">
+      <div class="brand-tagline">✨ منظومتك التأمينية الذكية والشاملة</div>
     </div>
     <div class="login-card">
-      <h2 id="loginTitle">تسجيل الدخول</h2>
+      <h2>تسجيل الدخول</h2>
       <div id="loginError" style="color:var(--red);font-size:12px;margin-bottom:10px;display:none;"></div>
-      <div class="field"><label id="loginEmailLabel">البريد الإلكتروني</label><input type="email" id="loginEmail" placeholder="example@domain.com"></div>
-      <div class="field"><label id="loginPassLabel">كلمة المرور</label><input type="password" id="loginPass" placeholder="••••••••"></div>
+      <div class="field"><label>البريد الإلكتروني</label><input type="email" id="loginEmail" placeholder="example@domain.com"></div>
+      <div class="field"><label>كلمة المرور</label><input type="password" id="loginPass" placeholder="••••••••"></div>
       <button class="btn-primary" id="loginBtn" onclick="handleLogin()">🚀 دخول المنصة</button>
-      <div class="switch-auth" id="loginSwitch">ليس لديك حساب؟ <b onclick="showScreen('signup')">إنشاء حساب جديد</b></div>
+      <div class="switch-auth">ليس لديك حساب؟ <b onclick="showScreen('signup')">إنشاء حساب جديد</b></div>
     </div>
   </div>
 
   <!-- ====== SIGNUP SCREEN ====== -->
   <div class="screen" id="signup">
     <div class="brand brand-premium">
-      <img class="brand-logo-full" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 80'><path d='M30,15 L55,25 L55,50 C55,65 30,75 30,75 C30,75 5,65 5,50 L5,25 Z' fill='%23F2BD63'/><path d='M30,22 L47,30 L47,48 C47,58 30,66 30,66 C30,66 13,58 13,48 L13,30 Z' fill='%230E2A5C'/><text x='70' y='42' font-family='Tajawal,sans-serif' font-weight='900' font-size='24' fill='%23FFFFFF'>Secure <tspan fill='%23F2BD63'>PATH</tspan></text></svg>">
+      <img class="brand-logo-full" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 80'><path d='M30,15 L55,25 L55,50 C55,65 30,75 30,75 C30,75 5,65 5,50 L5,25 Z' fill='%23F2BD63'/><path d='M30,22 L47,30 L47,48 C47,58 30,66 30,66 C30,66 13,58 13,48 L13,30 Z' fill='%230E2A5C'/><text x='70' y='42' font-family='Tajawal,sans-serif' font-weight='900' font-size='24' fill='%23FFFFFF'>وثي<span tspan fill='%23F2BD63'>قتي</tspan></text></svg>">
     </div>
     <div class="login-card">
-      <h2 id="signupTitle">✨ إنشاء حساب جديد</h2>
+      <h2>✨ إنشاء حساب جديد</h2>
       <div id="signupError" style="color:var(--red);font-size:12px;margin-bottom:10px;display:none;"></div>
-      <div class="field"><label id="regFullNameLabel">الاسم الرباعي <span class="required">*</span></label><input type="text" id="regFullName" placeholder="مثال: أحمد محمد علي حسن"></div>
-      <div class="field"><label id="regEmailLabel">البريد الإلكتروني <span class="required">*</span></label><input type="email" id="regEmail" placeholder="name@domain.com"></div>
-      <div class="field"><label id="regPassLabel">كلمة المرور <span class="required">*</span></label><input type="password" id="regPass" placeholder="•••••••• (6 أحرف على الأقل)"></div>
-      <div class="field"><label id="regBirthDateLabel">تاريخ الميلاد <span class="required">*</span></label><input type="date" id="regBirthDate"></div>
-      <div class="field"><label id="regGenderLabel">الجنس <span class="required">*</span></label>
-        <select id="regGender"><option value="male" id="genderMale">ذكر</option><option value="female" id="genderFemale">أنثى</option></select>
+      <div class="field"><label>الاسم الرباعي <span class="required">*</span></label><input type="text" id="regFullName" placeholder="مثال: أحمد محمد علي حسن"></div>
+      <div class="field"><label>البريد الإلكتروني <span class="required">*</span></label><input type="email" id="regEmail" placeholder="name@domain.com"></div>
+      <div class="field"><label>كلمة المرور <span class="required">*</span></label><input type="password" id="regPass" placeholder="•••••••• (6 أحرف على الأقل)"></div>
+      <div class="field"><label>تاريخ الميلاد <span class="required">*</span></label><input type="date" id="regBirthDate"></div>
+      <div class="field"><label>الجنس <span class="required">*</span></label>
+        <select id="regGender"><option value="male">ذكر</option><option value="female">أنثى</option></select>
       </div>
-      <div class="field"><label id="regPhoneLabel">رقم الهاتف <span class="required">*</span></label><input type="tel" id="regPhone" placeholder="مثال: 01012345678"></div>
-      <div class="field"><label id="regOccupationLabel">الوظيفة / المهنة <span class="required">*</span></label><input type="text" id="regOccupation" placeholder="مثال: مهندس، طبيب، محاسب"></div>
-      <div class="field"><label id="regClientTypeLabel">نوع العميل <span class="required">*</span></label>
-        <select id="regClientType"><option value="individual" id="clientTypeIndividual">فردي</option><option value="corporate" id="clientTypeCorporate">جماعي (شركة / مؤسسة)</option></select>
+      <div class="field"><label>رقم الهاتف <span class="required">*</span></label><input type="tel" id="regPhone" placeholder="مثال: 01012345678"></div>
+      <div class="field"><label>الوظيفة / المهنة <span class="required">*</span></label><input type="text" id="regOccupation" placeholder="مثال: مهندس، طبيب، محاسب"></div>
+      <div class="field"><label>نوع العميل <span class="required">*</span></label>
+        <select id="regClientType"><option value="individual">فردي</option><option value="corporate">جماعي (شركة / مؤسسة)</option></select>
       </div>
-      <div class="field" id="businessFields" style="display:none;"><label id="regBusinessNameLabel">اسم المنشأة / الشركة</label><input type="text" id="regBusinessName" placeholder="اسم الشركة أو المؤسسة"></div>
-      <div class="field" id="businessActivityField" style="display:none;"><label id="regBusinessActivityLabel">نشاط المنشأة</label><input type="text" id="regBusinessActivity" placeholder="مثال: تجارة، صناعة، خدمات"></div>
-      <div class="field" id="employeesField" style="display:none;"><label id="regEmployeesLabel">عدد الموظفين</label><input type="number" id="regEmployees" placeholder="عدد الموظفين"></div>
-      <div class="field"><label id="regExistingPoliciesLabel">وثائق التأمين الحالية (اختر ما يناسبك)</label>
+      <div class="field" id="businessFields" style="display:none;"><label>اسم المنشأة / الشركة</label><input type="text" id="regBusinessName" placeholder="اسم الشركة أو المؤسسة"></div>
+      <div class="field" id="businessActivityField" style="display:none;"><label>نشاط المنشأة</label><input type="text" id="regBusinessActivity" placeholder="مثال: تجارة، صناعة، خدمات"></div>
+      <div class="field" id="employeesField" style="display:none;"><label>عدد الموظفين</label><input type="number" id="regEmployees" placeholder="عدد الموظفين"></div>
+      <div class="field"><label>وثائق التأمين الحالية (اختر ما يناسبك)</label>
         <select id="regExistingPolicies" multiple style="height:100px;">
-          <option value="life" id="policyLife">تأمين الحياة</option>
-          <option value="medical" id="policyMedical">تأمين طبي</option>
-          <option value="car" id="policyCar">تأمين سيارات</option>
-          <option value="property" id="policyProperty">تأمين ممتلكات</option>
-          <option value="travel" id="policyTravel">تأمين سفر</option>
-          <option value="liability" id="policyLiability">تأمين مسؤولية</option>
-          <option value="marine" id="policyMarine">تأمين بحري</option>
-          <option value="engineering" id="policyEngineering">تأمين هندسي</option>
-          <option value="agriculture" id="policyAgriculture">تأمين زراعي</option>
-          <option value="cyber" id="policyCyber">تأمين إلكتروني</option>
-          <option value="none" id="policyNone">لا أملك وثائق تأمين حالياً</option>
+          <option value="life">تأمين الحياة</option>
+          <option value="medical">تأمين طبي</option>
+          <option value="car">تأمين سيارات</option>
+          <option value="property">تأمين ممتلكات</option>
+          <option value="travel">تأمين سفر</option>
+          <option value="liability">تأمين مسؤولية</option>
+          <option value="marine">تأمين بحري</option>
+          <option value="engineering">تأمين هندسي</option>
+          <option value="agriculture">تأمين زراعي</option>
+          <option value="cyber">تأمين إلكتروني</option>
+          <option value="none">لا أملك وثائق تأمين حالياً</option>
         </select>
-        <div style="font-size:10px;color:var(--muted);margin-top:4px;" id="existingPoliciesHelp">يمكنك اختيار أكثر من نوع (اضغط مع الاستمرار على Ctrl)</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:4px;">يمكنك اختيار أكثر من نوع (اضغط مع الاستمرار على Ctrl)</div>
       </div>
       <div class="checkbox-group">
         <input type="checkbox" id="termsCheck">
-        <label for="termsCheck" id="termsLabel">أوافق على <span class="link" onclick="openTermsModal()" id="termsLink">الشروط والأحكام</span> وسياسة الخصوصية للتطبيق</label>
+        <label for="termsCheck">أوافق على <span class="link" onclick="openTermsModal()">الشروط والأحكام</span> وسياسة الخصوصية للتطبيق</label>
       </div>
       <button class="btn-primary" id="signupBtn" onclick="handleSignup()" disabled>🌟 تسجيل الحساب</button>
-      <div class="switch-auth" id="signupSwitch">لديك حساب بالفعل؟ <b onclick="showScreen('login')" id="signupSwitchLink">تسجيل الدخول</b></div>
+      <div class="switch-auth">لديك حساب بالفعل؟ <b onclick="showScreen('login')">تسجيل الدخول</b></div>
     </div>
   </div>
 
@@ -900,41 +842,40 @@
   <div class="screen" id="home">
     <div class="pro-topbar">
       <div class="topbar-row">
-        <div class="topbar-left"><p class="hi" id="welcomeText">مرحباً بك،</p><h1 class="name" id="userNameHome">مستخدم</h1></div>
+        <div class="topbar-left"><p class="hi">مرحباً بك،</p><h1 class="name" id="userNameHome">مستخدم</h1></div>
         <div class="topbar-right">
-          <button class="lang-toggle" id="langToggle" onclick="toggleLanguage()"><span class="lang-icon">🇸🇦</span><span class="lang-text" id="langToggleText">عربي</span></button>
           <div class="bell" onclick="showScreen('notifs')"><span class="bell-symbol">🔔</span><div class="dot" id="notifDot"></div></div>
         </div>
       </div>
       <div class="protection-card" onclick="runFullAssessment()">
         <div class="protection-left">
-          <span id="protectionLabel">مؤشر الحماية التأمينية</span>
+          <span>مؤشر الحماية التأمينية</span>
           <strong id="homeAssessmentScore">--%</strong>
-          <small id="homeAssessmentLabel">انقر لإجراء تقييم شامل</small>
+          <small>انقر لإجراء تقييم شامل</small>
         </div>
         <div class="score-ring"><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="25"></circle><circle class="progress" id="scoreCircle" cx="30" cy="30" r="25"></circle></svg></div>
       </div>
       <div class="stats">
-        <div class="stat"><b id="statActiveCount">0</b><span id="statActiveLabel">📋 وثائق سارية</span></div>
-        <div class="stat"><b id="statExpiringCount">0</b><span id="statExpiringLabel">⏳ تجديد قريب</span></div>
-        <div class="stat"><b id="statDocsCount">0</b><span id="statDocsLabel">📁 مستندات مفعلة</span></div>
+        <div class="stat"><b id="statActiveCount">0</b><span>📋 وثائق سارية</span></div>
+        <div class="stat"><b id="statExpiringCount">0</b><span>⏳ تجديد قريب</span></div>
+        <div class="stat"><b id="statDocsCount">0</b><span>📁 مستندات مفعلة</span></div>
       </div>
     </div>
     <div class="companies-slider-section">
-      <div class="slider-title" id="companiesSliderTitle">🏢 شركاؤنا في التأمين <span>·</span> <span id="companiesCount">0</span> شركة</div>
+      <div class="slider-title">🏢 شركاؤنا في التأمين <span>·</span> <span id="companiesCount">0</span> شركة</div>
       <div class="slider-wrapper"><div class="slider-track" id="sliderTrack"></div></div>
     </div>
     <div class="quick-section">
-      <div class="section-head"><h2 id="quickAccessTitle">⚡ الوصول السريع</h2></div>
+      <div class="section-head"><h2>⚡ الوصول السريع</h2></div>
       <div class="quick-grid">
-        <div class="quick-card" onclick="openUploadDocModal()"><div class="qicon navy">📤</div><b id="quickUpload">رفع مستند</b></div>
-        <div class="quick-card" onclick="showScreen('products')"><div class="qicon gold">🛡️</div><b id="quickProducts">المنتجات</b></div>
-        <div class="quick-card" onclick="runFullAssessment()"><div class="qicon green">📊</div><b id="quickAssessment">فحص الحماية</b></div>
-        <div class="quick-card" onclick="showScreen('advice')"><div class="qicon orange">💡</div><b id="quickAdvice">طلب نصيحة</b></div>
+        <div class="quick-card" onclick="openUploadDocModal()"><div class="qicon navy">📤</div><b>رفع مستند</b></div>
+        <div class="quick-card" onclick="showScreen('products')"><div class="qicon gold">🛡️</div><b>المنتجات</b></div>
+        <div class="quick-card" onclick="runFullAssessment()"><div class="qicon green">📊</div><b>فحص الحماية</b></div>
+        <div class="quick-card" onclick="showScreen('advice')"><div class="qicon orange">💡</div><b>طلب نصيحة</b></div>
       </div>
     </div>
     <div class="quick-section" style="padding-bottom:0;">
-      <div class="section-head"><h2 id="myPoliciesTitle">📄 وثائقي التأمينية</h2><span style="font-size:11px;color:var(--navy-2);cursor:pointer;font-weight:700;" onclick="showScreen('policies')" id="viewAllLink">عرض الكل →</span></div>
+      <div class="section-head"><h2>📄 وثائقي التأمينية</h2><span style="font-size:11px;color:var(--navy-2);cursor:pointer;font-weight:700;" onclick="showScreen('policies')">عرض الكل →</span></div>
     </div>
     <div class="policies" id="homePoliciesList"></div>
   </div>
@@ -942,8 +883,8 @@
   <!-- ====== ASSESSMENT RESULT SCREEN ====== -->
   <div class="screen" id="assessmentResult">
     <div class="page-top">
-      <div class="page-left"><h1 id="assessmentResultTitle">📊 نتيجة تقييم الحماية</h1><p id="assessmentResultSub">تحليل شامل لحالتك التأمينية مع توصيات مخصصة</p></div>
-      <div class="page-actions"><button class="btn-gold-small" onclick="showScreen('home')" id="assessmentBackBtn">🏠 العودة</button></div>
+      <div class="page-left"><h1>📊 نتيجة تقييم الحماية</h1><p>تحليل شامل لحالتك التأمينية مع توصيات مخصصة</p></div>
+      <div class="page-actions"><button class="btn-gold-small" onclick="showScreen('home')">🏠 العودة</button></div>
     </div>
     <div class="assessment-result" id="assessmentResultContainer"></div>
   </div>
@@ -951,35 +892,35 @@
   <!-- ====== ADVICE SCREEN ====== -->
   <div class="screen" id="advice">
     <div class="page-top">
-      <div class="page-left"><h1 id="adviceTitle">💡 طلب نصيحة تأمينية</h1><p id="adviceSub">اختر طريقة التواصل المفضلة لديك</p></div>
-      <div class="page-actions"><button class="btn-gold-small" onclick="showScreen('home')" id="adviceBackBtn">🏠 العودة</button></div>
+      <div class="page-left"><h1>💡 طلب نصيحة تأمينية</h1><p>اختر طريقة التواصل المفضلة لديك</p></div>
+      <div class="page-actions"><button class="btn-gold-small" onclick="showScreen('home')">🏠 العودة</button></div>
     </div>
     <div class="advice-card" id="adviceFormContainer">
-      <h2 id="adviceCardTitle">📝 كيف تفضل التواصل؟</h2>
-      <div class="sub" id="adviceCardSub">اختر إحدى الطرق التالية للحصول على استشارتك</div>
+      <h2>📝 كيف تفضل التواصل؟</h2>
+      <div class="sub">اختر إحدى الطرق التالية للحصول على استشارتك</div>
       <div class="advice-options">
         <div class="advice-option active" id="optText" onclick="selectAdviceOption('text')">
           <span class="option-icon">✏️</span>
-          <span class="option-title" id="optTextTitle">نصيحة نصية</span>
-          <span class="option-desc" id="optTextDesc">اكتب استفسارك وسنرد عليك</span>
-          <span class="option-badge" id="optTextBadge">مفضّل</span>
+          <span class="option-title">نصيحة نصية</span>
+          <span class="option-desc">اكتب استفسارك وسنرد عليك</span>
+          <span class="option-badge">مفضّل</span>
         </div>
         <div class="advice-option" id="optWhatsapp" onclick="selectAdviceOption('whatsapp')">
           <span class="option-icon">💬</span>
-          <span class="option-title" id="optWhatsappTitle">واتساب</span>
-          <span class="option-desc" id="optWhatsappDesc">تواصل مباشر عبر واتساب</span>
-          <span class="option-badge" id="optWhatsappBadge">سريع</span>
+          <span class="option-title">واتساب</span>
+          <span class="option-desc">تواصل مباشر عبر واتساب</span>
+          <span class="option-badge">سريع</span>
         </div>
       </div>
       <div class="advice-form-container active" id="adviceTextContainer">
         <div class="advice-success" id="adviceSuccess" style="display:none;">
           <div class="icon">✅</div>
-          <h3 id="adviceSuccessTitle">تم إرسال طلب النصيحة بنجاح!</h3>
-          <p id="adviceSuccessText">سيتم الرد على استفسارك خلال 24 ساعة عبر البريد الإلكتروني</p>
-          <button class="btn-gold-small" style="margin-top:16px;" onclick="resetAdviceForm()" id="adviceNewRequest">📝 طلب آخر</button>
+          <h3>تم إرسال طلب النصيحة بنجاح!</h3>
+          <p>سيتم الرد على استفسارك خلال 24 ساعة عبر البريد الإلكتروني</p>
+          <button class="btn-gold-small" style="margin-top:16px;" onclick="resetAdviceForm()">📝 طلب آخر</button>
         </div>
         <div id="adviceForm">
-          <div class="field"><label id="adviceTextLabel">نص الاستفسار <span class="required">*</span></label>
+          <div class="field"><label>نص الاستفسار <span class="required">*</span></label>
             <textarea id="adviceText" placeholder="اكتب استفسارك بالتفصيل... (الحد الأقصى 1000 حرف)" maxlength="1000" oninput="updateCharCount()"></textarea>
             <div class="char-counter" id="charCount">0 / 1000 حرف</div>
           </div>
@@ -988,63 +929,63 @@
       </div>
       <div class="advice-whatsapp-container" id="adviceWhatsappContainer">
         <div class="wa-big-icon">💬</div>
-        <h3 id="whatsappTitle">تواصل معنا عبر واتساب</h3>
-        <p id="whatsappText">سيتم تحويلك إلى تطبيق واتساب للتواصل المباشر مع فريق الدعم</p>
-        <button class="whatsapp-btn" onclick="openWhatsApp()"><span class="wa-icon">📱</span><span id="whatsappBtnText">افتح واتساب الآن</span></button>
-        <p style="font-size:11px;color:var(--muted);margin-top:12px;" id="whatsappNumber">سيتم فتح محادثة مع الرقم +20 112 315 2500</p>
+        <h3>تواصل معنا عبر واتساب</h3>
+        <p>سيتم تحويلك إلى تطبيق واتساب للتواصل المباشر مع فريق الدعم</p>
+        <button class="whatsapp-btn" onclick="openWhatsApp()"><span class="wa-icon">📱</span>افتح واتساب الآن</button>
+        <p style="font-size:11px;color:var(--muted);margin-top:12px;">سيتم فتح محادثة مع الرقم +20 112 315 2500</p>
       </div>
     </div>
   </div>
 
   <!-- ====== POLICIES LIST SCREEN ====== -->
   <div class="screen" id="policies">
-    <div class="page-top"><div class="page-left"><h1 id="policiesTitle">📄 وثائق التأمين</h1><p id="policiesSub">متابعة كافة الوثائق والتغطيات الحالية</p></div></div>
+    <div class="page-top"><div class="page-left"><h1>📄 وثائق التأمين</h1><p>متابعة كافة الوثائق والتغطيات الحالية</p></div></div>
     <div class="policies" id="fullPoliciesList" style="padding-top:14px;"></div>
   </div>
 
   <!-- ====== PRODUCTS SCREEN ====== -->
   <div class="screen" id="products">
-    <div class="page-top"><div class="page-left"><h1 id="productsTitle">💎 منتجات التأمين</h1><p id="productsSub">استكشف أفضل برامج التغطية المتاحة</p></div></div>
+    <div class="page-top"><div class="page-left"><h1>💎 منتجات التأمين</h1><p>استكشف أفضل برامج التغطية المتاحة</p></div></div>
     <div class="policies" id="productsList" style="padding-top:14px;"></div>
   </div>
 
   <!-- ====== DOCUMENTS SCREEN ====== -->
   <div class="screen" id="documents">
     <div class="page-top">
-      <div class="page-left"><h1 id="documentsTitle">📁 المستندات والملفات</h1><p id="documentsSub">إدارة الهوية والوثائق المرفوعة</p></div>
-      <div class="page-actions"><button class="btn-gold-small" style="margin:0;padding:8px 12px;font-size:11px;width:auto;" onclick="openUploadDocModal()" id="uploadDocBtn">+ رفع مستند</button></div>
+      <div class="page-left"><h1>📁 المستندات والملفات</h1><p>إدارة الهوية والوثائق المرفوعة</p></div>
+      <div class="page-actions"><button class="btn-gold-small" style="margin:0;padding:8px 12px;font-size:11px;width:auto;" onclick="openUploadDocModal()">+ رفع مستند</button></div>
     </div>
     <div class="policies" id="documentsList" style="padding-top:14px;"></div>
   </div>
 
   <!-- ====== NOTIFICATIONS SCREEN ====== -->
   <div class="screen" id="notifs">
-    <div class="page-top"><div class="page-left"><h1 id="notificationsTitle">🔔 الإشعارات والتنبيهات</h1><p id="notificationsSub">تنبيهات التجديد والمراجعة</p></div></div>
+    <div class="page-top"><div class="page-left"><h1>🔔 الإشعارات والتنبيهات</h1><p>تنبيهات التجديد والمراجعة</p></div></div>
     <div id="notificationsList"></div>
   </div>
 
   <!-- ====== ACCOUNT SCREEN ====== -->
   <div class="screen" id="account">
-    <div class="account-header"><div class="avatar" id="accAvatar">م</div><h2 id="accName">مستخدم</h2><p id="accEmail">user@securepath.com</p></div>
+    <div class="account-header"><div class="avatar" id="accAvatar">م</div><h2 id="accName">مستخدم</h2><p id="accEmail">user@wathiqati.com</p></div>
     <div style="padding:16px;display:flex;flex-direction:column;gap:10px;">
       <div class="p-card" style="padding:14px;flex-direction:column;align-items:flex-start;gap:8px;cursor:default;">
-        <b id="accountClientData">👤 بيانات العميل</b>
-        <div style="font-size:13px;color:var(--muted);padding:4px 0;"><span id="accountLoggedIn">تم تسجيل الدخول كـ: <strong id="accLoginEmail">---</strong></span></div>
+        <b>👤 بيانات العميل</b>
+        <div style="font-size:13px;color:var(--muted);padding:4px 0;"><span>تم تسجيل الدخول كـ: <strong id="accLoginEmail">---</strong></span></div>
       </div>
-      <div class="p-card" style="padding:14px;cursor:pointer;" onclick="runFullAssessment()"><b id="accountAssessment">📊 إجراء تقييم الحماية الشامل</b></div>
-      <div class="p-card" style="padding:14px;cursor:pointer;" onclick="showScreen('documents')"><b id="accountDocuments">📂 ملفاتي ومستنداتي التحقق</b></div>
-      <div class="p-card" style="padding:14px;background:var(--gold-soft);border-color:var(--gold);cursor:pointer;" onclick="openWheelModal()"><b id="accountWheel">🎰 جرب حظك</b><div style="font-size:11px;color:var(--muted);margin-top:2px;" id="accountWheelSub">اضغط لجرب حظك اليوم</div></div>
-      <div class="p-card" style="padding:14px;color:var(--red);cursor:pointer;" onclick="handleLogout()"><b id="accountLogout">🚪 تسجيل الخروج</b></div>
+      <div class="p-card" style="padding:14px;cursor:pointer;" onclick="runFullAssessment()"><b>📊 إجراء تقييم الحماية الشامل</b></div>
+      <div class="p-card" style="padding:14px;cursor:pointer;" onclick="showScreen('documents')"><b>📂 ملفاتي ومستنداتي التحقق</b></div>
+      <div class="p-card" style="padding:14px;background:var(--gold-soft);border-color:var(--gold);cursor:pointer;" onclick="openWheelModal()"><b>🎰 جرب حظك</b><div style="font-size:11px;color:var(--muted);margin-top:2px;">اضغط لجرب حظك اليوم</div></div>
+      <div class="p-card" style="padding:14px;color:var(--red);cursor:pointer;" onclick="handleLogout()"><b>🚪 تسجيل الخروج</b></div>
     </div>
   </div>
 
   <!-- ====== BOTTOM NAVIGATION ====== -->
   <div class="navbar" id="mainNavbar">
-    <button class="nav-item on" id="nav-home" onclick="switchTab('home')"><span class="nav-icon">🏠</span><span id="navHome">الرئيسية</span></button>
-    <button class="nav-item" id="nav-policies" onclick="switchTab('policies')"><span class="nav-icon">🛡️</span><span id="navPolicies">وثائقي</span></button>
-    <button class="nav-item" id="nav-products" onclick="switchTab('products')"><span class="nav-icon">💎</span><span id="navProducts">المنتجات</span></button>
-    <button class="nav-item" id="nav-documents" onclick="switchTab('documents')"><span class="nav-icon">📁</span><span id="navDocuments">المستندات</span></button>
-    <button class="nav-item" id="nav-account" onclick="switchTab('account')"><span class="nav-icon">👤</span><span id="navAccount">حسابي</span></button>
+    <button class="nav-item on" id="nav-home" onclick="switchTab('home')"><span class="nav-icon">🏠</span><span>الرئيسية</span></button>
+    <button class="nav-item" id="nav-policies" onclick="switchTab('policies')"><span class="nav-icon">🛡️</span><span>وثائقي</span></button>
+    <button class="nav-item" id="nav-products" onclick="switchTab('products')"><span class="nav-icon">💎</span><span>المنتجات</span></button>
+    <button class="nav-item" id="nav-documents" onclick="switchTab('documents')"><span class="nav-icon">📁</span><span>المستندات</span></button>
+    <button class="nav-item" id="nav-account" onclick="switchTab('account')"><span class="nav-icon">👤</span><span>حسابي</span></button>
   </div>
 
   <!-- ====== CHAT FLOATING BUTTON ====== -->
@@ -1052,9 +993,9 @@
 
   <!-- ====== CHAT WIDGET ====== -->
   <div class="chat-widget" id="chatWidget">
-    <div class="chat-header"><div class="chat-title"><span class="online-dot"></span><span id="chatTitle">💬 وكيل Secure PATH</span></div><button class="close-chat" onclick="toggleChat()">✕</button></div>
+    <div class="chat-header"><div class="chat-title"><span class="online-dot"></span><span>💬 وكيل وثيقتي</span></div><button class="close-chat" onclick="toggleChat()">✕</button></div>
     <div class="chat-messages" id="chatMessages">
-      <div class="msg agent" id="chatWelcomeMsg">👋 مرحباً بك في Secure PATH!<br>كيف يمكنني مساعدتك اليوم؟<span class="msg-time" id="chatNow">الآن</span></div>
+      <div class="msg agent">👋 مرحباً بك في وثيقتي!<br>كيف يمكنني مساعدتك اليوم؟<span class="msg-time">الآن</span></div>
     </div>
     <div class="chat-input-area"><input type="text" id="chatInputWidget" placeholder="اكتب رسالتك..." onkeydown="if(event.key==='Enter')sendChatMessage()"><button onclick="sendChatMessage()">📤</button></div>
   </div>
@@ -1066,12 +1007,12 @@
       <div class="close-x" onclick="closeModal('policyModal')">✕</div>
       <h2 id="mPolicyTitle">تفاصيل الوثيقة</h2>
       <div class="sub" id="mPolicyCompany">شركة التأمين</div>
-      <div class="detail-row"><span id="policyNumberLabel">رقم الوثيقة:</span><span id="mPolicyNum">--</span></div>
-      <div class="detail-row"><span id="policyTypeLabel">نوع التأمين:</span><span id="mPolicyType">--</span></div>
-      <div class="detail-row"><span id="policyExpiryLabel">تاريخ الانتهاء:</span><span id="mPolicyExpiry">--</span></div>
-      <div class="detail-row"><span id="policyAmountLabel">مبلغ التأمين:</span><span id="mPolicyAmount">--</span></div>
-      <div class="detail-row"><span id="policyStatusLabel">حالة التغطية:</span><span id="mPolicyStatus">--</span></div>
-      <div class="actions"><button class="btn-gold" id="btnRenewPolicy">طلب تجديد الوثيقة</button><button class="btn-outline" id="btnOpenPolicyDoc">فتح مستند الوثيقة</button></div>
+      <div class="detail-row"><span>رقم الوثيقة:</span><span id="mPolicyNum">--</span></div>
+      <div class="detail-row"><span>نوع التأمين:</span><span id="mPolicyType">--</span></div>
+      <div class="detail-row"><span>تاريخ الانتهاء:</span><span id="mPolicyExpiry">--</span></div>
+      <div class="detail-row"><span>مبلغ التأمين:</span><span id="mPolicyAmount">--</span></div>
+      <div class="detail-row"><span>حالة التغطية:</span><span id="mPolicyStatus">--</span></div>
+      <div class="actions"><button class="btn-gold" id="btnRenewPolicy" onclick="requestRenewal()">طلب تجديد الوثيقة</button><button class="btn-outline" id="btnOpenPolicyDoc">فتح مستند الوثيقة</button></div>
     </div>
   </div>
 
@@ -1083,7 +1024,7 @@
       <h2 id="mDocTitle">معاينة المستند</h2>
       <div class="sub" id="mDocStatus">حالة المستند</div>
       <div class="preview-box" id="docPreviewContainer"></div>
-      <div class="actions"><button class="btn-gold" id="btnDownloadDoc" onclick="triggerDocDownload()">تحميل / فتح المستند</button><button class="btn-outline" onclick="closeModal('docPreviewModal')" id="docPreviewClose">إغلاق</button></div>
+      <div class="actions"><button class="btn-gold" id="btnDownloadDoc" onclick="triggerDocDownload()">تحميل / فتح المستند</button><button class="btn-outline" onclick="closeModal('docPreviewModal')">إغلاق</button></div>
     </div>
   </div>
 
@@ -1092,13 +1033,13 @@
     <div class="sheet">
       <div class="grabber"></div>
       <div class="close-x" onclick="closeModal('uploadDocModal')">✕</div>
-      <h2 id="uploadTitle">📤 رفع مستند جديد</h2>
-      <div class="sub" id="uploadSub">سيتم مراجعة المستند وتغيير حالته إلى قيد التحقق</div>
-      <div class="field"><label id="uploadDocNameLabel">اسم المستند / نوعه</label><input type="text" id="upDocName" placeholder="مثال: رخصة القيادة / بطاقة الرقم القومي"></div>
-      <div class="field"><label id="uploadCategoryLabel">تصنيف المستند</label>
-        <select id="upDocCategory"><option value="هوية شخصية" id="uploadCatId">هوية شخصية</option><option value="رخصة قيادة/مركبة" id="uploadCatLicense">رخصة قيادة/مركبة</option><option value="تقرير طبي" id="uploadCatMedical">تقرير طبي</option><option value="سجل تجاري" id="uploadCatCommercial">سجل تجاري</option><option value="وثيقة تأمين" id="uploadCatPolicy">وثيقة تأمين</option></select>
+      <h2>📤 رفع مستند جديد</h2>
+      <div class="sub">سيتم مراجعة المستند وتغيير حالته إلى قيد التحقق</div>
+      <div class="field"><label>اسم المستند / نوعه</label><input type="text" id="upDocName" placeholder="مثال: رخصة القيادة / بطاقة الرقم القومي"></div>
+      <div class="field"><label>تصنيف المستند</label>
+        <select id="upDocCategory"><option value="هوية شخصية">هوية شخصية</option><option value="رخصة قيادة/مركبة">رخصة قيادة/مركبة</option><option value="تقرير طبي">تقرير طبي</option><option value="سجل تجاري">سجل تجاري</option><option value="وثيقة تأمين">وثيقة تأمين</option></select>
       </div>
-      <div class="field"><label id="uploadFileLabel">اختر الملف (صورة أو PDF)</label><input type="file" id="upDocFile" accept="image/*,application/pdf"></div>
+      <div class="field"><label>اختر الملف (صورة أو PDF)</label><input type="file" id="upDocFile" accept="image/*,application/pdf"></div>
       <div id="uploadError" style="color:var(--red);font-size:12px;margin-top:8px;display:none;"></div>
       <div class="actions"><button class="btn-gold" id="uploadBtn" onclick="processDocUpload()">رفع وتأكيد</button></div>
     </div>
@@ -1109,15 +1050,15 @@
     <div class="sheet">
       <div class="grabber"></div>
       <div class="close-x" onclick="closeModal('termsModal')">✕</div>
-      <h2 id="termsTitle">📋 الشروط والأحكام</h2>
-      <div class="sub" style="margin-bottom:12px;" id="termsSub">يرجى قراءة الشروط والأحكام بعناية قبل الموافقة</div>
-      <div class="terms-text" id="termsText">
+      <h2>📋 الشروط والأحكام</h2>
+      <div class="sub" style="margin-bottom:12px;">يرجى قراءة الشروط والأحكام بعناية قبل الموافقة</div>
+      <div class="terms-text">
         <p><strong>أولاً: البيانات بصحة الإقرار</strong></p>
-        <p>بتقديمها أو بإدخالها يقوم المستخدم بتقديم البيانات والمعلومات والمستندات التي تكون صحيحة ودقيقة وكاملة، ويضمن أن جميع البيانات التي يدخلها أو يقدمها هي صحيحة وحديثة، وأنه مخول قانوناً بتقديمها، ويتحمل وحده المسؤولية القانونية الكاملة عن صحة البيانات، وأي تغيير يطرأ عليها، كما يلتزم المستخدم بتحديث بياناته كلما كانت غير محدثة أو غير صحيحة أو مضللة أو منتحلة، وقد تنشأ أضرار أو مسؤوليات نتيجة تقديم بيانات غير صحيحة أو مشاركة البيانات ومعالجتها وجمعها على الموافقة.</p>
+        <p>بتقديمها أو بإدخالها يقوم المستخدم بتقديم البيانات والمعلومات والمستندات التي تكون صحيحة ودقيقة وكاملة...</p>
         <p><strong>ثانياً: الموافقة على جمع ومعالجة البيانات الشخصية</strong></p>
-        <p>يمنح المستخدم موافقته الصريحة والواضحة على هذه الشروط والأحكام، ويمنح التطبيق الموافقة على جمع بياناته الشخصية ومعالجتها وحفظها واستخدامها بالقدر اللازم لتقديم الخدمات التي يوفرها، وذلك داخل جمهورية مصر العربية، ومشاركة البيانات والمعلومات التي قام بإدخالها مع شركات التأمين المرخص لها أو الجهات أو الوسطاء المرخص لهم قانوناً، وذلك للأغراض التالية: دراسة احتياجات المستخدم لتقديم الحل أو الحماية التأمينية الأنسب لاحتياجاته، المساعدة في اختيار الخدمات أو العروض التي يطلبها المستخدم، التواصل مع المستخدم بشأن الخدمات المقدمة، تحسين جودة الخدمات المقدمة من خلال التطبيق. وذلك بالقدر اللازم فقط لتحقيق الأغراض المشار إليها، وفقاً لأحكام القوانين واللوائح النافذة ذات الصلة، بما في ذلك قانون حماية البيانات الشخصية المصري رقم 151 لسنة 2020.</p>
+        <p>يمنح المستخدم موافقته الصريحة والواضحة على هذه الشروط والأحكام...</p>
       </div>
-      <div class="actions" style="margin-top:12px;"><button class="btn-gold" onclick="closeModal('termsModal')" id="termsAgreeBtn">تم الاطلاع والموافقة</button></div>
+      <div class="actions" style="margin-top:12px;"><button class="btn-gold" onclick="closeModal('termsModal')">تم الاطلاع والموافقة</button></div>
     </div>
   </div>
 
@@ -1126,8 +1067,8 @@
     <div class="sheet" style="padding-bottom:calc(30px + var(--safe-area-bottom));">
       <div class="grabber"></div>
       <div class="close-x" onclick="closeModal('wheelModal')">✕</div>
-      <h2 id="wheelTitle">🎰 جرب حظك</h2>
-      <div class="sub" id="wheelSub">جرب حظك اليوم واربح جوائز حصرية</div>
+      <h2>🎰 جرب حظك</h2>
+      <div class="sub">جرب حظك اليوم واربح جوائز حصرية</div>
       <div class="wheel-container" id="wheelContainer"></div>
     </div>
   </div>
@@ -1150,215 +1091,16 @@ if (typeof firebase !== 'undefined' && !firebase.apps.length) firebase.initializ
 
 var auth = firebase.auth();
 var db = firebase.firestore();
-
-// ============================================================
-// TRANSLATIONS - ترجمة كاملة
-// ============================================================
-var TRANSLATIONS = {
-  ar: {
-    loginTitle:'تسجيل الدخول', loginEmailLabel:'البريد الإلكتروني', loginPassLabel:'كلمة المرور',
-    loginBtn:'🚀 دخول المنصة', loginSwitch:'ليس لديك حساب؟ ', loginSwitchLink:'إنشاء حساب جديد',
-    loginTagline:'✨ منظومتك التأمينية الذكية والشاملة',
-    signupTitle:'✨ إنشاء حساب جديد', regFullNameLabel:'الاسم الرباعي', regEmailLabel:'البريد الإلكتروني',
-    regPassLabel:'كلمة المرور', regBirthDateLabel:'تاريخ الميلاد', regGenderLabel:'الجنس',
-    genderMale:'ذكر', genderFemale:'أنثى', regPhoneLabel:'رقم الهاتف',
-    regOccupationLabel:'الوظيفة / المهنة', regClientTypeLabel:'نوع العميل',
-    clientTypeIndividual:'فردي', clientTypeCorporate:'جماعي (شركة / مؤسسة)',
-    regBusinessNameLabel:'اسم المنشأة / الشركة', regBusinessActivityLabel:'نشاط المنشأة',
-    regEmployeesLabel:'عدد الموظفين', regExistingPoliciesLabel:'وثائق التأمين الحالية (اختر ما يناسبك)',
-    existingPoliciesHelp:'يمكنك اختيار أكثر من نوع (اضغط مع الاستمرار على Ctrl)',
-    termsLabel:'أوافق على ', termsLink:'الشروط والأحكام', signupBtn:'🌟 تسجيل الحساب',
-    signupSwitch:'لديك حساب بالفعل؟ ', signupSwitchLink:'تسجيل الدخول',
-    welcomeText:'مرحباً بك،', protectionLabel:'مؤشر الحماية التأمينية',
-    protectionClick:'انقر لإجراء تقييم شامل',
-    statActiveLabel:'📋 وثائق سارية', statExpiringLabel:'⏳ تجديد قريب', statDocsLabel:'📁 مستندات مفعلة',
-    companiesSliderTitle:'🏢 شركاؤنا في التأمين', quickAccessTitle:'⚡ الوصول السريع',
-    quickUpload:'رفع مستند', quickProducts:'المنتجات', quickAssessment:'فحص الحماية',
-    quickAdvice:'طلب نصيحة', myPoliciesTitle:'📄 وثائقي التأمينية', viewAllLink:'عرض الكل →',
-    assessmentResultTitle:'📊 نتيجة تقييم الحماية',
-    assessmentResultSub:'تحليل شامل لحالتك التأمينية مع توصيات مخصصة',
-    assessmentBackBtn:'🏠 العودة',
-    adviceTitle:'💡 طلب نصيحة تأمينية', adviceSub:'اختر طريقة التواصل المفضلة لديك',
-    adviceBackBtn:'🏠 العودة', adviceCardTitle:'📝 كيف تفضل التواصل؟',
-    adviceCardSub:'اختر إحدى الطرق التالية للحصول على استشارتك',
-    optTextTitle:'نصيحة نصية', optTextDesc:'اكتب استفسارك وسنرد عليك', optTextBadge:'مفضّل',
-    optWhatsappTitle:'واتساب', optWhatsappDesc:'تواصل مباشر عبر واتساب', optWhatsappBadge:'سريع',
-    adviceTextLabel:'نص الاستفسار', adviceSubmitBtn:'📤 إرسال طلب النصيحة',
-    adviceSuccessTitle:'تم إرسال طلب النصيحة بنجاح!',
-    adviceSuccessText:'سيتم الرد على استفسارك خلال 24 ساعة عبر البريد الإلكتروني',
-    adviceNewRequest:'📝 طلب آخر',
-    whatsappTitle:'تواصل معنا عبر واتساب',
-    whatsappText:'سيتم تحويلك إلى تطبيق واتساب للتواصل المباشر مع فريق الدعم',
-    whatsappBtnText:'افتح واتساب الآن', whatsappNumber:'سيتم فتح محادثة مع الرقم +20 112 315 2500',
-    policiesTitle:'📄 وثائق التأمين', policiesSub:'متابعة كافة الوثائق والتغطيات الحالية',
-    productsTitle:'💎 منتجات التأمين', productsSub:'استكشف أفضل برامج التغطية المتاحة',
-    documentsTitle:'📁 المستندات والملفات', documentsSub:'إدارة الهوية والوثائق المرفوعة',
-    uploadDocBtn:'+ رفع مستند',
-    notificationsTitle:'🔔 الإشعارات والتنبيهات',
-    notificationsSub:'تنبيهات التجديد والمراجعة',
-    accountClientData:'👤 بيانات العميل', accountLoggedIn:'تم تسجيل الدخول كـ: ',
-    accountAssessment:'📊 إجراء تقييم الحماية الشامل',
-    accountDocuments:'📂 ملفاتي ومستنداتي التحقق',
-    accountWheel:'🎰 جرب حظك', accountWheelSub:'اضغط لجرب حظك اليوم',
-    accountLogout:'🚪 تسجيل الخروج',
-    navHome:'الرئيسية', navPolicies:'وثائقي', navProducts:'المنتجات',
-    navDocuments:'المستندات', navAccount:'حسابي',
-    policyNumberLabel:'رقم الوثيقة:', policyTypeLabel:'نوع التأمين:',
-    policyExpiryLabel:'تاريخ الانتهاء:', policyAmountLabel:'مبلغ التأمين:',
-    policyStatusLabel:'حالة التغطية:', btnRenewPolicy:'طلب تجديد الوثيقة',
-    btnOpenPolicyDoc:'فتح مستند الوثيقة',
-    uploadTitle:'📤 رفع مستند جديد', uploadSub:'سيتم مراجعة المستند وتغيير حالته إلى قيد التحقق',
-    uploadDocNameLabel:'اسم المستند / نوعه', uploadCategoryLabel:'تصنيف المستند',
-    uploadFileLabel:'اختر الملف (صورة أو PDF)', uploadBtn:'رفع وتأكيد',
-    termsTitle:'📋 الشروط والأحكام',
-    termsSub:'يرجى قراءة الشروط والأحكام بعناية قبل الموافقة',
-    termsAgreeBtn:'تم الاطلاع والموافقة',
-    wheelTitle:'🎰 جرب حظك', wheelSub:'جرب حظك اليوم واربح جوائز حصرية',
-    chatTitle:'💬 وكيل Secure PATH', chatNow:'الآن',
-    chatWelcome:'👋 مرحباً بك في Secure PATH!<br>كيف يمكنني مساعدتك اليوم؟',
-    badgeActive:'سارية', badgeExpiring:'تجديد قريب', badgeExpired:'منتهية',
-    badgePending:'⏳ قيد التحقق', badgeVerified:'✅ مفعل', badgeRejected:'❌ مرفوض',
-    statusExcellent:'ممتاز', statusGood:'جيد', statusAverage:'متوسط',
-    statusNeedsImprovement:'يحتاج تحسين',
-    daysRemaining:'يوم', expired:'انتهت',
-    assessmentScore:'مؤشر الحماية التأمينية', assessmentStatus:'الحالة:',
-    assessmentDetails:'تم حساب التقييم بناءً على',
-    assessmentPolicies:'وثيقة مفعلة', assessmentExisting:'وثيقة حالية',
-    assessmentDocs:'مستند محقق', assessmentProfile:'ملفك التأميني',
-    assessmentAge:'العمر:', assessmentOccupation:'الوظيفة:',
-    assessmentClientType:'نوع العميل:', assessmentActive:'الوثائق المفعلة:',
-    assessmentOwned:'الوثائق الحالية:',
-    assessmentRecommendations:'📋 الوثائق الموصى بها',
-    assessmentRecommendationsText:'بناءً على ملفك الشخصي وتحليل المخاطر، نوصي بالحصول على الوثائق التالية:',
-    assessmentExcellent:'✅ ممتاز! أنت مغطى بشكل جيد في جميع المجالات الأساسية.',
-    assessmentNextSteps:'📌 الخطوات التالية',
-    assessmentStep1:'📤 قم برفع مستندات وثائق التأمين الحالية للمراجعة',
-    assessmentStep2:'💬 تواصل مع وكيلنا للحصول على عروض أسعار للوثائق الموصى بها',
-    assessmentStep3:'📊 قم بإعادة التقييم بعد الحصول على وثائق جديدة',
-    assessmentStep4:'✅ استمر في متابعة وثائقك الحالية',
-    assessmentStep5:'🔄 قم بتجديد الوثائق قبل موعد انتهائها',
-    assessmentStep6:'📈 تابع مؤشر الحماية الخاص بك بانتظام',
-    assessmentRiskGap:'⚠️ فجوة المخاطر:',
-    assessmentRiskGapText:'بناءً على تحليل المخاطر، هناك حاجة لتغطيات إضافية',
-    assessmentCoverageGap:'🔍 فجوات التغطية المكتشفة:',
-    assessmentPremiumRecommendation:'💡 توصية القسط الأمثل:',
-    noPolicies:'لا توجد وثائق', noPoliciesText:'لم يتم إضافة أي وثائق تأمينية حتى الآن',
-    noProducts:'لا توجد منتجات', noProductsText:'سيتم إضافة منتجات تأمينية قريباً',
-    noDocuments:'لا توجد مستندات', noDocumentsText:'لم يتم رفع أي مستندات بعد',
-    noNotifications:'لا توجد إشعارات', noNotificationsText:'سوف تظهر هنا جميع التنبيهات والإشعارات'
-  },
-  en: {
-    loginTitle:'Login', loginEmailLabel:'Email', loginPassLabel:'Password',
-    loginBtn:'🚀 Login', loginSwitch:"Don't have an account? ",
-    loginSwitchLink:'Create new account', loginTagline:'✨ Your smart and comprehensive insurance platform',
-    signupTitle:'✨ Create New Account', regFullNameLabel:'Full Name',
-    regEmailLabel:'Email', regPassLabel:'Password', regBirthDateLabel:'Birth Date',
-    regGenderLabel:'Gender', genderMale:'Male', genderFemale:'Female',
-    regPhoneLabel:'Phone Number', regOccupationLabel:'Occupation / Profession',
-    regClientTypeLabel:'Client Type', clientTypeIndividual:'Individual',
-    clientTypeCorporate:'Corporate (Company / Institution)',
-    regBusinessNameLabel:'Organization / Company Name',
-    regBusinessActivityLabel:'Business Activity', regEmployeesLabel:'Number of Employees',
-    regExistingPoliciesLabel:'Current Insurance Policies (Select what applies)',
-    existingPoliciesHelp:'You can select more than one (Hold Ctrl to select multiple)',
-    termsLabel:'I agree to the ', termsLink:'Terms and Conditions',
-    signupBtn:'🌟 Sign Up', signupSwitch:'Already have an account? ',
-    signupSwitchLink:'Login',
-    welcomeText:'Welcome,', protectionLabel:'Insurance Protection Score',
-    protectionClick:'Click for comprehensive assessment',
-    statActiveLabel:'📋 Active Policies', statExpiringLabel:'⏳ Expiring Soon',
-    statDocsLabel:'📁 Verified Documents',
-    companiesSliderTitle:'🏢 Our Insurance Partners',
-    quickAccessTitle:'⚡ Quick Access', quickUpload:'Upload Document',
-    quickProducts:'Products', quickAssessment:'Protection Check',
-    quickAdvice:'Request Advice', myPoliciesTitle:'📄 My Insurance Policies',
-    viewAllLink:'View All →',
-    assessmentResultTitle:'📊 Protection Assessment Result',
-    assessmentResultSub:'Comprehensive analysis with personalized recommendations',
-    assessmentBackBtn:'🏠 Back',
-    adviceTitle:'💡 Request Insurance Advice', adviceSub:'Choose your preferred communication method',
-    adviceBackBtn:'🏠 Back', adviceCardTitle:'📝 How do you prefer to communicate?',
-    adviceCardSub:'Choose one of the following methods to get your consultation',
-    optTextTitle:'Text Advice', optTextDesc:'Write your inquiry and we\'ll respond',
-    optTextBadge:'Preferred', optWhatsappTitle:'WhatsApp',
-    optWhatsappDesc:'Direct communication via WhatsApp', optWhatsappBadge:'Fast',
-    adviceTextLabel:'Inquiry Text', adviceSubmitBtn:'📤 Submit Advice Request',
-    adviceSuccessTitle:'Advice request sent successfully!',
-    adviceSuccessText:'Your inquiry will be answered within 24 hours via email',
-    adviceNewRequest:'📝 New Request',
-    whatsappTitle:'Contact us via WhatsApp',
-    whatsappText:'You will be redirected to WhatsApp for direct communication with our support team',
-    whatsappBtnText:'Open WhatsApp Now',
-    whatsappNumber:'A chat will be opened with +20 112 315 2500',
-    policiesTitle:'📄 Insurance Policies', policiesSub:'Track all policies and coverages',
-    productsTitle:'💎 Insurance Products', productsSub:'Explore the best available coverage programs',
-    documentsTitle:'📁 Documents & Files', documentsSub:'Manage identity and uploaded documents',
-    uploadDocBtn:'+ Upload Document',
-    notificationsTitle:'🔔 Notifications & Alerts',
-    notificationsSub:'Renewal and review alerts',
-    accountClientData:'👤 Client Data', accountLoggedIn:'Logged in as: ',
-    accountAssessment:'📊 Run Comprehensive Protection Assessment',
-    accountDocuments:'📂 My Files & Document Verification',
-    accountWheel:'🎰 Try Your Luck', accountWheelSub:'Click to try your luck today',
-    accountLogout:'🚪 Logout',
-    navHome:'Home', navPolicies:'My Policies', navProducts:'Products',
-    navDocuments:'Documents', navAccount:'Account',
-    policyNumberLabel:'Policy Number:', policyTypeLabel:'Insurance Type:',
-    policyExpiryLabel:'Expiry Date:', policyAmountLabel:'Insurance Amount:',
-    policyStatusLabel:'Coverage Status:', btnRenewPolicy:'Request Policy Renewal',
-    btnOpenPolicyDoc:'Open Policy Document',
-    uploadTitle:'📤 Upload New Document',
-    uploadSub:'Document will be reviewed and status changed to Pending Verification',
-    uploadDocNameLabel:'Document Name / Type', uploadCategoryLabel:'Document Category',
-    uploadFileLabel:'Choose File (Image or PDF)', uploadBtn:'Upload & Confirm',
-    termsTitle:'📋 Terms and Conditions',
-    termsSub:'Please read the terms and conditions carefully before agreeing',
-    termsAgreeBtn:'I have read and agree',
-    wheelTitle:'🎰 Try Your Luck', wheelSub:'Try your luck today and win exclusive prizes',
-    chatTitle:'💬 Secure PATH Agent', chatNow:'Now',
-    chatWelcome:'👋 Welcome to Secure PATH!<br>How can I help you today?',
-    badgeActive:'Active', badgeExpiring:'Expiring Soon', badgeExpired:'Expired',
-    badgePending:'⏳ Pending Verification', badgeVerified:'✅ Verified',
-    badgeRejected:'❌ Rejected',
-    statusExcellent:'Excellent', statusGood:'Good', statusAverage:'Average',
-    statusNeedsImprovement:'Needs Improvement',
-    daysRemaining:'days', expired:'Expired',
-    assessmentScore:'Insurance Protection Score', assessmentStatus:'Status:',
-    assessmentDetails:'Assessment calculated based on',
-    assessmentPolicies:'active policies', assessmentExisting:'existing policies',
-    assessmentDocs:'verified documents', assessmentProfile:'Your Insurance Profile',
-    assessmentAge:'Age:', assessmentOccupation:'Occupation:',
-    assessmentClientType:'Client Type:', assessmentActive:'Active Policies:',
-    assessmentOwned:'Existing Policies:',
-    assessmentRecommendations:'📋 Recommended Policies',
-    assessmentRecommendationsText:'Based on your profile and risk analysis, we recommend the following policies:',
-    assessmentExcellent:'✅ Excellent! You are well covered in all essential areas.',
-    assessmentNextSteps:'📌 Next Steps',
-    assessmentStep1:'📤 Upload your current insurance policy documents for review',
-    assessmentStep2:'💬 Contact our agent for quotes on recommended policies',
-    assessmentStep3:'📊 Re-assess after getting new policies',
-    assessmentStep4:'✅ Continue monitoring your current policies',
-    assessmentStep5:'🔄 Renew policies before their expiry date',
-    assessmentStep6:'📈 Track your protection score regularly',
-    assessmentRiskGap:'⚠️ Risk Gap:',
-    assessmentRiskGapText:'Based on risk analysis, additional coverages are needed',
-    assessmentCoverageGap:'🔍 Identified Coverage Gaps:',
-    assessmentPremiumRecommendation:'💡 Optimal Premium Recommendation:',
-    noPolicies:'No Policies', noPoliciesText:'No insurance policies have been added yet',
-    noProducts:'No Products', noProductsText:'Insurance products will be added soon',
-    noDocuments:'No Documents', noDocumentsText:'No documents have been uploaded yet',
-    noNotifications:'No Notifications', noNotificationsText:'All alerts and notifications will appear here'
-  }
-};
+var storage = firebase.storage();
 
 // ============================================================
 // STATE
 // ============================================================
 var STATE = {
   currentUser: null, userData: null, policies: [], documents: [],
-  products: [], notifications: [], companies: [], insuranceAssessments: [],
+  products: [], notifications: [], companies: [], insuranceAssessments: {},
   wheelLastSpin: null, wheelResult: null, wheelPrizeIndex: null,
-  language: 'ar', currentChat: null, chatUnsub: null, msgUnsub: null
+  currentPolicyId: null
 };
 
 var wheelPrizes = [
@@ -1374,45 +1116,23 @@ var wheelPrizes = [
 // ============================================================
 function esc(v) { if (!v) return ''; return String(v).replace(/[&<>'"]/g, function(c) { return { '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[c]||c; }); }
 function daysUntil(d) { if (!d) return 9999; return Math.ceil((new Date(d) - new Date()) / 86400000); }
-function formatDate(ts) { if (!ts) return '—'; var d = ts.toDate ? ts.toDate() : new Date(ts); return isNaN(d) ? '—' : d.toLocaleDateString(STATE.language === 'ar' ? 'ar-EG' : 'en-US', { day:'numeric', month:'short', year:'numeric' }); }
-function getText(key) { var lang = STATE.language || 'ar'; return TRANSLATIONS[lang]?.[key] || TRANSLATIONS['ar'][key] || key; }
-function showLoading(id, txt) { var btn = document.getElementById(id); if (!btn) return; btn.disabled = true; btn._originalText = btn.textContent; btn.innerHTML = '<span class="spinner"></span> ' + (txt || (STATE.language === 'ar' ? 'جاري...' : 'Loading...')); }
+function formatDate(ts) { if (!ts) return '—'; var d = ts.toDate ? ts.toDate() : new Date(ts); return isNaN(d) ? '—' : d.toLocaleDateString('ar-EG', { day:'numeric', month:'short', year:'numeric' }); }
+function showLoading(id, txt) { var btn = document.getElementById(id); if (!btn) return; btn.disabled = true; btn._originalText = btn.textContent; btn.innerHTML = '<span class="spinner"></span> ' + (txt || 'جاري...'); }
 function hideLoading(id) { var btn = document.getElementById(id); if (!btn) return; btn.disabled = false; if (btn._originalText) { btn.textContent = btn._originalText; btn._originalText = null; } }
 function closeModal(id) { var el = document.getElementById(id); if (el) el.classList.remove('show'); }
 function openModal(id) { var el = document.getElementById(id); if (el) el.classList.add('show'); }
 
 // ============================================================
-// LANGUAGE TOGGLE
+// BROWSER NOTIFICATIONS
 // ============================================================
-function updateAllTexts() {
-  var t = TRANSLATIONS[STATE.language] || TRANSLATIONS['ar'];
-  document.querySelectorAll('[data-i18n]').forEach(function(el) {
-    var key = el.getAttribute('data-i18n');
-    if (t[key] !== undefined) el.textContent = t[key];
-  });
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
-    var key = el.getAttribute('data-i18n-placeholder');
-    if (t[key] !== undefined) el.placeholder = t[key];
-  });
-  var langToggleText = document.getElementById('langToggleText');
-  if (langToggleText) langToggleText.textContent = STATE.language === 'ar' ? 'عربي' : 'EN';
-  var langToggle = document.getElementById('langToggle');
-  if (langToggle) {
-    langToggle.innerHTML = STATE.language === 'ar' ? 
-      '<span class="lang-icon">🇸🇦</span><span class="lang-text" id="langToggleText">عربي</span>' : 
-      '<span class="lang-icon">🇬🇧</span><span class="lang-text" id="langToggleText">EN</span>';
+function requestNotificationPermission() {
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
   }
 }
-
-function toggleLanguage() {
-  STATE.language = STATE.language === 'ar' ? 'en' : 'ar';
-  var body = document.body;
-  if (STATE.language === 'en') { body.classList.add('lang-en'); body.classList.remove('lang-ar'); document.dir = 'ltr'; }
-  else { body.classList.remove('lang-en'); body.classList.add('lang-ar'); document.dir = 'rtl'; }
-  updateAllTexts();
-  if (STATE.currentUser) db.collection('clients').doc(STATE.currentUser.uid).update({ language: STATE.language }).catch(function(){});
-  renderAll();
-}
+document.addEventListener('DOMContentLoaded', function() {
+  requestNotificationPermission();
+});
 
 // ============================================================
 // NAVIGATION
@@ -1443,11 +1163,11 @@ function handleLogin() {
   var pass = document.getElementById('loginPass').value;
   var err = document.getElementById('loginError');
   err.style.display = 'none';
-  if (!email || !pass) { err.textContent = STATE.language === 'ar' ? 'يرجى إدخال البريد الإلكتروني وكلمة المرور' : 'Please enter email and password'; err.style.display = 'block'; return; }
-  showLoading('loginBtn', STATE.language === 'ar' ? 'جاري الدخول...' : 'Logging in...');
+  if (!email || !pass) { err.textContent = 'يرجى إدخال البريد الإلكتروني وكلمة المرور'; err.style.display = 'block'; return; }
+  showLoading('loginBtn', 'جاري الدخول...');
   auth.signInWithEmailAndPassword(email, pass).then(function(){ hideLoading('loginBtn'); }).catch(function(e){
     hideLoading('loginBtn');
-    err.textContent = (STATE.language === 'ar' ? 'فشل تسجيل الدخول: ' : 'Login failed: ') + e.message;
+    err.textContent = 'فشل تسجيل الدخول: ' + e.message;
     err.style.display = 'block';
   });
 }
@@ -1472,23 +1192,24 @@ function handleSignup() {
   var terms = document.getElementById('termsCheck');
   var err = document.getElementById('signupError');
   err.style.display = 'none';
-  if (!fullName || fullName.split(' ').length < 2) { err.textContent = STATE.language === 'ar' ? 'يرجى إدخال الاسم الرباعي كاملاً' : 'Please enter your full name'; err.style.display = 'block'; return; }
-  if (!email || !pass || pass.length < 6) { err.textContent = STATE.language === 'ar' ? 'يرجى ملء البريد الإلكتروني وكلمة المرور (6 أحرف على الأقل)' : 'Please fill in email and password (at least 6 characters)'; err.style.display = 'block'; return; }
-  if (!birthDate) { err.textContent = STATE.language === 'ar' ? 'يرجى إدخال تاريخ الميلاد' : 'Please enter your birth date'; err.style.display = 'block'; return; }
-  if (!phone) { err.textContent = STATE.language === 'ar' ? 'يرجى إدخال رقم الهاتف' : 'Please enter your phone number'; err.style.display = 'block'; return; }
-  if (!occupation) { err.textContent = STATE.language === 'ar' ? 'يرجى إدخال الوظيفة / المهنة' : 'Please enter your occupation'; err.style.display = 'block'; return; }
-  if (!terms.checked) { err.textContent = STATE.language === 'ar' ? 'يرجى الموافقة على الشروط والأحكام' : 'Please agree to the terms and conditions'; err.style.display = 'block'; return; }
-  showLoading('signupBtn', STATE.language === 'ar' ? 'جاري التسجيل...' : 'Signing up...');
-  var data = { fullName: fullName, email: email, username: email.split('@')[0], phone: phone, birthDate: birthDate, gender: gender, occupation: occupation, clientType: clientType, existingPolicies: policies, termsAccepted: true, termsAcceptedDate: firebase.firestore.FieldValue.serverTimestamp(), role: 'client', createdAt: firebase.firestore.FieldValue.serverTimestamp(), language: STATE.language || 'ar' };
+  
+  // Validation
+  if (!fullName || fullName.split(' ').length < 2) { err.textContent = 'يرجى إدخال الاسم الرباعي كاملاً'; err.style.display = 'block'; return; }
+  if (!email || !pass || pass.length < 6) { err.textContent = 'يرجى ملء البريد الإلكتروني وكلمة المرور (6 أحرف على الأقل)'; err.style.display = 'block'; return; }
+  if (!birthDate) { err.textContent = 'يرجى إدخال تاريخ الميلاد'; err.style.display = 'block'; return; }
+  if (!phone || phone.length < 10) { err.textContent = 'يرجى إدخال رقم هاتف صحيح (10 أرقام على الأقل)'; err.style.display = 'block'; return; }
+  if (!occupation) { err.textContent = 'يرجى إدخال الوظيفة / المهنة'; err.style.display = 'block'; return; }
+  if (!terms.checked) { err.textContent = 'يرجى الموافقة على الشروط والأحكام'; err.style.display = 'block'; return; }
+  
+  showLoading('signupBtn', 'جاري التسجيل...');
+  var data = { fullName: fullName, email: email, username: email.split('@')[0], phone: phone, birthDate: birthDate, gender: gender, occupation: occupation, clientType: clientType, existingPolicies: policies, termsAccepted: true, termsAcceptedDate: firebase.firestore.FieldValue.serverTimestamp(), role: 'client', createdAt: firebase.firestore.FieldValue.serverTimestamp() };
   if (clientType === 'corporate') { data.businessName = businessName; data.businessActivity = businessActivity; data.employees = employees; }
-  auth.createUserWithEmailAndPassword(email, pass).then(function(cred){ return db.collection('clients').doc(cred.user.uid).set(data); }).then(function(){ hideLoading('signupBtn'); }).catch(function(e){ hideLoading('signupBtn'); err.textContent = (STATE.language === 'ar' ? 'فشل إنشاء الحساب: ' : 'Account creation failed: ') + e.message; err.style.display = 'block'; });
+  auth.createUserWithEmailAndPassword(email, pass).then(function(cred){ return db.collection('clients').doc(cred.user.uid).set(data); }).then(function(){ hideLoading('signupBtn'); }).catch(function(e){ hideLoading('signupBtn'); err.textContent = 'فشل إنشاء الحساب: ' + e.message; err.style.display = 'block'; });
 }
 
 function handleLogout() {
   var widget = document.getElementById('chatWidget');
   if (widget) widget.classList.remove('open');
-  if (STATE.chatUnsub) STATE.chatUnsub();
-  if (STATE.msgUnsub) STATE.msgUnsub();
   auth.signOut();
 }
 
@@ -1500,11 +1221,9 @@ function loadUserData(uid) {
   promises.push(db.collection('clients').doc(uid).get().then(function(doc) {
     if (doc.exists) {
       STATE.userData = doc.data();
-      STATE.currentUser = { uid: uid, name: STATE.userData.fullName || STATE.userData.name || (STATE.language === 'ar' ? 'مستخدم' : 'User'), email: STATE.userData.email || '' };
+      STATE.currentUser = { uid: uid, name: STATE.userData.fullName || STATE.userData.name || 'مستخدم', email: STATE.userData.email || '' };
       if (STATE.userData.wheelLastSpin) STATE.wheelLastSpin = STATE.userData.wheelLastSpin;
       if (STATE.userData.wheelResult) STATE.wheelResult = STATE.userData.wheelResult;
-      if (STATE.userData.language) STATE.language = STATE.userData.language;
-      updateAllTexts();
       updateUserUI(STATE.userData);
     }
     return doc;
@@ -1515,24 +1234,16 @@ function loadUserData(uid) {
   promises.push(db.collection('products').where('published','==',true).get().then(function(snap){ STATE.products = snap.docs.map(function(d){ var data=d.data(); data.id=d.id; return data; }); }).catch(function(){ STATE.products = []; }));
   promises.push(db.collection('companies').get().then(function(snap){ STATE.companies = snap.docs.map(function(d){ var data=d.data(); data.id=d.id; return data; }); renderCompaniesSlider(); }).catch(function(){ STATE.companies = []; renderCompaniesSlider(); }));
   promises.push(db.collection('insuranceAssessments').doc(uid).get().then(function(doc){ if (doc.exists) STATE.insuranceAssessments[uid] = doc.data(); }).catch(function(){}));
-  return Promise.all(promises).then(function(){ startChatListener(); renderAll(); });
+  return Promise.all(promises).then(function(){ renderAll(); });
 }
 
 function updateUserUI(data) {
-  var name = data.fullName || data.name || data.username || (STATE.language === 'ar' ? 'مستخدم' : 'User');
+  var name = data.fullName || data.name || data.username || 'مستخدم';
   var email = data.email || '';
   ['userNameHome','accName'].forEach(function(id){ var el=document.getElementById(id); if(el) el.innerText=name; });
   ['accEmail','accLoginEmail'].forEach(function(id){ var el=document.getElementById(id); if(el) el.innerText=email; });
   var avatar = document.getElementById('accAvatar');
   if (avatar) avatar.innerText = name.charAt(0);
-  var welcome = document.getElementById('welcomeText');
-  if (welcome) welcome.innerText = getText('welcomeText');
-  if (data.language) {
-    STATE.language = data.language;
-    if (STATE.language === 'en') { document.body.classList.add('lang-en'); document.body.classList.remove('lang-ar'); document.dir = 'ltr'; }
-    else { document.body.classList.remove('lang-en'); document.body.classList.add('lang-ar'); document.dir = 'rtl'; }
-    updateAllTexts();
-  }
 }
 
 // ============================================================
@@ -1546,7 +1257,7 @@ function renderCompaniesSlider() {
   if (countEl) countEl.textContent = companies.length;
   track.innerHTML = '';
   if (companies.length === 0) {
-    track.innerHTML = '<div class="slider-empty">🏢 ' + (STATE.language === 'ar' ? 'لا توجد شركات تأمين مسجلة حالياً' : 'No insurance companies registered yet') + '</div>';
+    track.innerHTML = '<div class="slider-empty">🏢 لا توجد شركات تأمين مسجلة حالياً</div>';
     return;
   }
   var items = [];
@@ -1557,7 +1268,7 @@ function renderCompaniesSlider() {
     var logo = co.logo || co.logoUrl ? '<img src="' + esc(co.logo || co.logoUrl) + '" alt="' + esc(co.name) + '" onerror="this.parentElement.textContent=\'' + esc(initials) + '\'">' : esc(initials);
     var div = document.createElement('div');
     div.className = 'slider-item';
-    div.innerHTML = '<div class="company-logo">' + logo + '</div><span class="company-name">' + esc(co.name || (STATE.language === 'ar' ? 'شركة' : 'Company')) + '</span><span class="company-badge">' + (STATE.language === 'ar' ? 'شريك' : 'Partner') + '</span>';
+    div.innerHTML = '<div class="company-logo">' + logo + '</div><span class="company-name">' + esc(co.name || 'شركة') + '</span><span class="company-badge">شريك</span>';
     div.addEventListener('mouseenter', function(){ track.classList.add('paused'); });
     div.addEventListener('mouseleave', function(){ track.classList.remove('paused'); });
     track.appendChild(div);
@@ -1566,7 +1277,48 @@ function renderCompaniesSlider() {
 }
 
 // ============================================================
-// ASSESSMENT - خوارزمية اكتوارية
+// INSURANCE PROTECTION SCORE - موحد
+// ============================================================
+function calculateProtectionScore(userData, currentPolicies, documents) {
+  var existingPolicies = userData.existingPolicies || [];
+  var current = currentPolicies || [];
+  var docs = documents || [];
+  
+  var allPolicies = existingPolicies.concat(current.map(function(p){ return p.type; }));
+  var uniquePolicies = allPolicies.filter(function(v,i,a){ return a.indexOf(v) === i; });
+  var activePolicies = current.filter(function(p){ return daysUntil(p.endDate) > 0; });
+  var verifiedDocs = docs.filter(function(d){ var s = d.verificationStatus || ''; return s === 'approved' || s === 'Verified'; });
+  
+  var score = 0;
+  var deductions = 0;
+  
+  // نقاط للوثائق
+  if (uniquePolicies.length >= 1) score += 30;
+  if (uniquePolicies.length >= 2) score += 20;
+  if (uniquePolicies.length >= 3) score += 10;
+  
+  // نقاط للمستندات المحققة
+  if (verifiedDocs.length >= 1) score += 10;
+  if (verifiedDocs.length >= 2) score += 5;
+  
+  // خصومات لفجوات التغطية
+  if (!uniquePolicies.includes('life')) deductions += 15;
+  if (!uniquePolicies.includes('medical')) deductions += 20;
+  if (userData.clientType === 'corporate' && !uniquePolicies.includes('property')) deductions += 10;
+  
+  // خصم للوثائق القريبة من الانتهاء
+  var expiringCount = current.filter(function(p){ return daysUntil(p.endDate) <= 45 && daysUntil(p.endDate) > 0; }).length;
+  if (expiringCount > 0) deductions += expiringCount * 5;
+  
+  // خصم لعدم وجود مستندات
+  if (docs.length === 0) deductions += 5;
+  
+  score = Math.max(score - deductions, 10);
+  return Math.min(score, 100);
+}
+
+// ============================================================
+// ASSESSMENT - خوارزمية متقدمة
 // ============================================================
 function calculateAge(birthDate) {
   var today = new Date();
@@ -1577,42 +1329,55 @@ function calculateAge(birthDate) {
   return age;
 }
 
-function getActuarialRecommendations(userData, existingPolicies, currentPolicies) {
+function getActuarialRecommendations(userData, currentPolicies) {
   var recs = [];
-  var owned = existingPolicies || [];
-  var allOwned = owned.concat(currentPolicies.map(function(p){ return p.type; }));
+  var existingPolicies = userData.existingPolicies || [];
+  var allOwned = existingPolicies.concat(currentPolicies.map(function(p){ return p.type; }));
   var uniqueOwned = allOwned.filter(function(v,i,a){ return a.indexOf(v) === i; });
   var gaps = [];
-  var lang = STATE.language || 'ar';
   var age = userData.birthDate ? calculateAge(userData.birthDate) : 30;
 
+  // فجوات التغطية الأساسية
+  if (!uniqueOwned.includes('life')) {
+    gaps.push({ type:'life', severity:'high', message: 'تأمين الحياة ضروري لحماية الأسرة مالياً' });
+  }
+  if (!uniqueOwned.includes('medical')) {
+    gaps.push({ type:'medical', severity:'critical', message: 'التأمين الطبي ضروري لتغطية المصاريف العلاجية' });
+  }
+  
+  // تحليل حسب العمر
   if (age < 30 && !uniqueOwned.includes('life')) {
-    gaps.push({ type:'life', severity:'high', message: lang === 'ar' ? 'تأمين الحياة ضروري في سن مبكر لحماية الأسرة' : 'Life insurance is essential at a young age to protect family' });
+    gaps.push({ type:'life', severity:'high', message: 'تأمين الحياة ضروري في سن مبكر لحماية الأسرة' });
   }
   if (age > 50 && !uniqueOwned.includes('medical')) {
-    gaps.push({ type:'medical', severity:'critical', message: lang === 'ar' ? 'التأمين الطبي ضروري مع تقدم العمر' : 'Medical insurance is essential with advancing age' });
+    gaps.push({ type:'medical', severity:'critical', message: 'التأمين الطبي ضروري مع تقدم العمر' });
   }
-  var highRisk = ['construction','mining','driving','transport','fire','police','military'];
+
+  // تحليل المخاطر المهنية
+  var highRisk = ['construction','mining','driving','transport','fire','police','military','بناء','تعدين','قيادة','نقل','إطفاء','شرطة','جيش'];
   var isHighRisk = highRisk.some(function(job){ return (userData.occupation || '').toLowerCase().includes(job); });
   if (isHighRisk && !uniqueOwned.includes('accident')) {
-    gaps.push({ type:'accident', severity:'high', message: lang === 'ar' ? 'مهنتك عالية المخاطر، يوصى بتأمين الحوادث الشخصية' : 'Your profession is high-risk, personal accident insurance is recommended' });
+    gaps.push({ type:'accident', severity:'high', message: 'مهنتك عالية المخاطر، يوصى بتأمين الحوادث الشخصية' });
   }
+
+  // تحليل الشركات
   if (userData.clientType === 'corporate') {
-    if (!uniqueOwned.includes('property')) { gaps.push({ type:'property', severity:'medium', message: lang === 'ar' ? 'حماية ممتلكات الشركة ضرورية ضد المخاطر' : 'Company property protection is essential against risks' }); }
-    if (!uniqueOwned.includes('liability')) { gaps.push({ type:'liability', severity:'medium', message: lang === 'ar' ? 'تأمين المسؤولية المهنية يحمي الشركة من الدعاوى القضائية' : 'Professional liability insurance protects the company from lawsuits' }); }
+    if (!uniqueOwned.includes('property')) {
+      gaps.push({ type:'property', severity:'medium', message: 'حماية ممتلكات الشركة ضرورية ضد المخاطر' });
+    }
+    if (!uniqueOwned.includes('liability')) {
+      gaps.push({ type:'liability', severity:'medium', message: 'تأمين المسؤولية المهنية يحمي الشركة من الدعاوى القضائية' });
+    }
   }
+
+  // تحليل المركبات
   var carWords = ['driver','transport','car','delivery','taxi','سائق','نقل','سيارات','توصيل'];
   var hasCar = carWords.some(function(kw){ return (userData.occupation || '').toLowerCase().includes(kw) || (userData.businessActivity || '').toLowerCase().includes(kw); });
   if (hasCar && !uniqueOwned.includes('car')) {
-    gaps.push({ type:'car', severity:'high', message: lang === 'ar' ? 'تأمين السيارات إلزامي ويحمي من الحوادث والسرقة' : 'Car insurance is mandatory and protects against accidents and theft' });
-  }
-  if (!uniqueOwned.includes('life')) {
-    gaps.push({ type:'life', severity:'medium', message: lang === 'ar' ? 'تأمين الحياة أساسي لحماية الأسرة مالياً' : 'Life insurance is essential for family financial protection' });
-  }
-  if (!uniqueOwned.includes('medical')) {
-    gaps.push({ type:'medical', severity:'critical', message: lang === 'ar' ? 'التأمين الطبي ضروري لتغطية المصاريف العلاجية' : 'Medical insurance is essential for covering treatment expenses' });
+    gaps.push({ type:'car', severity:'high', message: 'تأمين السيارات إلزامي ويحمي من الحوادث والسرقة' });
   }
 
+  // إزالة التكرارات
   var uniqueGaps = {};
   gaps.forEach(function(g){ if (!uniqueGaps[g.type] || g.severity === 'critical') uniqueGaps[g.type] = g; });
   gaps = Object.values(uniqueGaps);
@@ -1620,28 +1385,29 @@ function getActuarialRecommendations(userData, existingPolicies, currentPolicies
   gaps.sort(function(a,b){ return order[a.severity] - order[b.severity]; });
 
   var allTypes = [
-    { id:'life', name: lang === 'ar' ? 'تأمين الحياة' : 'Life Insurance', icon:'❤️' },
-    { id:'medical', name: lang === 'ar' ? 'تأمين طبي' : 'Medical Insurance', icon:'🏥' },
-    { id:'car', name: lang === 'ar' ? 'تأمين سيارات' : 'Car Insurance', icon:'🚗' },
-    { id:'property', name: lang === 'ar' ? 'تأمين ممتلكات' : 'Property Insurance', icon:'🏠' },
-    { id:'travel', name: lang === 'ar' ? 'تأمين سفر' : 'Travel Insurance', icon:'✈️' },
-    { id:'liability', name: lang === 'ar' ? 'تأمين مسؤولية مهنية' : 'Professional Liability', icon:'⚖️' },
-    { id:'accident', name: lang === 'ar' ? 'تأمين حوادث شخصية' : 'Personal Accident', icon:'🩹' }
+    { id:'life', name:'تأمين الحياة', icon:'❤️' },
+    { id:'medical', name:'تأمين طبي', icon:'🏥' },
+    { id:'car', name:'تأمين سيارات', icon:'🚗' },
+    { id:'property', name:'تأمين ممتلكات', icon:'🏠' },
+    { id:'travel', name:'تأمين سفر', icon:'✈️' },
+    { id:'liability', name:'تأمين مسؤولية مهنية', icon:'⚖️' },
+    { id:'accident', name:'تأمين حوادث شخصية', icon:'🩹' }
   ];
 
   gaps.forEach(function(gap){
     var type = allTypes.find(function(t){ return t.id === gap.type; });
     if (type) {
-      var sevText = { critical: lang === 'ar' ? '⚠️ عاجل' : '⚠️ Critical', high: lang === 'ar' ? '🔴 مرتفع' : '🔴 High', medium: lang === 'ar' ? '🟡 متوسط' : '🟡 Medium', low: lang === 'ar' ? '🟢 منخفض' : '🟢 Low' };
+      var sevText = { critical:'⚠️ عاجل', high:'🔴 مرتفع', medium:'🟡 متوسط', low:'🟢 منخفض' };
       recs.push({ id: gap.type, name: type.name, icon: type.icon, severity: sevText[gap.severity] || sevText.medium, reason: gap.message, priority: order[gap.severity] });
     }
   });
 
+  // إضافة توصيات أساسية للمفقودات
   var essential = ['life','medical'];
   essential.forEach(function(id){
     if (!uniqueOwned.includes(id) && !recs.some(function(r){ return r.id === id; })) {
       var type = allTypes.find(function(t){ return t.id === id; });
-      if (type) recs.push({ id: id, name: type.name, icon: type.icon, severity: lang === 'ar' ? '🟡 موصى به' : '🟡 Recommended', reason: lang === 'ar' ? 'تأمين أساسي لحماية شاملة' : 'Essential insurance for comprehensive protection', priority: 2 });
+      if (type) recs.push({ id: id, name: type.name, icon: type.icon, severity: '🟡 موصى به', reason: 'تأمين أساسي لحماية شاملة', priority: 2 });
     }
   });
 
@@ -1649,48 +1415,33 @@ function getActuarialRecommendations(userData, existingPolicies, currentPolicies
   return { recommendations: recs.slice(0, 5), gaps: gaps };
 }
 
+// ============================================================
+// RUN FULL ASSESSMENT
+// ============================================================
 function runFullAssessment() {
-  if (!STATE.currentUser) { alert(STATE.language === 'ar' ? 'يرجى تسجيل الدخول أولاً' : 'Please login first'); return; }
+  if (!STATE.currentUser) { alert('يرجى تسجيل الدخول أولاً'); return; }
   var userData = STATE.userData || {};
-  var existingPolicies = userData.existingPolicies || [];
   var currentPolicies = STATE.policies.filter(function(p){ return p.clientId === STATE.currentUser.uid; });
-  var activePolicies = currentPolicies.filter(function(p){ return daysUntil(p.endDate) > 0; });
   var userDocs = STATE.documents.filter(function(d){ return d.clientId === STATE.currentUser.uid; });
-  var verifiedDocs = userDocs.filter(function(d){ var s = d.verificationStatus || ''; return s === 'approved' || s === 'Verified'; });
-  var allPolicies = existingPolicies.concat(activePolicies.map(function(p){ return p.type; }));
-  var uniquePolicies = allPolicies.filter(function(v,i,a){ return a.indexOf(v) === i; });
-
-  var score = 0;
-  if (uniquePolicies.length >= 1) score += 30;
-  if (uniquePolicies.length >= 2) score += 20;
-  if (uniquePolicies.length >= 3) score += 10;
-  if (verifiedDocs.length >= 1) score += 10;
-  if (verifiedDocs.length >= 2) score += 5;
-  var hasExpiring = currentPolicies.some(function(p){ return daysUntil(p.endDate) <= 45 && daysUntil(p.endDate) > 0; });
-  if (hasExpiring) score = Math.max(score - 10, 10);
-  var age = userData.birthDate ? calculateAge(userData.birthDate) : 30;
-  if (age < 30 && !uniquePolicies.includes('life')) score = Math.min(score + 5, 100);
-  if (userData.clientType === 'corporate' && !uniquePolicies.includes('property')) score = Math.min(score + 5, 100);
-  score = Math.min(Math.max(score, 15), 100);
-
-  var lang = STATE.language || 'ar';
-  var statusMap = { ar: { excellent:'ممتاز', good:'جيد', average:'متوسط', needs:'يحتاج تحسين' }, en: { excellent:'Excellent', good:'Good', average:'Average', needs:'Needs Improvement' } };
-  var status = score > 75 ? statusMap[lang].excellent : (score > 55 ? statusMap[lang].good : (score > 35 ? statusMap[lang].average : statusMap[lang].needs));
-
-  var actuarial = getActuarialRecommendations(userData, existingPolicies, currentPolicies);
+  
+  var score = calculateProtectionScore(userData, currentPolicies, userDocs);
+  var status = score > 75 ? 'ممتاز' : (score > 55 ? 'جيد' : (score > 35 ? 'متوسط' : 'يحتاج تحسين'));
+  var activePolicies = currentPolicies.filter(function(p){ return daysUntil(p.endDate) > 0; });
+  var actuarial = getActuarialRecommendations(userData, currentPolicies);
 
   var result = {
-    score: score, status: status, ownedPolicies: existingPolicies,
-    activePolicies: activePolicies, activeCount: activePolicies.length,
-    ownedCount: uniquePolicies.length,
+    score: score, status: status,
+    activePolicies: activePolicies,
+    activeCount: activePolicies.length,
+    ownedCount: (userData.existingPolicies || []).length + activePolicies.length,
     recommendations: actuarial.recommendations,
     gaps: actuarial.gaps,
-    age: age, clientType: userData.clientType || 'individual',
-    occupation: userData.occupation || (lang === 'ar' ? 'غير محدد' : 'Not specified'),
-    details: (lang === 'ar' ? 'تم حساب التقييم بناءً على ' : 'Assessment calculated based on ') +
-             activePolicies.length + ' ' + (lang === 'ar' ? 'وثيقة مفعلة، ' : 'active policies, ') +
-             existingPolicies.length + ' ' + (lang === 'ar' ? 'وثيقة حالية، و ' : 'existing policies, and ') +
-             verifiedDocs.length + ' ' + (lang === 'ar' ? 'مستند محقق.' : 'verified documents.')
+    age: userData.birthDate ? calculateAge(userData.birthDate) : 30,
+    clientType: userData.clientType || 'individual',
+    occupation: userData.occupation || 'غير محدد',
+    details: 'تم حساب التقييم بناءً على ' + activePolicies.length + ' وثيقة مفعلة، ' +
+             (userData.existingPolicies || []).length + ' وثيقة حالية، و ' +
+             userDocs.filter(function(d){ var s = d.verificationStatus || ''; return s === 'approved' || s === 'Verified'; }).length + ' مستند محقق.'
   };
 
   db.collection('insuranceAssessments').doc(STATE.currentUser.uid).set({
@@ -1706,42 +1457,40 @@ function showAssessmentResults(result) {
   if (!container) return;
   var statusColor = result.score > 75 ? 'high' : (result.score > 55 ? 'medium' : 'low');
   var statusEmoji = result.score > 75 ? '🟢' : (result.score > 55 ? '🟡' : '🔴');
-  var lang = STATE.language || 'ar';
-  var t = TRANSLATIONS[lang];
 
   var html = '';
-  html += '<div class="result-card"><div class="result-header"><span class="icon">📊</span><h3>' + t.assessmentScore + '</h3><span class="score-badge">' + result.score + '%</span></div><div class="result-body"><p><span class="highlight">' + statusEmoji + ' ' + t.assessmentStatus + '</span> ' + result.status + '</p><div class="progress-bar"><div class="fill ' + statusColor + '" style="width:' + result.score + '%;"></div></div><p style="margin-top:8px;font-size:12px;color:var(--muted);">' + result.details + '</p></div></div>';
+  html += '<div class="result-card"><div class="result-header"><span class="icon">📊</span><h3>مؤشر الحماية التأمينية</h3><span class="score-badge">' + result.score + '%</span></div><div class="result-body"><p><span class="highlight">' + statusEmoji + ' الحالة:</span> ' + result.status + '</p><div class="progress-bar"><div class="fill ' + statusColor + '" style="width:' + result.score + '%;"></div></div><p style="margin-top:8px;font-size:12px;color:var(--muted);">' + result.details + '</p></div></div>';
 
-  html += '<div class="result-card"><div class="result-header"><span class="icon">👤</span><h3>' + t.assessmentProfile + '</h3></div><div class="result-body"><p><span class="highlight">' + t.assessmentAge + '</span> ' + result.age + ' ' + (lang === 'ar' ? 'سنة' : 'years') + '</p><p><span class="highlight">' + t.assessmentOccupation + '</span> ' + esc(result.occupation) + '</p><p><span class="highlight">' + t.assessmentClientType + '</span> ' + (result.clientType === 'corporate' ? (lang === 'ar' ? 'جماعي (شركة/مؤسسة)' : 'Corporate') : (lang === 'ar' ? 'فردي' : 'Individual')) + '</p><p><span class="highlight">' + t.assessmentActive + '</span> ' + result.activeCount + '</p><p><span class="highlight">' + t.assessmentOwned + '</span> ' + result.ownedCount + '</p></div></div>';
+  html += '<div class="result-card"><div class="result-header"><span class="icon">👤</span><h3>ملفك التأميني</h3></div><div class="result-body"><p><span class="highlight">العمر:</span> ' + result.age + ' سنة</p><p><span class="highlight">الوظيفة:</span> ' + esc(result.occupation) + '</p><p><span class="highlight">نوع العميل:</span> ' + (result.clientType === 'corporate' ? 'جماعي (شركة/مؤسسة)' : 'فردي') + '</p><p><span class="highlight">الوثائق المفعلة:</span> ' + result.activeCount + '</p><p><span class="highlight">الوثائق الحالية:</span> ' + result.ownedCount + '</p></div></div>';
 
   if (result.gaps && result.gaps.length > 0) {
-    html += '<div class="result-card"><div class="result-header"><span class="icon">🔍</span><h3>' + t.assessmentCoverageGap + '</h3></div><div class="result-body"><ul style="padding-right:20px;margin:6px 0;">';
+    html += '<div class="result-card"><div class="result-header"><span class="icon">🔍</span><h3>فجوات التغطية المكتشفة</h3></div><div class="result-body"><ul style="padding-right:20px;margin:6px 0;">';
     result.gaps.slice(0, 5).forEach(function(gap){
       var color = gap.severity === 'critical' ? 'var(--red)' : (gap.severity === 'high' ? '#FF6B35' : (gap.severity === 'medium' ? '#FFA726' : '#66BB6A'));
-      var sevLabel = gap.severity === 'critical' ? (lang === 'ar' ? 'عاجل' : 'Critical') : (gap.severity === 'high' ? (lang === 'ar' ? 'مرتفع' : 'High') : (gap.severity === 'medium' ? (lang === 'ar' ? 'متوسط' : 'Medium') : (lang === 'ar' ? 'منخفض' : 'Low')));
-      html += '<li style="border-right:3px solid ' + color + ';padding-right:8px;margin-bottom:6px;"><strong>' + esc(gap.message) + '</strong> <span style="font-size:10px;color:var(--muted);">(' + (lang === 'ar' ? 'الأولوية: ' : 'Priority: ') + sevLabel + ')</span></li>';
+      var sevLabel = gap.severity === 'critical' ? 'عاجل' : (gap.severity === 'high' ? 'مرتفع' : (gap.severity === 'medium' ? 'متوسط' : 'منخفض'));
+      html += '<li style="border-right:3px solid ' + color + ';padding-right:8px;margin-bottom:6px;"><strong>' + esc(gap.message) + '</strong> <span style="font-size:10px;color:var(--muted);">(الأولوية: ' + sevLabel + ')</span></li>';
     });
     html += '</ul></div></div>';
   }
 
-  html += '<div class="result-card"><div class="result-header"><span class="icon">💡</span><h3>' + t.assessmentRecommendations + '</h3></div><div class="result-body">';
+  html += '<div class="result-card"><div class="result-header"><span class="icon">💡</span><h3>الوثائق الموصى بها</h3></div><div class="result-body">';
   if (result.recommendations && result.recommendations.length > 0) {
-    html += '<p>' + t.assessmentRecommendationsText + '</p><ul style="padding-right:20px;margin:6px 0;">';
+    html += '<p>بناءً على ملفك الشخصي وتحليل المخاطر، نوصي بالحصول على الوثائق التالية:</p><ul style="padding-right:20px;margin:6px 0;">';
     result.recommendations.forEach(function(rec){
-      html += '<li>' + rec.icon + ' <strong>' + esc(rec.name) + '</strong> <span class="recommended-badge">' + (rec.severity || (lang === 'ar' ? 'موصى به' : 'Recommended')) + '</span><br><span style="font-size:12px;color:var(--muted);">' + esc(rec.reason) + '</span></li>';
+      html += '<li>' + rec.icon + ' <strong>' + esc(rec.name) + '</strong> <span class="recommended-badge">' + (rec.severity || 'موصى به') + '</span><br><span style="font-size:12px;color:var(--muted);">' + esc(rec.reason) + '</span></li>';
     });
     html += '</ul>';
-    if (result.gaps && result.gaps.length > 0) html += '<p style="font-size:12px;color:var(--red);margin-top:8px;">⚠️ ' + t.assessmentRiskGapText + '</p>';
+    if (result.gaps && result.gaps.length > 0) html += '<p style="font-size:12px;color:var(--red);margin-top:8px;">⚠️ بناءً على تحليل المخاطر، هناك حاجة لتغطيات إضافية</p>';
   } else {
-    html += '<p style="color:var(--green);">' + t.assessmentExcellent + '</p>';
+    html += '<p style="color:var(--green);">✅ ممتاز! أنت مغطى بشكل جيد في جميع المجالات الأساسية.</p>';
   }
   html += '</div></div>';
 
-  html += '<div class="result-card"><div class="result-header"><span class="icon">📋</span><h3>' + t.assessmentNextSteps + '</h3></div><div class="result-body"><ul style="padding-right:20px;margin:6px 0;">';
+  html += '<div class="result-card"><div class="result-header"><span class="icon">📋</span><h3>الخطوات التالية</h3></div><div class="result-body"><ul style="padding-right:20px;margin:6px 0;">';
   if (result.recommendations && result.recommendations.length > 0) {
-    html += '<li>' + t.assessmentStep1 + '</li><li>' + t.assessmentStep2 + '</li><li>' + t.assessmentStep3 + '</li>';
+    html += '<li>📤 قم برفع مستندات وثائق التأمين الحالية للمراجعة</li><li>💬 تواصل مع وكيلنا للحصول على عروض أسعار للوثائق الموصى بها</li><li>📊 قم بإعادة التقييم بعد الحصول على وثائق جديدة</li>';
   } else {
-    html += '<li>' + t.assessmentStep4 + '</li><li>' + t.assessmentStep5 + '</li><li>' + t.assessmentStep6 + '</li>';
+    html += '<li>✅ استمر في متابعة وثائقك الحالية</li><li>🔄 قم بتجديد الوثائق قبل موعد انتهائها</li><li>📈 تابع مؤشر الحماية الخاص بك بانتظام</li>';
   }
   html += '</ul></div></div>';
 
@@ -1755,27 +1504,14 @@ function showAssessmentResults(result) {
 function renderAll() {
   if (!STATE.currentUser) return;
   var userData = STATE.userData || {};
-  var existing = userData.existingPolicies || [];
   var current = STATE.policies.filter(function(p){ return p.clientId === STATE.currentUser.uid; });
-  var active = current.filter(function(p){ return daysUntil(p.endDate) > 0; });
   var docs = STATE.documents.filter(function(d){ return d.clientId === STATE.currentUser.uid; });
-  var verified = docs.filter(function(d){ var s = d.verificationStatus || ''; return s === 'approved' || s === 'Verified'; });
-  var allPol = existing.concat(active.map(function(p){ return p.type; }));
-  var unique = allPol.filter(function(v,i,a){ return a.indexOf(v) === i; });
-
-  var score = 0;
-  if (unique.length >= 1) score += 30;
-  if (unique.length >= 2) score += 20;
-  if (unique.length >= 3) score += 10;
-  if (verified.length >= 1) score += 10;
-  if (verified.length >= 2) score += 5;
-  score = Math.min(Math.max(score, 15), 100);
-  var lang = STATE.language || 'ar';
-  var statusMap = { ar: { excellent:'ممتاز', good:'جيد', average:'متوسط', needs:'يحتاج تحسين' }, en: { excellent:'Excellent', good:'Good', average:'Average', needs:'Needs Improvement' } };
-  var status = score > 75 ? statusMap[lang].excellent : (score > 55 ? statusMap[lang].good : (score > 35 ? statusMap[lang].average : statusMap[lang].needs));
+  
+  var score = calculateProtectionScore(userData, current, docs);
+  var status = score > 75 ? 'ممتاز' : (score > 55 ? 'جيد' : (score > 35 ? 'متوسط' : 'يحتاج تحسين'));
 
   document.getElementById('homeAssessmentScore').innerText = score + '%';
-  document.getElementById('homeAssessmentLabel').innerText = (lang === 'ar' ? 'مستوى الحماية: ' : 'Protection Level: ') + status;
+  document.getElementById('homeAssessmentLabel').innerText = 'مستوى الحماية: ' + status;
 
   var circle = document.getElementById('scoreCircle');
   if (circle) { var offset = 157 - (157 * score) / 100; circle.style.strokeDashoffset = offset; }
@@ -1804,24 +1540,24 @@ function renderAll() {
 function renderPoliciesList(containerId, list) {
   var container = document.getElementById(containerId);
   if (!container) return;
-  var lang = STATE.language || 'ar';
   if (list.length === 0) {
-    container.innerHTML = '<div class="empty-state"><div class="icon">📄</div><h3>' + getText('noPolicies') + '</h3><p>' + getText('noPoliciesText') + '</p></div>';
+    container.innerHTML = '<div class="empty-state"><div class="icon">📄</div><h3>لا توجد وثائق</h3><p>لم يتم إضافة أي وثائق تأمينية حتى الآن</p></div>';
     return;
   }
   container.innerHTML = list.map(function(p) {
     var days = daysUntil(p.endDate);
     var isWarn = days <= 45 && days > 0;
     var isExpired = days < 0;
-    var badge = isExpired ? '<span class="badge warn">' + getText('badgeExpired') + '</span>' : (isWarn ? '<span class="badge warn">' + getText('badgeExpiring') + '</span>' : '<span class="badge ok">' + getText('badgeActive') + '</span>');
+    var badge = isExpired ? '<span class="badge warn">منتهية</span>' : (isWarn ? '<span class="badge warn">تجديد قريب</span>' : '<span class="badge ok">سارية</span>');
     var icon = isExpired ? '⛔' : (isWarn ? '⚠️' : '🛡️');
     var cls = isWarn || isExpired ? 'warn' : '';
+    var amount = p.sumInsured || p.premium || 0;
     return '<div class="p-card" onclick="openPolicyModal(\'' + (p.id || '') + '\')">' +
       '<div class="p-seal ' + cls + '"><div class="ring">' + icon + '</div></div>' +
-      '<div class="p-body"><div class="top"><h3>' + esc(p.type || p.typeName || (lang === 'ar' ? 'تأمين' : 'Insurance')) + '</h3>' + badge + '</div>' +
-      '<div class="co">' + esc(p.company || p.companyName || (lang === 'ar' ? 'شركة تأمين' : 'Insurance Company')) + '</div>' +
-      '<div class="p-foot"><span>' + (lang === 'ar' ? 'رقم الوثيقة: ' : 'Policy #: ') + '<b>' + esc(p.policyNumber || '--') + '</b></span>' +
-      '<span>' + (isExpired ? getText('expired') : (lang === 'ar' ? 'متبقي: ' : 'Remaining: ') + '<b>' + days + ' ' + getText('daysRemaining') + '</b>') + '</span></div></div></div>';
+      '<div class="p-body"><div class="top"><h3>' + esc(p.type || p.typeName || 'تأمين') + '</h3>' + badge + '</div>' +
+      '<div class="co">' + esc(p.company || p.companyName || 'شركة تأمين') + '</div>' +
+      '<div class="p-foot"><span>رقم الوثيقة: <b>' + esc(p.policyNumber || '--') + '</b></span>' +
+      '<span>' + (isExpired ? 'انتهت' : 'متبقي: <b>' + days + ' يوم</b>') + '</span></div></div></div>';
   }).join('');
 }
 
@@ -1830,14 +1566,14 @@ function renderProductsList() {
   if (!container) return;
   var products = STATE.products || [];
   if (products.length === 0) {
-    container.innerHTML = '<div class="empty-state"><div class="icon">💎</div><h3>' + getText('noProducts') + '</h3><p>' + getText('noProductsText') + '</p></div>';
+    container.innerHTML = '<div class="empty-state"><div class="icon">💎</div><h3>لا توجد منتجات</h3><p>سيتم إضافة منتجات تأمينية قريباً</p></div>';
     return;
   }
   container.innerHTML = products.map(function(pr) {
     var feats = Array.isArray(pr.features) ? pr.features : String(pr.features || '').split(/\r?\n/).filter(Boolean);
     var fhtml = feats.length > 0 ? '<ul style="font-size:11px;padding-right:15px;margin:4px 0;">' + feats.slice(0,3).map(function(f){ return '<li>' + esc(f) + '</li>'; }).join('') + '</ul>' : '';
     var typeDisp = pr.typeName || pr.type || pr.category || '';
-    return '<div class="p-card" style="cursor:default;"><div class="p-seal"><div class="ring">💎</div></div><div class="p-body"><div class="top"><h3>' + esc(pr.name || (getText('products') || 'Product')) + '</h3><span class="badge ok">' + esc(pr.companyName || pr.company || '') + '</span></div><div class="co">' + esc(typeDisp) + '</div><p style="font-size:11px;color:var(--muted);margin:4px 0 0;">' + esc(pr.description || '') + '</p>' + fhtml + (pr.disclaimer ? '<div style="font-size:8px;color:var(--muted);margin-top:4px;">' + esc(pr.disclaimer) + '</div>' : '') + '</div></div>';
+    return '<div class="p-card" style="cursor:default;"><div class="p-seal"><div class="ring">💎</div></div><div class="p-body"><div class="top"><h3>' + esc(pr.name || 'منتج') + '</h3><span class="badge ok">' + esc(pr.companyName || pr.company || '') + '</span></div><div class="co">' + esc(typeDisp) + '</div><p style="font-size:11px;color:var(--muted);margin:4px 0 0;">' + esc(pr.description || '') + '</p>' + fhtml + (pr.disclaimer ? '<div style="font-size:8px;color:var(--muted);margin-top:4px;">' + esc(pr.disclaimer) + '</div>' : '') + '</div></div>';
   }).join('');
 }
 
@@ -1846,7 +1582,7 @@ function renderDocumentsList(userDocs) {
   if (!container) return;
   var docs = userDocs || STATE.documents.filter(function(d){ return d.clientId === STATE.currentUser?.uid; });
   if (docs.length === 0) {
-    container.innerHTML = '<div class="empty-state"><div class="icon">📁</div><h3>' + getText('noDocuments') + '</h3><p>' + getText('noDocumentsText') + '</p></div>';
+    container.innerHTML = '<div class="empty-state"><div class="icon">📁</div><h3>لا توجد مستندات</h3><p>لم يتم رفع أي مستندات بعد</p></div>';
     return;
   }
   container.innerHTML = docs.map(function(d) {
@@ -1854,10 +1590,11 @@ function renderDocumentsList(userDocs) {
     var isPending = s === 'pending' || s === 'Pending Verification';
     var isApproved = s === 'approved' || s === 'Verified';
     var cls = isPending ? 'pending' : (isApproved ? 'ok' : '');
-    var txt = isPending ? getText('badgePending') : (isApproved ? getText('badgeVerified') : (getText('badgeRejected') || 'معلق'));
+    var txt = isPending ? '⏳ قيد التحقق' : (isApproved ? '✅ مفعل' : 'معلق');
     var icon = d.fileType && d.fileType.includes('pdf') ? '📄' : '🖼️';
     var date = d.createdAt ? formatDate(d.createdAt) : (d.uploadDate || '--');
-    return '<div class="p-card" onclick="openDocPreviewModal(\'' + d.id + '\')"><div class="p-seal"><div class="ring">' + icon + '</div></div><div class="p-body"><div class="top"><h3>' + esc(d.fileName || d.name || (getText('documents') || 'Document')) + '</h3><span class="badge ' + cls + '">' + txt + '</span></div><div class="co">' + (getText('uploadCategoryLabel') || 'التصنيف: ') + ' ' + esc(d.category || '--') + '</div><div class="p-foot"><span>' + (getText('uploadFileLabel') || 'تاريخ الرفع: ') + ' <b>' + date + '</b></span><span style="color:var(--navy-2);font-weight:700;">' + (getText('documents') ? '📄 معاينة' : 'Preview') + ' 👁️</span></div></div></div>';
+    var hasUrl = d.downloadURL || d.dataUrl || d.url || '';
+    return '<div class="p-card" onclick="openDocPreviewModal(\'' + d.id + '\')"><div class="p-seal"><div class="ring">' + icon + '</div></div><div class="p-body"><div class="top"><h3>' + esc(d.fileName || d.name || 'مستند') + '</h3><span class="badge ' + cls + '">' + txt + '</span></div><div class="co">التصنيف: ' + esc(d.category || '--') + '</div><div class="p-foot"><span>تاريخ الرفع: <b>' + date + '</b></span><span style="color:var(--navy-2);font-weight:700;">' + (hasUrl ? '📄 معاينة' : '⏳ جاري') + ' 👁️</span></div></div></div>';
   }).join('');
 }
 
@@ -1866,11 +1603,11 @@ function renderNotificationsList() {
   if (!container) return;
   var notifs = STATE.notifications || [];
   if (notifs.length === 0) {
-    container.innerHTML = '<div class="empty-state"><div class="icon">🔔</div><h3>' + getText('noNotifications') + '</h3><p>' + getText('noNotificationsText') + '</p></div>';
+    container.innerHTML = '<div class="empty-state"><div class="icon">🔔</div><h3>لا توجد إشعارات</h3><p>سوف تظهر هنا جميع التنبيهات والإشعارات</p></div>';
     return;
   }
   container.innerHTML = notifs.map(function(n) {
-    return '<div class="notif"><div class="ic">🔔</div><div><h4>' + esc(n.title || (getText('notificationsTitle') || 'إشعار')) + '</h4><p>' + esc(n.body || n.message || '') + '</p><time>' + (n.createdAt ? formatDate(n.createdAt) : (getText('chatNow') || 'الآن')) + '</time></div></div>';
+    return '<div class="notif"><div class="ic">🔔</div><div><h4>' + esc(n.title || 'إشعار') + '</h4><p>' + esc(n.body || n.message || '') + '</p><time>' + (n.createdAt ? formatDate(n.createdAt) : 'الآن') + '</time></div></div>';
   }).join('');
 }
 
@@ -1879,48 +1616,92 @@ function renderNotificationsList() {
 // ============================================================
 function openPolicyModal(id) {
   var p = STATE.policies.find(function(item){ return item.id === id; });
-  if (!p) { alert(STATE.language === 'ar' ? 'لم يتم العثور على الوثيقة' : 'Policy not found'); return; }
-  document.getElementById('mPolicyTitle').innerText = p.type || p.typeName || (STATE.language === 'ar' ? 'تفاصيل الوثيقة' : 'Policy Details');
-  document.getElementById('mPolicyCompany').innerText = p.company || p.companyName || (STATE.language === 'ar' ? 'شركة تأمين' : 'Insurance Company');
+  if (!p) { alert('لم يتم العثور على الوثيقة'); return; }
+  STATE.currentPolicyId = id;
+  document.getElementById('mPolicyTitle').innerText = p.type || p.typeName || 'تفاصيل الوثيقة';
+  document.getElementById('mPolicyCompany').innerText = p.company || p.companyName || 'شركة تأمين';
   document.getElementById('mPolicyNum').innerText = p.policyNumber || '--';
   document.getElementById('mPolicyType').innerText = p.type || p.typeName || '--';
   document.getElementById('mPolicyExpiry').innerText = p.endDate || '--';
-  document.getElementById('mPolicyAmount').innerText = p.sumInsured || p.premium ? (p.premium || 0) + ' EGP' : '--';
-  document.getElementById('mPolicyStatus').innerText = p.status || (STATE.language === 'ar' ? 'نشط' : 'Active');
+  var amount = p.sumInsured || p.premium || 0;
+  document.getElementById('mPolicyAmount').innerText = amount ? amount + ' EGP' : '--';
+  document.getElementById('mPolicyStatus').innerText = p.status || 'نشط';
   document.getElementById('btnOpenPolicyDoc').onclick = function(){
     var url = p.docUrl || p.fileUrl || p.downloadURL || p.dataUrl || '';
     if (url) window.open(url, '_blank');
-    else alert(STATE.language === 'ar' ? 'لا يوجد مستند مرفق لهذه الوثيقة' : 'No document attached to this policy');
-  };
-  document.getElementById('btnRenewPolicy').onclick = function(){
-    alert((STATE.language === 'ar' ? '✅ تم إرسال طلب تجديد الوثيقة (' : '✅ Renewal request sent for policy (') + (p.policyNumber || '') + ') ' + (STATE.language === 'ar' ? 'بنجاح.' : 'successfully.'));
-    closeModal('policyModal');
+    else alert('لا يوجد مستند مرفق لهذه الوثيقة');
   };
   openModal('policyModal');
 }
 
+function requestRenewal() {
+  if (!STATE.currentUser || !STATE.currentPolicyId) { alert('حدث خطأ، يرجى المحاولة مرة أخرى'); return; }
+  var p = STATE.policies.find(function(item){ return item.id === STATE.currentPolicyId; });
+  if (!p) { alert('لم يتم العثور على الوثيقة'); return; }
+  
+  db.collection('renewals').add({
+    policyId: p.id,
+    policyNumber: p.policyNumber || '',
+    clientId: STATE.currentUser.uid,
+    clientName: STATE.currentUser.name || '',
+    company: p.company || '',
+    type: p.type || '',
+    endDate: p.endDate || '',
+    status: 'pending',
+    requestedAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function() {
+    return db.collection('notifications').add({
+      clientId: STATE.currentUser.uid,
+      clientName: STATE.currentUser.name || '',
+      title: '📄 طلب تجديد وثيقة',
+      body: 'تم إرسال طلب تجديد للوثيقة رقم ' + (p.policyNumber || '') + ' بنجاح',
+      type: 'renewal_request',
+      read: false,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  }).then(function() {
+    closeModal('policyModal');
+    alert('✅ تم إرسال طلب تجديد الوثيقة (' + (p.policyNumber || '') + ') بنجاح.');
+  }).catch(function(e){
+    alert('فشل إرسال طلب التجديد: ' + e.message);
+  });
+}
+
 function openDocPreviewModal(id) {
   var d = STATE.documents.find(function(item){ return item.id === id; });
-  if (!d) { alert(STATE.language === 'ar' ? 'لم يتم العثور على المستند' : 'Document not found'); return; }
-  var docName = d.fileName || d.name || (STATE.language === 'ar' ? 'مستند' : 'Document');
-  var docStatus = d.verificationStatus || (STATE.language === 'ar' ? 'معلق' : 'Pending');
-  var statusMap = { 'pending':'⏳ ' + (STATE.language === 'ar' ? 'قيد التحقق' : 'Pending Verification'), 'Pending Verification':'⏳ ' + (STATE.language === 'ar' ? 'قيد التحقق' : 'Pending Verification'), 'approved':'✅ ' + (STATE.language === 'ar' ? 'معتمد' : 'Approved'), 'Verified':'✅ ' + (STATE.language === 'ar' ? 'معتمد' : 'Approved'), 'rejected':'❌ ' + (STATE.language === 'ar' ? 'مرفوض' : 'Rejected') };
+  if (!d) { alert('لم يتم العثور على المستند'); return; }
+  var docName = d.fileName || d.name || 'مستند';
+  var docStatus = d.verificationStatus || 'معلق';
+  var statusMap = { 'pending':'⏳ قيد التحقق', 'Pending Verification':'⏳ قيد التحقق', 'approved':'✅ معتمد', 'Verified':'✅ معتمد', 'rejected':'❌ مرفوض' };
   var display = statusMap[docStatus] || docStatus;
   document.getElementById('mDocTitle').innerText = docName;
-  document.getElementById('mDocStatus').innerText = (STATE.language === 'ar' ? 'الحالة: ' : 'Status: ') + display + ' | ' + (STATE.language === 'ar' ? 'التصنيف: ' : 'Category: ') + (d.category || '--');
+  document.getElementById('mDocStatus').innerText = 'الحالة: ' + display + ' | التصنيف: ' + (d.category || '--');
+  
   var container = document.getElementById('docPreviewContainer');
-  var url = d.dataUrl || d.downloadURL || d.fileUrl || d.url || '';
+  var url = d.downloadURL || d.dataUrl || d.url || '';
   if (url) {
-    if (url.includes('.pdf') || d.fileType === 'pdf' || (d.fileType && d.fileType.includes('pdf'))) container.innerHTML = '<iframe src="' + url + '"></iframe>';
-    else container.innerHTML = '<img src="' + url + '" alt="Document Preview"/>';
-  } else container.innerHTML = '<div style="color:var(--muted);padding:20px;">' + (STATE.language === 'ar' ? 'لا توجد معاينة متاحة' : 'No preview available') + '</div>';
-  document.getElementById('btnDownloadDoc').onclick = function(){ if (url) window.open(url, '_blank'); else alert(STATE.language === 'ar' ? 'لا يوجد رابط للتحميل' : 'No download link available'); };
+    if (url.includes('.pdf') || d.fileType === 'pdf' || (d.fileType && d.fileType.includes('pdf'))) {
+      container.innerHTML = '<iframe src="' + url + '"></iframe>';
+    } else {
+      container.innerHTML = '<img src="' + url + '" alt="Document Preview"/>';
+    }
+  } else {
+    container.innerHTML = '<div style="color:var(--muted);padding:20px;">لا توجد معاينة متاحة</div>';
+  }
+  
+  // Store download URL for triggerDocDownload
+  window._currentDocUrl = url;
   openModal('docPreviewModal');
 }
-function triggerDocDownload() {}
+
+function triggerDocDownload() {
+  var url = window._currentDocUrl || '';
+  if (url) { window.open(url, '_blank'); } 
+  else { alert('لا يوجد رابط للتحميل'); }
+}
 
 // ============================================================
-// UPLOAD DOCUMENT
+// UPLOAD DOCUMENT - مع Firebase Storage
 // ============================================================
 function openUploadDocModal() {
   document.getElementById('uploadError').style.display = 'none';
@@ -1932,39 +1713,56 @@ function openUploadDocModal() {
 function processDocUpload() {
   var name = document.getElementById('upDocName').value.trim();
   var category = document.getElementById('upDocCategory').value;
-  var file = document.getElementById('upDocFile');
+  var fileInput = document.getElementById('upDocFile');
   var err = document.getElementById('uploadError');
   err.style.display = 'none';
-  if (!name) { err.textContent = STATE.language === 'ar' ? 'يرجى كتابة اسم المستند.' : 'Please enter document name.'; err.style.display = 'block'; return; }
-  if (!file.files || !file.files[0]) { err.textContent = STATE.language === 'ar' ? 'يرجى اختيار ملف.' : 'Please select a file.'; err.style.display = 'block'; return; }
-  var f = file.files[0];
-  if (f.size > 2 * 1024 * 1024) { err.textContent = STATE.language === 'ar' ? 'حجم الملف كبير جداً. الحد الأقصى 2MB.' : 'File size is too large. Maximum 2MB.'; err.style.display = 'block'; return; }
-  showLoading('uploadBtn', STATE.language === 'ar' ? 'جاري الرفع...' : 'Uploading...');
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    db.collection('documents').add({
+  
+  if (!name) { err.textContent = 'يرجى كتابة اسم المستند.'; err.style.display = 'block'; return; }
+  if (!fileInput.files || !fileInput.files[0]) { err.textContent = 'يرجى اختيار ملف.'; err.style.display = 'block'; return; }
+  
+  var file = fileInput.files[0];
+  var allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'application/pdf'];
+  if (!allowedTypes.includes(file.type)) {
+    err.textContent = 'نوع الملف غير مدعوم. يرجى رفع صورة (JPG, PNG, GIF, WebP) أو ملف PDF.';
+    err.style.display = 'block'; return;
+  }
+  if (file.size > 10 * 1024 * 1024) {
+    err.textContent = 'حجم الملف كبير جداً. الحد الأقصى 10MB.';
+    err.style.display = 'block'; return;
+  }
+  
+  showLoading('uploadBtn', 'جاري الرفع...');
+  
+  // رفع إلى Firebase Storage
+  var storageRef = storage.ref('documents/' + STATE.currentUser.uid + '/' + Date.now() + '_' + file.name);
+  var uploadTask = storageRef.put(file);
+  
+  uploadTask.then(function(snapshot) {
+    return storageRef.getDownloadURL();
+  }).then(function(downloadURL) {
+    // حفظ في Firestore مع downloadURL و storagePath
+    return db.collection('documents').add({
       clientId: STATE.currentUser.uid,
       fileName: name,
       category: category,
-      fileType: f.type,
-      dataUrl: e.target.result,
+      fileType: file.type,
+      downloadURL: downloadURL,
+      storagePath: storageRef.fullPath,
       verificationStatus: 'pending',
       uploadedBy: 'client',
       uploadDate: new Date().toISOString().split('T')[0],
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(function() {
-      hideLoading('uploadBtn');
-      closeModal('uploadDocModal');
-      alert(STATE.language === 'ar' ? '✅ تم رفع المستند بنجاح وهو الآن قيد المراجعة.' : '✅ Document uploaded successfully and is now under review.');
-      return loadUserData(STATE.currentUser.uid);
-    }).then(function(){ renderAll(); }).catch(function(e){
-      hideLoading('uploadBtn');
-      err.textContent = (STATE.language === 'ar' ? 'فشل رفع المستند: ' : 'Upload failed: ') + e.message;
-      err.style.display = 'block';
     });
-  };
-  reader.onerror = function(){ hideLoading('uploadBtn'); err.textContent = STATE.language === 'ar' ? 'فشل قراءة الملف. حاول مرة أخرى.' : 'Failed to read file. Please try again.'; err.style.display = 'block'; };
-  reader.readAsDataURL(f);
+  }).then(function() {
+    hideLoading('uploadBtn');
+    closeModal('uploadDocModal');
+    alert('✅ تم رفع المستند بنجاح وهو الآن قيد المراجعة.');
+    return loadUserData(STATE.currentUser.uid);
+  }).then(function(){ renderAll(); }).catch(function(e){
+    hideLoading('uploadBtn');
+    err.textContent = 'فشل رفع المستند: ' + e.message;
+    err.style.display = 'block';
+  });
 }
 
 // ============================================================
@@ -1989,10 +1787,10 @@ function selectAdviceOption(opt) {
 
 function openWhatsApp() {
   var number = '201123152500';
-  var msg = STATE.language === 'ar' ? 'مرحباً، أريد الحصول على استشارة تأمينية من Secure PATH' : 'Hello, I want to get insurance advice from Secure PATH';
+  var msg = 'مرحباً، أريد الحصول على استشارة تأمينية من وثيقتي';
   window.open('https://api.whatsapp.com/send?phone=' + number + '&text=' + encodeURIComponent(msg), '_blank');
   if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) window.location.href = 'whatsapp://send?phone=' + number + '&text=' + encodeURIComponent(msg);
-  if (STATE.currentUser) db.collection('activity').add({ clientId: STATE.currentUser.uid, action: 'whatsapp_click', description: STATE.language === 'ar' ? 'فتح واتساب للتواصل مع الدعم' : 'Opened WhatsApp to contact support', timestamp: firebase.firestore.FieldValue.serverTimestamp() }).catch(function(){});
+  if (STATE.currentUser) db.collection('activity').add({ clientId: STATE.currentUser.uid, action: 'whatsapp_click', description: 'فتح واتساب للتواصل مع الدعم', timestamp: firebase.firestore.FieldValue.serverTimestamp() }).catch(function(){});
 }
 
 function resetAdviceForm() {
@@ -2007,20 +1805,20 @@ function updateCharCount() {
   var c = document.getElementById('charCount');
   if (!ta || !c) return;
   var l = ta.value.length;
-  c.textContent = l + ' / 1000 ' + (STATE.language === 'ar' ? 'حرف' : 'chars');
+  c.textContent = l + ' / 1000 حرف';
   c.classList.toggle('warning', l > 850);
 }
 
 function submitAdvice() {
   var text = document.getElementById('adviceText').value.trim();
-  if (!text) { alert(STATE.language === 'ar' ? 'يرجى كتابة استفسارك قبل الإرسال' : 'Please write your inquiry before submitting'); return; }
-  if (text.length > 1000) { alert(STATE.language === 'ar' ? 'الحد الأقصى للنص هو 1000 حرف' : 'Maximum text length is 1000 characters'); return; }
-  if (!STATE.currentUser) { alert(STATE.language === 'ar' ? 'يرجى تسجيل الدخول أولاً' : 'Please login first'); return; }
-  showLoading('adviceSubmitBtn', STATE.language === 'ar' ? 'جاري الإرسال...' : 'Sending...');
+  if (!text) { alert('يرجى كتابة استفسارك قبل الإرسال'); return; }
+  if (text.length > 1000) { alert('الحد الأقصى للنص هو 1000 حرف'); return; }
+  if (!STATE.currentUser) { alert('يرجى تسجيل الدخول أولاً'); return; }
+  showLoading('adviceSubmitBtn', 'جاري الإرسال...');
   db.collection('messages').add({
     clientId: STATE.currentUser.uid,
     sender: 'client',
-    text: '💡 ' + (STATE.language === 'ar' ? 'طلب نصيحة:\n\n' : 'Advice Request:\n\n') + text,
+    text: '💡 طلب نصيحة:\n\n' + text,
     type: 'advice_request',
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     readByAdmin: false
@@ -2031,20 +1829,20 @@ function submitAdvice() {
     return db.collection('notifications').add({
       clientId: STATE.currentUser.uid,
       clientName: STATE.currentUser.name,
-      title: '💡 ' + (STATE.language === 'ar' ? 'طلب نصيحة جديدة' : 'New Advice Request'),
-      body: (STATE.language === 'ar' ? 'قام العميل ' : 'Client ') + STATE.currentUser.name + (STATE.language === 'ar' ? ' بطلب نصيحة تأمينية' : ' requested insurance advice'),
+      title: '💡 طلب نصيحة جديدة',
+      body: 'قام العميل ' + STATE.currentUser.name + ' بطلب نصيحة تأمينية',
       type: 'advice_request',
       read: false,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-  }).catch(function(e){ hideLoading('adviceSubmitBtn'); alert((STATE.language === 'ar' ? 'فشل إرسال الطلب: ' : 'Failed to send request: ') + e.message); });
+  }).catch(function(e){ hideLoading('adviceSubmitBtn'); alert('فشل إرسال الطلب: ' + e.message); });
 }
 
 // ============================================================
-// WHEEL
+// WHEEL - مع حماية إضافية
 // ============================================================
 function openWheelModal() {
-  if (!STATE.currentUser) { alert(STATE.language === 'ar' ? 'يرجى تسجيل الدخول أولاً' : 'Please login first'); return; }
+  if (!STATE.currentUser) { alert('يرجى تسجيل الدخول أولاً'); return; }
   var canSpin = true;
   if (STATE.wheelLastSpin) {
     var diff = (new Date() - new Date(STATE.wheelLastSpin)) / (1000 * 60 * 60 * 24);
@@ -2054,11 +1852,11 @@ function openWheelModal() {
   if (!canSpin) {
     var next = new Date(STATE.wheelLastSpin);
     next.setDate(next.getDate() + 30);
-    container.innerHTML = '<div class="wheel-disabled"><div class="icon">⏳</div><h3>' + (STATE.language === 'ar' ? 'لقد جربت حظك هذا الشهر!' : 'You\'ve already tried your luck this month!') + '</h3><p>' + (STATE.language === 'ar' ? 'يمكنك المحاولة مرة أخرى في ' : 'You can try again on ') + '<strong>' + next.toLocaleDateString(STATE.language === 'ar' ? 'ar-EG' : 'en-US', { day:'numeric', month:'long', year:'numeric' }) + '</strong></p><p style="font-size:12px;color:var(--muted);margin-top:8px;">' + (STATE.wheelResult ? (STATE.language === 'ar' ? 'نتيجتك السابقة: ' : 'Your previous result: ') + STATE.wheelResult : '') + '</p><button class="btn-gold-small" onclick="closeModal(\'wheelModal\')">' + (STATE.language === 'ar' ? 'حسناً' : 'OK') + '</button></div>';
+    container.innerHTML = '<div class="wheel-disabled"><div class="icon">⏳</div><h3>لقد جربت حظك هذا الشهر!</h3><p>يمكنك المحاولة مرة أخرى في <strong>' + next.toLocaleDateString('ar-EG', { day:'numeric', month:'long', year:'numeric' }) + '</strong></p><p style="font-size:12px;color:var(--muted);margin-top:8px;">' + (STATE.wheelResult ? 'نتيجتك السابقة: ' + STATE.wheelResult : '') + '</p><button class="btn-gold-small" onclick="closeModal(\'wheelModal\')">حسناً</button></div>';
     openModal('wheelModal');
     return;
   }
-  container.innerHTML = '<div class="wheel-wrapper"><div class="wheel-pointer"></div><canvas id="wheelCanvas" class="wheel-canvas" width="280" height="280"></canvas><div class="wheel-center" onclick="spinWheel()">🎰</div></div><button class="wheel-spin-btn" id="wheelSpinBtn" onclick="spinWheel()">' + (STATE.language === 'ar' ? '🎰 اضغط للدوران' : '🎰 Spin') + '</button><div class="wheel-result" id="wheelResult">' + (STATE.language === 'ar' ? 'اضغط على الزر أو المركز للدوران' : 'Click the button or center to spin') + '</div><div class="wheel-info">' + (STATE.language === 'ar' ? '⚠️ يمكنك المحاولة مرة واحدة فقط كل 30 يوماً' : '⚠️ You can only try once every 30 days') + '</div>';
+  container.innerHTML = '<div class="wheel-wrapper"><div class="wheel-pointer"></div><canvas id="wheelCanvas" class="wheel-canvas" width="280" height="280"></canvas><div class="wheel-center" onclick="spinWheel()">🎰</div></div><button class="wheel-spin-btn" id="wheelSpinBtn" onclick="spinWheel()">🎰 اضغط للدوران</button><div class="wheel-result" id="wheelResult">اضغط على الزر أو المركز للدوران</div><div class="wheel-info">⚠️ يمكنك المحاولة مرة واحدة فقط كل 30 يوماً</div>';
   openModal('wheelModal');
   drawWheel();
 }
@@ -2113,7 +1911,7 @@ function spinWheel() {
   if (!canvas || !result) return;
   if (btn) btn.disabled = true;
   result.className = 'wheel-result';
-  result.innerHTML = '🔄 ' + (STATE.language === 'ar' ? 'جاري الدوران...' : 'Spinning...');
+  result.innerHTML = '🔄 جاري الدوران...';
   var seg = wheelPrizes.length;
   var idx = Math.floor(Math.random() * seg);
   var prize = wheelPrizes[idx];
@@ -2131,7 +1929,7 @@ function spinWheel() {
     if (STATE.currentUser) db.collection('clients').doc(STATE.currentUser.uid).update({ wheelLastSpin: STATE.wheelLastSpin, wheelResult: STATE.wheelResult, wheelPrizeIndex: idx }).catch(function(){});
     showCelebration(prize);
     sendWheelNotification(prize);
-    if (btn) { btn.disabled = false; btn.textContent = STATE.language === 'ar' ? '🎰 جرب حظك مرة أخرى' : '🎰 Try Again'; }
+    if (btn) { btn.disabled = false; btn.textContent = '🎰 جرب حظك مرة أخرى'; }
   }, 4200);
 }
 
@@ -2155,7 +1953,7 @@ function showCelebration(prize) {
   }
   var txt = document.createElement('div');
   txt.className = 'celebrate-text';
-  txt.innerHTML = '<span class="icon">' + prize.icon + '</span>🎊 ' + prize.text + ' 🎊<span class="sub">' + (STATE.language === 'ar' ? 'تهانينا! لقد ربحت الجائزة' : 'Congratulations! You won the prize') + '</span>';
+  txt.innerHTML = '<span class="icon">' + prize.icon + '</span>🎊 ' + prize.text + ' 🎊<span class="sub">تهانينا! لقد ربحت الجائزة</span>';
   el.appendChild(txt);
   document.body.appendChild(el);
   setTimeout(function(){ el.classList.remove('active'); setTimeout(function(){ el.remove(); }, 500); }, 4000);
@@ -2163,23 +1961,23 @@ function showCelebration(prize) {
 
 function sendWheelNotification(prize) {
   if (!STATE.currentUser) return;
-  var msg = (STATE.language === 'ar' ? '🎉 تهانينا! لقد ربحت "' : '🎉 Congratulations! You won "') + prize.text + '" ' + (STATE.language === 'ar' ? 'من عجلة حظك!' : 'from the wheel of fortune!');
+  var msg = '🎉 تهانينا! لقد ربحت "' + prize.text + '" من عجلة حظك!';
   db.collection('notifications').add({
     clientId: STATE.currentUser.uid,
     clientName: STATE.currentUser.name,
-    title: '🎰 ' + (STATE.language === 'ar' ? 'جرب حظك' : 'Try Your Luck'),
+    title: '🎰 جرب حظك',
     body: msg,
     type: 'wheel_win',
     read: false,
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   }).catch(function(){});
-  if ('Notification' in window && Notification.permission === 'granted') new Notification('🎰 ' + (STATE.language === 'ar' ? 'جرب حظك' : 'Try Your Luck'), { body: msg, icon: '🎉' });
+  if ('Notification' in window && Notification.permission === 'granted') new Notification('🎰 جرب حظك', { body: msg, icon: '🎉' });
   var dot = document.getElementById('notifDot');
   if (dot) dot.style.display = 'block';
 }
 
 // ============================================================
-// CHAT
+// CHAT - مع تحسين الردود الآلية
 // ============================================================
 function toggleChat() {
   var w = document.getElementById('chatWidget');
@@ -2194,44 +1992,28 @@ function sendChatMessage() {
   var container = document.getElementById('chatMessages');
   var msg = document.createElement('div');
   msg.className = 'msg user';
-  msg.innerHTML = esc(text) + '<span class="msg-time">' + getText('chatNow') + '</span>';
+  msg.innerHTML = esc(text) + '<span class="msg-time">الآن</span>';
   container.appendChild(msg);
   input.value = '';
   container.scrollTop = container.scrollHeight;
   if (STATE.currentUser && STATE.currentUser.uid) db.collection('messages').add({ clientId: STATE.currentUser.uid, sender: 'client', text: text, createdAt: firebase.firestore.FieldValue.serverTimestamp(), readByAdmin: false }).catch(function(){});
   setTimeout(function(){
-    var resps = STATE.language === 'ar' ? ['شكراً لتواصلك معنا! سيقوم أحد وكلائنا بالرد عليك قريباً.', 'تم استلام رسالتك. فريق الدعم يعمل على الرد في أقرب وقت.', 'نحن هنا لمساعدتك! سيتم الرد على استفسارك خلال دقائق.', 'شكراً لك! تم إرسال رسالتك إلى فريق الدعم.'] : ['Thank you for contacting us! One of our agents will get back to you shortly.', 'Your message has been received. Our support team is working on a response.', 'We are here to help! Your inquiry will be answered within minutes.', 'Thank you! Your message has been sent to our support team.'];
+    var resps = ['شكراً لتواصلك معنا! سيقوم أحد وكلائنا بالرد عليك قريباً.', 'تم استلام رسالتك. فريق الدعم يعمل على الرد في أقرب وقت.', 'نحن هنا لمساعدتك! سيتم الرد على استفسارك خلال دقائق.', 'شكراً لك! تم إرسال رسالتك إلى فريق الدعم.'];
     var r = resps[Math.floor(Math.random() * resps.length)];
     var am = document.createElement('div');
     am.className = 'msg agent';
-    am.innerHTML = '🤖 ' + r + '<span class="msg-time">' + getText('chatNow') + '</span>';
+    am.innerHTML = '🤖 ' + r + '<span class="msg-time">الآن</span>';
     container.appendChild(am);
     container.scrollTop = container.scrollHeight;
-    if (STATE.currentUser && STATE.currentUser.uid) db.collection('messages').add({ clientId: STATE.currentUser.uid, sender: 'agent', text: r, autoReply: true, createdAt: firebase.firestore.FieldValue.serverTimestamp() }).catch(function(){});
+    // تخزين الرد الآلي مع flag autoReply=true و sender=system
+    if (STATE.currentUser && STATE.currentUser.uid) db.collection('messages').add({
+      clientId: STATE.currentUser.uid,
+      sender: 'system',
+      text: r,
+      autoReply: true,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).catch(function(){});
   }, 1500);
-}
-
-function startChatListener() {
-  if (!STATE.currentUser || !STATE.currentUser.uid) return;
-  var container = document.getElementById('chatMessages');
-  if (STATE.msgUnsub) STATE.msgUnsub();
-  STATE.msgUnsub = db.collection('messages').where('clientId', '==', STATE.currentUser.uid).orderBy('createdAt', 'desc').limit(20).onSnapshot(function(snap){
-    var isOpen = document.getElementById('chatWidget').classList.contains('open');
-    var hasUnread = false;
-    snap.docs.forEach(function(d){ var data = d.data(); if (data.sender === 'agent' && !data.readByClient) { hasUnread = true; d.ref.update({ readByClient: true }).catch(function(){}); } });
-    var badge = document.getElementById('chatBadge');
-    if (badge) { if (hasUnread && !isOpen) { badge.style.display = 'block'; badge.textContent = '1'; } else badge.style.display = 'none'; }
-    if (isOpen) {
-      var msgs = container.querySelectorAll('.msg');
-      var welcome = [];
-      msgs.forEach(function(m){ if (m.textContent.includes('مرحباً بك') || m.textContent.includes('Welcome') || m.textContent.includes('كيف يمكنني مساعدتك') || m.textContent.includes('How can I help')) welcome.push(m); });
-      container.innerHTML = '';
-      welcome.forEach(function(m){ container.appendChild(m.cloneNode(true)); });
-      var docs = snap.docs.slice().reverse();
-      docs.forEach(function(d){ var data = d.data(); if ((data.sender === 'agent' || data.sender === 'client') && data.text) { var m = document.createElement('div'); m.className = 'msg ' + (data.sender === 'agent' ? 'agent' : 'user'); var t = data.createdAt ? formatDate(data.createdAt) : getText('chatNow'); var txt = data.text; if (data.type === 'advice_request') txt = '💡 ' + (STATE.language === 'ar' ? 'طلب نصيحة:\n' : 'Advice Request:\n') + txt; m.innerHTML = esc(txt).replace(/\n/g, '<br>') + '<span class="msg-time">' + t + '</span>'; container.appendChild(m); } });
-      container.scrollTop = container.scrollHeight;
-    }
-  }, function(e){ console.error('Chat listener error:', e); });
 }
 
 function openTermsModal() { openModal('termsModal'); }
@@ -2244,13 +2026,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (user) {
       db.collection('clients').doc(user.uid).get().then(function(doc) {
         var data = doc.exists ? doc.data() : {};
-        STATE.currentUser = { uid: user.uid, name: data.fullName || data.name || user.displayName || (STATE.language === 'ar' ? 'مستخدم' : 'User'), email: data.email || user.email || '' };
+        STATE.currentUser = { uid: user.uid, name: data.fullName || data.name || user.displayName || 'مستخدم', email: data.email || user.email || '' };
         STATE.userData = data;
         if (data.wheelLastSpin) STATE.wheelLastSpin = data.wheelLastSpin;
         if (data.wheelResult) STATE.wheelResult = data.wheelResult;
-        if (data.language) STATE.language = data.language;
         updateUserUI(data);
-        updateAllTexts();
         return loadUserData(user.uid);
       }).then(function(){ renderAll(); showScreen('home'); }).catch(function(e){ console.error("Error loading user:", e); showScreen('home'); });
     } else { STATE.currentUser = null; STATE.userData = null; showScreen('login'); }
