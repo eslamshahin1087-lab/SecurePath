@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -763,32 +763,6 @@
   .account-header h2 { margin:0; font-family:'Tajawal',sans-serif; position:relative; z-index:1; }
   .account-header p { margin:4px 0 0; font-size:12px; color:var(--gold-soft); position:relative; z-index:1; }
 
-  /* ====== OFFERS / PROMOTIONS ====== */
-  .offers-list{padding:14px 14px 24px;display:flex;flex-direction:column;gap:12px;}
-  .offer-card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow);transition:all .3s ease;cursor:pointer;}
-  .offer-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--gold);}
-  .offer-card:active{transform:scale(.985);}
-  .offer-image{height:150px;background:linear-gradient(135deg,#EAF0F7,#F8FAFD);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;}
-  .offer-image img{width:100%;height:100%;object-fit:cover;display:block;}
-  .offer-placeholder{width:68px;height:68px;border-radius:20px;background:var(--gold-soft);color:var(--navy);display:grid;place-items:center;font-size:30px;box-shadow:0 8px 22px rgba(14,42,92,.10);}
-  .offer-status{position:absolute;top:10px;right:10px;padding:5px 10px;border-radius:999px;background:var(--green-light);color:var(--green);font-size:9px;font-weight:800;box-shadow:0 3px 10px rgba(0,0,0,.08);}
-  .offer-discount{position:absolute;bottom:10px;right:10px;padding:6px 12px;border-radius:999px;background:var(--gradient-gold);color:var(--navy);font-family:'Tajawal',sans-serif;font-size:15px;font-weight:900;box-shadow:0 5px 15px rgba(242,189,99,.28);}
-  .offer-body{padding:14px 15px 15px;}
-  .offer-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;color:var(--muted);font-size:10px;margin-bottom:6px;}
-  .offer-meta .company{color:var(--navy);font-weight:800;}
-  .offer-body h3{margin:0;color:var(--navy);font-family:'Tajawal',sans-serif;font-size:15px;font-weight:800;line-height:1.4;}
-  .offer-body .code{display:inline-block;margin-right:5px;color:var(--muted);font-size:9px;font-weight:500;}
-  .offer-body p{margin:6px 0 10px;color:var(--muted);font-size:11px;line-height:1.6;}
-  .offer-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:9px;border-top:1px dashed var(--line);color:var(--muted);font-size:9px;}
-  .offer-view{color:var(--navy);font-weight:800;font-size:10px;}
-  .offers-empty{text-align:center;padding:48px 20px;color:var(--muted);}
-  .offers-empty .empty-icon{width:64px;height:64px;margin:0 auto 12px;border-radius:20px;background:var(--gold-soft);color:var(--navy);display:grid;place-items:center;font-size:28px;}
-  .offer-detail-hero{border-radius:16px;overflow:hidden;background:var(--paper);border:1px solid var(--line);margin:10px 0 14px;}
-  .offer-detail-hero img{width:100%;max-height:220px;object-fit:cover;display:block;}
-  .offer-detail-hero .placeholder{min-height:140px;display:grid;place-items:center;font-size:48px;color:var(--navy);background:linear-gradient(135deg,#EAF0F7,#FFF);}
-  .offer-detail-discount{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:var(--gold-soft);color:var(--navy);font-weight:900;font-size:13px;margin-bottom:8px;}
-  @media (max-width:360px){.offer-image{height:135px}.offer-body h3{font-size:14px}}
-
   .page-top {
     padding:calc(24px + var(--safe-area-top)) 18px 16px; background:#FFF;
     border-bottom:1px solid var(--line); display:flex; justify-content:space-between;
@@ -855,22 +829,25 @@
     .bell .bell-symbol { font-size:15px; }
   }
 
-  /* ===== PREMIUM 3D ICON SYSTEM ===== */
+  /* ============================================================
+     PREMIUM ICON SYSTEM — مصدر واحد موحّد لكل قياسات وألوان الأيقونات
+     (تم توحيده من كتلتين متضاربتين كانتا تُعرّفان نفس القواعد بقيم
+     مختلفة، وهو ما كان يسبب تفاوت أحجام الأيقونات بين شاشة وأخرى)
+     ============================================================ */
   .app-icon {
     display:inline-flex; align-items:center; justify-content:center;
-    width:1.05em; height:1.05em; vertical-align:-0.14em;
-    flex:0 0 auto; color:currentColor;
+    width:22px; height:22px; flex:0 0 auto; color:currentColor;
     filter:drop-shadow(0 2px 3px rgba(0,0,0,0.08));
-    transition:filter 0.3s ease;
+    transition:filter 0.3s ease, transform 0.3s ease;
   }
   .app-icon:hover { filter:drop-shadow(0 4px 8px rgba(0,0,0,0.15)); }
   .app-icon svg {
-    width:100%; height:100%; display:block;
+    width:100%; height:100%; display:block; overflow:visible;
     stroke:currentColor; fill:none; stroke-width:2;
     stroke-linecap:round; stroke-linejoin:round;
   }
 
-  /* أيقونات ملونة مخصصة */
+  /* ألوان الأيقونات المخصصة — لون ثابت بلا اهتزاز/نبض دائم لضمان مظهر هادئ ومتسق */
   .icon-gold .app-icon { color:var(--gold); filter:drop-shadow(0 2px 8px rgba(242,189,99,0.3)); }
   .icon-navy .app-icon { color:var(--navy); filter:drop-shadow(0 2px 8px rgba(14,42,92,0.2)); }
   .icon-green .app-icon { color:var(--green); filter:drop-shadow(0 2px 8px rgba(22,128,91,0.3)); }
@@ -879,37 +856,33 @@
   .icon-red .app-icon { color:var(--red); filter:drop-shadow(0 2px 8px rgba(201,84,62,0.3)); }
   .icon-teal .app-icon { color:#009688; filter:drop-shadow(0 2px 8px rgba(0,150,136,0.3)); }
 
-  /* 3D تأثيرات للأيقونات */
+  /* حاويات الأيقونات: توسيط موحّد لكل الأشكال (دائرية/مربعة الزوايا) */
   .qicon, .ring, .bell-symbol, .notif .ic, .p-seal .ring,
+  .nav-icon, .option-icon, .wa-icon, .fab-icon,
+  .result-card .result-header .icon, .empty-state .icon,
+  .wheel-disabled .icon, .celebrate-text .icon,
   .section-head h2 .app-icon, .slider-title .app-icon {
-    font-family:Arial,sans-serif; display:flex; align-items:center; justify-content:center;
-  }
-  .qicon .app-icon { width:26px; height:26px; }
-  .ring .app-icon { width:24px; height:24px; }
-  .bell-symbol .app-icon { width:20px; height:20px; }
-  .notif .ic .app-icon { width:22px; height:22px; }
-  .section-head h2,.slider-title { display:flex; align-items:center; gap:6px; }
-  .stat span { display:flex; align-items:center; justify-content:center; gap:4px; }
-  .p-foot span { display:inline-flex; align-items:center; gap:4px; }
-  .result-card .result-header .icon,.empty-state .icon { display:inline-flex; align-items:center; justify-content:center; }
-  .app-icon-lg { width:32px!important; height:32px!important; }
-
-  .qicon,.nav-icon,.option-icon,.wa-icon,.fab-icon,
-  .result-card .result-header .icon,.empty-state .icon,
-  .wheel-disabled .icon,.celebrate-text .icon,.p-seal .ring,.notif .ic {
     display:inline-flex; align-items:center; justify-content:center; line-height:1;
   }
-  .qicon .app-icon { width:24px; height:24px; }
-  .nav-icon .app-icon { width:22px; height:22px; }
-  .option-icon .app-icon { width:28px; height:28px; }
-  .wa-icon .app-icon { width:24px; height:24px; }
-  .fab-icon .app-icon { width:24px; height:24px; }
+  .section-head h2, .slider-title { display:flex; align-items:center; gap:6px; }
+  .stat span { display:flex; align-items:center; justify-content:center; gap:4px; }
+  .p-foot span { display:inline-flex; align-items:center; gap:4px; }
+
+  /* جدول أحجام موحّد حسب السياق — قيمة واحدة فقط لكل سياق (لا تكرار ولا تضارب) */
+  .qicon .app-icon,
+  .qicon .app-icon svg           { width:24px; height:24px; }
+  .ring .app-icon,
+  .p-seal .ring .app-icon        { width:24px; height:24px; }
+  .bell-symbol .app-icon         { width:20px; height:20px; }
+  .notif .ic .app-icon           { width:22px; height:22px; }
+  .nav-icon .app-icon            { width:22px; height:22px; }
+  .option-icon .app-icon         { width:28px; height:28px; }
+  .wa-icon .app-icon             { width:24px; height:24px; }
+  .fab-icon .app-icon            { width:24px; height:24px; }
   .result-card .result-header .icon .app-icon { width:30px; height:30px; }
-  .empty-state .icon .app-icon { width:44px; height:44px; }
+  .empty-state .icon .app-icon,
   .wheel-disabled .icon .app-icon { width:44px; height:44px; }
-  .p-seal .ring .app-icon { width:26px; height:26px; }
-  .notif .ic .app-icon { width:22px; height:22px; }
-  .app-icon svg { stroke-width:2; }
+  .app-icon-lg { width:32px!important; height:32px!important; }
 
   .doc-loading,.doc-error {
     height:100%; min-height:260px; display:flex; flex-direction:column;
@@ -979,7 +952,7 @@ html{color-scheme:light;}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
-<style id="wathiqati-ui-enhancements">
+<style id="securepath-ui-enhancements">
 :root{
   --ui-font: "Plus Jakarta Sans","Tajawal",system-ui,-apple-system,"Segoe UI",sans-serif;
   --ui-font-ar: "Tajawal","Plus Jakarta Sans",system-ui,sans-serif;
@@ -996,21 +969,7 @@ html[dir="rtl"] .app{
   font-family:var(--ui-font-ar);
 }
 .app-icon{
-  display:inline-flex !important;
-  align-items:center;
-  justify-content:center;
-  width:1.35em;
-  height:1.35em;
-  vertical-align:-.18em;
   transform-origin:center;
-  transition:transform var(--motion-med) cubic-bezier(.2,.8,.2,1),
-             filter var(--motion-med) ease,
-             opacity var(--motion-fast) ease;
-}
-.app-icon svg{
-  width:100%;
-  height:100%;
-  overflow:visible;
 }
 .app-icon svg path,
 .app-icon svg circle,
@@ -1020,7 +979,6 @@ html[dir="rtl"] .app{
   vector-effect:non-scaling-stroke;
   stroke-linecap:round;
   stroke-linejoin:round;
-  transition:stroke-dashoffset .55s ease,opacity .2s ease,transform .3s ease;
 }
 button:hover .app-icon,
 .btn:hover .app-icon,
@@ -1069,17 +1027,10 @@ button:active .app-icon,
   45%{opacity:1}
   100%{stroke-dashoffset:0;opacity:.45}
 }
-.icon-gold .app-icon,.gold-icon .app-icon{
-  animation:uiPulseSoft 2.8s ease-in-out infinite;
-}
-.notif-icon .app-icon,.notification-icon .app-icon{
-  animation:uiBell 2.8s ease-in-out infinite;
-}
-.empty-state .app-icon{
-  animation:uiFloat 2.6s ease-in-out infinite;
-}
-.p-seal .app-icon{
-  animation:uiFloat 3.2s ease-in-out infinite;
+/* النبض المستمر أصبح مقصوراً على نقاط انتباه فعلية (زر الإشعارات، مركز عجلة الحظ)
+   بدل تطبيقه على كل الأيقونات الذهبية في الواجهة — لتفادي مظهر "غير هادئ/غير مرتب" */
+.bell .app-icon{
+  animation:uiBell 3.4s ease-in-out infinite;
 }
 .wheel-center .app-icon{
   animation:uiPulseSoft 1.8s ease-in-out infinite;
@@ -1204,7 +1155,7 @@ html[dir=ltr] #sliderTrack .slider-item{--slider-item-dir:ltr;}
       <div id="signupError" style="color:var(--red);font-size:12px;margin-bottom:10px;display:none;"></div>
       <div class="field"><label id="regFullNameLabel">الاسم الرباعي <span class="required">*</span></label><input type="text" id="regFullName" placeholder="مثال: أحمد محمد علي حسن"></div>
       <div class="field"><label id="regEmailLabel">البريد الإلكتروني <span class="required">*</span></label><input type="email" id="regEmail" placeholder="name@domain.com"></div>
-      <div class="field"><label id="regPassLabel">كلمة المرور <span class="required">*</span></label><input type="password" id="regPass" placeholder="•••••••• (6 أحرف على الأقل)"></div>
+      <div class="field"><label id="regPassLabel">كلمة المرور <span class="required">*</span></label><input type="password" id="regPass" minlength="8" placeholder="•••••••• (8 أحرف على الأقل، حرف ورقم)"></div>
       <div class="field"><label id="regBirthDateLabel">تاريخ الميلاد <span class="required">*</span></label><input type="date" id="regBirthDate"></div>
       <div class="field"><label id="regGenderLabel">الجنس <span class="required">*</span></label>
         <select id="regGender"><option value="male" id="genderMale">ذكر</option><option value="female" id="genderFemale">أنثى</option></select>
@@ -1308,12 +1259,6 @@ html[dir=ltr] #sliderTrack .slider-item{--slider-item-dir:ltr;}
             <span class="app-icon"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8 12 2.5 2.5L16 9"/></svg></span>
           </div>
           <span class="quick-label" id="quickProducts">المنتجات</span>
-        </div>
-        <div class="quick-card" onclick="showScreen('offers')">
-          <div class="qicon gold icon-gold">
-            <span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2 7h20v3H2z"/><path d="M12 7v13M12 7c-4 0-6-2-4-4 2-2 4-1 4 4Zm0 0c4 0 6-2-4-4 2-2 4-4 4-4Z"/></svg></span>
-          </div>
-          <span class="quick-label" id="quickOffers">العروض</span>
         </div>
         <div class="quick-card" onclick="runFullAssessment()">
           <div class="qicon green icon-green">
@@ -1441,20 +1386,6 @@ html[dir=ltr] #sliderTrack .slider-item{--slider-item-dir:ltr;}
     <div class="policies" id="productsList" style="padding-top:14px;"></div>
   </div>
 
-  <!-- ====== OFFERS SCREEN ====== -->
-  <div class="screen" id="offers">
-    <div class="page-top">
-      <div class="page-left">
-        <h1 id="offersTitle">
-          <span class="icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2 7h20v3H2z"/><path d="M12 7v13M12 7c-4 0-6-2-4-4 2-2-4 1-4 4Zm0 0c4 0 6-2 4-4-2-2-4-1-4 4Z"/></svg></span></span>
-          العروض
-        </h1>
-        <p id="offersSub">اكتشف العروض التأمينية المتاحة من شركات التأمين</p>
-      </div>
-    </div>
-    <div class="offers-list" id="offersList"></div>
-  </div>
-
   <!-- ====== DOCUMENTS SCREEN ====== -->
   <div class="screen" id="documents">
     <div class="page-top">
@@ -1537,10 +1468,6 @@ html[dir=ltr] #sliderTrack .slider-item{--slider-item-dir:ltr;}
       <span class="nav-icon icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8 12 2.5 2.5L16 9"/></svg></span></span>
       <span id="navProducts">المنتجات</span>
     </button>
-    <button class="nav-item" id="nav-offers" onclick="switchTab('offers')">
-      <span class="nav-icon icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2 7h20v3H2z"/><path d="M12 7v13M12 7c-4 0-6-2-4-4 2-2 4 1 4 4Zm0 0c4 0 6-2 4-4-2 2-4 4-4 4Z"/></svg></span></span>
-      <span id="navOffers">العروض</span>
-    </button>
     <button class="nav-item" id="nav-documents" onclick="switchTab('documents')">
       <span class="nav-icon icon-purple"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10H3z"/></svg></span></span>
       <span id="navDocuments">المستندات</span>
@@ -1566,7 +1493,7 @@ html[dir=ltr] #sliderTrack .slider-item{--slider-item-dir:ltr;}
       <button class="close-chat" onclick="toggleChat()">✕</button>
     </div>
     <div class="chat-messages" id="chatMessages">
-      <div class="msg agent">👋 مرحباً بك في Secure PATH!<br>كيف يمكنني مساعدتك اليوم؟<span class="msg-time" id="chatNow">الآن</span></div>
+      <div class="msg agent">👋 مرحباً بك في SecurePath!<br>كيف يمكنني مساعدتك اليوم؟<span class="msg-time" id="chatNow">الآن</span></div>
     </div>
     <div class="chat-input-area">
       <input type="text" id="chatInputWidget" placeholder="اكتب رسالتك..." onkeydown="if(event.key==='Enter')sendChatMessage()">
@@ -1586,27 +1513,7 @@ html[dir=ltr] #sliderTrack .slider-item{--slider-item-dir:ltr;}
       <div class="detail-row"><span id="policyExpiryLabel">تاريخ الانتهاء:</span><span id="mPolicyExpiry">--</span></div>
       <div class="detail-row"><span id="policyAmountLabel">مبلغ التأمين:</span><span id="mPolicyAmount">--</span></div>
       <div class="detail-row"><span id="policyStatusLabel">حالة التغطية:</span><span id="mPolicyStatus">--</span></div>
-      <div class="actions"><button class="btn-gold" id="btnRenewPolicy">طلب تجديد وثيقتي الوثيقة</button><button class="btn-outline" id="btnOpenPolicyDoc">فتح مستند الوثيقة</button></div>
-    </div>
-  </div>
-
-  <!-- ====== OFFER DETAILS MODAL ====== -->
-  <div class="overlay" id="offerDetailModal">
-    <div class="sheet">
-      <div class="grabber"></div>
-      <div class="close-x" onclick="closeModal('offerDetailModal')">✕</div>
-      <h2 id="offerDetailTitle">تفاصيل العرض</h2>
-      <div class="sub" id="offerDetailCompany">شركة التأمين</div>
-      <div id="offerDetailHero" class="offer-detail-hero"></div>
-      <div id="offerDetailDiscount" class="offer-detail-discount" style="display:none;"></div>
-      <div class="detail-row"><span id="offerCodeLabel">كود العرض:</span><span id="offerDetailCode">--</span></div>
-      <div class="detail-row"><span id="offerTypeLabel">نوع التأمين:</span><span id="offerDetailType">--</span></div>
-      <div class="detail-row"><span id="offerStartLabel">تاريخ البداية:</span><span id="offerDetailStart">--</span></div>
-      <div class="detail-row"><span id="offerEndLabel">تاريخ الانتهاء:</span><span id="offerDetailEnd">--</span></div>
-      <div style="margin-top:14px;">
-        <div style="font-size:11px;color:var(--muted);font-weight:700;margin-bottom:6px;" id="offerDescriptionLabel">تفاصيل العرض</div>
-        <div id="offerDetailDescription" style="font-size:12px;color:var(--navy);line-height:1.7;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;"></div>
-      </div>
+      <div class="actions"><button class="btn-gold" id="btnRenewPolicy">طلب تجديد الوثيقة</button><button class="btn-outline" id="btnOpenPolicyDoc">فتح مستند الوثيقة</button></div>
     </div>
   </div>
 
@@ -1717,7 +1624,7 @@ var TRANSLATIONS = {
     protectionClick:'انقر لإجراء تقييم شامل',
     statActiveLabel:'وثائق سارية', statExpiringLabel:'تجديد قريب', statDocsLabel:'مستندات مفعلة',
     companiesSliderTitle:'شركاؤنا في التأمين', quickAccessTitle:'الوصول السريع',
-    quickUpload:'رفع مستند', quickProducts:'المنتجات', quickOffers:'العروض', quickAssessment:'فحص الحماية',
+    quickUpload:'رفع مستند', quickProducts:'المنتجات', quickAssessment:'فحص الحماية',
     quickAdvice:'طلب نصيحة', myPoliciesTitle:'وثائقي التأمينية', viewAllLink:'عرض الكل →',
     assessmentResultTitle:'نتيجة تقييم الحماية',
     assessmentResultSub:'تحليل شامل لحالتك التأمينية مع توصيات مخصصة',
@@ -1736,7 +1643,6 @@ var TRANSLATIONS = {
     whatsappBtnText:'افتح واتساب الآن', whatsappNumber:'سيتم فتح محادثة مع الرقم +20 112 315 2500',
     policiesTitle:'وثائق التأمين', policiesSub:'متابعة كافة الوثائق والتغطيات الحالية',
     productsTitle:'منتجات التأمين', productsSub:'استكشف أفضل برامج التغطية المتاحة',
-    offersTitle:'العروض', offersSub:'اكتشف العروض التأمينية المتاحة من شركات التأمين',
     documentsTitle:'المستندات والملفات', documentsSub:'إدارة الهوية والوثائق المرفوعة',
     uploadDocBtn:'رفع مستند',
     notificationsTitle:'الإشعارات والتنبيهات',
@@ -1746,7 +1652,7 @@ var TRANSLATIONS = {
     accountDocuments:'مستنداتي',
     accountWheel:'accountWheel', accountWheelSub:'accountWheelSub',
     accountLogout:'تسجيل الخروج',
-    navHome:'الرئيسية', navPolicies:'وثائقي', navProducts:'المنتجات', navOffers:'العروض',
+    navHome:'الرئيسية', navPolicies:'وثائقي', navProducts:'المنتجات',
     navDocuments:'المستندات', navAccount:'حسابي',
     policyNumberLabel:'رقم الوثيقة:', policyTypeLabel:'نوع التأمين:',
     policyExpiryLabel:'تاريخ الانتهاء:', policyAmountLabel:'مبلغ التأمين:',
@@ -1789,8 +1695,6 @@ var TRANSLATIONS = {
     assessmentPremiumRecommendation:'توصية القسط الأمثل:',
     noPolicies:'لا توجد وثائق حتى الآن', noPoliciesText:'لم يتم إضافة أي وثائق تأمينية حتى الآن',
     noProducts:'لا توجد منتجات', noProductsText:'سيتم إضافة منتجات تأمينية قريباً',
-     noOffers:'لا توجد عروض متاحة حالياً', noOffersText:'ستظهر هنا العروض المنشورة والفعالة من شركات التأمين',
-     offerDetails:'تفاصيل العرض', offerCodeLabel:'كود العرض:', offerTypeLabel:'نوع التأمين:', offerStartLabel:'تاريخ البداية:', offerEndLabel:'تاريخ الانتهاء:', offerDescriptionLabel:'تفاصيل العرض', offerActive:'نشط', offerUpcoming:'قادم', offerExpired:'منتهي', offerView:'عرض التفاصيل', offerDiscount:'خصم',
     noDocuments:'لا توجد مستندات', noDocumentsText:'لم يتم رفع أي مستندات بعد',
     noNotifications:'لا توجد إشعارات', noNotificationsText:'سوف تظهر هنا جميع التنبيهات والإشعارات'
   },
@@ -1818,7 +1722,7 @@ var TRANSLATIONS = {
     statDocsLabel:'Verified Documents',
     companiesSliderTitle:'Our Insurance Partners',
     quickAccessTitle:'Quick Access', quickUpload:'Upload Document',
-    quickProducts:'Products', quickOffers:'Offers', quickAssessment:'Protection Check',
+    quickProducts:'Products', quickAssessment:'Protection Check',
     quickAdvice:'Request Advice', myPoliciesTitle:'My Insurance Policies',
     viewAllLink:'View All →',
     assessmentResultTitle:'Protection Assessment Result',
@@ -1840,7 +1744,6 @@ var TRANSLATIONS = {
     whatsappNumber:'A chat will be opened with +20 112 315 2500',
     policiesTitle:'Insurance Policies', policiesSub:'Track all policies and coverages',
     productsTitle:'Insurance Products', productsSub:'Explore the best available coverage programs',
-    offersTitle:'Insurance Offers', offersSub:'Explore available insurance offers from our insurance partners',
     documentsTitle:'Documents & Files', documentsSub:'Manage identity and uploaded documents',
     uploadDocBtn:'Upload Document',
     notificationsTitle:'Notifications & Alerts',
@@ -1850,7 +1753,7 @@ var TRANSLATIONS = {
     accountDocuments:'My Files',
     accountWheel:'accountWheel', accountWheelSub:'accountWheelSub',
     accountLogout:'Logout',
-    navHome:'Home', navPolicies:'My Policies', navProducts:'Products', navOffers:'Offers',
+    navHome:'Home', navPolicies:'My Policies', navProducts:'Products',
     navDocuments:'Documents', navAccount:'Account',
     policyNumberLabel:'Policy Number:', policyTypeLabel:'Insurance Type:',
     policyExpiryLabel:'Expiry Date:', policyAmountLabel:'Insurance Amount:',
@@ -1895,8 +1798,6 @@ var TRANSLATIONS = {
     assessmentPremiumRecommendation:'Optimal Premium Recommendation:',
     noPolicies:'No Policies', noPoliciesText:'No insurance policies have been added yet',
     noProducts:'No Products', noProductsText:'Insurance products will be added soon',
-     noOffers:'No Offers Available', noOffersText:'Published and active offers from insurance companies will appear here',
-     offerDetails:'Offer Details', offerCodeLabel:'Offer Code:', offerTypeLabel:'Insurance Type:', offerStartLabel:'Start Date:', offerEndLabel:'End Date:', offerDescriptionLabel:'Offer Details', offerActive:'Active', offerUpcoming:'Upcoming', offerExpired:'Expired', offerView:'View Details', offerDiscount:'Discount',
     noDocuments:'No Documents', noDocumentsText:'No documents have been uploaded yet',
     noNotifications:'No Notifications', noNotificationsText:'All alerts and notifications will appear here'
   }
@@ -1907,7 +1808,7 @@ var TRANSLATIONS = {
 // ============================================================
 var STATE = {
   currentUser: null, userData: null, policies: [], documents: [],
-  products: [], offers: [], notifications: [], companies: [], insuranceAssessments: [],
+  products: [], notifications: [], companies: [], insuranceAssessments: [],
   wheelLastSpin: null, wheelResult: null, wheelPrizeIndex: null,
   currentChat: null, chatUnsub: null, msgUnsub: null
 };
@@ -1964,7 +1865,7 @@ function closeModal(id){ var el=document.getElementById(id); if(el) el.classList
 function openModal(id){ var el=document.getElementById(id); if(el) el.classList.add('show'); }
 function setText(id,text){ var el=document.getElementById(id); if(el) el.textContent=text; }
 function setHTML(id,html){ var el=document.getElementById(id); if(el) el.innerHTML=html; }
-function normalizeLanguage(lang){ return lang==='ar' ? 'ar' : 'en'; }
+function normalizeLanguage(lang){ return lang==='en' ? 'en' : 'ar'; }
 function saveLanguagePreference(){
   try { localStorage.setItem('SecurePath_language',STATE.language); } catch(e){}
   if(STATE.currentUser) db.collection('clients').doc(STATE.currentUser.uid).set({language:STATE.language},{merge:true}).catch(function(e){console.warn('Language preference save failed',e);});
@@ -1973,9 +1874,9 @@ function saveLanguagePreference(){
 var I18N_IDS = {
   loginTitle:'loginTitle',loginEmailLabel:'loginEmailLabel',loginPassLabel:'loginPassLabel',loginTagline:'loginTagline',loginBtn:'loginBtn',loginSwitch:'loginSwitch',
   signupTitle:'signupTitle',regFullNameLabel:'regFullNameLabel',regEmailLabel:'regEmailLabel',regPassLabel:'regPassLabel',regBirthDateLabel:'regBirthDateLabel',regGenderLabel:'regGenderLabel',genderMale:'genderMale',genderFemale:'genderFemale',regPhoneLabel:'regPhoneLabel',regOccupationLabel:'regOccupationLabel',regClientTypeLabel:'regClientTypeLabel',clientTypeIndividual:'clientTypeIndividual',clientTypeCorporate:'clientTypeCorporate',regBusinessNameLabel:'regBusinessNameLabel',regBusinessActivityLabel:'regBusinessActivityLabel',regEmployeesLabel:'regEmployeesLabel',regExistingPoliciesLabel:'regExistingPoliciesLabel',existingPoliciesHelp:'existingPoliciesHelp',termsLink:'termsLink',signupBtn:'signupBtn',signupSwitch:'signupSwitch',
-  welcomeText:'welcomeText',protectionLabel:'protectionLabel',quickAccessTitle:'quickAccessTitle',quickUpload:'quickUpload',quickProducts:'quickProducts',quickOffers:'quickOffers',quickAssessment:'quickAssessment',quickAdvice:'quickAdvice',myPoliciesTitle:'myPoliciesTitle',viewAllLink:'viewAllLink',
+  welcomeText:'welcomeText',protectionLabel:'protectionLabel',quickAccessTitle:'quickAccessTitle',quickUpload:'quickUpload',quickProducts:'quickProducts',quickAssessment:'quickAssessment',quickAdvice:'quickAdvice',myPoliciesTitle:'myPoliciesTitle',viewAllLink:'viewAllLink',
   assessmentResultTitle:'assessmentResultTitle',assessmentResultSub:'assessmentResultSub',assessmentBackBtn:'assessmentBackBtn',adviceTitle:'adviceTitle',adviceSub:'adviceSub',adviceBackBtn:'adviceBackBtn',adviceCardTitle:'adviceCardTitle',adviceCardSub:'adviceCardSub',optTextTitle:'optTextTitle',optTextDesc:'optTextDesc',optTextBadge:'optTextBadge',optWhatsappTitle:'optWhatsappTitle',optWhatsappDesc:'optWhatsappDesc',optWhatsappBadge:'optWhatsappBadge',adviceTextLabel:'adviceTextLabel',adviceSubmitBtn:'adviceSubmitBtn',adviceSuccessTitle:'adviceSuccessTitle',adviceSuccessText:'adviceSuccessText',adviceNewRequest:'adviceNewRequest',whatsappTitle:'whatsappTitle',whatsappText:'whatsappText',whatsappBtnText:'whatsappBtnText',whatsappNumber:'whatsappNumber',
-  policiesTitle:'policiesTitle',policiesSub:'policiesSub',productsTitle:'productsTitle',productsSub:'productsSub',offersTitle:'offersTitle',offersSub:'offersSub',documentsTitle:'documentsTitle',documentsSub:'documentsSub',uploadDocBtn:'uploadDocBtn',notificationsTitle:'notificationsTitle',notificationsSub:'notificationsSub',accountClientData:'accountClientData',accountLoggedIn:'accountLoggedIn',accountAssessment:'accountAssessment',accountDocuments:'accountDocuments',accountWheel:'جرب حظك',accountWheelSub:'جرب حظك',accountLogout:'accountLogout',navHome:'navHome',navPolicies:'navPolicies',navProducts:'navProducts',navOffers:'navOffers',navDocuments:'navDocuments',navAccount:'navAccount',policyNumberLabel:'policyNumberLabel',policyTypeLabel:'policyTypeLabel',policyExpiryLabel:'policyExpiryLabel',policyAmountLabel:'policyAmountLabel',policyStatusLabel:'policyStatusLabel',offerCodeLabel:'offerCodeLabel',offerTypeLabel:'offerTypeLabel',offerStartLabel:'offerStartLabel',offerEndLabel:'offerEndLabel',offerDescriptionLabel:'offerDescriptionLabel',btnRenewPolicy:'btnRenewPolicy',btnOpenPolicyDoc:'btnOpenPolicyDoc',uploadTitle:'uploadTitle',uploadSub:'uploadSub',uploadDocNameLabel:'uploadDocNameLabel',uploadCategoryLabel:'uploadCategoryLabel',uploadFileLabel:'uploadFileLabel',uploadBtn:'uploadBtn',termsTitle:'termsTitle',termsSub:'termsSub',termsAgreeBtn:'termsAgreeBtn',wheelTitle:'wheelTitle',wheelSub:'wheelSub',chatTitle:'chatTitle',chatNow:'chatNow',
+  policiesTitle:'policiesTitle',policiesSub:'policiesSub',productsTitle:'productsTitle',productsSub:'productsSub',documentsTitle:'documentsTitle',documentsSub:'documentsSub',uploadDocBtn:'uploadDocBtn',notificationsTitle:'notificationsTitle',notificationsSub:'notificationsSub',accountClientData:'accountClientData',accountLoggedIn:'accountLoggedIn',accountAssessment:'accountAssessment',accountDocuments:'accountDocuments',accountWheel:'جرب حظك',accountWheelSub:'جرب حظك',accountLogout:'accountLogout',navHome:'navHome',navPolicies:'navPolicies',navProducts:'navProducts',navDocuments:'navDocuments',navAccount:'navAccount',policyNumberLabel:'policyNumberLabel',policyTypeLabel:'policyTypeLabel',policyExpiryLabel:'policyExpiryLabel',policyAmountLabel:'policyAmountLabel',policyStatusLabel:'policyStatusLabel',btnRenewPolicy:'btnRenewPolicy',btnOpenPolicyDoc:'btnOpenPolicyDoc',uploadTitle:'uploadTitle',uploadSub:'uploadSub',uploadDocNameLabel:'uploadDocNameLabel',uploadCategoryLabel:'uploadCategoryLabel',uploadFileLabel:'uploadFileLabel',uploadBtn:'uploadBtn',termsTitle:'termsTitle',termsSub:'termsSub',termsAgreeBtn:'termsAgreeBtn',wheelTitle:'wheelTitle',wheelSub:'wheelSub',chatTitle:'chatTitle',chatNow:'chatNow',
   assessmentScore:'assessmentScore',assessmentStatus:'assessmentStatus',assessmentDetails:'assessmentDetails',assessmentPolicies:'assessmentPolicies',assessmentExisting:'assessmentExisting',assessmentDocs:'assessmentDocs',assessmentProfile:'assessmentProfile',assessmentAge:'assessmentAge',assessmentOccupation:'assessmentOccupation',assessmentClientType:'assessmentClientType',assessmentActive:'assessmentActive',assessmentOwned:'assessmentOwned',assessmentRecommendations:'assessmentRecommendations',assessmentRecommendationsText:'assessmentRecommendationsText',assessmentExcellent:'assessmentExcellent',assessmentNextSteps:'assessmentNextSteps',assessmentRiskGap:'assessmentRiskGap',assessmentRiskGapText:'assessmentRiskGapText',assessmentCoverageGap:'assessmentCoverageGap',assessmentPremiumRecommendation:'assessmentPremiumRecommendation',noPolicies:'noPolicies',noPoliciesText:'noPoliciesText',noProducts:'noProducts',noProductsText:'noProductsText',noDocuments:'noDocuments',noDocumentsText:'noDocumentsText',noNotifications:'noNotifications',noNotificationsText:'noNotificationsText'
 };
 
@@ -2029,7 +1930,7 @@ function updateNavHighlight(id){ document.querySelectorAll('.nav-item').forEach(
 function friendlyFirebaseError(e){
   var code=e&&e.code||'';
   var ar={
-    'auth/invalid-email':'البريد الإلكتروني غير صالح.','auth/user-not-found':'لا يوجد حساب بهذا البريد الإلكتروني.','auth/wrong-password':'كلمة المرور غير صحيحة.','auth/invalid-credential':'بيانات الدخول غير صحيحة.','auth/email-already-in-use':'هذا البريد الإلكتروني مستخدم بالفعل.','auth/weak-password':'كلمة المرور ضعيفة. استخدم 6 أحرف على الأقل.','auth/too-many-requests':'تمت محاولات كثيرة. حاول لاحقاً.','permission-denied':'ليس لديك صلاحية لتنفيذ هذه العملية.','failed-precondition':'توجد إعدادات مطلوبة في Firebase قبل تنفيذ العملية.'
+    'auth/invalid-email':'البريد الإلكتروني غير صالح.','auth/user-not-found':'لا يوجد حساب بهذا البريد الإلكتروني.','auth/wrong-password':'كلمة المرور غير صحيحة.','auth/invalid-credential':'بيانات الدخول غير صحيحة.','auth/email-already-in-use':'هذا البريد الإلكتروني مستخدم بالفعل.','auth/weak-password':'كلمة المرور ضعيفة. استخدم 8 أحرف على الأقل مع رقم واحد على الأقل.','auth/too-many-requests':'تمت محاولات كثيرة. حاول لاحقاً.','permission-denied':'ليس لديك صلاحية لتنفيذ هذه العملية.','failed-precondition':'توجد إعدادات مطلوبة في Firebase قبل تنفيذ العملية.'
   };
   return STATE.language==='ar' && ar[code] ? ar[code] : ((e&&e.message)||'Unknown error');
 }
@@ -2050,7 +1951,8 @@ function handleSignup(){
   var clientType=document.getElementById('regClientType').value, businessName=(document.getElementById('regBusinessName').value||'').trim(), businessActivity=(document.getElementById('regBusinessActivity').value||'').trim(), employees=parseInt(document.getElementById('regEmployees').value,10)||0;
   var terms=document.getElementById('termsCheck'), err=document.getElementById('signupError'); err.style.display='none';
   if(!fullName||fullName.split(/\s+/).length<2){err.textContent=STATE.language==='ar'?'يرجى إدخال الاسم الكامل':'Please enter your full name';err.style.display='block';return;}
-  if(!email||!/^\S+@\S+\.\S+$/.test(email)||!pass||pass.length<6){err.textContent=STATE.language==='ar'?'يرجى إدخال بريد صحيح وكلمة مرور من 6 أحرف على الأقل':'Enter a valid email and password of at least 6 characters';err.style.display='block';return;}
+  var strongPass=/^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(pass);
+  if(!email||!/^\S+@\S+\.\S+$/.test(email)||!pass||!strongPass){err.textContent=STATE.language==='ar'?'يرجى إدخال بريد صحيح وكلمة مرور من 8 أحرف على الأقل تحتوي حرفاً ورقماً':'Enter a valid email and a password of at least 8 characters containing a letter and a number';err.style.display='block';return;}
   if(!birthDate||!phone||!occupation){err.textContent=STATE.language==='ar'?'يرجى استكمال الحقول الإلزامية':'Please complete all required fields';err.style.display='block';return;}
   if(clientType==='corporate' && (!businessName || !businessActivity || employees<1)){err.textContent=STATE.language==='ar'?'يرجى استكمال اسم الشركة والنشاط وعدد الموظفين':'Please complete company name, business activity and employee count';err.style.display='block';return;}
   if(!terms.checked){err.textContent=STATE.language==='ar'?'يرجى الموافقة على الشروط والأحكام':'Please accept the terms and conditions';err.style.display='block';return;}
@@ -2063,12 +1965,12 @@ function handleSignup(){
 }
 function handleLogout(){
   if(STATE.chatUnsub) STATE.chatUnsub(); if(STATE.msgUnsub) STATE.msgUnsub(); STATE.chatUnsub=null;STATE.msgUnsub=null;
-  closeModal('policyModal');closeModal('offerDetailModal');closeModal('docPreviewModal');closeModal('uploadDocModal');closeModal('wheelModal');
+  closeModal('policyModal');closeModal('docPreviewModal');closeModal('uploadDocModal');closeModal('wheelModal');
   auth.signOut().catch(function(e){console.error('Logout error',e);});
 }
 
 function resetState(){
-  STATE.currentUser=null;STATE.userData=null;STATE.policies=[];STATE.documents=[];STATE.products=[];STATE.offers=[];STATE.notifications=[];STATE.companies=[];STATE.insuranceAssessments=[];STATE.currentChat=null;
+  STATE.currentUser=null;STATE.userData=null;STATE.policies=[];STATE.documents=[];STATE.products=[];STATE.notifications=[];STATE.companies=[];STATE.insuranceAssessments=[];STATE.currentChat=null;
   STATE.wheelLastSpin=null;STATE.wheelResult=null;STATE.wheelPrizeIndex=null;
   assessmentCache={};
   activeObjectUrls.forEach(function(u){try{URL.revokeObjectURL(u);}catch(e){}}); activeObjectUrls=[];
@@ -2091,7 +1993,6 @@ function loadUserData(uid){
   p.push(db.collection('documents').where('clientId','==',uid).get().then(function(s){STATE.documents=normalizeArrayDocs(s);}).catch(function(e){console.warn('Documents load failed',e);STATE.documents=[];}));
   p.push(db.collection('notifications').where('clientId','==',uid).limit(100).get().then(function(s){STATE.notifications=sortByDateDesc(normalizeArrayDocs(s),'createdAt');}).catch(function(e){console.warn('Notifications load failed',e);STATE.notifications=[];}));
   p.push(db.collection('products').where('published','==',true).get().then(function(s){STATE.products=normalizeArrayDocs(s);}).catch(function(e){console.warn('Products load failed',e);STATE.products=[];}));
-  p.push(db.collection('offers').get().then(function(s){STATE.offers=normalizeArrayDocs(s);}).catch(function(e){console.warn('Offers load failed',e);STATE.offers=[];}));
   p.push(db.collection('companies').get().then(function(s){STATE.companies=normalizeArrayDocs(s);}).catch(function(e){console.warn('Companies load failed',e);STATE.companies=[];}));
   p.push(db.collection('insuranceAssessments').doc(uid).get().then(function(doc){if(doc.exists){STATE.insuranceAssessments[uid]=doc.data()||{};assessmentCache[uid]=doc.data()||{};}}).catch(function(e){console.warn('Assessment load failed',e);}));
   return Promise.all([clientPromise].concat(p)).then(function(){
@@ -2313,69 +2214,12 @@ function renderAll(){
   if(!STATE.currentUser)return;var uid=STATE.currentUser.uid,u=STATE.userData||{},pol=STATE.policies.filter(function(p){return p.clientId===uid;}),docs=STATE.documents.filter(function(d){return d.clientId===uid;}),active=pol.filter(function(p){return daysUntil(p.endDate)>0;}),verified=docs.filter(function(d){var s=String(d.verificationStatus||'').toLowerCase();return s==='approved'||s==='verified';});
   var calc=calculateProtectionScore(u,pol,verified);setText('homeAssessmentScore',calc.score+'%');setText('homeAssessmentLabel',(STATE.language==='ar'?'مستوى الحماية: ':'Protection Level: ')+calc.status);var circle=document.getElementById('scoreCircle');if(circle)circle.style.strokeDashoffset=157-(157*calc.score/100);
   setText('statActiveCount',active.length);setText('statExpiringCount',pol.filter(function(p){var d=daysUntil(p.endDate);return d>0&&d<=RENEWAL_WINDOW_DAYS;}).length);setText('statDocsCount',verified.length);
-  renderPoliciesList('homePoliciesList',pol.slice(0,2));renderPoliciesList('fullPoliciesList',pol);renderProductsList();renderOffersList();renderDocumentsList(docs);renderNotificationsList();renderCompaniesSlider();updateNotificationDot();updateAllTexts();normalizeIcons();
+  renderPoliciesList('homePoliciesList',pol.slice(0,2));renderPoliciesList('fullPoliciesList',pol);renderProductsList();renderDocumentsList(docs);renderNotificationsList();renderCompaniesSlider();updateNotificationDot();updateAllTexts();normalizeIcons();
 }
-function renderPoliciesList(containerId,list){var c=document.getElementById(containerId);if(!c)return;var lang=STATE.language||'ar';if(!list.length){c.innerHTML='<div class="empty-state">'+iconSvg('document','icon-navy')+'<h3>'+esc(getText('noPolicies'))+'</h3><p>'+esc(getText('noPoliciesText'))+'</p></div>';return;}c.innerHTML=list.map(function(p){var d=daysUntil(p.endDate),warn=d>0&&d<=45,expired=d<0,badge=expired?getText('badgeExpired'):(warn?getText('badgeExpiring'):getText('badgeActive'));return '<div class="p-card" onclick="openPolicyModal(\''+esc(p.id)+'\')"><div class="p-seal '+((warn||expired)?'warn':'')+'"><div class="ring">'+(expired?'⛔':warn?'⚠️':'🛡️')+'</div></div><div class="p-body"><div class="top"><h3>'+esc(p.type||p.typeName||(lang==='ar'?'تأمين':'Insurance'))+'</h3><span class="badge '+((warn||expired)?'warn':'ok')+'">'+esc(badge)+'</span></div><div class="co">'+esc(p.company||p.companyName||(lang==='ar'?'شركة تأمين':'Insurance Company'))+'</div><div class="p-foot"><span>'+(lang==='ar'?'رقم الوثيقة: ':'Policy #: ')+'<b>'+esc(p.policyNumber||'--')+'</b></span><span>'+((expired)?getText('expired'):(lang==='ar'?'متبقي: ':'Remaining: ')+'<b>'+d+' '+getText('daysRemaining')+'</b>')+'</span></div></div></div>';}).join('');}
-function renderProductsList(){var c=document.getElementById('productsList');if(!c)return;var ps=STATE.products||[];if(!ps.length){c.innerHTML='<div class="empty-state">'+iconSvg('shield','icon-gold')+'<h3>'+esc(getText('noProducts'))+'</h3><p>'+esc(getText('noProductsText'))+'</p></div>';return;}c.innerHTML=ps.map(function(pr){var feats=Array.isArray(pr.features)?pr.features:String(pr.features||'').split(/\r?\n/).filter(Boolean);return '<div class="p-card" style="cursor:default"><div class="p-seal"><div class="ring">💎</div></div><div class="p-body"><div class="top"><h3>'+esc(pr.name||'Product')+'</h3><span class="badge ok">'+esc(pr.companyName||pr.company||'')+'</span></div><div class="co">'+esc(pr.typeName||pr.type||pr.category||'')+'</div><p style="font-size:11px;color:var(--muted);margin:4px 0">'+esc(pr.description||'')+'</p>'+(feats.length?'<ul style="font-size:11px;padding-right:15px;margin:4px 0">'+feats.slice(0,3).map(function(f){return '<li>'+esc(f)+'</li>';}).join('')+'</ul>':'')+'</div></div>';}).join('');}
-function isOfferVisible(o){
-  if(!o)return false;
-  var status=String(o.status||'').toLowerCase();
-  if(status && status!=='active')return false;
-  var now=new Date(),start=o.startDate?new Date(o.startDate):null,end=o.endDate?new Date(o.endDate):null;
-  if(end&&!isNaN(end.getTime())&&end<now)return false;
-  return true;
-}
-function getOfferStatus(o){
-  var now=new Date(),start=o&&o.startDate?new Date(o.startDate):null,end=o&&o.endDate?new Date(o.endDate):null;
-  if(end&&!isNaN(end.getTime())&&end<now)return 'expired';
-  if(start&&!isNaN(start.getTime())&&start>now)return 'upcoming';
-  return 'active';
-}
-function renderOffersList(){
-  var c=document.getElementById('offersList');if(!c)return;
-  var offers=(STATE.offers||[]).filter(isOfferVisible).sort(function(a,b){
-    var da=a.endDate?new Date(a.endDate).getTime():Number.MAX_SAFE_INTEGER;
-    var db=b.endDate?new Date(b.endDate).getTime():Number.MAX_SAFE_INTEGER;
-    return da-db;
-  });
-  if(!offers.length){
-    c.innerHTML='<div class="offers-empty"><div class="empty-icon">'+iconSvg('gift')+'</div><h3 style="color:var(--navy);font-family:Tajawal,sans-serif;margin:0 0 6px;">'+esc(getText('noOffers'))+'</h3><p style="font-size:11px;">'+esc(getText('noOffersText'))+'</p></div>';
-    return;
-  }
-  c.innerHTML=offers.map(function(o){
-    var status=getOfferStatus(o),image=o.imageUrl||o.image||'';
-    var imageHtml=image&&/^https?:\/\//i.test(image)?'<img src="'+esc(image)+'" alt="'+esc(o.name||'Offer')+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\';">':'';
-    var placeholder='<div class="offer-placeholder" style="'+(imageHtml?'display:none;':'')+'">'+iconSvg('gift')+'</div>';
-    var statusText=status==='active'?getText('offerActive'):status==='upcoming'?getText('offerUpcoming'):getText('offerExpired');
-    return '<div class="offer-card" onclick="openOfferDetailModal(\''+esc(o.id)+'\')">'+
-      '<div class="offer-image">'+imageHtml+placeholder+
-      '<span class="offer-status">'+esc(statusText)+'</span>'+
-      (Number(o.discount)>0?'<span class="offer-discount">-'+esc(Number(o.discount))+'% '+esc(getText('offerDiscount'))+'</span>':'')+
-      '</div><div class="offer-body">'+
-      '<div class="offer-meta"><span class="company">🏢 '+esc(o.companyName||o.company||'')+'</span><span>•</span><span>'+esc(o.typeName||o.type||'')+'</span></div>'+
-      '<h3>'+esc(o.name||'')+(o.code?'<span class="code">#'+esc(o.code)+'</span>':'')+'</h3>'+
-      '<p>'+esc(o.description||'')+'</p>'+
-      '<div class="offer-foot"><span>'+esc(o.endDate?(getText('offerEndLabel')+' '+formatDate(o.endDate)):'')+'</span><span class="offer-view">'+esc(getText('offerView'))+' ←</span></div>'+
-      '</div></div>';
-  }).join('');
-}
-function openOfferDetailModal(id){
-  var o=(STATE.offers||[]).find(function(x){return x.id===id;});if(!o)return;
-  setText('offerDetailTitle',o.name||getText('offerDetails'));
-  setText('offerDetailCompany',o.companyName||o.company||'');
-  setText('offerDetailCode',o.code||'--');
-  setText('offerDetailType',o.typeName||o.type||'--');
-  setText('offerDetailStart',o.startDate?formatDate(o.startDate):'--');
-  setText('offerDetailEnd',o.endDate?formatDate(o.endDate):'--');
-  setText('offerDetailDescription',o.description||'--');
-  var d=document.getElementById('offerDetailDiscount');
-  if(d){d.style.display=Number(o.discount)>0?'inline-flex':'none';d.textContent=Number(o.discount)>0?('🎯 '+getText('offerDiscount')+' '+Number(o.discount)+'%'):'';}
-  var hero=document.getElementById('offerDetailHero'),image=o.imageUrl||o.image||'';
-  if(hero)hero.innerHTML=image&&/^https?:\/\//i.test(image)?'<img src="'+esc(image)+'" alt="'+esc(o.name||'Offer')+'" onerror="this.outerHTML=\'<div class="placeholder">🎯</div>\';">':'<div class="placeholder">🎯</div>';
-  openModal('offerDetailModal');
-}
-function renderDocumentsList(docs){var c=document.getElementById('documentsList');if(!c)return;docs=docs||[];if(!docs.length){c.innerHTML='<div class="empty-state">'+iconSvg('folder','icon-purple')+'<h3>'+esc(getText('noDocuments'))+'</h3><p>'+esc(getText('noDocumentsText'))+'</p></div>';return;}c.innerHTML=docs.map(function(d){var s=String(d.verificationStatus||'').toLowerCase(),approved=s==='approved'||s==='verified',pending=s==='pending'||s==='pending verification';return '<div class="p-card" onclick="openDocPreviewModal(\''+esc(d.id)+'\')"><div class="p-seal"><div class="ring">'+(String(d.fileType||'').includes('pdf')?'📄':'🖼️')+'</div></div><div class="p-body"><div class="top"><h3>'+esc(d.fileName||d.name||getText('documentsTitle'))+'</h3><span class="badge '+(pending?'pending':approved?'ok':'warn')+'">'+esc(pending?getText('badgePending'):approved?getText('badgeVerified'):getText('badgeRejected'))+'</span></div><div class="co">'+esc(d.category||'--')+'</div><div class="p-foot"><span>'+esc(formatDate(d.createdAt)||d.uploadDate||'--')+'</span><span style="color:var(--navy-2);font-weight:700">'+esc(STATE.language==='ar'?'معاينة':'Preview')+' 👁️</span></div></div></div>';}).join('');}
-function notificationIcon(n){var t=String(n.type||'');return t.includes('renewal')?'🔄':t.includes('advice')?'💡':t.includes('wheel')?'🎰':'🔔';}
+function renderPoliciesList(containerId,list){var c=document.getElementById(containerId);if(!c)return;var lang=STATE.language||'ar';if(!list.length){c.innerHTML='<div class="empty-state">'+iconSvg('document','icon-navy')+'<h3>'+esc(getText('noPolicies'))+'</h3><p>'+esc(getText('noPoliciesText'))+'</p></div>';return;}c.innerHTML=list.map(function(p){var d=daysUntil(p.endDate),warn=d>0&&d<=45,expired=d<0,badge=expired?getText('badgeExpired'):(warn?getText('badgeExpiring'):getText('badgeActive')),sealIcon=expired?iconSvg('info','icon-red'):warn?iconSvg('info','icon-orange'):iconSvg('shield','icon-green');return '<div class="p-card" onclick="openPolicyModal(\''+esc(p.id)+'\')"><div class="p-seal '+((warn||expired)?'warn':'')+'"><div class="ring">'+sealIcon+'</div></div><div class="p-body"><div class="top"><h3>'+esc(p.type||p.typeName||(lang==='ar'?'تأمين':'Insurance'))+'</h3><span class="badge '+((warn||expired)?'warn':'ok')+'">'+esc(badge)+'</span></div><div class="co">'+esc(p.company||p.companyName||(lang==='ar'?'شركة تأمين':'Insurance Company'))+'</div><div class="p-foot"><span>'+(lang==='ar'?'رقم الوثيقة: ':'Policy #: ')+'<b>'+esc(p.policyNumber||'--')+'</b></span><span>'+((expired)?getText('expired'):(lang==='ar'?'متبقي: ':'Remaining: ')+'<b>'+d+' '+getText('daysRemaining')+'</b>')+'</span></div></div></div>';}).join('');}
+function renderProductsList(){var c=document.getElementById('productsList');if(!c)return;var ps=STATE.products||[];if(!ps.length){c.innerHTML='<div class="empty-state">'+iconSvg('shield','icon-gold')+'<h3>'+esc(getText('noProducts'))+'</h3><p>'+esc(getText('noProductsText'))+'</p></div>';return;}c.innerHTML=ps.map(function(pr){var feats=Array.isArray(pr.features)?pr.features:String(pr.features||'').split(/\r?\n/).filter(Boolean);return '<div class="p-card" style="cursor:default"><div class="p-seal"><div class="ring">'+iconSvg('shield','icon-gold')+'</div></div><div class="p-body"><div class="top"><h3>'+esc(pr.name||'Product')+'</h3><span class="badge ok">'+esc(pr.companyName||pr.company||'')+'</span></div><div class="co">'+esc(pr.typeName||pr.type||pr.category||'')+'</div><p style="font-size:11px;color:var(--muted);margin:4px 0">'+esc(pr.description||'')+'</p>'+(feats.length?'<ul style="font-size:11px;padding-right:15px;margin:4px 0">'+feats.slice(0,3).map(function(f){return '<li>'+esc(f)+'</li>';}).join('')+'</ul>':'')+'</div></div>';}).join('');}
+function renderDocumentsList(docs){var c=document.getElementById('documentsList');if(!c)return;docs=docs||[];if(!docs.length){c.innerHTML='<div class="empty-state">'+iconSvg('folder','icon-purple')+'<h3>'+esc(getText('noDocuments'))+'</h3><p>'+esc(getText('noDocumentsText'))+'</p></div>';return;}c.innerHTML=docs.map(function(d){var s=String(d.verificationStatus||'').toLowerCase(),approved=s==='approved'||s==='verified',pending=s==='pending'||s==='pending verification',typeIcon=String(d.fileType||'').includes('pdf')?iconSvg('document','icon-navy'):iconSvg('file','icon-navy');return '<div class="p-card" onclick="openDocPreviewModal(\''+esc(d.id)+'\')"><div class="p-seal"><div class="ring">'+typeIcon+'</div></div><div class="p-body"><div class="top"><h3>'+esc(d.fileName||d.name||getText('documentsTitle'))+'</h3><span class="badge '+(pending?'pending':approved?'ok':'warn')+'">'+esc(pending?getText('badgePending'):approved?getText('badgeVerified'):getText('badgeRejected'))+'</span></div><div class="co">'+esc(d.category||'--')+'</div><div class="p-foot"><span>'+esc(formatDate(d.createdAt)||d.uploadDate||'--')+'</span><span style="color:var(--navy-2);font-weight:700">'+esc(STATE.language==='ar'?'معاينة':'Preview')+' '+iconSvg('eye')+'</span></div></div></div>';}).join('');}
+function notificationIcon(n){var t=String(n.type||'');return t.includes('renewal')?iconSvg('refresh','icon-navy'):t.includes('advice')?iconSvg('lightbulb','icon-gold'):t.includes('wheel')?iconSvg('gift','icon-gold'):iconSvg('bell','icon-gold');}
 function renderNotificationsList(){var c=document.getElementById('notificationsList');if(!c)return;var ns=STATE.notifications||[];if(!ns.length){c.innerHTML='<div class="empty-state">'+iconSvg('bell','icon-gold')+'<h3>'+esc(getText('noNotifications'))+'</h3><p>'+esc(getText('noNotificationsText'))+'</p></div>';return;}c.innerHTML=ns.map(function(n){return '<div class="notif '+(!n.read?'unread':'')+'" data-notif-id="'+esc(n.id)+'" onclick="markNotificationRead(\''+esc(n.id)+'\')"><div class="ic">'+notificationIcon(n)+'</div><div><h4>'+esc(n.title||getText('notificationsTitle'))+'</h4><p>'+esc(n.body||n.message||'')+'</p><time>'+esc(formatDate(n.createdAt)||getText('chatNow'))+'</time></div></div>';}).join('');}
 function updateNotificationDot(){var dot=document.getElementById('notifDot');if(dot)dot.style.display=(STATE.notifications||[]).some(function(n){return !n.read;})?'block':'none';}
 function markNotificationRead(id){var n=(STATE.notifications||[]).find(function(x){return x.id===id;});if(!n||n.read)return;n.read=true;renderNotificationsList();updateNotificationDot();db.collection('notifications').doc(id).update({read:true,readAt:firebase.firestore.FieldValue.serverTimestamp()}).catch(function(e){console.warn('Notification read update failed',e);});}
@@ -2391,7 +2235,7 @@ function ensureRenewalNotifications(uid){
 function createRenewalRequest(policy){
   if(!STATE.currentUser||!policy)return Promise.reject(new Error('Invalid renewal request'));
   var req={clientId:STATE.currentUser.uid,clientName:STATE.currentUser.name||'',policyId:policy.id||'',policyNumber:policy.policyNumber||'',policyType:policy.type||policy.typeName||'',company:policy.company||policy.companyName||'',currentStatus:policy.status||'active',renewalStatus:'pending',requestedBy:'client',createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
-  return db.collection('renewals').add(req).then(function(ref){return db.collection('notifications').add({clientId:STATE.currentUser.uid,clientName:STATE.currentUser.name||'',title:STATE.language==='ar'?'طلب تجديد وثيقتي وثيقة':'Policy Renewal Request',body:STATE.language==='ar'?'تم استلام طلب تجديد وثيقتي الوثيقة رقم '+(policy.policyNumber||'--')+' وسيتم التواصل معك.':'Renewal request received for policy '+(policy.policyNumber||'--')+'.',type:'renewal_request',renewalId:ref.id,policyId:policy.id||'',read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()});});
+  return db.collection('renewals').add(req).then(function(ref){return db.collection('notifications').add({clientId:STATE.currentUser.uid,clientName:STATE.currentUser.name||'',title:STATE.language==='ar'?'طلب تجديد الوثيقة':'Policy Renewal Request',body:STATE.language==='ar'?'تم استلام طلب تجديد الوثيقة رقم '+(policy.policyNumber||'--')+' وسيتم التواصل معك.':'Renewal request received for policy '+(policy.policyNumber||'--')+'.',type:'renewal_request',renewalId:ref.id,policyId:policy.id||'',read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()});});
 }
 function openPolicyModal(id){
   var p=STATE.policies.find(function(x){return x.id===id;});if(!p){alert(STATE.language==='ar'?'لم يتم العثور على الوثيقة':'Policy not found');return;}
@@ -2439,15 +2283,73 @@ function triggerDocDownload(){var d=window.__activeDocPreview;if(!d){alert(STATE
 
 // ===== ADVICE / WHATSAPP =====
 function selectAdviceOption(opt){document.querySelectorAll('.advice-option').forEach(function(x){x.classList.remove('active');});var text=document.getElementById('adviceTextContainer'),wa=document.getElementById('adviceWhatsappContainer');if(opt==='text'){document.getElementById('optText').classList.add('active');text.classList.add('active');text.style.display='block';wa.classList.remove('active');wa.style.display='none';}else{document.getElementById('optWhatsapp').classList.add('active');text.classList.remove('active');text.style.display='none';wa.classList.add('active');wa.style.display='block';}}
-function openWhatsApp(){var number='201123152500',msg=STATE.language==='ar'?'مرحباً، أريد الحصول على استشارة تأمينية من SecurePath':'Hello, I want to get insurance advice from Secure PATH';window.open('https://api.whatsapp.com/send?phone='+number+'&text='+encodeURIComponent(msg),'_blank');if(STATE.currentUser)db.collection('activity').add({clientId:STATE.currentUser.uid,action:'whatsapp_click',description:msg,timestamp:firebase.firestore.FieldValue.serverTimestamp()}).catch(function(){});}
+function openWhatsApp(){var number='201123152500',msg=STATE.language==='ar'?'مرحباً، أريد الحصول على استشارة تأمينية من SecurePath':'Hello, I want to get insurance advice from SecurePath';window.open('https://api.whatsapp.com/send?phone='+number+'&text='+encodeURIComponent(msg),'_blank');if(STATE.currentUser)db.collection('activity').add({clientId:STATE.currentUser.uid,action:'whatsapp_click',description:msg,timestamp:firebase.firestore.FieldValue.serverTimestamp()}).catch(function(){});}
 function resetAdviceForm(){document.getElementById('adviceForm').style.display='block';document.getElementById('adviceSuccess').style.display='none';document.getElementById('adviceText').value='';updateCharCount();}
 function updateCharCount(){var ta=document.getElementById('adviceText'),c=document.getElementById('charCount');if(!ta||!c)return;c.textContent=ta.value.length+' / 1000 '+(STATE.language==='ar'?'حرف':'chars');c.classList.toggle('warning',ta.value.length>850);}
 function submitAdvice(){var text=(document.getElementById('adviceText').value||'').trim();if(!text||text.length>1000||!STATE.currentUser){alert(!STATE.currentUser?(STATE.language==='ar'?'يرجى تسجيل الدخول أولاً':'Please login first'):(STATE.language==='ar'?'يرجى كتابة استفسارك ضمن 1000 حرف':'Enter an inquiry within 1000 characters'));return;}showLoading('adviceSubmitBtn',STATE.language==='ar'?'جاري الإرسال...':'Sending...');var message={clientId:STATE.currentUser.uid,sender:'client',text:text,type:'advice_request',createdAt:firebase.firestore.FieldValue.serverTimestamp(),readByAdmin:false};db.collection('messages').add(message).then(function(){return db.collection('notifications').add({clientId:STATE.currentUser.uid,clientName:STATE.currentUser.name,title:STATE.language==='ar'?'💡 طلب نصيحة جديدة':'💡 New Advice Request',body:(STATE.language==='ar'?'قام العميل ':'Client ')+STATE.currentUser.name+(STATE.language==='ar'?' بطلب نصيحة تأمينية':' requested insurance advice'),type:'advice_request',read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()});}).then(function(){hideLoading('adviceSubmitBtn');document.getElementById('adviceForm').style.display='none';document.getElementById('adviceSuccess').style.display='block';return refreshNotifications(STATE.currentUser.uid);}).catch(function(e){hideLoading('adviceSubmitBtn');alert((STATE.language==='ar'?'فشل إرسال الطلب: ':'Failed to send request: ')+friendlyFirebaseError(e));});}
 
 // ===== WHEEL =====
-function openWheelModal(){if(!STATE.currentUser){alert(STATE.language==='ar'?'يرجى تسجيل الدخول أولاً':'Please login first');return;}var can=true;if(STATE.wheelLastSpin){var last=dateMillis(STATE.wheelLastSpin);can=Date.now()-last>=30*86400000;}var c=document.getElementById('wheelContainer');if(!can){var next=new Date(dateMillis(STATE.wheelLastSpin)+30*86400000);c.innerHTML='<div class="wheel-disabled"><div class="icon icon-gold">'+iconSvg('clock')+'</div><h3>'+(STATE.language==='ar'?'لقد جربت حظك هذا الشهر!':'You have already spun this month!')+'</h3><p>'+(STATE.language==='ar'?'يمكنك المحاولة مرة أخرى في ':'Try again on ')+'<strong>'+next.toLocaleDateString(STATE.language==='ar'?'ar-EG':'en-US')+'</strong></p><p>'+esc(STATE.wheelResult||'')+'</p><button class="btn-gold-small" onclick="closeModal(\'wheelModal\')">'+(STATE.language==='ar'?'حسناً':'OK')+'</button></div>';openModal('wheelModal');return;}c.innerHTML='<div class="wheel-wrapper"><div class="wheel-pointer"></div><canvas id="wheelCanvas" class="wheel-canvas" width="280" height="280"></canvas><div class="wheel-center" onclick="spinWheel()">'+iconSvg('gift')+'</div></div><button class="wheel-spin-btn" id="wheelSpinBtn" onclick="spinWheel()">'+(STATE.language==='ar'?'🎰 اضغط للدوران':'🎰 Spin')+'</button><div class="wheel-result" id="wheelResult">'+(STATE.language==='ar'?'اضغط على الزر أو المركز للدوران':'Click to spin')+'</div><div class="wheel-info">'+(STATE.language==='ar'?'⚠️ محاولة واحدة كل 30 يوماً':'⚠️ One try every 30 days')+'</div>';openModal('wheelModal');drawWheel();}
+// ملاحظة أمنية: هذا التحقق من طرف العميل (client-side) يحسّن تجربة الاستخدام ويقلل
+// التلاعب العرضي (تعدد التبويبات، النقر المزدوج)، لكنه لا يشكّل حماية كاملة بمفرده.
+// الحماية الفعلية من مستخدم متمرس (يعدّل القيم عبر أدوات المطوّر) يجب أن تُفرض من
+// خلال Firestore Security Rules و/أو Cloud Function تتحقق من الوقت وتحسب الجائزة
+// من طرف الخادم قبل قبول الكتابة على clients/{uid}.
+function openWheelModal(){
+  if(!STATE.currentUser){alert(STATE.language==='ar'?'يرجى تسجيل الدخول أولاً':'Please login first');return;}
+  var uid=STATE.currentUser.uid;
+  // إعادة القراءة من الخادم بدل الاعتماد فقط على القيمة المخزّنة محلياً منذ تسجيل الدخول،
+  // لتقليل احتمال الالتفاف عبر فتح أكثر من تبويب/جهاز في نفس الوقت.
+  db.collection('clients').doc(uid).get().then(function(doc){
+    var d=doc.exists?(doc.data()||{}):{};
+    STATE.wheelLastSpin=d.wheelLastSpin||STATE.wheelLastSpin;
+    STATE.wheelResult=d.wheelResult||STATE.wheelResult;
+    renderWheelModal();
+  }).catch(function(){renderWheelModal();});
+}
+function renderWheelModal(){var can=true;if(STATE.wheelLastSpin){var last=dateMillis(STATE.wheelLastSpin);can=Date.now()-last>=30*86400000;}var c=document.getElementById('wheelContainer');if(!can){var next=new Date(dateMillis(STATE.wheelLastSpin)+30*86400000);c.innerHTML='<div class="wheel-disabled"><div class="icon icon-gold">'+iconSvg('clock')+'</div><h3>'+(STATE.language==='ar'?'لقد جربت حظك هذا الشهر!':'You have already spun this month!')+'</h3><p>'+(STATE.language==='ar'?'يمكنك المحاولة مرة أخرى في ':'Try again on ')+'<strong>'+next.toLocaleDateString(STATE.language==='ar'?'ar-EG':'en-US')+'</strong></p><p>'+esc(STATE.wheelResult||'')+'</p><button class="btn-gold-small" onclick="closeModal(\'wheelModal\')">'+(STATE.language==='ar'?'حسناً':'OK')+'</button></div>';openModal('wheelModal');return;}c.innerHTML='<div class="wheel-wrapper"><div class="wheel-pointer"></div><canvas id="wheelCanvas" class="wheel-canvas" width="280" height="280"></canvas><div class="wheel-center" onclick="spinWheel()">'+iconSvg('gift')+'</div></div><button class="wheel-spin-btn" id="wheelSpinBtn" onclick="spinWheel()">'+(STATE.language==='ar'?'🎰 اضغط للدوران':'🎰 Spin')+'</button><div class="wheel-result" id="wheelResult">'+(STATE.language==='ar'?'اضغط على الزر أو المركز للدوران':'Click to spin')+'</div><div class="wheel-info">'+(STATE.language==='ar'?'⚠️ محاولة واحدة كل 30 يوماً':'⚠️ One try every 30 days')+'</div>';openModal('wheelModal');drawWheel();}
 function drawWheel(){var canvas=document.getElementById('wheelCanvas');if(!canvas)return;var ctx=canvas.getContext('2d'),cx=140,cy=140,r=130,seg=wheelPrizes.length,arc=2*Math.PI/seg;ctx.clearRect(0,0,280,280);wheelPrizes.forEach(function(p,i){var sa=i*arc,ea=sa+arc;ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,sa,ea);ctx.closePath();ctx.fillStyle=p.color;ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();var ma=sa+arc/2;ctx.save();ctx.translate(cx+Math.cos(ma)*r*.62,cy+Math.sin(ma)*r*.62);ctx.rotate(ma+Math.PI/2);ctx.fillStyle='#fff';ctx.font='bold 12px Cairo,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(p.text,0,0);ctx.restore();});ctx.beginPath();ctx.arc(cx,cy,30,0,2*Math.PI);ctx.fillStyle='#fff';ctx.fill();ctx.strokeStyle='#ddd';ctx.stroke();}
-function spinWheel(){var canvas=document.getElementById('wheelCanvas'),result=document.getElementById('wheelResult'),btn=document.getElementById('wheelSpinBtn');if(!canvas||!result||!STATE.currentUser||btn.disabled)return;if(STATE.wheelLastSpin&&Date.now()-dateMillis(STATE.wheelLastSpin)<30*86400000)return;var lock='wathiqati_wheel_lock';if(sessionStorage.getItem(lock)==='1')return;sessionStorage.setItem(lock,'1');btn.disabled=true;var idx=Math.floor(Math.random()*wheelPrizes.length),prize=wheelPrizes[idx],target=360-(idx*(360/wheelPrizes.length)+(360/wheelPrizes.length)/2),total=720+Math.random()*360+target;canvas.style.transform='rotate('+total+'deg)';setTimeout(function(){result.className='wheel-result wheel-result-success';result.innerHTML='<span class="result-icon">'+prize.icon+'</span><span class="result-text">🎉 '+esc(prize.text)+' 🎉</span>';STATE.wheelResult=prize.text;STATE.wheelLastSpin=new Date().toISOString();STATE.wheelPrizeIndex=idx;db.collection('clients').doc(STATE.currentUser.uid).set({wheelLastSpin:STATE.wheelLastSpin,wheelResult:STATE.wheelResult,wheelPrizeIndex:idx},{merge:true}).catch(function(e){console.warn('Wheel save failed',e);});sendWheelNotification(prize);showCelebration(prize);sessionStorage.removeItem(lock);},4200);}
+function spinWheel(){
+  var canvas=document.getElementById('wheelCanvas'),result=document.getElementById('wheelResult'),btn=document.getElementById('wheelSpinBtn');
+  if(!canvas||!result||!STATE.currentUser||btn.disabled)return;
+  if(STATE.wheelLastSpin&&Date.now()-dateMillis(STATE.wheelLastSpin)<30*86400000)return;
+  var lock='securepath_wheel_lock';
+  if(sessionStorage.getItem(lock)==='1')return;
+  sessionStorage.setItem(lock,'1');
+  btn.disabled=true;
+  var uid=STATE.currentUser.uid,clientRef=db.collection('clients').doc(uid);
+  var idx=Math.floor(Math.random()*wheelPrizes.length),prize=wheelPrizes[idx];
+  // معاملة Firestore: تتحقق مجدداً من الأهلية وقت الكتابة الفعلية (وليس فقط وقت فتح الشاشة)
+  // وتمنع فوز مزدوج ناتج عن نقر متزامن من أكثر من تبويب/جهاز لنفس الحساب.
+  db.runTransaction(function(tx){
+    return tx.get(clientRef).then(function(doc){
+      var d=doc.exists?(doc.data()||{}):{};
+      var last=d.wheelLastSpin;
+      if(last&&Date.now()-dateMillis(last)<30*86400000){
+        var err=new Error('wheel_not_eligible');err.code='wheel_not_eligible';throw err;
+      }
+      var nowIso=new Date().toISOString();
+      tx.set(clientRef,{wheelLastSpin:nowIso,wheelResult:prize.text,wheelPrizeIndex:idx},{merge:true});
+      return nowIso;
+    });
+  }).then(function(nowIso){
+    var target=360-(idx*(360/wheelPrizes.length)+(360/wheelPrizes.length)/2),total=720+Math.random()*360+target;
+    canvas.style.transform='rotate('+total+'deg)';
+    setTimeout(function(){
+      result.className='wheel-result wheel-result-success';
+      result.innerHTML='<span class="result-icon">'+prize.icon+'</span><span class="result-text">🎉 '+esc(prize.text)+' 🎉</span>';
+      STATE.wheelResult=prize.text;STATE.wheelLastSpin=nowIso;STATE.wheelPrizeIndex=idx;
+      sendWheelNotification(prize);showCelebration(prize);sessionStorage.removeItem(lock);
+    },4200);
+  }).catch(function(e){
+    sessionStorage.removeItem(lock);btn.disabled=false;
+    if(e&&e.code==='wheel_not_eligible'){
+      result.textContent=STATE.language==='ar'?'لقد جربت حظك بالفعل هذا الشهر.':'You have already spun this month.';
+    }else{
+      console.warn('Wheel spin failed',e);
+      result.textContent=STATE.language==='ar'?'تعذر إتمام العملية، حاول مرة أخرى.':'Could not complete the spin, please try again.';
+    }
+  });
+}
 function showCelebration(prize){var old=document.querySelector('.wheel-celebration');if(old)old.remove();var el=document.createElement('div');el.className='wheel-celebration active';for(var i=0;i<50;i++){var c=document.createElement('div');c.className='confetti';c.style.left=Math.random()*100+'%';c.style.background=['#F2BD63','#FF6B6B','#4CAF50','#2196F3','#9C27B0'][Math.floor(Math.random()*5)];c.style.animationDelay=Math.random()*2+'s';el.appendChild(c);}var txt=document.createElement('div');txt.className='celebrate-text';txt.innerHTML='<span class="icon">'+prize.icon+'</span>🎊 '+esc(prize.text)+' 🎊<span class="sub">'+(STATE.language==='ar'?'تهانينا!':'Congratulations!')+'</span>';el.appendChild(txt);document.body.appendChild(el);setTimeout(function(){el.remove();},4000);}
 function sendWheelNotification(prize){if(!STATE.currentUser)return;var msg=(STATE.language==='ar'?'🎉 تهانينا! لقد ربحت "':'🎉 Congratulations! You won "')+prize.text+'" '+(STATE.language==='ar'?'من عجلة حظك!':'from the wheel!');db.collection('notifications').add({clientId:STATE.currentUser.uid,clientName:STATE.currentUser.name,title:'🎰 '+(STATE.language==='ar'?'جرب حظك':'Try Your Luck'),body:msg,type:'wheel_win',read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){return refreshNotifications(STATE.currentUser.uid);}).catch(function(){});if('Notification'in window&&Notification.permission==='granted'){try{new Notification('🎰 '+(STATE.language==='ar'?'جرب حظك':'Try Your Luck'),{body:msg});}catch(e){}}}
 
@@ -2466,7 +2368,7 @@ function initFormBindings(){
   var email=document.getElementById('loginEmail'),pass=document.getElementById('loginPass');[email,pass].forEach(function(el){if(el)el.addEventListener('keydown',function(e){if(e.key==='Enter')handleLogin();});});
 }
 document.addEventListener('DOMContentLoaded',function(){
-  try{STATE.language=normalizeLanguage((localStorage.getItem('SecurePath_language')||'en'));}catch(e){STATE.language='ar';}
+  try{STATE.language=normalizeLanguage((localStorage.getItem('SecurePath_language')||'ar'));}catch(e){STATE.language='ar';}
   initFormBindings();ensureLanguageToggle();updateAllTexts();updateCharCount();
   // Do not request browser notifications automatically. Ask only after a successful login.
   auth.onAuthStateChanged(function(user){
