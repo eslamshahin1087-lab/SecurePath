@@ -763,6 +763,32 @@
   .account-header h2 { margin:0; font-family:'Tajawal',sans-serif; position:relative; z-index:1; }
   .account-header p { margin:4px 0 0; font-size:12px; color:var(--gold-soft); position:relative; z-index:1; }
 
+  /* ====== OFFERS / PROMOTIONS ====== */
+  .offers-list{padding:14px 14px 24px;display:flex;flex-direction:column;gap:12px;}
+  .offer-card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow);transition:all .3s ease;cursor:pointer;}
+  .offer-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--gold);}
+  .offer-card:active{transform:scale(.985);}
+  .offer-image{height:150px;background:linear-gradient(135deg,#EAF0F7,#F8FAFD);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  .offer-image img{width:100%;height:100%;object-fit:cover;display:block;}
+  .offer-placeholder{width:68px;height:68px;border-radius:20px;background:var(--gold-soft);color:var(--navy);display:grid;place-items:center;font-size:30px;box-shadow:0 8px 22px rgba(14,42,92,.10);}
+  .offer-status{position:absolute;top:10px;right:10px;padding:5px 10px;border-radius:999px;background:var(--green-light);color:var(--green);font-size:9px;font-weight:800;box-shadow:0 3px 10px rgba(0,0,0,.08);}
+  .offer-discount{position:absolute;bottom:10px;right:10px;padding:6px 12px;border-radius:999px;background:var(--gradient-gold);color:var(--navy);font-family:'Tajawal',sans-serif;font-size:15px;font-weight:900;box-shadow:0 5px 15px rgba(242,189,99,.28);}
+  .offer-body{padding:14px 15px 15px;}
+  .offer-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;color:var(--muted);font-size:10px;margin-bottom:6px;}
+  .offer-meta .company{color:var(--navy);font-weight:800;}
+  .offer-body h3{margin:0;color:var(--navy);font-family:'Tajawal',sans-serif;font-size:15px;font-weight:800;line-height:1.4;}
+  .offer-body .code{display:inline-block;margin-right:5px;color:var(--muted);font-size:9px;font-weight:500;}
+  .offer-body p{margin:6px 0 10px;color:var(--muted);font-size:11px;line-height:1.6;}
+  .offer-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:9px;border-top:1px dashed var(--line);color:var(--muted);font-size:9px;}
+  .offer-view{color:var(--navy);font-weight:800;font-size:10px;}
+  .offers-empty{text-align:center;padding:48px 20px;color:var(--muted);}
+  .offers-empty .empty-icon{width:64px;height:64px;margin:0 auto 12px;border-radius:20px;background:var(--gold-soft);color:var(--navy);display:grid;place-items:center;font-size:28px;}
+  .offer-detail-hero{border-radius:16px;overflow:hidden;background:var(--paper);border:1px solid var(--line);margin:10px 0 14px;}
+  .offer-detail-hero img{width:100%;max-height:220px;object-fit:cover;display:block;}
+  .offer-detail-hero .placeholder{min-height:140px;display:grid;place-items:center;font-size:48px;color:var(--navy);background:linear-gradient(135deg,#EAF0F7,#FFF);}
+  .offer-detail-discount{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:var(--gold-soft);color:var(--navy);font-weight:900;font-size:13px;margin-bottom:8px;}
+  @media (max-width:360px){.offer-image{height:135px}.offer-body h3{font-size:14px}}
+
   .page-top {
     padding:calc(24px + var(--safe-area-top)) 18px 16px; background:#FFF;
     border-bottom:1px solid var(--line); display:flex; justify-content:space-between;
@@ -1283,6 +1309,12 @@ html[dir=ltr] #sliderTrack .slider-item{--slider-item-dir:ltr;}
           </div>
           <span class="quick-label" id="quickProducts">المنتجات</span>
         </div>
+        <div class="quick-card" onclick="showScreen('offers')">
+          <div class="qicon gold icon-gold">
+            <span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2 7h20v3H2z"/><path d="M12 7v13M12 7c-4 0-6-2-4-4 2-2 4-1 4 4Zm0 0c4 0 6-2-4-4 2-2 4-4 4-4Z"/></svg></span>
+          </div>
+          <span class="quick-label" id="quickOffers">العروض</span>
+        </div>
         <div class="quick-card" onclick="runFullAssessment()">
           <div class="qicon green icon-green">
             <span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-9"/></svg></span>
@@ -1409,6 +1441,20 @@ html[dir=ltr] #sliderTrack .slider-item{--slider-item-dir:ltr;}
     <div class="policies" id="productsList" style="padding-top:14px;"></div>
   </div>
 
+  <!-- ====== OFFERS SCREEN ====== -->
+  <div class="screen" id="offers">
+    <div class="page-top">
+      <div class="page-left">
+        <h1 id="offersTitle">
+          <span class="icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2 7h20v3H2z"/><path d="M12 7v13M12 7c-4 0-6-2-4-4 2-2-4 1-4 4Zm0 0c4 0 6-2 4-4-2-2-4-1-4 4Z"/></svg></span></span>
+          العروض
+        </h1>
+        <p id="offersSub">اكتشف العروض التأمينية المتاحة من شركات التأمين</p>
+      </div>
+    </div>
+    <div class="offers-list" id="offersList"></div>
+  </div>
+
   <!-- ====== DOCUMENTS SCREEN ====== -->
   <div class="screen" id="documents">
     <div class="page-top">
@@ -1491,6 +1537,10 @@ html[dir=ltr] #sliderTrack .slider-item{--slider-item-dir:ltr;}
       <span class="nav-icon icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8 12 2.5 2.5L16 9"/></svg></span></span>
       <span id="navProducts">المنتجات</span>
     </button>
+    <button class="nav-item" id="nav-offers" onclick="switchTab('offers')">
+      <span class="nav-icon icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2 7h20v3H2z"/><path d="M12 7v13M12 7c-4 0-6-2-4-4 2-2 4 1 4 4Zm0 0c4 0 6-2 4-4-2 2-4 4-4 4Z"/></svg></span></span>
+      <span id="navOffers">العروض</span>
+    </button>
     <button class="nav-item" id="nav-documents" onclick="switchTab('documents')">
       <span class="nav-icon icon-purple"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10H3z"/></svg></span></span>
       <span id="navDocuments">المستندات</span>
@@ -1537,6 +1587,26 @@ html[dir=ltr] #sliderTrack .slider-item{--slider-item-dir:ltr;}
       <div class="detail-row"><span id="policyAmountLabel">مبلغ التأمين:</span><span id="mPolicyAmount">--</span></div>
       <div class="detail-row"><span id="policyStatusLabel">حالة التغطية:</span><span id="mPolicyStatus">--</span></div>
       <div class="actions"><button class="btn-gold" id="btnRenewPolicy">طلب تجديد وثيقتي الوثيقة</button><button class="btn-outline" id="btnOpenPolicyDoc">فتح مستند الوثيقة</button></div>
+    </div>
+  </div>
+
+  <!-- ====== OFFER DETAILS MODAL ====== -->
+  <div class="overlay" id="offerDetailModal">
+    <div class="sheet">
+      <div class="grabber"></div>
+      <div class="close-x" onclick="closeModal('offerDetailModal')">✕</div>
+      <h2 id="offerDetailTitle">تفاصيل العرض</h2>
+      <div class="sub" id="offerDetailCompany">شركة التأمين</div>
+      <div id="offerDetailHero" class="offer-detail-hero"></div>
+      <div id="offerDetailDiscount" class="offer-detail-discount" style="display:none;"></div>
+      <div class="detail-row"><span id="offerCodeLabel">كود العرض:</span><span id="offerDetailCode">--</span></div>
+      <div class="detail-row"><span id="offerTypeLabel">نوع التأمين:</span><span id="offerDetailType">--</span></div>
+      <div class="detail-row"><span id="offerStartLabel">تاريخ البداية:</span><span id="offerDetailStart">--</span></div>
+      <div class="detail-row"><span id="offerEndLabel">تاريخ الانتهاء:</span><span id="offerDetailEnd">--</span></div>
+      <div style="margin-top:14px;">
+        <div style="font-size:11px;color:var(--muted);font-weight:700;margin-bottom:6px;" id="offerDescriptionLabel">تفاصيل العرض</div>
+        <div id="offerDetailDescription" style="font-size:12px;color:var(--navy);line-height:1.7;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;"></div>
+      </div>
     </div>
   </div>
 
@@ -1647,7 +1717,7 @@ var TRANSLATIONS = {
     protectionClick:'انقر لإجراء تقييم شامل',
     statActiveLabel:'وثائق سارية', statExpiringLabel:'تجديد قريب', statDocsLabel:'مستندات مفعلة',
     companiesSliderTitle:'شركاؤنا في التأمين', quickAccessTitle:'الوصول السريع',
-    quickUpload:'رفع مستند', quickProducts:'المنتجات', quickAssessment:'فحص الحماية',
+    quickUpload:'رفع مستند', quickProducts:'المنتجات', quickOffers:'العروض', quickAssessment:'فحص الحماية',
     quickAdvice:'طلب نصيحة', myPoliciesTitle:'وثائقي التأمينية', viewAllLink:'عرض الكل →',
     assessmentResultTitle:'نتيجة تقييم الحماية',
     assessmentResultSub:'تحليل شامل لحالتك التأمينية مع توصيات مخصصة',
@@ -1666,6 +1736,7 @@ var TRANSLATIONS = {
     whatsappBtnText:'افتح واتساب الآن', whatsappNumber:'سيتم فتح محادثة مع الرقم +20 112 315 2500',
     policiesTitle:'وثائق التأمين', policiesSub:'متابعة كافة الوثائق والتغطيات الحالية',
     productsTitle:'منتجات التأمين', productsSub:'استكشف أفضل برامج التغطية المتاحة',
+    offersTitle:'العروض', offersSub:'اكتشف العروض التأمينية المتاحة من شركات التأمين',
     documentsTitle:'المستندات والملفات', documentsSub:'إدارة الهوية والوثائق المرفوعة',
     uploadDocBtn:'رفع مستند',
     notificationsTitle:'الإشعارات والتنبيهات',
@@ -1675,7 +1746,7 @@ var TRANSLATIONS = {
     accountDocuments:'مستنداتي',
     accountWheel:'accountWheel', accountWheelSub:'accountWheelSub',
     accountLogout:'تسجيل الخروج',
-    navHome:'الرئيسية', navPolicies:'وثائقي', navProducts:'المنتجات',
+    navHome:'الرئيسية', navPolicies:'وثائقي', navProducts:'المنتجات', navOffers:'العروض',
     navDocuments:'المستندات', navAccount:'حسابي',
     policyNumberLabel:'رقم الوثيقة:', policyTypeLabel:'نوع التأمين:',
     policyExpiryLabel:'تاريخ الانتهاء:', policyAmountLabel:'مبلغ التأمين:',
@@ -1718,6 +1789,8 @@ var TRANSLATIONS = {
     assessmentPremiumRecommendation:'توصية القسط الأمثل:',
     noPolicies:'لا توجد وثائق حتى الآن', noPoliciesText:'لم يتم إضافة أي وثائق تأمينية حتى الآن',
     noProducts:'لا توجد منتجات', noProductsText:'سيتم إضافة منتجات تأمينية قريباً',
+     noOffers:'لا توجد عروض متاحة حالياً', noOffersText:'ستظهر هنا العروض المنشورة والفعالة من شركات التأمين',
+     offerDetails:'تفاصيل العرض', offerCodeLabel:'كود العرض:', offerTypeLabel:'نوع التأمين:', offerStartLabel:'تاريخ البداية:', offerEndLabel:'تاريخ الانتهاء:', offerDescriptionLabel:'تفاصيل العرض', offerActive:'نشط', offerUpcoming:'قادم', offerExpired:'منتهي', offerView:'عرض التفاصيل', offerDiscount:'خصم',
     noDocuments:'لا توجد مستندات', noDocumentsText:'لم يتم رفع أي مستندات بعد',
     noNotifications:'لا توجد إشعارات', noNotificationsText:'سوف تظهر هنا جميع التنبيهات والإشعارات'
   },
@@ -1745,7 +1818,7 @@ var TRANSLATIONS = {
     statDocsLabel:'Verified Documents',
     companiesSliderTitle:'Our Insurance Partners',
     quickAccessTitle:'Quick Access', quickUpload:'Upload Document',
-    quickProducts:'Products', quickAssessment:'Protection Check',
+    quickProducts:'Products', quickOffers:'Offers', quickAssessment:'Protection Check',
     quickAdvice:'Request Advice', myPoliciesTitle:'My Insurance Policies',
     viewAllLink:'View All →',
     assessmentResultTitle:'Protection Assessment Result',
@@ -1767,6 +1840,7 @@ var TRANSLATIONS = {
     whatsappNumber:'A chat will be opened with +20 112 315 2500',
     policiesTitle:'Insurance Policies', policiesSub:'Track all policies and coverages',
     productsTitle:'Insurance Products', productsSub:'Explore the best available coverage programs',
+    offersTitle:'Insurance Offers', offersSub:'Explore available insurance offers from our insurance partners',
     documentsTitle:'Documents & Files', documentsSub:'Manage identity and uploaded documents',
     uploadDocBtn:'Upload Document',
     notificationsTitle:'Notifications & Alerts',
@@ -1776,7 +1850,7 @@ var TRANSLATIONS = {
     accountDocuments:'My Files',
     accountWheel:'accountWheel', accountWheelSub:'accountWheelSub',
     accountLogout:'Logout',
-    navHome:'Home', navPolicies:'My Policies', navProducts:'Products',
+    navHome:'Home', navPolicies:'My Policies', navProducts:'Products', navOffers:'Offers',
     navDocuments:'Documents', navAccount:'Account',
     policyNumberLabel:'Policy Number:', policyTypeLabel:'Insurance Type:',
     policyExpiryLabel:'Expiry Date:', policyAmountLabel:'Insurance Amount:',
@@ -1821,6 +1895,8 @@ var TRANSLATIONS = {
     assessmentPremiumRecommendation:'Optimal Premium Recommendation:',
     noPolicies:'No Policies', noPoliciesText:'No insurance policies have been added yet',
     noProducts:'No Products', noProductsText:'Insurance products will be added soon',
+     noOffers:'No Offers Available', noOffersText:'Published and active offers from insurance companies will appear here',
+     offerDetails:'Offer Details', offerCodeLabel:'Offer Code:', offerTypeLabel:'Insurance Type:', offerStartLabel:'Start Date:', offerEndLabel:'End Date:', offerDescriptionLabel:'Offer Details', offerActive:'Active', offerUpcoming:'Upcoming', offerExpired:'Expired', offerView:'View Details', offerDiscount:'Discount',
     noDocuments:'No Documents', noDocumentsText:'No documents have been uploaded yet',
     noNotifications:'No Notifications', noNotificationsText:'All alerts and notifications will appear here'
   }
@@ -1831,7 +1907,7 @@ var TRANSLATIONS = {
 // ============================================================
 var STATE = {
   currentUser: null, userData: null, policies: [], documents: [],
-  products: [], notifications: [], companies: [], insuranceAssessments: [],
+  products: [], offers: [], notifications: [], companies: [], insuranceAssessments: [],
   wheelLastSpin: null, wheelResult: null, wheelPrizeIndex: null,
   currentChat: null, chatUnsub: null, msgUnsub: null
 };
@@ -1897,9 +1973,9 @@ function saveLanguagePreference(){
 var I18N_IDS = {
   loginTitle:'loginTitle',loginEmailLabel:'loginEmailLabel',loginPassLabel:'loginPassLabel',loginTagline:'loginTagline',loginBtn:'loginBtn',loginSwitch:'loginSwitch',
   signupTitle:'signupTitle',regFullNameLabel:'regFullNameLabel',regEmailLabel:'regEmailLabel',regPassLabel:'regPassLabel',regBirthDateLabel:'regBirthDateLabel',regGenderLabel:'regGenderLabel',genderMale:'genderMale',genderFemale:'genderFemale',regPhoneLabel:'regPhoneLabel',regOccupationLabel:'regOccupationLabel',regClientTypeLabel:'regClientTypeLabel',clientTypeIndividual:'clientTypeIndividual',clientTypeCorporate:'clientTypeCorporate',regBusinessNameLabel:'regBusinessNameLabel',regBusinessActivityLabel:'regBusinessActivityLabel',regEmployeesLabel:'regEmployeesLabel',regExistingPoliciesLabel:'regExistingPoliciesLabel',existingPoliciesHelp:'existingPoliciesHelp',termsLink:'termsLink',signupBtn:'signupBtn',signupSwitch:'signupSwitch',
-  welcomeText:'welcomeText',protectionLabel:'protectionLabel',quickAccessTitle:'quickAccessTitle',quickUpload:'quickUpload',quickProducts:'quickProducts',quickAssessment:'quickAssessment',quickAdvice:'quickAdvice',myPoliciesTitle:'myPoliciesTitle',viewAllLink:'viewAllLink',
+  welcomeText:'welcomeText',protectionLabel:'protectionLabel',quickAccessTitle:'quickAccessTitle',quickUpload:'quickUpload',quickProducts:'quickProducts',quickOffers:'quickOffers',quickAssessment:'quickAssessment',quickAdvice:'quickAdvice',myPoliciesTitle:'myPoliciesTitle',viewAllLink:'viewAllLink',
   assessmentResultTitle:'assessmentResultTitle',assessmentResultSub:'assessmentResultSub',assessmentBackBtn:'assessmentBackBtn',adviceTitle:'adviceTitle',adviceSub:'adviceSub',adviceBackBtn:'adviceBackBtn',adviceCardTitle:'adviceCardTitle',adviceCardSub:'adviceCardSub',optTextTitle:'optTextTitle',optTextDesc:'optTextDesc',optTextBadge:'optTextBadge',optWhatsappTitle:'optWhatsappTitle',optWhatsappDesc:'optWhatsappDesc',optWhatsappBadge:'optWhatsappBadge',adviceTextLabel:'adviceTextLabel',adviceSubmitBtn:'adviceSubmitBtn',adviceSuccessTitle:'adviceSuccessTitle',adviceSuccessText:'adviceSuccessText',adviceNewRequest:'adviceNewRequest',whatsappTitle:'whatsappTitle',whatsappText:'whatsappText',whatsappBtnText:'whatsappBtnText',whatsappNumber:'whatsappNumber',
-  policiesTitle:'policiesTitle',policiesSub:'policiesSub',productsTitle:'productsTitle',productsSub:'productsSub',documentsTitle:'documentsTitle',documentsSub:'documentsSub',uploadDocBtn:'uploadDocBtn',notificationsTitle:'notificationsTitle',notificationsSub:'notificationsSub',accountClientData:'accountClientData',accountLoggedIn:'accountLoggedIn',accountAssessment:'accountAssessment',accountDocuments:'accountDocuments',accountWheel:'جرب حظك',accountWheelSub:'جرب حظك',accountLogout:'accountLogout',navHome:'navHome',navPolicies:'navPolicies',navProducts:'navProducts',navDocuments:'navDocuments',navAccount:'navAccount',policyNumberLabel:'policyNumberLabel',policyTypeLabel:'policyTypeLabel',policyExpiryLabel:'policyExpiryLabel',policyAmountLabel:'policyAmountLabel',policyStatusLabel:'policyStatusLabel',btnRenewPolicy:'btnRenewPolicy',btnOpenPolicyDoc:'btnOpenPolicyDoc',uploadTitle:'uploadTitle',uploadSub:'uploadSub',uploadDocNameLabel:'uploadDocNameLabel',uploadCategoryLabel:'uploadCategoryLabel',uploadFileLabel:'uploadFileLabel',uploadBtn:'uploadBtn',termsTitle:'termsTitle',termsSub:'termsSub',termsAgreeBtn:'termsAgreeBtn',wheelTitle:'wheelTitle',wheelSub:'wheelSub',chatTitle:'chatTitle',chatNow:'chatNow',
+  policiesTitle:'policiesTitle',policiesSub:'policiesSub',productsTitle:'productsTitle',productsSub:'productsSub',offersTitle:'offersTitle',offersSub:'offersSub',documentsTitle:'documentsTitle',documentsSub:'documentsSub',uploadDocBtn:'uploadDocBtn',notificationsTitle:'notificationsTitle',notificationsSub:'notificationsSub',accountClientData:'accountClientData',accountLoggedIn:'accountLoggedIn',accountAssessment:'accountAssessment',accountDocuments:'accountDocuments',accountWheel:'جرب حظك',accountWheelSub:'جرب حظك',accountLogout:'accountLogout',navHome:'navHome',navPolicies:'navPolicies',navProducts:'navProducts',navOffers:'navOffers',navDocuments:'navDocuments',navAccount:'navAccount',policyNumberLabel:'policyNumberLabel',policyTypeLabel:'policyTypeLabel',policyExpiryLabel:'policyExpiryLabel',policyAmountLabel:'policyAmountLabel',policyStatusLabel:'policyStatusLabel',offerCodeLabel:'offerCodeLabel',offerTypeLabel:'offerTypeLabel',offerStartLabel:'offerStartLabel',offerEndLabel:'offerEndLabel',offerDescriptionLabel:'offerDescriptionLabel',btnRenewPolicy:'btnRenewPolicy',btnOpenPolicyDoc:'btnOpenPolicyDoc',uploadTitle:'uploadTitle',uploadSub:'uploadSub',uploadDocNameLabel:'uploadDocNameLabel',uploadCategoryLabel:'uploadCategoryLabel',uploadFileLabel:'uploadFileLabel',uploadBtn:'uploadBtn',termsTitle:'termsTitle',termsSub:'termsSub',termsAgreeBtn:'termsAgreeBtn',wheelTitle:'wheelTitle',wheelSub:'wheelSub',chatTitle:'chatTitle',chatNow:'chatNow',
   assessmentScore:'assessmentScore',assessmentStatus:'assessmentStatus',assessmentDetails:'assessmentDetails',assessmentPolicies:'assessmentPolicies',assessmentExisting:'assessmentExisting',assessmentDocs:'assessmentDocs',assessmentProfile:'assessmentProfile',assessmentAge:'assessmentAge',assessmentOccupation:'assessmentOccupation',assessmentClientType:'assessmentClientType',assessmentActive:'assessmentActive',assessmentOwned:'assessmentOwned',assessmentRecommendations:'assessmentRecommendations',assessmentRecommendationsText:'assessmentRecommendationsText',assessmentExcellent:'assessmentExcellent',assessmentNextSteps:'assessmentNextSteps',assessmentRiskGap:'assessmentRiskGap',assessmentRiskGapText:'assessmentRiskGapText',assessmentCoverageGap:'assessmentCoverageGap',assessmentPremiumRecommendation:'assessmentPremiumRecommendation',noPolicies:'noPolicies',noPoliciesText:'noPoliciesText',noProducts:'noProducts',noProductsText:'noProductsText',noDocuments:'noDocuments',noDocumentsText:'noDocumentsText',noNotifications:'noNotifications',noNotificationsText:'noNotificationsText'
 };
 
@@ -1987,12 +2063,12 @@ function handleSignup(){
 }
 function handleLogout(){
   if(STATE.chatUnsub) STATE.chatUnsub(); if(STATE.msgUnsub) STATE.msgUnsub(); STATE.chatUnsub=null;STATE.msgUnsub=null;
-  closeModal('policyModal');closeModal('docPreviewModal');closeModal('uploadDocModal');closeModal('wheelModal');
+  closeModal('policyModal');closeModal('offerDetailModal');closeModal('docPreviewModal');closeModal('uploadDocModal');closeModal('wheelModal');
   auth.signOut().catch(function(e){console.error('Logout error',e);});
 }
 
 function resetState(){
-  STATE.currentUser=null;STATE.userData=null;STATE.policies=[];STATE.documents=[];STATE.products=[];STATE.notifications=[];STATE.companies=[];STATE.insuranceAssessments=[];STATE.currentChat=null;
+  STATE.currentUser=null;STATE.userData=null;STATE.policies=[];STATE.documents=[];STATE.products=[];STATE.offers=[];STATE.notifications=[];STATE.companies=[];STATE.insuranceAssessments=[];STATE.currentChat=null;
   STATE.wheelLastSpin=null;STATE.wheelResult=null;STATE.wheelPrizeIndex=null;
   assessmentCache={};
   activeObjectUrls.forEach(function(u){try{URL.revokeObjectURL(u);}catch(e){}}); activeObjectUrls=[];
@@ -2015,6 +2091,7 @@ function loadUserData(uid){
   p.push(db.collection('documents').where('clientId','==',uid).get().then(function(s){STATE.documents=normalizeArrayDocs(s);}).catch(function(e){console.warn('Documents load failed',e);STATE.documents=[];}));
   p.push(db.collection('notifications').where('clientId','==',uid).limit(100).get().then(function(s){STATE.notifications=sortByDateDesc(normalizeArrayDocs(s),'createdAt');}).catch(function(e){console.warn('Notifications load failed',e);STATE.notifications=[];}));
   p.push(db.collection('products').where('published','==',true).get().then(function(s){STATE.products=normalizeArrayDocs(s);}).catch(function(e){console.warn('Products load failed',e);STATE.products=[];}));
+  p.push(db.collection('offers').get().then(function(s){STATE.offers=normalizeArrayDocs(s);}).catch(function(e){console.warn('Offers load failed',e);STATE.offers=[];}));
   p.push(db.collection('companies').get().then(function(s){STATE.companies=normalizeArrayDocs(s);}).catch(function(e){console.warn('Companies load failed',e);STATE.companies=[];}));
   p.push(db.collection('insuranceAssessments').doc(uid).get().then(function(doc){if(doc.exists){STATE.insuranceAssessments[uid]=doc.data()||{};assessmentCache[uid]=doc.data()||{};}}).catch(function(e){console.warn('Assessment load failed',e);}));
   return Promise.all([clientPromise].concat(p)).then(function(){
@@ -2236,10 +2313,67 @@ function renderAll(){
   if(!STATE.currentUser)return;var uid=STATE.currentUser.uid,u=STATE.userData||{},pol=STATE.policies.filter(function(p){return p.clientId===uid;}),docs=STATE.documents.filter(function(d){return d.clientId===uid;}),active=pol.filter(function(p){return daysUntil(p.endDate)>0;}),verified=docs.filter(function(d){var s=String(d.verificationStatus||'').toLowerCase();return s==='approved'||s==='verified';});
   var calc=calculateProtectionScore(u,pol,verified);setText('homeAssessmentScore',calc.score+'%');setText('homeAssessmentLabel',(STATE.language==='ar'?'مستوى الحماية: ':'Protection Level: ')+calc.status);var circle=document.getElementById('scoreCircle');if(circle)circle.style.strokeDashoffset=157-(157*calc.score/100);
   setText('statActiveCount',active.length);setText('statExpiringCount',pol.filter(function(p){var d=daysUntil(p.endDate);return d>0&&d<=RENEWAL_WINDOW_DAYS;}).length);setText('statDocsCount',verified.length);
-  renderPoliciesList('homePoliciesList',pol.slice(0,2));renderPoliciesList('fullPoliciesList',pol);renderProductsList();renderDocumentsList(docs);renderNotificationsList();renderCompaniesSlider();updateNotificationDot();updateAllTexts();normalizeIcons();
+  renderPoliciesList('homePoliciesList',pol.slice(0,2));renderPoliciesList('fullPoliciesList',pol);renderProductsList();renderOffersList();renderDocumentsList(docs);renderNotificationsList();renderCompaniesSlider();updateNotificationDot();updateAllTexts();normalizeIcons();
 }
 function renderPoliciesList(containerId,list){var c=document.getElementById(containerId);if(!c)return;var lang=STATE.language||'ar';if(!list.length){c.innerHTML='<div class="empty-state">'+iconSvg('document','icon-navy')+'<h3>'+esc(getText('noPolicies'))+'</h3><p>'+esc(getText('noPoliciesText'))+'</p></div>';return;}c.innerHTML=list.map(function(p){var d=daysUntil(p.endDate),warn=d>0&&d<=45,expired=d<0,badge=expired?getText('badgeExpired'):(warn?getText('badgeExpiring'):getText('badgeActive'));return '<div class="p-card" onclick="openPolicyModal(\''+esc(p.id)+'\')"><div class="p-seal '+((warn||expired)?'warn':'')+'"><div class="ring">'+(expired?'⛔':warn?'⚠️':'🛡️')+'</div></div><div class="p-body"><div class="top"><h3>'+esc(p.type||p.typeName||(lang==='ar'?'تأمين':'Insurance'))+'</h3><span class="badge '+((warn||expired)?'warn':'ok')+'">'+esc(badge)+'</span></div><div class="co">'+esc(p.company||p.companyName||(lang==='ar'?'شركة تأمين':'Insurance Company'))+'</div><div class="p-foot"><span>'+(lang==='ar'?'رقم الوثيقة: ':'Policy #: ')+'<b>'+esc(p.policyNumber||'--')+'</b></span><span>'+((expired)?getText('expired'):(lang==='ar'?'متبقي: ':'Remaining: ')+'<b>'+d+' '+getText('daysRemaining')+'</b>')+'</span></div></div></div>';}).join('');}
 function renderProductsList(){var c=document.getElementById('productsList');if(!c)return;var ps=STATE.products||[];if(!ps.length){c.innerHTML='<div class="empty-state">'+iconSvg('shield','icon-gold')+'<h3>'+esc(getText('noProducts'))+'</h3><p>'+esc(getText('noProductsText'))+'</p></div>';return;}c.innerHTML=ps.map(function(pr){var feats=Array.isArray(pr.features)?pr.features:String(pr.features||'').split(/\r?\n/).filter(Boolean);return '<div class="p-card" style="cursor:default"><div class="p-seal"><div class="ring">💎</div></div><div class="p-body"><div class="top"><h3>'+esc(pr.name||'Product')+'</h3><span class="badge ok">'+esc(pr.companyName||pr.company||'')+'</span></div><div class="co">'+esc(pr.typeName||pr.type||pr.category||'')+'</div><p style="font-size:11px;color:var(--muted);margin:4px 0">'+esc(pr.description||'')+'</p>'+(feats.length?'<ul style="font-size:11px;padding-right:15px;margin:4px 0">'+feats.slice(0,3).map(function(f){return '<li>'+esc(f)+'</li>';}).join('')+'</ul>':'')+'</div></div>';}).join('');}
+function isOfferVisible(o){
+  if(!o)return false;
+  var status=String(o.status||'').toLowerCase();
+  if(status && status!=='active')return false;
+  var now=new Date(),start=o.startDate?new Date(o.startDate):null,end=o.endDate?new Date(o.endDate):null;
+  if(end&&!isNaN(end.getTime())&&end<now)return false;
+  return true;
+}
+function getOfferStatus(o){
+  var now=new Date(),start=o&&o.startDate?new Date(o.startDate):null,end=o&&o.endDate?new Date(o.endDate):null;
+  if(end&&!isNaN(end.getTime())&&end<now)return 'expired';
+  if(start&&!isNaN(start.getTime())&&start>now)return 'upcoming';
+  return 'active';
+}
+function renderOffersList(){
+  var c=document.getElementById('offersList');if(!c)return;
+  var offers=(STATE.offers||[]).filter(isOfferVisible).sort(function(a,b){
+    var da=a.endDate?new Date(a.endDate).getTime():Number.MAX_SAFE_INTEGER;
+    var db=b.endDate?new Date(b.endDate).getTime():Number.MAX_SAFE_INTEGER;
+    return da-db;
+  });
+  if(!offers.length){
+    c.innerHTML='<div class="offers-empty"><div class="empty-icon">'+iconSvg('gift')+'</div><h3 style="color:var(--navy);font-family:Tajawal,sans-serif;margin:0 0 6px;">'+esc(getText('noOffers'))+'</h3><p style="font-size:11px;">'+esc(getText('noOffersText'))+'</p></div>';
+    return;
+  }
+  c.innerHTML=offers.map(function(o){
+    var status=getOfferStatus(o),image=o.imageUrl||o.image||'';
+    var imageHtml=image&&/^https?:\/\//i.test(image)?'<img src="'+esc(image)+'" alt="'+esc(o.name||'Offer')+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\';">':'';
+    var placeholder='<div class="offer-placeholder" style="'+(imageHtml?'display:none;':'')+'">'+iconSvg('gift')+'</div>';
+    var statusText=status==='active'?getText('offerActive'):status==='upcoming'?getText('offerUpcoming'):getText('offerExpired');
+    return '<div class="offer-card" onclick="openOfferDetailModal(\''+esc(o.id)+'\')">'+
+      '<div class="offer-image">'+imageHtml+placeholder+
+      '<span class="offer-status">'+esc(statusText)+'</span>'+
+      (Number(o.discount)>0?'<span class="offer-discount">-'+esc(Number(o.discount))+'% '+esc(getText('offerDiscount'))+'</span>':'')+
+      '</div><div class="offer-body">'+
+      '<div class="offer-meta"><span class="company">🏢 '+esc(o.companyName||o.company||'')+'</span><span>•</span><span>'+esc(o.typeName||o.type||'')+'</span></div>'+
+      '<h3>'+esc(o.name||'')+(o.code?'<span class="code">#'+esc(o.code)+'</span>':'')+'</h3>'+
+      '<p>'+esc(o.description||'')+'</p>'+
+      '<div class="offer-foot"><span>'+esc(o.endDate?(getText('offerEndLabel')+' '+formatDate(o.endDate)):'')+'</span><span class="offer-view">'+esc(getText('offerView'))+' ←</span></div>'+
+      '</div></div>';
+  }).join('');
+}
+function openOfferDetailModal(id){
+  var o=(STATE.offers||[]).find(function(x){return x.id===id;});if(!o)return;
+  setText('offerDetailTitle',o.name||getText('offerDetails'));
+  setText('offerDetailCompany',o.companyName||o.company||'');
+  setText('offerDetailCode',o.code||'--');
+  setText('offerDetailType',o.typeName||o.type||'--');
+  setText('offerDetailStart',o.startDate?formatDate(o.startDate):'--');
+  setText('offerDetailEnd',o.endDate?formatDate(o.endDate):'--');
+  setText('offerDetailDescription',o.description||'--');
+  var d=document.getElementById('offerDetailDiscount');
+  if(d){d.style.display=Number(o.discount)>0?'inline-flex':'none';d.textContent=Number(o.discount)>0?('🎯 '+getText('offerDiscount')+' '+Number(o.discount)+'%'):'';}
+  var hero=document.getElementById('offerDetailHero'),image=o.imageUrl||o.image||'';
+  if(hero)hero.innerHTML=image&&/^https?:\/\//i.test(image)?'<img src="'+esc(image)+'" alt="'+esc(o.name||'Offer')+'" onerror="this.outerHTML=\'<div class="placeholder">🎯</div>\';">':'<div class="placeholder">🎯</div>';
+  openModal('offerDetailModal');
+}
 function renderDocumentsList(docs){var c=document.getElementById('documentsList');if(!c)return;docs=docs||[];if(!docs.length){c.innerHTML='<div class="empty-state">'+iconSvg('folder','icon-purple')+'<h3>'+esc(getText('noDocuments'))+'</h3><p>'+esc(getText('noDocumentsText'))+'</p></div>';return;}c.innerHTML=docs.map(function(d){var s=String(d.verificationStatus||'').toLowerCase(),approved=s==='approved'||s==='verified',pending=s==='pending'||s==='pending verification';return '<div class="p-card" onclick="openDocPreviewModal(\''+esc(d.id)+'\')"><div class="p-seal"><div class="ring">'+(String(d.fileType||'').includes('pdf')?'📄':'🖼️')+'</div></div><div class="p-body"><div class="top"><h3>'+esc(d.fileName||d.name||getText('documentsTitle'))+'</h3><span class="badge '+(pending?'pending':approved?'ok':'warn')+'">'+esc(pending?getText('badgePending'):approved?getText('badgeVerified'):getText('badgeRejected'))+'</span></div><div class="co">'+esc(d.category||'--')+'</div><div class="p-foot"><span>'+esc(formatDate(d.createdAt)||d.uploadDate||'--')+'</span><span style="color:var(--navy-2);font-weight:700">'+esc(STATE.language==='ar'?'معاينة':'Preview')+' 👁️</span></div></div></div>';}).join('');}
 function notificationIcon(n){var t=String(n.type||'');return t.includes('renewal')?'🔄':t.includes('advice')?'💡':t.includes('wheel')?'🎰':'🔔';}
 function renderNotificationsList(){var c=document.getElementById('notificationsList');if(!c)return;var ns=STATE.notifications||[];if(!ns.length){c.innerHTML='<div class="empty-state">'+iconSvg('bell','icon-gold')+'<h3>'+esc(getText('noNotifications'))+'</h3><p>'+esc(getText('noNotificationsText'))+'</p></div>';return;}c.innerHTML=ns.map(function(n){return '<div class="notif '+(!n.read?'unread':'')+'" data-notif-id="'+esc(n.id)+'" onclick="markNotificationRead(\''+esc(n.id)+'\')"><div class="ic">'+notificationIcon(n)+'</div><div><h4>'+esc(n.title||getText('notificationsTitle'))+'</h4><p>'+esc(n.body||n.message||'')+'</p><time>'+esc(formatDate(n.createdAt)||getText('chatNow'))+'</time></div></div>';}).join('');}
