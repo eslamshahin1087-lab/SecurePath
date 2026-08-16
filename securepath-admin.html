@@ -760,31 +760,116 @@ tr:hover td { background: var(--navy-50); }
 .list-item .list-content p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
 .list-item.unread { border-right: 3px solid var(--gold); background: var(--gold-50); }
 
-/* ===== PRODUCT CARD ===== */
+/* ===== PRODUCT CARD - محسّن لعرض الصور ===== */
 .product-card {
   overflow: hidden;
   border: 1px solid var(--line-soft);
   border-radius: var(--radius-lg);
   background: #fff;
   transition: var(--transition-bounce);
+  display: flex;
+  flex-direction: column;
 }
-.product-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+.product-card:hover { 
+  box-shadow: var(--shadow-lg); 
+  transform: translateY(-4px);
+}
+
 .product-card .image {
-  height: 160px;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg, var(--navy), var(--navy-light));
-  color: #fff;
-  font-weight: 900;
-  font-size: 18px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--navy-100), var(--paper));
   overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
 }
-.product-card .image img { width: 100%; height: 100%; object-fit: cover; }
-.product-card .body { padding: 16px 18px; }
-.product-card .body .meta { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
-.product-card .body h4 { font-size: 15px; margin: 0 0 4px; }
-.product-card .body p { font-size: 12px; color: var(--muted); margin: 0 0 8px; }
-.product-card .body ul { font-size: 11px; padding-right: 16px; margin: 4px 0 8px; color: var(--text-secondary); }
+.product-card .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition-slow);
+}
+.product-card:hover .image img {
+  transform: scale(1.05);
+}
+.product-card .image .image-placeholder {
+  font-size: 48px;
+  opacity: 0.4;
+  color: var(--navy);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.product-card .image .image-placeholder span {
+  font-size: 14px;
+  font-weight: 700;
+  opacity: 0.6;
+}
+.product-card .image .product-icon {
+  font-size: 56px;
+  opacity: 0.8;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1));
+}
+.product-card .image .status-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+}
+
+.product-card .body {
+  padding: 16px 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.product-card .body .meta {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.product-card .body .meta .separator {
+  color: var(--line);
+  margin: 0 2px;
+}
+.product-card .body h4 {
+  font-size: 15px;
+  margin: 0 0 4px;
+  color: var(--text);
+}
+.product-card .body p {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0 0 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+.product-card .body ul {
+  font-size: 11px;
+  padding-right: 16px;
+  margin: 4px 0 8px;
+  color: var(--text-secondary);
+}
+.product-card .body ul li {
+  margin-bottom: 2px;
+  list-style-type: disc;
+}
+.product-card .body .product-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
 
 /* ===== TOAST ===== */
 .toast {
@@ -1063,14 +1148,17 @@ tr:hover td { background: var(--navy-50); }
           <div class="grid grid-4" id="typesGrid"></div>
         </div>
 
-        <!-- PRODUCTS -->
+        <!-- PRODUCTS - محسّن مع عرض الصور -->
         <div id="v-products" class="view">
           <div class="card" style="padding:14px 20px;margin-bottom:20px;background:var(--gold-soft);border-color:var(--gold);border-radius:var(--radius-lg)">
             <b>📌 النشر للمستخدم:</b> أي منتج حالته <span class="badge badge-success">Published</span> سيظهر تلقائياً في تطبيق العميل.
           </div>
           <div class="toolbar">
             <div class="search"><input id="productSearch" oninput="renderProducts()" placeholder="ابحث في المنتجات"></div>
-            <div class="actions"><button class="btn btn-primary" onclick="openProductModal()">+ إضافة منتج</button></div>
+            <div class="actions">
+              <button class="btn btn-primary" onclick="openProductModal()">+ إضافة منتج</button>
+              <button class="btn btn-outline btn-sm" onclick="renderProducts()">🔄 تحديث</button>
+            </div>
           </div>
           <div class="grid grid-3" id="productsGrid"></div>
         </div>
@@ -1295,7 +1383,7 @@ tr:hover td { background: var(--navy-50); }
   </div>
 </div>
 
-<!-- Product Modal -->
+<!-- Product Modal - محسّن مع معاينة الصورة -->
 <div id="productModal" class="overlay">
   <div class="modal">
     <div class="modal-header">
@@ -1309,7 +1397,11 @@ tr:hover td { background: var(--navy-50); }
     <div class="field"><label>اسم المنتج</label><input id="prName" placeholder="اسم المنتج"></div>
     <div class="field"><label>الوصف</label><textarea id="prDesc" rows="2" placeholder="وصف المنتج"></textarea></div>
     <div class="field"><label>المميزات</label><textarea id="prFeatures" rows="3" placeholder="كل مميز على سطر"></textarea></div>
-    <div class="field"><label>صورة (URL)</label><input id="prImage" placeholder="https://example.com/image.jpg"></div>
+    <div class="field">
+      <label>صورة (URL)</label>
+      <input id="prImage" placeholder="https://example.com/image.jpg">
+      <div id="imagePreview" style="display:none;margin-top:8px;"></div>
+    </div>
     <div class="field"><label>الحالة</label><select id="prStatus"><option value="draft">مسودة</option><option value="published">منشور</option><option value="archived">مؤرشف</option></select></div>
     <div id="prErr" class="error"></div>
     <div class="modal-footer">
@@ -1356,7 +1448,7 @@ tr:hover td { background: var(--navy-50); }
 <div id="toast" class="toast"></div>
 
 <!-- ============================================================ -->
-<!-- JAVASCRIPT - الربط الكامل مع Firebase -->
+<!-- JAVASCRIPT - المحسّن مع الحفاظ على البيانات -->
 <!-- ============================================================ -->
 <script>
 // ================================================================
@@ -1712,7 +1804,7 @@ auth.onAuthStateChanged(function(user) {
 });
 
 // ================================================================
-// 7. DATA LOADING - مع الاستماع الفوري والتوافق مع البيانات الموجودة
+// 7. DATA LOADING - مع الحفاظ على البيانات الموجودة
 // ================================================================
 function loadCollection(name) {
   return db.collection(name).get()
@@ -1720,7 +1812,19 @@ function loadCollection(name) {
       return snap.docs.map(function(d) {
         var data = d.data();
         data.id = d.id;
-        // توافق مع البيانات الموجودة
+        
+        // معالجة خاصة للمنتجات - الحفاظ على جميع الحقول
+        if (name === 'products') {
+          // توحيد حقل الصورة مع الحفاظ على البيانات الموجودة
+          if (!data.imageUrl && data.image) data.imageUrl = data.image;
+          if (!data.image && data.imageUrl) data.image = data.imageUrl;
+          if (!data.imageUrl && data.photo) data.imageUrl = data.photo;
+          if (!data.imageUrl && data.logo) data.imageUrl = data.logo;
+          if (data.status === 'published') data.published = true;
+          if (data.published === true) data.status = 'published';
+        }
+        
+        // توحيد المعرفات للحفاظ على التوافق
         if (name === 'clients' && !data.uid && data.id) data.uid = data.id;
         if (name === 'policies' && !data.uid && data.clientId) data.uid = data.clientId;
         if (name === 'documents' && !data.uid && data.clientId) data.uid = data.clientId;
@@ -1728,6 +1832,7 @@ function loadCollection(name) {
         if (name === 'notifications' && !data.uid && data.clientId) data.uid = data.clientId;
         if (name === 'payments' && !data.uid && data.clientId) data.uid = data.clientId;
         if (name === 'claims' && !data.uid && data.clientId) data.uid = data.clientId;
+        
         return data;
       });
     })
@@ -2189,14 +2294,28 @@ function renderInsuranceTypes() {
   document.getElementById('typesGrid').innerHTML = html;
 }
 
+// ================================================================
+// 11. RENDER PRODUCTS - مُحسّن مع عرض الصور
+// ================================================================
 function renderProducts() {
   var q = (document.getElementById('productSearch')?.value || '').toLowerCase();
   var products = (DATA.products || []).filter(function(p) {
-    return [p.name, p.companyName, p.company, p.description].join(' ').toLowerCase().includes(q);
+    return [p.name, p.companyName, p.company, p.description, p.typeName, p.type]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase()
+      .includes(q);
   });
   
+  var grid = document.getElementById('productsGrid');
+  if (!grid) return;
+  
   if (products.length === 0) {
-    document.getElementById('productsGrid').innerHTML = '<div class="empty" style="grid-column:span 3">لا توجد منتجات</div>';
+    grid.innerHTML = '<div class="empty" style="grid-column:span 3;padding:60px 20px;">' +
+      '<div style="font-size:48px;margin-bottom:12px;">📦</div>' +
+      '<h3 style="color:var(--text);margin:0 0 8px;">لا توجد منتجات</h3>' +
+      '<p style="color:var(--muted);font-size:14px;">قم بإضافة منتج جديد باستخدام الزر أعلاه</p>' +
+    '</div>';
     return;
   }
   
@@ -2206,20 +2325,161 @@ function renderProducts() {
     var typeIcon = getTypeIcon(p.type);
     var feats = String(p.features || '').split(/\r?\n/).filter(Boolean);
     
-    var imgHtml = p.imageUrl ? '<img src="' + esc(p.imageUrl) + '" alt="' + esc(p.name) + '">' : '<span>' + esc(company) + '</span>';
+    // ===== معالجة الصورة - دعم جميع التنسيقات =====
+    var imageUrl = p.imageUrl || p.image || p.photo || p.logo || '';
+    var imgHtml = '';
+    var hasImage = imageUrl && imageUrl.trim().length > 0 && 
+                   (imageUrl.startsWith('http') || imageUrl.startsWith('data:'));
+    
+    if (hasImage) {
+      imgHtml = '<img src="' + esc(imageUrl) + '" alt="' + esc(p.name) + '" ' +
+                'onerror="this.parentElement.innerHTML=\'<div class=\\\'image-placeholder\\\'><span class=\\\'product-icon\\\'>' + 
+                (typeIcon || '📦') + '</span><span>' + esc(company) + '</span></div>\'">';
+    } else {
+      imgHtml = '<div class="image-placeholder">' +
+                '<span class="product-icon">' + (typeIcon || '📦') + '</span>' +
+                '<span>' + esc(company) + '</span>' +
+                '</div>';
+    }
+    
+    // ===== حالة المنتج =====
+    var isPublished = p.status === 'published' || p.published === true;
+    var statusBadge = isPublished ? 
+      '<span class="badge badge-success">✅ منشور</span>' : 
+      (p.status === 'archived' ? 
+        '<span class="badge badge-danger">📁 مؤرشف</span>' : 
+        '<span class="badge badge-warning">✏️ مسودة</span>');
+    
+    // ===== معلومات إضافية =====
+    var premium = p.premium || p.annualPremium || 0;
+    var sumInsured = p.sumInsured || p.coverAmount || 0;
     
     return '<div class="product-card">' +
-      '<div class="image">' + imgHtml + '</div>' +
+      '<div class="image">' + imgHtml + 
+        '<div class="status-badge">' + statusBadge + '</div>' +
+      '</div>' +
       '<div class="body">' +
-        '<div class="meta">' + esc(company) + ' • ' + typeIcon + ' ' + esc(typeName) + '</div>' +
+        '<div class="meta">' +
+          '<span>🏢 ' + esc(company) + '</span>' +
+          '<span class="separator">|</span>' +
+          '<span>' + typeIcon + ' ' + esc(typeName) + '</span>' +
+        '</div>' +
         '<h4>' + esc(p.name) + '</h4>' +
-        '<p>' + esc(p.description || '') + '</p>' +
-        (feats.length ? '<ul>' + feats.slice(0, 3).map(function(x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' : '') +
-        '<div><span class="badge ' + (p.status === 'published' ? 'badge-success' : p.status === 'archived' ? 'badge-danger' : 'badge-warning') + '">' + esc(p.status || 'draft') + '</span>' + (p.published === true || p.status === 'published' ? ' <span class="badge badge-info">منشور</span>' : '') + '</div>' +
+        '<p>' + esc(p.description || 'لا يوجد وصف') + '</p>' +
+        (feats.length > 0 ? 
+          '<ul>' + feats.slice(0, 3).map(function(x) { 
+            return '<li>' + esc(x) + '</li>'; 
+          }).join('') + 
+          (feats.length > 3 ? '<li style="list-style:none;color:var(--muted);font-size:10px;">+ ' + (feats.length - 3) + ' مميزات أخرى</li>' : '') +
+          '</ul>' : 
+          '') +
+        '<div class="product-tags">' +
+          (premium > 0 ? '<span class="badge badge-info">💰 ' + Number(premium).toLocaleString('en-US') + ' EGP/سنة</span>' : '') +
+          (sumInsured > 0 ? '<span class="badge badge-purple">🛡️ ' + Number(sumInsured).toLocaleString('en-US') + ' EGP</span>' : '') +
+          (isPublished ? '<span class="badge badge-success">🟢 متاح للعملاء</span>' : '<span class="badge badge-gray">⏳ غير منشور</span>') +
+        '</div>' +
       '</div>' +
     '</div>';
   }).join('');
-  document.getElementById('productsGrid').innerHTML = html;
+  
+  grid.innerHTML = html;
+}
+
+// ================================================================
+// 12. PRODUCT CRUD - مع معاينة الصورة
+// ================================================================
+function openProductModal() {
+  document.getElementById('prErr').textContent = '';
+  document.getElementById('prName').value = '';
+  document.getElementById('prDesc').value = '';
+  document.getElementById('prFeatures').value = '';
+  document.getElementById('prImage').value = '';
+  document.getElementById('prStatus').value = 'draft';
+  
+  // إخفاء معاينة الصورة
+  var preview = document.getElementById('imagePreview');
+  if (preview) {
+    preview.style.display = 'none';
+    preview.innerHTML = '';
+  }
+  
+  refreshAllSelects();
+  openModal('productModal');
+  
+  // ===== معاينة الصورة عند تغيير الرابط =====
+  var imageInput = document.getElementById('prImage');
+  imageInput.oninput = function() {
+    var url = this.value.trim();
+    var preview = document.getElementById('imagePreview');
+    if (preview) {
+      if (url && (url.startsWith('http') || url.startsWith('data:'))) {
+        preview.style.display = 'block';
+        preview.innerHTML = '<div style="margin-top:8px;border-radius:8px;overflow:hidden;border:1px solid var(--line);max-width:200px;"><img src="' + esc(url) + '" alt="معاينة" style="width:100%;height:auto;max-height:150px;object-fit:contain;background:var(--paper);" onerror="this.parentElement.innerHTML=\'<div style=\\\'padding:20px;text-align:center;color:var(--muted);\\\'>⚠️ رابط غير صالح</div>\'"></div>';
+      } else {
+        preview.style.display = 'none';
+        preview.innerHTML = '';
+      }
+    }
+  };
+}
+
+function createProduct() {
+  var company = document.getElementById('prCompany').value;
+  var type = document.getElementById('prType').value;
+  var name = document.getElementById('prName').value.trim();
+  var imageUrl = document.getElementById('prImage').value.trim();
+  var err = document.getElementById('prErr');
+  
+  err.textContent = '';
+  if (!company || !type || !name) {
+    err.textContent = 'أكمل جميع البيانات (الشركة، النوع، والاسم)';
+    return;
+  }
+  
+  // التحقق من صحة رابط الصورة إذا تم إدخاله
+  if (imageUrl && !imageUrl.startsWith('http') && !imageUrl.startsWith('data:')) {
+    err.textContent = '⚠️ رابط الصورة غير صحيح. يجب أن يبدأ بـ http:// أو https://';
+    return;
+  }
+  
+  showLoading('createProductBtn', 'جاري حفظ المنتج...');
+  
+  var status = document.getElementById('prStatus').value;
+  var product = {
+    company: company,
+    companyName: getCompanyName(company),
+    type: type,
+    typeName: getTypeName(type),
+    name: name,
+    description: document.getElementById('prDesc').value.trim(),
+    features: document.getElementById('prFeatures').value.trim(),
+    imageUrl: imageUrl,
+    image: imageUrl,
+    photo: imageUrl,
+    status: status,
+    published: status === 'published',
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  
+  // إضافة قيم افتراضية للحقول المالية
+  if (!product.premium) product.premium = 0;
+  if (!product.sumInsured) product.sumInsured = 0;
+  
+  db.collection('products').add(product)
+    .then(function(docRef) {
+      product.id = docRef.id;
+      DATA.products.push(product);
+      hideLoading('createProductBtn');
+      closeModal('productModal');
+      toast('✅ تم حفظ المنتج بنجاح');
+      renderProducts();
+      refreshAllSelects();
+    })
+    .catch(function(e) {
+      hideLoading('createProductBtn');
+      err.textContent = 'تعذر حفظ المنتج: ' + e.message;
+    });
 }
 
 function renderReports() {
@@ -2321,7 +2581,7 @@ function updateBadge() {
 }
 
 // ================================================================
-// 11. DOCUMENT UPLOAD - مع Firebase Storage
+// 13. DOCUMENT UPLOAD
 // ================================================================
 function openDocUploadModal() {
   document.getElementById('docUploadErr').textContent = '';
@@ -2439,7 +2699,7 @@ function verifyDocument(id, status) {
 }
 
 // ================================================================
-// 12. CHAT
+// 14. CHAT
 // ================================================================
 function openClientChat(id) {
   if (!id) return;
@@ -2479,7 +2739,7 @@ function sendMessage() {
 }
 
 // ================================================================
-// 13. VIEW NAVIGATION
+// 15. VIEW NAVIGATION
 // ================================================================
 function showView(view, el) {
   document.querySelectorAll('.view').forEach(function(x) { x.classList.remove('active'); });
@@ -2540,9 +2800,8 @@ function showView(view, el) {
 }
 
 // ================================================================
-// 14. CRUD OPERATIONS - متوافقة مع البيانات الموجودة
+// 16. CRUD OPERATIONS - الحفاظ على البيانات الموجودة
 // ================================================================
-
 function createClient() {
   var name = document.getElementById('cName').value.trim();
   var email = document.getElementById('cEmail').value.trim().toLowerCase();
@@ -2558,7 +2817,6 @@ function createClient() {
   
   showLoading('createClientBtn', 'جاري إنشاء العميل...');
   
-  // إنشاء العميل في Firestore مع توافق البيانات
   db.collection('clients').add({
     fullName: name,
     email: email,
@@ -2570,7 +2828,6 @@ function createClient() {
     createdBy: currentUser ? currentUser.uid : ''
   })
   .then(function(docRef) {
-    // محاولة إنشاء حساب Auth (إذا فشل، نستمر)
     return auth.createUserWithEmailAndPassword(email, pass)
       .then(function(cred) {
         return db.collection('clients').doc(docRef.id).update({
@@ -2578,7 +2835,6 @@ function createClient() {
         });
       })
       .catch(function() {
-        // المستخدم قد يكون موجوداً بالفعل
         return Promise.resolve();
       })
       .then(function() {
@@ -2788,53 +3044,8 @@ function createInsuranceType() {
     });
 }
 
-function createProduct() {
-  var company = document.getElementById('prCompany').value;
-  var type = document.getElementById('prType').value;
-  var name = document.getElementById('prName').value.trim();
-  var err = document.getElementById('prErr');
-  
-  err.textContent = '';
-  if (!company || !type || !name) {
-    err.textContent = 'أكمل جميع البيانات';
-    return;
-  }
-  
-  showLoading('createProductBtn', 'جاري الحفظ...');
-  
-  var status = document.getElementById('prStatus').value;
-  var product = {
-    company: company,
-    companyName: getCompanyName(company),
-    type: type,
-    typeName: getTypeName(type),
-    name: name,
-    description: document.getElementById('prDesc').value.trim(),
-    features: document.getElementById('prFeatures').value.trim(),
-    imageUrl: document.getElementById('prImage').value.trim(),
-    status: status,
-    published: status === 'published',
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  };
-  
-  db.collection('products').add(product)
-    .then(function() {
-      hideLoading('createProductBtn');
-      closeModal('productModal');
-      toast('✅ تم حفظ المنتج');
-      return loadCollection('products').then(function(docs) {
-        DATA.products = docs;
-        renderProducts();
-      });
-    })
-    .catch(function(e) {
-      hideLoading('createProductBtn');
-      err.textContent = 'تعذر حفظ المنتج: ' + e.message;
-    });
-}
-
 // ================================================================
-// 15. CLIENT & COMPANY PROFILES
+// 17. CLIENT & COMPANY PROFILES
 // ================================================================
 function openClientProfile(id) {
   var c = DATA.clients.find(function(x) { return x.id === id || x.uid === id; });
@@ -2910,7 +3121,7 @@ function openAssessment(clientId) {
 }
 
 // ================================================================
-// 16. MODAL OPEN HELPERS
+// 18. MODAL OPEN HELPERS
 // ================================================================
 function openPolicyModal(cid) {
   if (cid === undefined) cid = '';
@@ -2959,10 +3170,49 @@ function openProductModal() {
   document.getElementById('prErr').textContent = '';
   refreshAllSelects();
   openModal('productModal');
+  
+  // إعداد معاينة الصورة
+  var imageInput = document.getElementById('prImage');
+  var preview = document.getElementById('imagePreview');
+  
+  imageInput.oninput = function() {
+    var url = this.value.trim();
+    if (preview) {
+      if (url && (url.startsWith('http') || url.startsWith('data:'))) {
+        preview.style.display = 'block';
+        preview.innerHTML = '<div style="margin-top:8px;border-radius:8px;overflow:hidden;border:1px solid var(--line);max-width:200px;"><img src="' + esc(url) + '" alt="معاينة" style="width:100%;height:auto;max-height:150px;object-fit:contain;background:var(--paper);" onerror="this.parentElement.innerHTML=\'<div style=\\\'padding:20px;text-align:center;color:var(--muted);\\\'>⚠️ رابط غير صالح</div>\'"></div>';
+      } else {
+        preview.style.display = 'none';
+        preview.innerHTML = '';
+      }
+    }
+  };
 }
 
 // ================================================================
-// 17. INIT
+// 19. RENDER ALL
+// ================================================================
+function renderAll() {
+  renderDashboard();
+  renderClients();
+  renderPolicies();
+  renderPayments();
+  renderClaims();
+  renderDocuments();
+  renderConversations();
+  renderRenewals();
+  renderCompanies();
+  renderInsuranceTypes();
+  renderProducts();
+  renderReports();
+  renderAssessments();
+  renderNotifications();
+  renderActivity();
+  updateBadge();
+}
+
+// ================================================================
+// 20. INIT
 // ================================================================
 function initSelects() {
   var companySelects = ['pCompany', 'prCompany'];
@@ -2995,7 +3245,7 @@ function initSelects() {
 
 initSelects();
 
-console.log('✅ Secure PATH Admin Panel v4.0 - Fully Connected');
+console.log('✅ Secure PATH Admin Panel v5.0 - Enhanced with Image Preview');
 console.log('📊 Firebase Collections Loaded:', Object.keys(DATA).filter(k => DATA[k].length > 0));
 </script>
 </body>
