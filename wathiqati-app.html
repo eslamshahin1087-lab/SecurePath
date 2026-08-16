@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -1139,6 +1139,12 @@ html[dir="rtl"] #account,html[dir="rtl"] #accountScreen{
 #sliderTrack .logo-fallback{display:flex;align-items:center;justify-content:center;}
 @media(max-width:600px){#sliderTrack{gap:10px}#sliderTrack .slider-item{min-width:108px}.slider-wrapper{padding:6px 0}}
 @media(prefers-reduced-motion:reduce){#sliderTrack{transition:none!important}}
+/* V2.3: slider is physically LTR regardless of document language; content direction remains localized. */
+#companiesSlider,#companiesSlider .slider-wrapper,#sliderTrack{direction:ltr!important;text-align:left;}
+#sliderTrack .slider-item{direction:var(--slider-item-dir,ltr)!important;}
+html[dir=rtl] #sliderTrack .slider-item{--slider-item-dir:rtl;}
+html[dir=ltr] #sliderTrack .slider-item{--slider-item-dir:ltr;}
+
 </style>
 </head>
 <body>
@@ -1882,7 +1888,7 @@ function closeModal(id){ var el=document.getElementById(id); if(el) el.classList
 function openModal(id){ var el=document.getElementById(id); if(el) el.classList.add('show'); }
 function setText(id,text){ var el=document.getElementById(id); if(el) el.textContent=text; }
 function setHTML(id,html){ var el=document.getElementById(id); if(el) el.innerHTML=html; }
-function normalizeLanguage(lang){ return lang==='en' ? 'en' : 'ar'; }
+function normalizeLanguage(lang){ return lang==='ar' ? 'ar' : 'en'; }
 function saveLanguagePreference(){
   try { localStorage.setItem('SecurePath_language',STATE.language); } catch(e){}
   if(STATE.currentUser) db.collection('clients').doc(STATE.currentUser.uid).set({language:STATE.language},{merge:true}).catch(function(e){console.warn('Language preference save failed',e);});
@@ -2024,44 +2030,142 @@ function updateUserUI(data){
 
 var InsuranceSlider=(function(){
   'use strict';
-  var S={w:null,t:null,items:[],signature:'',offset:0,cycle:0,raf:0,last:0,running:false,paused:false,drag:false,startX:0,startOffset:0,resizeObserver:null,resizeTimer:0,resumeTimer:0,speed:42,bound:false};
+  /*
+   * V2.3 robust continuous slider.
+   * The animation axis is ALWAYS LTR. The page language/RTL state only
+   * changes the text direction inside each card. This prevents the RTL
+   * flexbox algorithm from reversing the physical track when Arabic is selected.
+   */
+  var S={
+    w:null,t:null,items:[],signature:'',offset:0,cycle:0,raf:0,last:0,
+    running:false,paused:false,drag:false,startX:0,startOffset:0,
+    resizeObserver:null,resizeTimer:0,resumeTimer:0,speed:42,bound:false
+  };
   function clearTimer(k){if(S[k]){clearTimeout(S[k]);S[k]=0;}}
   function stop(){S.running=false;if(S.raf){cancelAnimationFrame(S.raf);S.raf=0;}S.last=0;}
-  function normalize(){if(S.cycle)S.offset=((S.offset%S.cycle)+S.cycle)%S.cycle;}
+  function normalize(){if(S.cycle>0)S.offset=((S.offset%S.cycle)+S.cycle)%S.cycle;else S.offset=0;}
   function paint(){if(S.t)S.t.style.transform='translate3d('+(-S.offset).toFixed(3)+'px,0,0)';}
-  function getName(co){return (STATE.language==='ar'&&co.nameAr)||(STATE.language==='en'&&co.nameEn)||co.name||co.companyName||(STATE.language==='ar'?'شركة تأمين':'Insurance Company');}
-  function getLogo(co){return co.logo||co.logoUrl||co.image||co.imageUrl||co.logoURL||'';}
+  function getName(co){
+    var ar=co.nameAr||co.arName||co.name_ar;
+    var en=co.nameEn||co.enName||co.name_en;
+    return (STATE.language==='ar'?ar:en)||co.name||co.companyName||(STATE.language==='ar'?'شركة تأمين':'Insurance Company');
+  }
+  function getLogo(co){return co.logo||co.logoUrl||co.image||co.imageUrl||co.logoURL||co.companyLogo||'';}
   function createItem(co,cloneIndex){
-    var d=document.createElement('div');d.className='slider-item';d.dataset.clone=String(cloneIndex);d.setAttribute('role','listitem');d.setAttribute('aria-hidden',cloneIndex>0?'true':'false');
-    var lg=document.createElement('div');lg.className='company-logo';lg.setAttribute('aria-hidden','true');var logo=getLogo(co);
-    if(logo){var im=document.createElement('img');im.loading='eager';im.decoding='async';im.alt='';im.src=logo;im.addEventListener('error',function(){im.remove();lg.classList.add('logo-fallback');lg.textContent='🏢';},{once:true});lg.appendChild(im);}else{lg.classList.add('logo-fallback');lg.textContent='🏢';}
-    var nm=document.createElement('span');nm.className='company-name';nm.textContent=getName(co);var bd=document.createElement('span');bd.className='company-badge';bd.textContent=STATE.language==='ar'?'شريك':'Partner';d.append(lg,nm,bd);return d;
+    var d=document.createElement('div');
+    d.className='slider-item';
+    d.dataset.clone=String(cloneIndex);
+    d.setAttribute('role','listitem');
+    d.setAttribute('aria-hidden',cloneIndex>0?'true':'false');
+    var lg=document.createElement('div');lg.className='company-logo';lg.setAttribute('aria-hidden','true');
+    var logo=getLogo(co);
+    if(logo){
+      var im=document.createElement('img');im.loading='eager';im.decoding='async';im.alt='';im.src=logo;
+      im.addEventListener('error',function(){if(im.parentNode)im.parentNode.removeChild(im);lg.classList.add('logo-fallback');lg.textContent='🏢';},{once:true});
+      lg.appendChild(im);
+    }else{lg.classList.add('logo-fallback');lg.textContent='🏢';}
+    var nm=document.createElement('span');nm.className='company-name';nm.textContent=getName(co);
+    var bd=document.createElement('span');bd.className='company-badge';bd.textContent=STATE.language==='ar'?'شريك':'Partner';
+    d.append(lg,nm,bd);return d;
   }
   function build(){
-    if(!S.w||!S.t)return;S.t.innerHTML='';S.offset=0;S.cycle=0;
-    if(!S.items.length){var e=document.createElement('div');e.className='slider-empty';e.textContent=STATE.language==='ar'?'لا توجد شركات تأمين مسجلة حالياً':'No insurance companies registered yet';S.t.appendChild(e);return;}
-    var sets=Math.min(12,Math.max(3,Math.ceil((S.w.clientWidth||800)/180)+2));
-    for(var c=0;c<sets;c++){for(var i=0;i<S.items.length;i++)S.t.appendChild(createItem(S.items[i],c));}
-    var first=S.t.children[0],secondSet=S.items.length?S.t.children[S.items.length]:null;
-    if(first&&secondSet){var a=first.getBoundingClientRect(),b=secondSet.getBoundingClientRect();S.cycle=Math.max(1,b.left-a.left);}
-    if(!S.cycle)S.cycle=Math.max(1,S.t.scrollWidth/sets);S.t.style.width='max-content';S.t.style.minWidth='max-content';paint();
+    if(!S.w||!S.t)return;
+    S.t.innerHTML='';S.cycle=0;
+    if(!S.items.length){
+      var e=document.createElement('div');e.className='slider-empty';
+      e.textContent=STATE.language==='ar'?'لا توجد شركات تأمين مسجلة حالياً':'No insurance companies registered yet';
+      S.t.appendChild(e);paint();return;
+    }
+    /* Build enough complete sets to keep the viewport covered at all times. */
+    var target=Math.max((S.w.clientWidth||800)*3,1200),guard=0;
+    while(S.t.scrollWidth<target && guard<40){
+      for(var i=0;i<S.items.length;i++)S.t.appendChild(createItem(S.items[i],guard));
+      guard++;
+    }
+    /* If measurements are not available yet, force a layout read. */
+    void S.t.offsetWidth;
+    var first=S.t.children[0],secondSet=S.t.children[S.items.length];
+    if(first&&secondSet){
+      /* offsetLeft is independent of the page's RTL direction because the track is forced LTR. */
+      var delta=secondSet.offsetLeft-first.offsetLeft;
+      if(delta>0)S.cycle=delta;
+      if(!S.cycle){
+        var ra=first.getBoundingClientRect(),rb=secondSet.getBoundingClientRect();
+        S.cycle=Math.abs(rb.left-ra.left);
+      }
+    }
+    if(!S.cycle && S.items.length===1){
+      var one=S.t.children[0],gap=parseFloat(getComputedStyle(S.t).gap)||0;
+      S.cycle=(one?one.getBoundingClientRect().width:120)+gap;
+    }
+    if(!S.cycle)S.cycle=Math.max(1,S.t.scrollWidth/Math.max(1,guard));
+    S.t.style.width='max-content';S.t.style.minWidth='max-content';
+    normalize();paint();
   }
-  function tick(now){if(!S.running)return;if(!S.last)S.last=now;var dt=Math.min(50,Math.max(0,now-S.last));S.last=now;if(!S.paused&&!S.drag&&S.cycle){S.offset+=(S.speed*dt)/1000;if(S.offset>=S.cycle)S.offset-=S.cycle*Math.floor(S.offset/S.cycle);paint();}S.raf=requestAnimationFrame(tick);}
+  function tick(now){
+    if(!S.running)return;
+    if(!S.last)S.last=now;
+    var dt=Math.min(50,Math.max(0,now-S.last));S.last=now;
+    if(!S.paused&&!S.drag&&S.cycle>0){
+      S.offset+=(S.speed*dt)/1000;
+      if(S.offset>=S.cycle)S.offset=S.offset%S.cycle;
+      paint();
+    }
+    S.raf=requestAnimationFrame(tick);
+  }
   function start(){if(S.running||!S.t||!S.items.length||!S.cycle)return;S.running=true;S.last=0;S.raf=requestAnimationFrame(tick);}
-  function pause(){S.paused=true;}function resume(){S.paused=false;S.last=performance.now();}function scheduleResume(ms){clearTimer('resumeTimer');S.resumeTimer=setTimeout(function(){S.drag=false;resume();},ms||800);}
+  function pause(){S.paused=true;}
+  function resume(){S.paused=false;S.last=performance.now();}
+  function scheduleResume(ms){clearTimer('resumeTimer');S.resumeTimer=setTimeout(function(){S.drag=false;resume();},ms||800);}
   function bind(){
-    if(!S.w||S.bound)return;S.bound=true;S.w.addEventListener('mouseenter',pause);S.w.addEventListener('mouseleave',resume);S.w.addEventListener('focusin',pause);S.w.addEventListener('focusout',resume);
-    S.w.addEventListener('touchstart',function(e){if(!e.touches[0])return;clearTimer('resumeTimer');S.drag=true;S.paused=true;S.startX=e.touches[0].clientX;S.startOffset=S.offset;},{passive:true});
-    S.w.addEventListener('touchmove',function(e){if(!S.drag||!e.touches[0]||!S.cycle)return;S.offset=S.startOffset-(e.touches[0].clientX-S.startX);normalize();paint();},{passive:true});
-    S.w.addEventListener('touchend',function(){scheduleResume(650);},{passive:true});S.w.addEventListener('touchcancel',function(){scheduleResume(650);},{passive:true});S.w.addEventListener('wheel',function(){pause();scheduleResume(900);},{passive:true});
-    if(window.ResizeObserver){S.resizeObserver=new ResizeObserver(function(){clearTimer('resizeTimer');S.resizeTimer=setTimeout(function(){if(!S.w)return;var ratio=S.cycle?S.offset/S.cycle:0;build();if(S.cycle){S.offset=S.cycle*ratio;normalize();paint();}start();},120);});S.resizeObserver.observe(S.w);}
+    if(!S.w||S.bound)return;
+    S.bound=true;
+    S.w.addEventListener('mouseenter',pause);
+    S.w.addEventListener('mouseleave',resume);
+    S.w.addEventListener('focusin',pause);
+    S.w.addEventListener('focusout',resume);
+    S.w.addEventListener('touchstart',function(e){
+      if(!e.touches[0])return;clearTimer('resumeTimer');S.drag=true;S.paused=true;
+      S.startX=e.touches[0].clientX;S.startOffset=S.offset;
+    },{passive:true});
+    S.w.addEventListener('touchmove',function(e){
+      if(!S.drag||!e.touches[0]||!S.cycle)return;
+      S.offset=S.startOffset-(e.touches[0].clientX-S.startX);normalize();paint();
+    },{passive:true});
+    S.w.addEventListener('touchend',function(){scheduleResume(650);},{passive:true});
+    S.w.addEventListener('touchcancel',function(){scheduleResume(650);},{passive:true});
+    S.w.addEventListener('wheel',function(){pause();scheduleResume(900);},{passive:true});
+    if(window.ResizeObserver){
+      S.resizeObserver=new ResizeObserver(function(){
+        clearTimer('resizeTimer');
+        S.resizeTimer=setTimeout(function(){
+          if(!S.w)return;
+          var ratio=S.cycle?S.offset/S.cycle:0;
+          stop();build();
+          if(S.cycle){S.offset=S.cycle*ratio;normalize();paint();}
+          start();
+        },120);
+      });
+      S.resizeObserver.observe(S.w);
+    }
   }
-  function signatureOf(items){return items.map(function(x){return String(x.id||x.companyId||x.name||x.nameAr||x.nameEn||'')+'|'+getLogo(x);}).join('||')+'|'+STATE.language;}
+  function signatureOf(items){
+    return items.map(function(x){return String(x.id||x.companyId||x.name||x.nameAr||x.nameEn||'')+'|'+getLogo(x);}).join('||')+'|'+STATE.language;
+  }
   function render(force){
-    var w=document.getElementById('companiesSlider'),t=document.getElementById('sliderTrack');if(!w||!t)return;var items=(STATE.companies||[]).filter(function(x){return x&&typeof x==='object';});var sig=signatureOf(items);var count=document.getElementById('companiesCount');if(count)count.textContent=items.length;
-    S.w=w;S.t=t;S.items=items;S.t.style.direction='ltr';S.t.style.willChange='transform';
+    var w=document.getElementById('companiesSlider'),t=document.getElementById('sliderTrack');
+    if(!w||!t)return;
+    var items=(STATE.companies||[]).filter(function(x){return x&&typeof x==='object';});
+    var sig=signatureOf(items);
+    var count=document.getElementById('companiesCount');if(count)count.textContent=items.length;
+    S.w=w;S.t=t;S.items=items;
+    S.t.style.direction='ltr';S.t.style.willChange='transform';
     if(!force&&S.signature===sig&&S.cycle&&S.t.children.length){bind();start();return;}
-    stop();clearTimer('resumeTimer');clearTimer('resizeTimer');S.signature=sig;build();bind();start();
+    var ratio=S.cycle?S.offset/S.cycle:0;
+    stop();clearTimer('resumeTimer');clearTimer('resizeTimer');S.signature=sig;
+    build();
+    if(S.cycle&&ratio){S.offset=S.cycle*ratio;normalize();paint();}
+    bind();start();
   }
   return{render:render,start:start,stop:stop,pause:pause,resume:resume};
 })();
@@ -2228,7 +2332,7 @@ function initFormBindings(){
   var email=document.getElementById('loginEmail'),pass=document.getElementById('loginPass');[email,pass].forEach(function(el){if(el)el.addEventListener('keydown',function(e){if(e.key==='Enter')handleLogin();});});
 }
 document.addEventListener('DOMContentLoaded',function(){
-  try{STATE.language=normalizeLanguage((localStorage.getItem('SecurePath_language')||'ar'));}catch(e){STATE.language='ar';}
+  try{STATE.language=normalizeLanguage((localStorage.getItem('SecurePath_language')||'en'));}catch(e){STATE.language='ar';}
   initFormBindings();ensureLanguageToggle();updateAllTexts();updateCharCount();
   // Do not request browser notifications automatically. Ask only after a successful login.
   auth.onAuthStateChanged(function(user){
