@@ -183,7 +183,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 .login-box h1 { text-align: center; font-size: 28px; margin: 0 0 4px; }
 .login-box .subtitle { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 28px; }
 
-.field { margin-bottom: 18px; }
+.field { margin-bottom: 18px; position: relative; }
 .field label { display: block; font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; letter-spacing: 0.3px; }
 .field input, .field select, .field textarea {
   width: 100%;
@@ -200,6 +200,17 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   box-shadow: 0 0 0 4px var(--gold-100);
   background: #fff;
 }
+.field .toggle-pass {
+  position: absolute;
+  left: 12px;
+  top: 38px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--muted);
+}
+.field .toggle-pass:hover { color: var(--text); }
 
 /* ===== APP SHELL ===== */
 #app { display: none; min-height: 100vh; }
@@ -671,8 +682,10 @@ tr:hover td { background: var(--navy-50); }
   text-align: center;
   transition: var(--transition-base);
   background: var(--paper);
+  cursor: pointer;
 }
 .file-upload-area:hover { border-color: var(--gold); background: var(--gold-soft); }
+.file-upload-area.dragover { border-color: var(--gold); background: var(--gold-100); }
 .file-upload-area input[type="file"] { display: none; }
 .file-upload-area .upload-label {
   display: inline-flex;
@@ -688,6 +701,7 @@ tr:hover td { background: var(--navy-50); }
 }
 .file-upload-area .upload-label:hover { background: #e2af5a; transform: translateY(-2px); box-shadow: var(--shadow-gold); }
 .file-upload-area .file-name { margin-top: 10px; font-size: 13px; color: var(--muted); }
+.file-upload-area .file-size { font-size: 11px; color: var(--muted-light); }
 .upload-progress {
   display: none;
   width: 100%;
@@ -996,15 +1010,28 @@ tr:hover td { background: var(--navy-50); }
     </div>
     <h1>Secure PATH</h1>
     <p class="subtitle">مركز تشغيل الوسيط — إدارة العملاء والوثائق والمطالبات</p>
+    
+    <div id="loginErr" style="color:var(--red);font-size:13px;margin-bottom:12px"></div>
+    
     <div class="field">
       <label>البريد الإلكتروني</label>
       <input id="email" type="email" autocomplete="username" placeholder="admin@securepath.com">
     </div>
     <div class="field">
       <label>كلمة المرور</label>
-      <input id="pass" type="password" autocomplete="current-password" placeholder="••••••••">
+      <div style="position:relative;">
+        <input id="pass" type="password" autocomplete="current-password" placeholder="••••••••">
+        <button type="button" class="toggle-pass" onclick="togglePassword()" id="togglePassBtn">👁️</button>
+      </div>
     </div>
-    <div id="loginErr" style="color:var(--red);font-size:13px;margin-bottom:12px"></div>
+    
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);cursor:pointer;">
+        <input type="checkbox" id="rememberMe"> تذكرني
+      </label>
+      <button class="btn btn-outline btn-sm" onclick="resetPassword()" style="font-size:12px;">نسيت كلمة المرور؟</button>
+    </div>
+    
     <button class="btn btn-primary" style="width:100%;justify-content:center;font-size:15px;padding:14px" id="loginBtn" onclick="login()">دخول لوحة التحكم</button>
   </div>
 </div>
@@ -1405,31 +1432,61 @@ tr:hover td { background: var(--navy-50); }
   </div>
 </div>
 
-<!-- Document Upload Modal -->
+<!-- Document Upload Modal - محسّن -->
 <div id="docUploadModal" class="overlay">
-  <div class="modal">
+  <div class="modal" style="width:min(750px,96vw)">
     <div class="modal-header">
       <h2>📎 رفع مستند جديد</h2>
       <button class="modal-close" onclick="closeModal('docUploadModal')">✕</button>
     </div>
-    <div class="field"><label>العميل</label><select id="docClient"><option value="">اختر العميل</option></select></div>
-    <div class="form-grid">
-      <div class="field"><label>اسم المستند</label><input id="docName" placeholder="مثال: بطاقة الرقم القومي"></div>
-      <div class="field"><label>نوع المستند</label><select id="docType"><option value="هوية شخصية">هوية شخصية</option><option value="رخصة قيادة">رخصة قيادة</option><option value="تقرير طبي">تقرير طبي</option><option value="عقد تأمين">عقد تأمين</option><option value="فاتورة">فاتورة</option><option value="أخرى">أخرى</option></select></div>
-    </div>
+    
     <div class="field">
-      <label>اختر الملف</label>
-      <div class="file-upload-area" id="dropArea">
-        <input type="file" id="docFile" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
-        <label for="docFile" class="upload-label">📤 اختر ملف</label>
-        <div class="file-name" id="docFileName">لم يتم اختيار ملف</div>
-        <div class="upload-progress" id="docUploadProgress"><div class="progress-bar" id="progressBar"></div></div>
+      <label>العميل <span style="color:var(--red)">*</span></label>
+      <select id="docClient" required><option value="">اختر العميل</option></select>
+    </div>
+    
+    <div class="form-grid">
+      <div class="field">
+        <label>اسم المستند <span style="color:var(--red)">*</span></label>
+        <input id="docName" placeholder="مثال: بطاقة الرقم القومي" required>
+      </div>
+      <div class="field">
+        <label>نوع المستند <span style="color:var(--red)">*</span></label>
+        <select id="docType" required>
+          <option value="هوية شخصية">هوية شخصية</option>
+          <option value="رخصة قيادة">رخصة قيادة</option>
+          <option value="جواز سفر">جواز سفر</option>
+          <option value="تقرير طبي">تقرير طبي</option>
+          <option value="عقد تأمين">عقد تأمين</option>
+          <option value="فاتورة">فاتورة</option>
+          <option value="كشف حساب">كشف حساب</option>
+          <option value="صورة شخصية">صورة شخصية</option>
+          <option value="أخرى">أخرى</option>
+        </select>
       </div>
     </div>
+    
+    <div class="field">
+      <label>اختر الملف <span style="color:var(--red)">*</span></label>
+      <div class="file-upload-area" id="dropArea">
+        <input type="file" id="docFile" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx">
+        <label for="docFile" class="upload-label">📤 اختر ملف أو اسحبه هنا</label>
+        <div class="file-name" id="docFileName">لم يتم اختيار ملف</div>
+        <div class="file-size" id="docFileSize"></div>
+        <div class="upload-progress" id="docUploadProgress">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px;">
+        <span>الحد الأقصى: 10MB. الصيغ المدعومة: PDF, JPG, PNG, DOC, DOCX, XLS, XLSX</span>
+      </div>
+    </div>
+    
     <div id="docUploadErr" class="error"></div>
+    
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('docUploadModal')">إلغاء</button>
-      <button class="btn btn-primary" id="uploadDocBtn" onclick="uploadDocument()">رفع المستند</button>
+      <button class="btn btn-primary" id="uploadDocBtn" onclick="uploadDocument()">📤 رفع المستند</button>
     </div>
   </div>
 </div>
@@ -1568,7 +1625,7 @@ tr:hover td { background: var(--navy-50); }
 <div id="toast" class="toast"></div>
 
 <!-- ============================================================ -->
-<!-- JAVASCRIPT - النسخة النهائية المتكاملة مع العروض -->
+<!-- JAVASCRIPT - النسخة المحسّنة -->
 <!-- ============================================================ -->
 <script>
 // ================================================================
@@ -1698,6 +1755,7 @@ var MSG_UNSUB = null;
 var LOADED = false;
 var ADMIN_EMAILS = ['admin@securepath.com', 'admin@path.com'];
 var currentUser = null;
+var selectedFile = null; // للمستندات
 
 // ================================================================
 // 4. UTILITY FUNCTIONS
@@ -1826,7 +1884,7 @@ function hideLoading(btnId) {
 }
 
 // ================================================================
-// 5. AUTHENTICATION
+// 5. AUTHENTICATION - محسّن
 // ================================================================
 function isAdminEmail(email) {
   if (!email) return false;
@@ -1841,7 +1899,43 @@ function checkAdminAccess(user) {
 function forceLogout() {
   if (CHAT_UNSUB) CHAT_UNSUB();
   if (MSG_UNSUB) MSG_UNSUB();
-  auth.signOut().then(function() { location.reload(); });
+  auth.signOut().then(function() { 
+    toast('🔒 تم تسجيل الخروج');
+    setTimeout(function() { location.reload(); }, 500);
+  });
+}
+
+function togglePassword() {
+  var pass = document.getElementById('pass');
+  var btn = document.getElementById('togglePassBtn');
+  if (pass.type === 'password') {
+    pass.type = 'text';
+    btn.textContent = '🙈';
+  } else {
+    pass.type = 'password';
+    btn.textContent = '👁️';
+  }
+}
+
+function resetPassword() {
+  var email = document.getElementById('email').value.trim();
+  if (!email) {
+    document.getElementById('loginErr').textContent = '⚠️ يرجى إدخال البريد الإلكتروني لإعادة تعيين كلمة المرور';
+    return;
+  }
+  if (!isAdminEmail(email)) {
+    document.getElementById('loginErr').textContent = '⚠️ هذا البريد غير مسجل كأدمن';
+    return;
+  }
+  
+  auth.sendPasswordResetEmail(email)
+    .then(function() {
+      toast('📧 تم إرسال رابط إعادة تعيين كلمة المرور إلى ' + email);
+      document.getElementById('loginErr').textContent = '';
+    })
+    .catch(function(err) {
+      document.getElementById('loginErr').textContent = '❌ ' + err.message;
+    });
 }
 
 function login() {
@@ -1855,6 +1949,7 @@ function login() {
     return; 
   }
   
+  // تحقق من الصلاحية قبل محاولة تسجيل الدخول
   if (!isAdminEmail(email)) {
     err.textContent = '⚠️ هذا البريد غير مصرح له بدخول لوحة التحكم.';
     return;
@@ -1862,14 +1957,24 @@ function login() {
   
   showLoading('loginBtn', 'جاري تسجيل الدخول...');
   
+  // محاولة تسجيل الدخول
   auth.signInWithEmailAndPassword(email, pass)
     .then(function(result) {
       var user = result.user;
+      
       if (!checkAdminAccess(user)) {
         err.textContent = '⚠️ تم تسجيل الدخول ولكن هذا الحساب ليس حساب أدمن.';
         auth.signOut();
         hideLoading('loginBtn');
         return;
+      }
+      
+      // حفظ تذكرني
+      var remember = document.getElementById('rememberMe').checked;
+      if (remember) {
+        localStorage.setItem('adminEmail', email);
+      } else {
+        localStorage.removeItem('adminEmail');
       }
       
       currentUser = user;
@@ -1880,6 +1985,7 @@ function login() {
       document.getElementById('sAgent').textContent = email.split('@')[0];
       
       hideLoading('loginBtn');
+      toast('✅ مرحباً بك ' + email);
       
       if (!LOADED) loadAll();
     })
@@ -1892,11 +1998,14 @@ function login() {
 function logout() {
   if (CHAT_UNSUB) CHAT_UNSUB();
   if (MSG_UNSUB) MSG_UNSUB();
-  auth.signOut().then(function() { location.reload(); });
+  toast('🔒 جاري تسجيل الخروج...');
+  auth.signOut().then(function() { 
+    setTimeout(function() { location.reload(); }, 500);
+  });
 }
 
 // ================================================================
-// 6. AUTH STATE MONITOR
+// 6. AUTH STATE MONITOR - محسّن
 // ================================================================
 auth.onAuthStateChanged(function(user) {
   if (user) {
@@ -1904,6 +2013,7 @@ auth.onAuthStateChanged(function(user) {
       document.getElementById('unauthorized').classList.add('show');
       document.getElementById('login').style.display = 'none';
       document.getElementById('app').style.display = 'none';
+      toast('⚠️ حساب غير مصرح به', true);
       setTimeout(function() { forceLogout(); }, 3000);
       return;
     }
@@ -1915,12 +2025,26 @@ auth.onAuthStateChanged(function(user) {
     document.getElementById('userEmail').textContent = user.email || '';
     document.getElementById('sAgent').textContent = (user.email || '').split('@')[0];
     
+    // استعادة البريد الإلكتروني للتذكر
+    var savedEmail = localStorage.getItem('adminEmail');
+    if (savedEmail && !document.getElementById('email').value) {
+      document.getElementById('email').value = savedEmail;
+      document.getElementById('rememberMe').checked = true;
+    }
+    
     if (!LOADED) loadAll();
   } else {
     document.getElementById('login').style.display = 'grid';
     document.getElementById('app').style.display = 'none';
     document.getElementById('unauthorized').classList.remove('show');
     currentUser = null;
+    
+    // استعادة البريد المحفوظ
+    var savedEmail = localStorage.getItem('adminEmail');
+    if (savedEmail) {
+      document.getElementById('email').value = savedEmail;
+      document.getElementById('rememberMe').checked = true;
+    }
   }
 });
 
@@ -1934,7 +2058,6 @@ function loadCollection(name) {
         var data = d.data();
         data.id = d.id;
         
-        // معالجة خاصة للمنتجات
         if (name === 'products') {
           if (!data.imageUrl && data.image) data.imageUrl = data.image;
           if (!data.image && data.imageUrl) data.image = data.imageUrl;
@@ -1943,11 +2066,14 @@ function loadCollection(name) {
           if (data.status === 'published') data.published = true;
           if (data.published === true) data.status = 'published';
           if (!data.status) data.status = 'draft';
-          if (!data.premium) data.premium = 0;
-          if (!data.sumInsured) data.sumInsured = 0;
         }
         
-        // توحيد المعرفات
+        if (name === 'offers') {
+          if (!data.imageUrl && data.image) data.imageUrl = data.image;
+          if (!data.image && data.imageUrl) data.image = data.imageUrl;
+          if (!data.uid) data.uid = data.id;
+        }
+        
         if (name === 'clients' && !data.uid && data.id) data.uid = data.id;
         if (name === 'policies' && !data.uid && data.clientId) data.uid = data.clientId;
         if (name === 'documents' && !data.uid && data.clientId) data.uid = data.clientId;
@@ -1955,11 +2081,9 @@ function loadCollection(name) {
         if (name === 'notifications' && !data.uid && data.clientId) data.uid = data.clientId;
         if (name === 'payments' && !data.uid && data.clientId) data.uid = data.clientId;
         if (name === 'claims' && !data.uid && data.clientId) data.uid = data.clientId;
-        if (name === 'offers' && !data.uid) data.uid = data.id;
         
         return data;
       });
-      
       return results;
     })
     .catch(function(e) {
@@ -1972,7 +2096,7 @@ function loadAll() {
   var names = ['clients', 'policies', 'payments', 'claims', 'documents', 'messages', 'notifications', 'activity', 'products', 'companies', 'insuranceAssessments', 'insuranceTypes', 'offers'];
   var promises = names.map(function(n) { return loadCollection(n); });
   
-  Promise.all(promises).then(function(results) {
+  return Promise.all(promises).then(function(results) {
     names.forEach(function(n, i) {
       if (n === 'insuranceAssessments') {
         DATA.assessments = results[i];
@@ -1989,6 +2113,7 @@ function loadAll() {
     startMessagesListener();
     startActivityListener();
     startNotificationsListener();
+    toast('✅ تم تحميل البيانات بنجاح');
   });
 }
 
@@ -2330,10 +2455,9 @@ function renderOffers() {
   var html = offers.map(function(o) {
     var isActive = o.status === 'active';
     var now = new Date();
-    var start = o.startDate ? new Date(o.startDate) : null;
     var end = o.endDate ? new Date(o.endDate) : null;
     var isExpired = end && end < now;
-    var isUpcoming = start && start > now;
+    var isUpcoming = o.startDate ? new Date(o.startDate) > now : false;
     
     var statusBadge = isExpired ? '<span class="badge badge-danger">منتهي</span>' :
                       isUpcoming ? '<span class="badge badge-warning">قادم</span>' :
@@ -2538,8 +2662,6 @@ function renderInsuranceTypes() {
 // 11. PRODUCTS
 // ================================================================
 function renderProducts() {
-  console.log('🔄 Rendering products...', DATA.products);
-  
   var q = (document.getElementById('productSearch')?.value || '').toLowerCase();
   var products = (DATA.products || []).filter(function(p) {
     return [p.name, p.companyName, p.company, p.description, p.typeName, p.type]
@@ -2550,10 +2672,7 @@ function renderProducts() {
   });
   
   var grid = document.getElementById('productsGrid');
-  if (!grid) {
-    console.error('❌ productsGrid not found');
-    return;
-  }
+  if (!grid) return;
   
   if (products.length === 0) {
     grid.innerHTML = '<div class="empty" style="grid-column:span 3;padding:60px 20px;">' +
@@ -2632,7 +2751,6 @@ function renderProducts() {
   }).join('');
   
   grid.innerHTML = html;
-  console.log('✅ Products rendered:', products.length);
 }
 
 function createProduct() {
@@ -3176,33 +3294,95 @@ function updateBadge() {
 }
 
 // ================================================================
-// 12. DOCUMENT UPLOAD
+// 12. DOCUMENT UPLOAD - محسّن بالكامل
 // ================================================================
 function openDocUploadModal() {
   document.getElementById('docUploadErr').textContent = '';
   document.getElementById('docName').value = '';
   document.getElementById('docFile').value = '';
   document.getElementById('docFileName').textContent = 'لم يتم اختيار ملف';
+  document.getElementById('docFileSize').textContent = '';
   document.getElementById('docUploadProgress').style.display = 'none';
   document.getElementById('progressBar').style.width = '0%';
+  selectedFile = null;
+  
   refreshDocClientSelect();
   openModal('docUploadModal');
   
-  document.getElementById('docFile').onchange = function(e) {
-    var file = e.target.files[0];
-    if (file) {
-      document.getElementById('docFileName').textContent = '📎 ' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
-    } else {
-      document.getElementById('docFileName').textContent = 'لم يتم اختيار ملف';
+  // إعداد معالجة الملف
+  var fileInput = document.getElementById('docFile');
+  fileInput.onchange = handleFileSelect;
+  
+  // إعداد منطقة السحب والإفلات
+  var dropArea = document.getElementById('dropArea');
+  dropArea.ondragover = function(e) {
+    e.preventDefault();
+    this.classList.add('dragover');
+  };
+  dropArea.ondragleave = function(e) {
+    e.preventDefault();
+    this.classList.remove('dragover');
+  };
+  dropArea.ondrop = function(e) {
+    e.preventDefault();
+    this.classList.remove('dragover');
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      var file = e.dataTransfer.files[0];
+      fileInput.files = e.dataTransfer.files;
+      handleFileSelect.call(fileInput, { target: fileInput });
     }
   };
+}
+
+function handleFileSelect(e) {
+  var file = e.target.files[0];
+  if (!file) {
+    document.getElementById('docFileName').textContent = 'لم يتم اختيار ملف';
+    document.getElementById('docFileSize').textContent = '';
+    selectedFile = null;
+    return;
+  }
+  
+  var maxSize = 10 * 1024 * 1024; // 10MB
+  if (file.size > maxSize) {
+    document.getElementById('docUploadErr').textContent = '⚠️ حجم الملف كبير جداً. الحد الأقصى 10MB';
+    document.getElementById('docFileName').textContent = '❌ ' + file.name;
+    document.getElementById('docFileSize').textContent = '';
+    selectedFile = null;
+    return;
+  }
+  
+  var allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg', 
+                      'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                      'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+  
+  if (!allowedTypes.includes(file.type)) {
+    document.getElementById('docUploadErr').textContent = '⚠️ صيغة الملف غير مدعومة. الصيغ المدعومة: PDF, JPG, PNG, DOC, DOCX, XLS, XLSX';
+    document.getElementById('docFileName').textContent = '❌ ' + file.name;
+    document.getElementById('docFileSize').textContent = '';
+    selectedFile = null;
+    return;
+  }
+  
+  document.getElementById('docUploadErr').textContent = '';
+  document.getElementById('docFileName').textContent = '📎 ' + file.name;
+  document.getElementById('docFileSize').textContent = 'حجم: ' + (file.size / 1024).toFixed(1) + ' KB';
+  selectedFile = file;
+  
+  // معاينة الصور
+  if (file.type.startsWith('image/')) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('docFileName').innerHTML = '📎 ' + file.name + ' <span style="font-size:11px;color:var(--muted)">(معاينة متاحة)</span>';
+    };
+    reader.readAsDataURL(file);
+  }
 }
 
 function uploadDocument() {
   var clientId = document.getElementById('docClient').value;
   var fileName = document.getElementById('docName').value.trim();
   var fileType = document.getElementById('docType').value;
-  var fileInput = document.getElementById('docFile');
   var err = document.getElementById('docUploadErr');
   var progress = document.getElementById('docUploadProgress');
   var progressBar = document.getElementById('progressBar');
@@ -3211,22 +3391,25 @@ function uploadDocument() {
   
   if (!clientId) { err.textContent = 'يرجى اختيار العميل'; return; }
   if (!fileName) { err.textContent = 'يرجى إدخال اسم المستند'; return; }
-  if (!fileInput.files || !fileInput.files[0]) { err.textContent = 'يرجى اختيار ملف'; return; }
+  if (!selectedFile) { err.textContent = 'يرجى اختيار ملف للرفع'; return; }
   
-  var file = fileInput.files[0];
-  if (file.size > 10 * 1024 * 1024) {
-    err.textContent = 'حجم الملف كبير جداً. الحد الأقصى 10MB';
-    return;
+  // التحقق من وجود ملف بنفس الاسم لهذا العميل
+  var existing = DATA.documents.find(function(d) { 
+    return (d.clientId === clientId || d.uid === clientId) && d.fileName === fileName; 
+  });
+  if (existing) {
+    if (!confirm('⚠️ يوجد مستند بنفس الاسم لهذا العميل. هل تريد استبداله؟')) return;
   }
   
-  showLoading('uploadDocBtn', 'جاري الرفع...');
+  showLoading('uploadDocBtn', 'جاري رفع الملف...');
   if (progress) {
     progress.style.display = 'block';
     progressBar.style.width = '0%';
   }
   
+  var file = selectedFile;
   var timestamp = Date.now();
-  var filePath = 'admin_documents/' + clientId + '/' + timestamp + '_' + file.name;
+  var filePath = 'admin_documents/' + clientId + '/' + timestamp + '_' + file.name.replace(/[^a-zA-Z0-9.]/g, '_');
   var storageRef = storage.ref(filePath);
   var uploadTask = storageRef.put(file);
   
@@ -3240,11 +3423,13 @@ function uploadDocument() {
     function(error) {
       hideLoading('uploadDocBtn');
       if (progress) progress.style.display = 'none';
-      err.textContent = 'فشل رفع الملف: ' + error.message;
+      err.textContent = '❌ فشل رفع الملف: ' + error.message;
+      toast('❌ فشل رفع المستند: ' + error.message, true);
     },
     function() {
       uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-        db.collection('documents').add({
+        // حفظ بيانات المستند في Firestore
+        var docData = {
           clientId: clientId,
           uid: clientId,
           fileName: fileName,
@@ -3256,22 +3441,31 @@ function uploadDocument() {
           uploadedBy: 'agent',
           verificationStatus: 'pending',
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        })
-        .then(function() {
-          hideLoading('uploadDocBtn');
-          if (progress) progress.style.display = 'none';
-          closeModal('docUploadModal');
-          toast('✅ تم رفع المستند بنجاح');
-          return loadCollection('documents').then(function(docs) {
-            DATA.documents = docs;
-            renderDocuments();
-          });
-        })
-        .catch(function(error) {
-          hideLoading('uploadDocBtn');
-          if (progress) progress.style.display = 'none';
-          err.textContent = 'فشل حفظ بيانات المستند: ' + error.message;
+        };
+        
+        // إذا كان هناك مستند موجود بنفس الاسم، نقوم بالتحديث
+        if (existing) {
+          return db.collection('documents').doc(existing.id).update(docData);
+        } else {
+          return db.collection('documents').add(docData);
+        }
+      })
+      .then(function() {
+        hideLoading('uploadDocBtn');
+        if (progress) progress.style.display = 'none';
+        closeModal('docUploadModal');
+        toast('✅ تم رفع المستند بنجاح');
+        return loadCollection('documents').then(function(docs) {
+          DATA.documents = docs;
+          renderDocuments();
+          renderDashboard();
         });
+      })
+      .catch(function(error) {
+        hideLoading('uploadDocBtn');
+        if (progress) progress.style.display = 'none';
+        err.textContent = '❌ فشل حفظ بيانات المستند: ' + error.message;
+        toast('❌ فشل حفظ بيانات المستند: ' + error.message, true);
       });
     }
   );
@@ -3287,10 +3481,12 @@ function verifyDocument(id, status) {
     return loadCollection('documents').then(function(docs) {
       DATA.documents = docs;
       renderDocuments();
-      toast(status === 'approved' ? '✅ تم الاعتماد' : '✅ تم الرفض');
+      toast(status === 'approved' ? '✅ تم اعتماد المستند' : '✅ تم رفض المستند');
     });
   })
-  .catch(function() { toast('❌ تعذر التحديث', true); });
+  .catch(function(err) { 
+    toast('❌ تعذر التحديث: ' + err.message, true);
+  });
 }
 
 // ================================================================
@@ -3693,6 +3889,14 @@ function openClientProfile(id) {
   }).join('') || '<tr><td colspan="6"><div class="empty">لا توجد وثائق</div></td></tr>';
   bodyHtml += '</tbody></table></div></div></div>';
   
+  bodyHtml += '<div class="card" style="margin-top:16px"><div class="card-header"><h3>المستندات</h3></div><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>المستند</th><th>النوع</th><th>الحالة</th><th>التاريخ</th></tr></thead><tbody>';
+  bodyHtml += docs.map(function(d) {
+    var st = String(d.verificationStatus || '').toLowerCase();
+    var badge = st === 'pending' ? '<span class="badge badge-warning">قيد المراجعة</span>' : st === 'approved' || st === 'verified' ? '<span class="badge badge-success">معتمد</span>' : st === 'rejected' ? '<span class="badge badge-danger">مرفوض</span>' : '<span class="badge badge-gray">—</span>';
+    return '<tr><td>' + esc(d.fileName || '—') + '</td><td>' + esc(d.fileType || '—') + '</td><td>' + badge + '</td><td>' + date(d.createdAt) + '</td></tr>';
+  }).join('') || '<tr><td colspan="4"><div class="empty">لا توجد مستندات</div></td></tr>';
+  bodyHtml += '</tbody></table></div></div></div>';
+  
   document.getElementById('profileBody').innerHTML = bodyHtml;
 }
 
@@ -3843,9 +4047,26 @@ function initSelects() {
   });
 }
 
+// استعادة البريد المحفوظ عند التحميل
+document.addEventListener('DOMContentLoaded', function() {
+  var savedEmail = localStorage.getItem('adminEmail');
+  if (savedEmail) {
+    document.getElementById('email').value = savedEmail;
+    document.getElementById('rememberMe').checked = true;
+  }
+  
+  // إعداد حدث Enter لتسجيل الدخول
+  document.getElementById('pass').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') login();
+  });
+  document.getElementById('email').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') document.getElementById('pass').focus();
+  });
+});
+
 initSelects();
 
-console.log('✅ Secure PATH Admin Panel v8.0 - With Offers Feature');
+console.log('✅ Secure PATH Admin Panel v9.0 - Enhanced Login & Document Upload');
 console.log('📊 Firebase Collections Loaded:', Object.keys(DATA).filter(k => DATA[k].length > 0));
 </script>
 </body>
