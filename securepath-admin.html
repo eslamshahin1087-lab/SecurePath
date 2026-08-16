@@ -1032,6 +1032,7 @@ tr:hover td { background: var(--navy-50); }
         <button data-view="claims" onclick="showView('claims',this)"><span class="icon">!</span><span class="label">المطالبات</span></button>
         <button data-view="documents" onclick="showView('documents',this)"><span class="icon">▤</span><span class="label">المستندات</span></button>
         <button data-view="renewals" onclick="showView('renewals',this)"><span class="icon">↻</span><span class="label">التجديدات</span></button>
+        <button data-view="offers" onclick="showView('offers',this)"><span class="icon">★</span><span class="label">العروض</span></button>
         
         <div class="nav-section">الإعدادات</div>
         <button data-view="companies" onclick="showView('companies',this)"><span class="icon">◆</span><span class="label">شركات التأمين</span></button>
@@ -1182,6 +1183,18 @@ tr:hover td { background: var(--navy-50); }
             <div class="actions"><button class="btn btn-primary" onclick="openDocUploadModal()">📤 رفع مستند</button></div>
           </div>
           <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>المستند</th><th>النوع</th><th>المصدر</th><th>الحالة</th><th>التاريخ</th><th>إجراء</th></tr></thead><tbody id="documentsBody"></tbody></table></div></div></div>
+        </div>
+
+        <!-- OFFERS -->
+        <div id="v-offers" class="view">
+          <div class="toolbar">
+            <div class="search"><input id="offerSearch" oninput="renderOffers()" placeholder="ابحث باسم العرض أو الشركة"></div>
+            <div class="actions">
+              <button class="btn btn-primary" onclick="openOfferModal()">+ إضافة عرض جديد</button>
+              <button class="btn btn-outline btn-sm" onclick="renderOffers()">🔄 تحديث</button>
+            </div>
+          </div>
+          <div class="grid grid-3" id="offersGrid"></div>
         </div>
 
         <!-- MESSAGES -->
@@ -1485,6 +1498,39 @@ tr:hover td { background: var(--navy-50); }
   </div>
 </div>
 
+<!-- Offer Modal -->
+<div id="offerModal" class="overlay">
+  <div class="modal" style="width:min(850px,96vw)">
+    <div class="modal-header">
+      <h2>🎯 إضافة عرض جديد</h2>
+      <button class="modal-close" onclick="closeModal('offerModal')">✕</button>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+      <div class="field"><label>اسم العرض</label><input id="offerName" placeholder="مثال: خصم 20% على التأمين الطبي"></div>
+      <div class="field"><label>رمز العرض (كود)</label><input id="offerCode" placeholder="مثال: MED20"></div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+      <div class="field"><label>شركة التأمين</label><select id="offerCompany"><option value="">اختر الشركة</option></select></div>
+      <div class="field"><label>نوع التأمين</label><select id="offerType"><option value="">اختر النوع</option></select></div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+      <div class="field"><label>نسبة الخصم (%)</label><input id="offerDiscount" type="number" placeholder="0" min="0" max="100"></div>
+      <div class="field"><label>الحالة</label><select id="offerStatus"><option value="active">نشط</option><option value="expired">منتهي</option><option value="draft">مسودة</option></select></div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+      <div class="field"><label>تاريخ البداية</label><input id="offerStart" type="date"></div>
+      <div class="field"><label>تاريخ الانتهاء</label><input id="offerEnd" type="date"></div>
+    </div>
+    <div class="field"><label>الوصف</label><textarea id="offerDesc" rows="2" placeholder="وصف تفصيلي للعرض"></textarea></div>
+    <div class="field"><label>صورة العرض (URL)</label><input id="offerImage" placeholder="https://example.com/offer.jpg"></div>
+    <div id="offerErr" class="error"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('offerModal')">إلغاء</button>
+      <button class="btn btn-primary" id="createOfferBtn" onclick="createOffer()">حفظ العرض</button>
+    </div>
+  </div>
+</div>
+
 <!-- Company Profile Modal -->
 <div id="companyProfileModal" class="overlay">
   <div class="modal" style="width:min(900px,96vw)">
@@ -1522,7 +1568,7 @@ tr:hover td { background: var(--navy-50); }
 <div id="toast" class="toast"></div>
 
 <!-- ============================================================ -->
-<!-- JAVASCRIPT - النسخة النهائية المتكاملة -->
+<!-- JAVASCRIPT - النسخة النهائية المتكاملة مع العروض -->
 <!-- ============================================================ -->
 <script>
 // ================================================================
@@ -1642,7 +1688,8 @@ var DATA = {
   products: [],
   companies: [],
   assessments: [],
-  types: []
+  types: [],
+  offers: []
 };
 
 var CURRENT_CHAT = null;
@@ -1889,18 +1936,13 @@ function loadCollection(name) {
         
         // معالجة خاصة للمنتجات
         if (name === 'products') {
-          // توحيد حقل الصورة
           if (!data.imageUrl && data.image) data.imageUrl = data.image;
           if (!data.image && data.imageUrl) data.image = data.imageUrl;
           if (!data.imageUrl && data.photo) data.imageUrl = data.photo;
           if (!data.imageUrl && data.logo) data.imageUrl = data.logo;
-          
-          // توحيد حالة النشر
           if (data.status === 'published') data.published = true;
           if (data.published === true) data.status = 'published';
           if (!data.status) data.status = 'draft';
-          
-          // قيم افتراضية
           if (!data.premium) data.premium = 0;
           if (!data.sumInsured) data.sumInsured = 0;
         }
@@ -1913,6 +1955,7 @@ function loadCollection(name) {
         if (name === 'notifications' && !data.uid && data.clientId) data.uid = data.clientId;
         if (name === 'payments' && !data.uid && data.clientId) data.uid = data.clientId;
         if (name === 'claims' && !data.uid && data.clientId) data.uid = data.clientId;
+        if (name === 'offers' && !data.uid) data.uid = data.id;
         
         return data;
       });
@@ -1926,7 +1969,7 @@ function loadCollection(name) {
 }
 
 function loadAll() {
-  var names = ['clients', 'policies', 'payments', 'claims', 'documents', 'messages', 'notifications', 'activity', 'products', 'companies', 'insuranceAssessments', 'insuranceTypes'];
+  var names = ['clients', 'policies', 'payments', 'claims', 'documents', 'messages', 'notifications', 'activity', 'products', 'companies', 'insuranceAssessments', 'insuranceTypes', 'offers'];
   var promises = names.map(function(n) { return loadCollection(n); });
   
   Promise.all(promises).then(function(results) {
@@ -2045,7 +2088,7 @@ function refreshDocClientSelect() {
 }
 
 function refreshTypeSelects() {
-  var ids = ['pType', 'prType'];
+  var ids = ['pType', 'prType', 'offerType'];
   var allTypes = getAllTypes();
   ids.forEach(function(id) {
     var s = document.getElementById(id);
@@ -2060,7 +2103,7 @@ function refreshTypeSelects() {
 }
 
 function refreshCompanySelects() {
-  var ids = ['pCompany', 'prCompany'];
+  var ids = ['pCompany', 'prCompany', 'offerCompany'];
   var allCompanies = getAllCompanies();
   ids.forEach(function(id) {
     var s = document.getElementById(id);
@@ -2090,7 +2133,6 @@ function refreshPolicySelect(clientId, policyId) {
   });
   if (val && DATA.policies.some(function(p) { return p.id === val; })) s.value = val;
   
-  // تحديث القسط المتبقي تلقائياً
   var policyIdEl = document.getElementById(policyId);
   if (policyIdEl) {
     var selectedPolicyId = policyIdEl.value;
@@ -2189,7 +2231,6 @@ function renderPolicies() {
 }
 
 function renderPayments() {
-  // حساب إحصائيات المدفوعات والأقساط
   var activePolicies = DATA.policies.filter(function(p) { return daysUntil(p.endDate) >= 0; });
   
   var totalPremium = activePolicies.reduce(function(sum, p) { return sum + (Number(p.premium) || 0); }, 0);
@@ -2202,7 +2243,6 @@ function renderPayments() {
   document.getElementById('totalRemaining').textContent = totalRemaining.toLocaleString('en-US') + ' EGP';
   document.getElementById('collectionRate').textContent = collectionRate + '%';
   
-  // عرض المدفوعات
   var q = (document.getElementById('paymentSearch')?.value || '').toLowerCase();
   var html = DATA.payments
     .filter(function(p) {
@@ -2266,6 +2306,76 @@ function renderDocuments() {
     })
     .join('');
   document.getElementById('documentsBody').innerHTML = html || '<tr><td colspan="7"><div class="empty">لا توجد مستندات</div></td></tr>';
+}
+
+// ===== OFFERS RENDER =====
+function renderOffers() {
+  var q = (document.getElementById('offerSearch')?.value || '').toLowerCase();
+  var offers = (DATA.offers || []).filter(function(o) {
+    return [o.name, o.code, o.companyName, o.typeName, o.description].join(' ').toLowerCase().includes(q);
+  });
+  
+  var grid = document.getElementById('offersGrid');
+  if (!grid) return;
+  
+  if (offers.length === 0) {
+    grid.innerHTML = '<div class="empty" style="grid-column:span 3;padding:60px 20px;">' +
+      '<div style="font-size:48px;margin-bottom:12px;">🎯</div>' +
+      '<h3 style="color:var(--text);margin:0 0 8px;">لا توجد عروض</h3>' +
+      '<p style="color:var(--muted);font-size:14px;">قم بإضافة عرض جديد باستخدام الزر أعلاه</p>' +
+    '</div>';
+    return;
+  }
+  
+  var html = offers.map(function(o) {
+    var isActive = o.status === 'active';
+    var now = new Date();
+    var start = o.startDate ? new Date(o.startDate) : null;
+    var end = o.endDate ? new Date(o.endDate) : null;
+    var isExpired = end && end < now;
+    var isUpcoming = start && start > now;
+    
+    var statusBadge = isExpired ? '<span class="badge badge-danger">منتهي</span>' :
+                      isUpcoming ? '<span class="badge badge-warning">قادم</span>' :
+                      isActive ? '<span class="badge badge-success">نشط</span>' :
+                      '<span class="badge badge-gray">مسودة</span>';
+    
+    var imageUrl = o.imageUrl || o.image || '';
+    var imgHtml = imageUrl && imageUrl.startsWith('http') ? 
+      '<img src="' + esc(imageUrl) + '" alt="' + esc(o.name) + '" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML=\'<div style=\\\'font-size:48px;opacity:0.3;\\\'>🎯</div>\'">' :
+      '<div style="font-size:48px;opacity:0.3;">🎯</div>';
+    
+    return '<div class="product-card" style="border-color:' + (isActive ? 'var(--gold)' : 'var(--line-soft)') + '">' +
+      '<div class="image" style="height:140px;background:linear-gradient(135deg, var(--navy-100), var(--paper));position:relative;">' + 
+        imgHtml +
+        '<div style="position:absolute;top:10px;right:10px;z-index:2;">' + statusBadge + '</div>' +
+        (o.discount ? '<div style="position:absolute;bottom:10px;right:10px;background:var(--gold);color:var(--navy);padding:4px 12px;border-radius:var(--radius-full);font-weight:900;font-size:14px;">-' + o.discount + '%</div>' : '') +
+      '</div>' +
+      '<div class="body">' +
+        '<div class="meta">' +
+          '<span>🏢 ' + esc(o.companyName || o.company || '—') + '</span>' +
+          '<span class="separator">|</span>' +
+          '<span>📋 ' + esc(o.typeName || o.type || '—') + '</span>' +
+        '</div>' +
+        '<h4>' + esc(o.name) + ' <span style="font-size:11px;color:var(--muted);font-weight:400;">#' + esc(o.code || '') + '</span></h4>' +
+        '<p>' + esc(o.description || '') + '</p>' +
+        '<div class="product-tags">' +
+          (o.discount ? '<span class="badge badge-gold">🎯 خصم ' + o.discount + '%</span>' : '') +
+          (o.startDate ? '<span class="badge badge-info">📅 من ' + date(o.startDate) + '</span>' : '') +
+          (o.endDate ? '<span class="badge badge-info">إلى ' + date(o.endDate) + '</span>' : '') +
+        '</div>' +
+        '<div class="product-actions">' +
+          '<button class="btn btn-outline btn-xs" onclick="editOffer(\'' + (o.id || '') + '\')">✏️ تعديل</button>' +
+          '<button class="btn btn-danger btn-xs" onclick="deleteOffer(\'' + (o.id || '') + '\')">🗑️ حذف</button>' +
+          '<button class="btn btn-success btn-xs" onclick="toggleOfferStatus(\'' + (o.id || '') + '\')">' + 
+            (isActive ? '⏸️ إيقاف' : '▶️ تفعيل') + 
+          '</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+  
+  grid.innerHTML = html;
 }
 
 function renderConversations() {
@@ -2425,7 +2535,7 @@ function renderInsuranceTypes() {
 }
 
 // ================================================================
-// 11. PRODUCTS - المعالج الرئيسي
+// 11. PRODUCTS
 // ================================================================
 function renderProducts() {
   console.log('🔄 Rendering products...', DATA.products);
@@ -2460,7 +2570,6 @@ function renderProducts() {
     var typeIcon = getTypeIcon(p.type);
     var feats = String(p.features || '').split(/\r?\n/).filter(Boolean);
     
-    // معالجة الصورة
     var imageUrl = p.imageUrl || p.image || p.photo || p.logo || '';
     var imgHtml = '';
     var hasImage = imageUrl && imageUrl.trim().length > 0 && 
@@ -2477,7 +2586,6 @@ function renderProducts() {
                 '</div>';
     }
     
-    // حالة المنتج
     var isPublished = p.status === 'published' || p.published === true;
     var statusBadge = isPublished ? 
       '<span class="badge badge-success">✅ منشور</span>' : 
@@ -2485,7 +2593,6 @@ function renderProducts() {
         '<span class="badge badge-danger">📁 مؤرشف</span>' : 
         '<span class="badge badge-warning">✏️ مسودة</span>');
     
-    // معلومات إضافية
     var premium = p.premium || p.annualPremium || 0;
     var sumInsured = p.sumInsured || p.coverAmount || 0;
     
@@ -2528,7 +2635,6 @@ function renderProducts() {
   console.log('✅ Products rendered:', products.length);
 }
 
-// ===== إضافة منتج جديد =====
 function createProduct() {
   var company = document.getElementById('prCompany').value;
   var type = document.getElementById('prType').value;
@@ -2590,7 +2696,6 @@ function createProduct() {
     });
 }
 
-// ===== تعديل منتج =====
 function editProduct(productId) {
   if (!productId) {
     toast('❌ معرف المنتج غير موجود', true);
@@ -2627,7 +2732,6 @@ function editProduct(productId) {
   openModal('productModal');
 }
 
-// ===== تحديث منتج =====
 function updateProduct(productId) {
   var company = document.getElementById('prCompany').value;
   var type = document.getElementById('prType').value;
@@ -2685,7 +2789,6 @@ function updateProduct(productId) {
     });
 }
 
-// ===== حذف منتج =====
 function deleteProduct(productId) {
   if (!productId) {
     toast('❌ معرف المنتج غير موجود', true);
@@ -2705,7 +2808,6 @@ function deleteProduct(productId) {
     });
 }
 
-// ===== تبديل حالة المنتج =====
 function toggleProductStatus(productId) {
   if (!productId) {
     toast('❌ معرف المنتج غير موجود', true);
@@ -2739,7 +2841,6 @@ function toggleProductStatus(productId) {
   });
 }
 
-// ===== فتح نموذج إضافة منتج =====
 function openProductModal() {
   document.getElementById('prErr').textContent = '';
   document.getElementById('prName').value = '';
@@ -2777,6 +2878,203 @@ function openProductModal() {
       }
     }
   };
+}
+
+// ===== OFFERS CRUD =====
+function openOfferModal() {
+  document.getElementById('offerErr').textContent = '';
+  document.getElementById('offerName').value = '';
+  document.getElementById('offerCode').value = '';
+  document.getElementById('offerDiscount').value = '';
+  document.getElementById('offerDesc').value = '';
+  document.getElementById('offerImage').value = '';
+  document.getElementById('offerStatus').value = 'active';
+  document.getElementById('offerStart').value = '';
+  document.getElementById('offerEnd').value = '';
+  
+  refreshCompanySelects();
+  refreshTypeSelects();
+  
+  var saveBtn = document.getElementById('createOfferBtn');
+  saveBtn.textContent = 'حفظ العرض';
+  saveBtn.onclick = function() { createOffer(); };
+  
+  openModal('offerModal');
+}
+
+function createOffer() {
+  var name = document.getElementById('offerName').value.trim();
+  var code = document.getElementById('offerCode').value.trim();
+  var company = document.getElementById('offerCompany').value;
+  var type = document.getElementById('offerType').value;
+  var discount = document.getElementById('offerDiscount').value;
+  var status = document.getElementById('offerStatus').value;
+  var startDate = document.getElementById('offerStart').value;
+  var endDate = document.getElementById('offerEnd').value;
+  var description = document.getElementById('offerDesc').value.trim();
+  var imageUrl = document.getElementById('offerImage').value.trim();
+  var err = document.getElementById('offerErr');
+  
+  err.textContent = '';
+  
+  if (!name || !company || !type) {
+    err.textContent = 'أكمل جميع البيانات (الاسم، الشركة، والنوع)';
+    return;
+  }
+  
+  showLoading('createOfferBtn', 'جاري حفظ العرض...');
+  
+  var offer = {
+    name: name,
+    code: code || 'OFFER-' + Date.now().toString().slice(-6),
+    company: company,
+    companyName: getCompanyName(company),
+    type: type,
+    typeName: getTypeName(type),
+    discount: Number(discount) || 0,
+    status: status,
+    startDate: startDate || null,
+    endDate: endDate || null,
+    description: description,
+    imageUrl: imageUrl,
+    image: imageUrl,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  
+  db.collection('offers').add(offer)
+    .then(function(docRef) {
+      offer.id = docRef.id;
+      if (!DATA.offers) DATA.offers = [];
+      DATA.offers.push(offer);
+      hideLoading('createOfferBtn');
+      closeModal('offerModal');
+      toast('✅ تم حفظ العرض بنجاح');
+      return loadCollection('offers').then(function(offers) {
+        DATA.offers = offers;
+        renderOffers();
+      });
+    })
+    .catch(function(e) {
+      hideLoading('createOfferBtn');
+      err.textContent = 'تعذر حفظ العرض: ' + e.message;
+    });
+}
+
+function editOffer(offerId) {
+  if (!offerId) { toast('❌ معرف العرض غير موجود', true); return; }
+  
+  var offer = (DATA.offers || []).find(function(o) { return o.id === offerId; });
+  if (!offer) { toast('❌ لم يتم العثور على العرض', true); return; }
+  
+  document.getElementById('offerName').value = offer.name || '';
+  document.getElementById('offerCode').value = offer.code || '';
+  document.getElementById('offerDiscount').value = offer.discount || '';
+  document.getElementById('offerStatus').value = offer.status || 'active';
+  document.getElementById('offerStart').value = offer.startDate || '';
+  document.getElementById('offerEnd').value = offer.endDate || '';
+  document.getElementById('offerDesc').value = offer.description || '';
+  document.getElementById('offerImage').value = offer.imageUrl || '';
+  
+  refreshCompanySelects();
+  refreshTypeSelects();
+  
+  document.getElementById('offerCompany').value = offer.company || '';
+  document.getElementById('offerType').value = offer.type || '';
+  
+  var saveBtn = document.getElementById('createOfferBtn');
+  saveBtn.textContent = '🔄 تحديث العرض';
+  saveBtn.onclick = function() {
+    updateOffer(offerId);
+  };
+  
+  openModal('offerModal');
+}
+
+function updateOffer(offerId) {
+  var name = document.getElementById('offerName').value.trim();
+  var company = document.getElementById('offerCompany').value;
+  var type = document.getElementById('offerType').value;
+  var err = document.getElementById('offerErr');
+  
+  err.textContent = '';
+  if (!name || !company || !type) {
+    err.textContent = 'أكمل جميع البيانات';
+    return;
+  }
+  
+  showLoading('createOfferBtn', 'جاري التحديث...');
+  
+  var updatedData = {
+    name: name,
+    code: document.getElementById('offerCode').value.trim(),
+    company: company,
+    companyName: getCompanyName(company),
+    type: type,
+    typeName: getTypeName(type),
+    discount: Number(document.getElementById('offerDiscount').value) || 0,
+    status: document.getElementById('offerStatus').value,
+    startDate: document.getElementById('offerStart').value || null,
+    endDate: document.getElementById('offerEnd').value || null,
+    description: document.getElementById('offerDesc').value.trim(),
+    imageUrl: document.getElementById('offerImage').value.trim(),
+    image: document.getElementById('offerImage').value.trim(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  
+  db.collection('offers').doc(offerId).update(updatedData)
+    .then(function() {
+      hideLoading('createOfferBtn');
+      closeModal('offerModal');
+      toast('✅ تم تحديث العرض بنجاح');
+      return loadCollection('offers').then(function(offers) {
+        DATA.offers = offers;
+        renderOffers();
+      });
+    })
+    .catch(function(e) {
+      hideLoading('createOfferBtn');
+      err.textContent = 'تعذر تحديث العرض: ' + e.message;
+    });
+}
+
+function deleteOffer(offerId) {
+  if (!offerId) { toast('❌ معرف العرض غير موجود', true); return; }
+  if (!confirm('هل أنت متأكد من حذف هذا العرض؟')) return;
+  
+  db.collection('offers').doc(offerId).delete()
+    .then(function() {
+      toast('✅ تم حذف العرض');
+      DATA.offers = (DATA.offers || []).filter(function(o) { return o.id !== offerId; });
+      renderOffers();
+    })
+    .catch(function(e) {
+      toast('❌ تعذر حذف العرض: ' + e.message, true);
+    });
+}
+
+function toggleOfferStatus(offerId) {
+  if (!offerId) { toast('❌ معرف العرض غير موجود', true); return; }
+  
+  var offer = (DATA.offers || []).find(function(o) { return o.id === offerId; });
+  if (!offer) { toast('❌ لم يتم العثور على العرض', true); return; }
+  
+  var newStatus = offer.status === 'active' ? 'expired' : 'active';
+  
+  db.collection('offers').doc(offerId).update({
+    status: newStatus,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(function() {
+    toast(newStatus === 'active' ? '✅ تم تفعيل العرض' : '⏸️ تم إيقاف العرض');
+    return loadCollection('offers').then(function(offers) {
+      DATA.offers = offers;
+      renderOffers();
+    });
+  })
+  .catch(function(e) {
+    toast('❌ تعذر تغيير الحالة: ' + e.message, true);
+  });
 }
 
 function renderReports() {
@@ -3062,13 +3360,15 @@ function showView(view, el) {
     compliance: 'الامتثال', 
     messages: 'المحادثات', 
     notifications: 'الإشعارات', 
-    activity: 'سجل النشاط' 
+    activity: 'سجل النشاط',
+    offers: 'العروض'
   };
   var icons = {
     dashboard: '▦', clients: '♙', policies: '▣', payments: '₣',
     claims: '!', documents: '▤', renewals: '↻', companies: '◆',
     types: '◈', products: '▰', reports: '▥', assessments: '◉',
-    compliance: '✓', messages: '✉', notifications: '◉', activity: '◷'
+    compliance: '✓', messages: '✉', notifications: '◉', activity: '◷',
+    offers: '★'
   };
   var subs = {
     dashboard: 'نظرة عامة على الأداء والنشاطات',
@@ -3086,7 +3386,8 @@ function showView(view, el) {
     compliance: 'مركز الامتثال',
     messages: 'المحادثات مع العملاء',
     notifications: 'إشعارات العملاء',
-    activity: 'سجل النشاطات'
+    activity: 'سجل النشاطات',
+    offers: 'إدارة العروض الحصرية'
   };
   
   document.getElementById('title').textContent = titles[view] || view;
@@ -3497,6 +3798,7 @@ function renderAll() {
   renderPayments();
   renderClaims();
   renderDocuments();
+  renderOffers();
   renderConversations();
   renderRenewals();
   renderCompanies();
@@ -3513,7 +3815,7 @@ function renderAll() {
 // 19. INIT
 // ================================================================
 function initSelects() {
-  var companySelects = ['pCompany', 'prCompany'];
+  var companySelects = ['pCompany', 'prCompany', 'offerCompany'];
   companySelects.forEach(function(id) {
     var s = document.getElementById(id);
     if (!s) return;
@@ -3523,7 +3825,7 @@ function initSelects() {
     });
   });
   
-  var typeSelects = ['pType', 'prType'];
+  var typeSelects = ['pType', 'prType', 'offerType'];
   typeSelects.forEach(function(id) {
     var s = document.getElementById(id);
     if (!s) return;
@@ -3543,7 +3845,7 @@ function initSelects() {
 
 initSelects();
 
-console.log('✅ Secure PATH Admin Panel v7.0 - Final Version');
+console.log('✅ Secure PATH Admin Panel v8.0 - With Offers Feature');
 console.log('📊 Firebase Collections Loaded:', Object.keys(DATA).filter(k => DATA[k].length > 0));
 </script>
 </body>
