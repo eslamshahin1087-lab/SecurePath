@@ -9,22 +9,21 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 
 <style>
-/* ================================================================
-   ROOT VARIABLES
-   ================================================================ */
+/* ===== RESET & ROOT ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
 :root {
   --navy: #0E2A5C;
-  --navy-dark: #071D40;
   --navy-light: #1a3f7a;
+  --navy-dark: #071D40;
   --navy-50: rgba(14, 42, 92, 0.05);
   --navy-100: rgba(14, 42, 92, 0.1);
   --navy-200: rgba(14, 42, 92, 0.2);
-  --navy-300: rgba(14, 42, 92, 0.3);
   --gold: #F2BD63;
   --gold-light: #FFD98F;
-  --gold-dark: #D4A04A;
   --gold-soft: #FFF2D7;
   --gold-100: rgba(242, 189, 99, 0.15);
   --gold-200: rgba(242, 189, 99, 0.25);
@@ -45,13 +44,26 @@
   --blue-light: #E3F0FF;
   --purple: #7255B7;
   --purple-light: #F0EBFF;
+  --orange: #E67E22;
+  --orange-light: #FFF3E6;
   --shadow-xs: 0 1px 3px rgba(14, 42, 92, 0.04);
   --shadow-sm: 0 2px 8px rgba(14, 42, 92, 0.06);
   --shadow-md: 0 4px 16px rgba(14, 42, 92, 0.08);
   --shadow-lg: 0 8px 30px rgba(14, 42, 92, 0.12);
   --shadow-xl: 0 16px 48px rgba(14, 42, 92, 0.18);
-  --shadow-gold: 0 4px 20px rgba(242, 189, 99, 0.35);
-  --shadow-gold-lg: 0 8px 40px rgba(242, 189, 99, 0.3);
+  --shadow-gold: 0 4px 20px rgba(242, 189, 99, 0.3);
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
   --sidebar-width: 260px;
   --sidebar-collapsed: 72px;
   --transition-fast: 0.15s ease;
@@ -59,11 +71,6 @@
   --transition-slow: 0.4s ease;
   --transition-bounce: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-
-/* ================================================================
-   RESET & BASE
-   ================================================================ */
-* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -80,84 +87,57 @@ input, select, textarea { font: inherit; outline: none; font-family: 'Cairo', sa
 
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: var(--paper); }
-::-webkit-scrollbar-thumb { background: var(--navy-200); border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: var(--navy-200); border-radius: var(--radius-full); }
 ::-webkit-scrollbar-thumb:hover { background: var(--navy-light); }
 
-/* ================================================================
-   TYPOGRAPHY
-   ================================================================ */
+/* ===== TYPOGRAPHY ===== */
 h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; color: var(--text); }
 .text-muted { color: var(--muted); }
 .text-sm { font-size: 12px; }
 .text-md { font-size: 14px; }
 .text-lg { font-size: 16px; }
 .text-xl { font-size: 20px; }
+.text-2xl { font-size: 24px; }
 
-/* ================================================================
-   BUTTONS
-   ================================================================ */
+/* ===== BUTTONS ===== */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 10px 22px;
-  border-radius: 10px;
+  gap: var(--space-sm);
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
   font-weight: 700;
   font-size: 13px;
-  transition: all var(--transition-bounce);
+  transition: var(--transition-bounce);
   text-decoration: none;
   white-space: nowrap;
   border: 1.5px solid transparent;
+  position: relative;
+  overflow: hidden;
 }
 .btn:active { transform: scale(0.97); }
 
-.btn-primary {
-  background: linear-gradient(135deg, var(--gold), var(--gold-light));
-  color: var(--navy);
-  border-color: var(--gold);
-  box-shadow: var(--shadow-gold);
-}
-.btn-primary:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: var(--shadow-gold-lg);
-}
+.btn-primary { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+.btn-primary:hover { background: #e2af5a; transform: translateY(-2px); box-shadow: var(--shadow-gold); }
 .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 
-.btn-dark {
-  background: linear-gradient(135deg, var(--navy), var(--navy-light));
-  color: #fff;
-  border-color: var(--navy);
-}
-.btn-dark:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.btn-dark { background: var(--navy); color: #fff; border-color: var(--navy); }
+.btn-dark:hover { background: var(--navy-light); transform: translateY(-2px); box-shadow: var(--shadow-md); }
 
-.btn-outline {
-  background: transparent;
-  border-color: var(--line);
-  color: var(--text-secondary);
-}
-.btn-outline:hover { border-color: var(--gold); color: var(--navy); background: var(--gold-100); transform: translateY(-2px); }
+.btn-outline { background: transparent; border-color: var(--line); color: var(--text-secondary); }
+.btn-outline:hover { border-color: var(--navy); background: var(--navy-50); transform: translateY(-1px); }
 
-.btn-success {
-  background: linear-gradient(135deg, var(--green), #0e6a48);
-  color: #fff;
-  border-color: var(--green);
-}
-.btn-success:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(22, 128, 91, 0.35); }
+.btn-success { background: var(--green); color: #fff; border-color: var(--green); }
+.btn-success:hover { background: #0e6a48; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(22, 128, 91, 0.3); }
 
-.btn-danger {
-  background: linear-gradient(135deg, var(--red), #a83d2e);
-  color: #fff;
-  border-color: var(--red);
-}
-.btn-danger:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(201, 84, 62, 0.35); }
+.btn-danger { background: var(--red); color: #fff; border-color: var(--red); }
+.btn-danger:hover { background: #a83d2e; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(201, 84, 62, 0.3); }
 
-.btn-sm { padding: 6px 14px; font-size: 11px; border-radius: 8px; }
-.btn-xs { padding: 4px 10px; font-size: 10px; border-radius: 6px; }
+.btn-sm { padding: 6px 14px; font-size: 11px; border-radius: var(--radius-xs); }
+.btn-xs { padding: 4px 10px; font-size: 10px; border-radius: var(--radius-xs); }
 
-/* ================================================================
-   SPINNER
-   ================================================================ */
+/* ===== SPINNER ===== */
 .spinner {
   display: inline-block;
   width: 18px;
@@ -169,56 +149,21 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ================================================================
-   LOGIN PAGE
-   ================================================================ */
+/* ===== LOGIN ===== */
 #login {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  background: radial-gradient(ellipse at 30% 20%, var(--navy-light) 0%, var(--navy) 50%, var(--navy-dark) 100%);
+  background: radial-gradient(circle at 30% 20%, #1a3f7a 0%, var(--navy) 50%, var(--navy-dark) 100%);
   padding: 20px;
-  position: relative;
-  overflow: hidden;
 }
-#login::before {
-  content: '';
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, var(--gold-100) 0%, transparent 70%);
-  top: -200px;
-  right: -200px;
-  border-radius: 50%;
-  animation: floatGlow 8s ease-in-out infinite alternate;
-}
-#login::after {
-  content: '';
-  position: absolute;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, var(--gold-100) 0%, transparent 70%);
-  bottom: -150px;
-  left: -150px;
-  border-radius: 50%;
-  animation: floatGlow 10s ease-in-out infinite alternate-reverse;
-}
-@keyframes floatGlow {
-  0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
-  100% { transform: translate(40px, 30px) scale(1.2); opacity: 1; }
-}
-
 .login-box {
   width: min(420px, 92vw);
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(20px);
-  border-radius: 24px;
-  padding: 48px 40px;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+  background: #fff;
+  border-radius: var(--radius-xl);
+  padding: 44px 38px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.35);
   animation: loginFadeIn 0.6s ease;
-  position: relative;
-  z-index: 1;
-  border: 1px solid rgba(255,255,255,0.2);
 }
 @keyframes loginFadeIn {
   from { opacity: 0; transform: translateY(30px) scale(0.96); }
@@ -227,26 +172,26 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 .login-box .logo {
   width: 80px; height: 80px;
   margin: 0 auto 20px;
-  border-radius: 20px;
-  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  border-radius: var(--radius-lg);
+  background: var(--navy);
   display: grid;
   place-items: center;
   overflow: hidden;
-  box-shadow: 0 8px 30px rgba(14,42,92,0.3);
+  box-shadow: 0 8px 30px rgba(14,42,92,0.25);
 }
-.login-box .logo img { width: 60%; height: 60%; object-fit: contain; }
-.login-box h1 { text-align: center; font-size: 28px; margin: 0 0 4px; color: var(--navy); }
+.login-box .logo img { width: 100%; height: 100%; object-fit: contain; }
+.login-box h1 { text-align: center; font-size: 28px; margin: 0 0 4px; }
 .login-box .subtitle { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 28px; }
 
-.field { margin-bottom: 18px; position: relative; }
+.field { margin-bottom: 18px; }
 .field label { display: block; font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; letter-spacing: 0.3px; }
 .field input, .field select, .field textarea {
   width: 100%;
   padding: 12px 16px;
-  border: 2px solid var(--line);
-  border-radius: 12px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
   background: var(--paper);
-  transition: all var(--transition-base);
+  transition: var(--transition-base);
   font-size: 14px;
   color: var(--text);
 }
@@ -255,27 +200,12 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   box-shadow: 0 0 0 4px var(--gold-100);
   background: #fff;
 }
-.field .toggle-pass {
-  position: absolute;
-  left: 14px;
-  top: 38px;
-  background: transparent;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  color: var(--muted);
-}
-.field .toggle-pass:hover { color: var(--text); }
 
-/* ================================================================
-   APP SHELL
-   ================================================================ */
+/* ===== APP SHELL ===== */
 #app { display: none; min-height: 100vh; }
 .shell { display: flex; min-height: 100vh; }
 
-/* ================================================================
-   SIDEBAR
-   ================================================================ */
+/* ===== SIDEBAR ===== */
 .sidebar {
   width: var(--sidebar-width);
   background: linear-gradient(180deg, var(--navy-dark) 0%, var(--navy) 60%, var(--navy-light) 100%);
@@ -288,17 +218,8 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   z-index: 100;
   display: flex;
   flex-direction: column;
-  box-shadow: 4px 0 40px rgba(7, 29, 64, 0.3);
+  box-shadow: 4px 0 40px rgba(7, 29, 64, 0.25);
   transition: width var(--transition-slow);
-  overflow: hidden;
-}
-.sidebar::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 50% 0%, var(--gold-100) 0%, transparent 60%);
-  pointer-events: none;
-  opacity: 0.1;
 }
 
 .sidebar .brand {
@@ -311,16 +232,14 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 }
 .sidebar .brand img {
   width: 44px; height: 44px;
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   background: #fff;
   object-fit: contain;
-  padding: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  padding: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
-.sidebar .brand .brand-name { font-size: 20px; font-weight: 900; background: linear-gradient(135deg, var(--gold), var(--gold-light));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; }
-.sidebar .brand .brand-sub { font-size: 9px; opacity: 0.5; display: block; margin-top: -2px; letter-spacing: 1px; -webkit-text-fill-color: rgba(255,255,255,0.5); }
+.sidebar .brand .brand-name { font-size: 20px; font-weight: 900; letter-spacing: 0.5px; }
+.sidebar .brand .brand-sub { font-size: 9px; opacity: 0.5; font-weight: 400; display: block; margin-top: -2px; letter-spacing: 1px; }
 
 .sidebar .nav {
   padding-top: 12px;
@@ -330,13 +249,13 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   padding-bottom: 12px;
 }
 .sidebar .nav::-webkit-scrollbar { width: 3px; }
-.sidebar .nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
+.sidebar .nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: var(--radius-full); }
 
 .sidebar .nav .nav-section {
   font-size: 9px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  color: rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.25);
   padding: 12px 14px 6px;
   font-weight: 700;
 }
@@ -348,14 +267,15 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   color: rgba(255,255,255,0.6);
   text-align: right;
   padding: 10px 14px;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   margin: 2px 0;
   font-weight: 600;
   font-size: 13px;
   display: flex;
   align-items: center;
   gap: 12px;
-  transition: all var(--transition-base);
+  transition: var(--transition-base);
+  position: relative;
 }
 .sidebar .nav button .icon {
   width: 28px;
@@ -363,14 +283,15 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   text-align: center;
   flex-shrink: 0;
   opacity: 0.6;
+  transition: var(--transition-fast);
 }
 .sidebar .nav button .label { flex: 1; white-space: nowrap; }
-.sidebar .nav button:hover { background: rgba(255,255,255,0.08); color: #fff; transform: translateX(-4px); }
+.sidebar .nav button:hover { background: rgba(255,255,255,0.06); color: #fff; }
 .sidebar .nav button:hover .icon { opacity: 1; }
 .sidebar .nav button.active {
-  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  background: var(--gold);
   color: var(--navy);
-  box-shadow: var(--shadow-gold);
+  box-shadow: 0 4px 16px rgba(242, 189, 99, 0.25);
 }
 .sidebar .nav button.active .icon { opacity: 1; }
 .sidebar .nav button.active::before {
@@ -379,7 +300,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   right: -4px;
   top: 50%;
   transform: translateY(-50%);
-  width: 4px;
+  width: 3px;
   height: 24px;
   background: var(--gold);
   border-radius: 0 4px 4px 0;
@@ -388,7 +309,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 .sidebar .nav .badge {
   background: var(--red);
   color: #fff;
-  border-radius: 20px;
+  border-radius: var(--radius-full);
   padding: 1px 10px;
   font-size: 10px;
   font-weight: 800;
@@ -419,7 +340,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   color: rgba(255,255,255,0.7);
   border: none;
   padding: 10px;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   font-weight: 700;
   font-size: 13px;
   transition: var(--transition-base);
@@ -428,12 +349,10 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   justify-content: center;
   gap: 8px;
 }
-.sidebar .footer .logout-btn:hover { background: rgba(255,255,255,0.12); color: #fff; transform: translateX(-4px); }
+.sidebar .footer .logout-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
 .sidebar .footer .copy { display: block; margin-top: 10px; font-size: 9px; opacity: 0.3; text-align: center; letter-spacing: 0.5px; }
 
-/* ================================================================
-   MAIN CONTENT
-   ================================================================ */
+/* ===== MAIN ===== */
 .main {
   margin-right: var(--sidebar-width);
   width: calc(100% - var(--sidebar-width));
@@ -441,12 +360,11 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   background: var(--paper);
 }
 
-/* ================================================================
-   TOPBAR
-   ================================================================ */
+/* ===== TOPBAR ===== */
 .topbar {
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line-soft);
   padding: 14px 32px;
   display: flex;
@@ -465,54 +383,44 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   gap: 14px;
 }
 .topbar .topbar-left .page-icon {
-  width: 40px; height: 40px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--gold-soft), var(--gold-100));
+  width: 38px; height: 38px;
+  border-radius: var(--radius-sm);
+  background: var(--gold-soft);
   display: grid;
   place-items: center;
-  font-size: 20px;
-  color: var(--navy);
+  font-size: 18px;
 }
-.topbar h1 { font-size: 20px; margin: 0; color: var(--navy); }
+.topbar h1 { font-size: 20px; margin: 0; }
 .topbar .topbar-sub { font-size: 12px; color: var(--muted); margin-top: -2px; }
 .topbar .actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
 .content { padding: 28px 32px 40px; max-width: 1440px; margin: 0 auto; }
 
-/* ================================================================
-   VIEWS
-   ================================================================ */
-.view { display: none; animation: viewFadeIn 0.4s ease; }
+/* ===== VIEWS ===== */
+.view { display: none; animation: viewFadeIn 0.3s ease; }
 .view.active { display: block; }
 @keyframes viewFadeIn {
-  from { opacity: 0; transform: translateY(12px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* ================================================================
-   GRID
-   ================================================================ */
+/* ===== GRID ===== */
 .grid { display: grid; gap: 20px; }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-auto { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
 
-/* ================================================================
-   CARDS
-   ================================================================ */
+/* ===== CARDS ===== */
 .card {
   background: #fff;
   border: 1px solid var(--line-soft);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-xs);
-  transition: all var(--transition-bounce);
+  transition: var(--transition-bounce);
   overflow: hidden;
 }
-.card:hover {
-  box-shadow: var(--shadow-md);
-  border-color: var(--gold-200);
-  transform: translateY(-2px);
-}
+.card:hover { box-shadow: var(--shadow-md); border-color: var(--gold-200); }
 .card-header {
   padding: 16px 20px;
   border-bottom: 1px solid var(--line-soft);
@@ -523,28 +431,19 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   gap: 8px;
   background: var(--paper);
 }
-.card-header h3 { font-size: 14px; margin: 0; display: flex; align-items: center; gap: 8px; color: var(--navy); }
+.card-header h3 { font-size: 14px; margin: 0; display: flex; align-items: center; gap: 8px; }
 .card-body { padding: 18px 20px; }
 .card-body.p-0 { padding: 0; }
 
-/* ================================================================
-   STAT CARDS
-   ================================================================ */
+/* ===== STAT CARDS ===== */
 .stat-card {
-  padding: 22px 24px;
+  padding: 20px 24px;
   text-align: center;
   position: relative;
   overflow: hidden;
   border-right: 4px solid var(--gold);
   background: linear-gradient(135deg, #fff 0%, var(--paper) 100%);
-  transition: all var(--transition-bounce);
-  cursor: default;
 }
-.stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-}
-.stat-card .stat-icon { font-size: 28px; margin-bottom: 4px; display: block; }
 .stat-card .label { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
 .stat-card .value { font-family: 'Tajawal', sans-serif; font-size: 32px; font-weight: 900; color: var(--text); margin-top: 2px; }
 .stat-card .sub { font-size: 12px; margin-top: 4px; font-weight: 500; }
@@ -552,10 +451,9 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 .stat-card .sub.red { color: var(--red); }
 .stat-card .sub.blue { color: var(--blue); }
 .stat-card .sub.gold { color: var(--gold); }
+.stat-card .sub.purple { color: var(--purple); }
 
-/* ================================================================
-   TABLE
-   ================================================================ */
+/* ===== TABLE ===== */
 .table-wrap { overflow-x: auto; padding: 0 2px; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th, td { padding: 12px 16px; border-bottom: 1px solid var(--line-soft); text-align: right; transition: var(--transition-fast); }
@@ -572,15 +470,13 @@ th {
 tr:hover td { background: var(--navy-50); }
 .empty { padding: 40px 20px; text-align: center; color: var(--muted); font-size: 14px; }
 
-/* ================================================================
-   BADGES
-   ================================================================ */
+/* ===== BADGES ===== */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 3px 14px;
-  border-radius: 20px;
+  padding: 2px 12px;
+  border-radius: var(--radius-full);
   font-size: 10px;
   font-weight: 700;
 }
@@ -592,12 +488,13 @@ tr:hover td { background: var(--navy-50); }
 .badge-gray { background: #f0f0f0; color: var(--muted); }
 .badge-gold { background: var(--gold-soft); color: #8A6D1B; }
 
+/* ===== TYPE BADGES ===== */
 .type-badge {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 3px 14px;
-  border-radius: 20px;
+  padding: 2px 12px;
+  border-radius: var(--radius-full);
   font-size: 10px;
   font-weight: 700;
 }
@@ -613,9 +510,7 @@ tr:hover td { background: var(--navy-50); }
 .type-badge.cyber { background: #F0E6F0; color: #7a2a7a; }
 .type-badge.other { background: #f0f0f0; color: var(--muted); }
 
-/* ================================================================
-   TOOLBAR
-   ================================================================ */
+/* ===== TOOLBAR ===== */
 .toolbar {
   display: flex;
   gap: 16px;
@@ -625,7 +520,7 @@ tr:hover td { background: var(--navy-50); }
   flex-wrap: wrap;
   background: #fff;
   padding: 12px 20px;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--line-soft);
   box-shadow: var(--shadow-xs);
 }
@@ -642,8 +537,8 @@ tr:hover td { background: var(--navy-50); }
 .toolbar .search input {
   width: 100%;
   padding: 9px 38px 9px 16px;
-  border: 2px solid var(--line);
-  border-radius: 10px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
   transition: var(--transition-base);
   background: var(--paper);
   font-size: 13px;
@@ -651,9 +546,7 @@ tr:hover td { background: var(--navy-50); }
 .toolbar .search input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px var(--gold-100); background: #fff; }
 .toolbar .actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
-/* ================================================================
-   COMPANY CARD
-   ================================================================ */
+/* ===== COMPANY CARD ===== */
 .company-card {
   display: flex;
   align-items: center;
@@ -667,7 +560,7 @@ tr:hover td { background: var(--navy-50); }
 .company-card:last-child { border-bottom: none; }
 .company-card .logo {
   width: 48px; height: 48px; min-width: 48px;
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   background: var(--gold-soft);
   display: grid;
   place-items: center;
@@ -681,12 +574,10 @@ tr:hover td { background: var(--navy-50); }
 .company-card .info h4 { margin: 0; font-size: 14px; }
 .company-card .info p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
 
-/* ================================================================
-   TYPE CARD
-   ================================================================ */
+/* ===== TYPE CARD ===== */
 .type-card {
   border: 2px solid var(--line-soft);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   padding: 24px 20px;
   text-align: center;
   transition: var(--transition-bounce);
@@ -697,19 +588,17 @@ tr:hover td { background: var(--navy-50); }
 .type-card h4 { font-size: 14px; margin: 0; }
 .type-card p { font-size: 12px; color: var(--muted); margin: 4px 0 8px; }
 
-/* ================================================================
-   MODAL
-   ================================================================ */
+/* ===== MODAL ===== */
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(7,29,64,0.6);
-  backdrop-filter: blur(8px);
+  background: rgba(7,29,64,0.55);
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 200;
   padding: 20px;
+  backdrop-filter: blur(6px);
 }
 .overlay.show { display: flex; }
 .modal {
@@ -717,13 +606,13 @@ tr:hover td { background: var(--navy-50); }
   width: min(720px, 96vw);
   max-height: 90vh;
   overflow-y: auto;
-  border-radius: 24px;
-  padding: 32px 36px 36px;
+  border-radius: var(--radius-xl);
+  padding: 28px 32px 32px;
   box-shadow: var(--shadow-xl);
-  animation: modalSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: modalSlideUp 0.3s ease;
 }
 @keyframes modalSlideUp {
-  from { transform: translateY(40px) scale(0.95); opacity: 0; }
+  from { transform: translateY(30px) scale(0.96); opacity: 0; }
   to { transform: translateY(0) scale(1); opacity: 1; }
 }
 .modal .modal-header {
@@ -732,29 +621,29 @@ tr:hover td { background: var(--navy-50); }
   align-items: center;
   margin-bottom: 20px;
   padding-bottom: 12px;
-  border-bottom: 2px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
 }
-.modal .modal-header h2 { font-size: 20px; margin: 0; display: flex; align-items: center; gap: 10px; color: var(--navy); }
+.modal .modal-header h2 { font-size: 20px; margin: 0; display: flex; align-items: center; gap: 10px; }
 .modal .modal-close {
-  width: 36px; height: 36px;
+  width: 32px; height: 32px;
   border-radius: 50%;
-  border: 2px solid var(--line);
+  border: 1px solid var(--line);
   background: transparent;
-  font-size: 18px;
+  font-size: 16px;
   color: var(--muted);
   transition: var(--transition-base);
   display: grid;
   place-items: center;
 }
-.modal .modal-close:hover { background: var(--red-light); border-color: var(--red); color: var(--red); transform: rotate(90deg); }
+.modal .modal-close:hover { background: var(--red-light); border-color: var(--red); color: var(--red); }
 .modal .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .modal .field { margin-bottom: 12px; }
 .modal .field label { font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px; }
 .modal .field input, .modal .field select, .modal .field textarea {
   width: 100%;
   padding: 10px 14px;
-  border: 2px solid var(--line);
-  border-radius: 10px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
   transition: var(--transition-base);
   background: var(--paper);
   font-size: 13px;
@@ -771,56 +660,39 @@ tr:hover td { background: var(--navy-50); }
   gap: 10px;
   margin-top: 20px;
   padding-top: 16px;
-  border-top: 2px solid var(--line-soft);
+  border-top: 1px solid var(--line-soft);
 }
 
-/* ================================================================
-   FILE UPLOAD
-   ================================================================ */
+/* ===== FILE UPLOAD ===== */
 .file-upload-area {
   border: 2px dashed var(--line);
-  border-radius: 16px;
-  padding: 32px 20px;
+  border-radius: var(--radius-md);
+  padding: 28px 20px;
   text-align: center;
   transition: var(--transition-base);
   background: var(--paper);
-  cursor: pointer;
 }
 .file-upload-area:hover { border-color: var(--gold); background: var(--gold-soft); }
-.file-upload-area.dragover { border-color: var(--gold); background: var(--gold-100); border-style: solid; }
 .file-upload-area input[type="file"] { display: none; }
 .file-upload-area .upload-label {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 28px;
-  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  padding: 10px 24px;
+  background: var(--gold);
   color: var(--navy);
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   font-weight: 700;
   cursor: pointer;
   transition: var(--transition-base);
-  box-shadow: var(--shadow-gold);
 }
-.file-upload-area .upload-label:hover { transform: translateY(-2px); box-shadow: var(--shadow-gold-lg); }
+.file-upload-area .upload-label:hover { background: #e2af5a; transform: translateY(-2px); box-shadow: var(--shadow-gold); }
 .file-upload-area .file-name { margin-top: 10px; font-size: 13px; color: var(--muted); }
-.file-upload-area .file-size { font-size: 11px; color: var(--muted-light); }
-.file-upload-area .file-preview {
-  margin-top: 10px;
-  max-width: 200px;
-  max-height: 150px;
-  border-radius: 12px;
-  overflow: hidden;
-  display: none;
-  margin-left: auto;
-  margin-right: auto;
-}
-.file-upload-area .file-preview img { width: 100%; height: auto; max-height: 150px; object-fit: contain; background: #fff; }
 .upload-progress {
   display: none;
   width: 100%;
   height: 6px;
-  border-radius: 10px;
+  border-radius: var(--radius-full);
   margin-top: 12px;
   background: var(--line);
   overflow: hidden;
@@ -828,14 +700,12 @@ tr:hover td { background: var(--navy-50); }
 .upload-progress .progress-bar {
   height: 100%;
   background: linear-gradient(90deg, var(--gold), var(--gold-light));
-  border-radius: 10px;
+  border-radius: var(--radius-full);
   transition: width 0.3s ease;
   width: 0%;
 }
 
-/* ================================================================
-   CHAT
-   ================================================================ */
+/* ===== CHAT ===== */
 .message-list {
   height: 380px;
   overflow-y: auto;
@@ -848,7 +718,7 @@ tr:hover td { background: var(--navy-50); }
 .bubble {
   max-width: 80%;
   padding: 12px 18px;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   font-size: 13px;
   line-height: 1.6;
   word-wrap: break-word;
@@ -862,12 +732,12 @@ tr:hover td { background: var(--navy-50); }
   padding: 12px 16px;
   border-top: 1px solid var(--line-soft);
   background: #fff;
-  border-radius: 0 0 16px 16px;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
 }
 .composer input {
   flex: 1;
-  border: 2px solid var(--line);
-  border-radius: 10px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-full);
   padding: 10px 18px;
   outline: none;
   font-size: 13px;
@@ -875,9 +745,7 @@ tr:hover td { background: var(--navy-50); }
 }
 .composer input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px var(--gold-100); }
 
-/* ================================================================
-   LIST ITEMS
-   ================================================================ */
+/* ===== LIST ITEMS ===== */
 .list-item {
   padding: 12px 16px;
   border-bottom: 1px solid var(--line-soft);
@@ -895,22 +763,19 @@ tr:hover td { background: var(--navy-50); }
 .list-item .list-content p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
 .list-item.unread { border-right: 3px solid var(--gold); background: var(--gold-50); }
 
-/* ================================================================
-   PRODUCT CARD
-   ================================================================ */
+/* ===== PRODUCT CARD ===== */
 .product-card {
   overflow: hidden;
   border: 1px solid var(--line-soft);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   background: #fff;
-  transition: all var(--transition-bounce);
+  transition: var(--transition-bounce);
   display: flex;
   flex-direction: column;
 }
 .product-card:hover { 
   box-shadow: var(--shadow-lg); 
-  transform: translateY(-6px);
-  border-color: var(--gold);
+  transform: translateY(-4px);
 }
 .product-card .image {
   height: 180px;
@@ -939,7 +804,7 @@ tr:hover td { background: var(--navy-50); }
   gap: 8px;
 }
 .product-card .image .image-placeholder span { font-size: 14px; font-weight: 700; opacity: 0.6; }
-.product-card .image .product-icon { font-size: 56px; opacity: 0.8; }
+.product-card .image .product-icon { font-size: 56px; opacity: 0.8; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1)); }
 .product-card .image .status-badge { position: absolute; top: 10px; right: 10px; z-index: 2; }
 
 .product-card .body {
@@ -986,9 +851,7 @@ tr:hover td { background: var(--navy-50); }
   border-top: 1px solid var(--line-soft);
 }
 
-/* ================================================================
-   PAYMENT SUMMARY
-   ================================================================ */
+/* ===== PAYMENT SUMMARY ===== */
 .payment-summary {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -998,7 +861,7 @@ tr:hover td { background: var(--navy-50); }
 .payment-summary .summary-card {
   background: #fff;
   border: 1px solid var(--line-soft);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   padding: 16px 20px;
   box-shadow: var(--shadow-xs);
   transition: var(--transition-bounce);
@@ -1031,9 +894,7 @@ tr:hover td { background: var(--navy-50); }
 .payment-summary .summary-card .summary-sub.blue { color: var(--blue); }
 .payment-summary .summary-card .summary-sub.gold { color: var(--gold); }
 
-/* ================================================================
-   TOAST
-   ================================================================ */
+/* ===== TOAST ===== */
 .toast {
   position: fixed;
   bottom: 30px;
@@ -1041,7 +902,7 @@ tr:hover td { background: var(--navy-50); }
   background: var(--navy);
   color: #fff;
   padding: 16px 28px;
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   z-index: 999;
   display: none;
   box-shadow: var(--shadow-xl);
@@ -1049,7 +910,6 @@ tr:hover td { background: var(--navy-50); }
   font-size: 14px;
   animation: toastIn 0.4s ease;
   max-width: 400px;
-  border: 1px solid rgba(255,255,255,0.1);
 }
 @keyframes toastIn {
   from { transform: translateY(40px); opacity: 0; }
@@ -1058,24 +918,22 @@ tr:hover td { background: var(--navy-50); }
 .toast.show { display: block; }
 .toast.error { background: var(--red); }
 
-/* ================================================================
-   UNAUTHORIZED
-   ================================================================ */
+/* ===== UNAUTHORIZED ===== */
 #unauthorized {
   display: none;
   position: fixed;
   inset: 0;
   background: rgba(7,29,64,0.92);
-  backdrop-filter: blur(12px);
   z-index: 9999;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  backdrop-filter: blur(8px);
 }
 #unauthorized.show { display: flex; }
 #unauthorized .box {
   background: #fff;
-  border-radius: 24px;
+  border-radius: var(--radius-xl);
   padding: 48px 40px;
   max-width: 500px;
   text-align: center;
@@ -1086,9 +944,7 @@ tr:hover td { background: var(--navy-50); }
 #unauthorized .box p { color: var(--muted); font-size: 15px; line-height: 1.8; margin-bottom: 20px; }
 #unauthorized .box .btn { width: 100%; justify-content: center; }
 
-/* ================================================================
-   RESPONSIVE
-   ================================================================ */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 1200px) {
   .payment-summary { grid-template-columns: repeat(2, 1fr); }
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
@@ -1122,21 +978,17 @@ tr:hover td { background: var(--navy-50); }
 </head>
 <body>
 
-<!-- ================================================================
-   UNAUTHORIZED OVERLAY
-   ================================================================ -->
+<!-- ===== UNAUTHORIZED OVERLAY ===== -->
 <div id="unauthorized" class="show">
   <div class="box">
     <div class="icon">🔒</div>
     <h2>غير مصرح بالدخول</h2>
-    <p>هذه الصفحة مخصصة للأدمن فقط. تم اكتشاف محاولة دخول غير مصرح بها.</p>
+    <p>هذه الصفحة مخصصة للأدمن فقط. تم اكتشاف محاولة دخول غير مصرح بها. سيتم توجيهك إلى صفحة تسجيل الدخول.</p>
     <button class="btn btn-danger" onclick="forceLogout()">تسجيل الخروج</button>
   </div>
 </div>
 
-<!-- ================================================================
-   LOGIN
-   ================================================================ -->
+<!-- ===== LOGIN ===== -->
 <div id="login">
   <div class="login-box">
     <div class="logo">
@@ -1144,31 +996,20 @@ tr:hover td { background: var(--navy-50); }
     </div>
     <h1>Secure PATH</h1>
     <p class="subtitle">مركز تشغيل الوسيط — إدارة العملاء والوثائق والمطالبات</p>
-    <div id="loginErr" style="color:var(--red);font-size:13px;margin-bottom:12px"></div>
     <div class="field">
       <label>البريد الإلكتروني</label>
       <input id="email" type="email" autocomplete="username" placeholder="admin@securepath.com">
     </div>
     <div class="field">
       <label>كلمة المرور</label>
-      <div style="position:relative;">
-        <input id="pass" type="password" autocomplete="current-password" placeholder="••••••••">
-        <button type="button" class="toggle-pass" onclick="togglePassword()" id="togglePassBtn">👁️</button>
-      </div>
+      <input id="pass" type="password" autocomplete="current-password" placeholder="••••••••">
     </div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
-      <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);cursor:pointer;">
-        <input type="checkbox" id="rememberMe"> تذكرني
-      </label>
-      <button class="btn btn-outline btn-sm" onclick="resetPassword()" style="font-size:12px;">نسيت كلمة المرور؟</button>
-    </div>
+    <div id="loginErr" style="color:var(--red);font-size:13px;margin-bottom:12px"></div>
     <button class="btn btn-primary" style="width:100%;justify-content:center;font-size:15px;padding:14px" id="loginBtn" onclick="login()">دخول لوحة التحكم</button>
   </div>
 </div>
 
-<!-- ================================================================
-   APP
-   ================================================================ -->
+<!-- ===== APP ===== -->
 <div id="app">
   <div class="shell">
     <!-- Sidebar -->
@@ -1182,31 +1023,35 @@ tr:hover td { background: var(--navy-50); }
       </div>
       <nav class="nav">
         <div class="nav-section">الرئيسية</div>
-        <button data-view="dashboard" onclick="showView('dashboard',this)"><span class="icon">📊</span><span class="label">لوحة التحكم</span></button>
+        <button data-view="dashboard" onclick="showView('dashboard',this)"><span class="icon">▦</span><span class="label">لوحة التحكم</span></button>
+        
         <div class="nav-section">الإدارة</div>
-        <button data-view="clients" onclick="showView('clients',this)"><span class="icon">👤</span><span class="label">العملاء</span></button>
-        <button data-view="policies" onclick="showView('policies',this)"><span class="icon">📄</span><span class="label">الوثائق</span></button>
-        <button data-view="payments" onclick="showView('payments',this)"><span class="icon">💰</span><span class="label">المدفوعات</span></button>
-        <button data-view="claims" onclick="showView('claims',this)"><span class="icon">⚠️</span><span class="label">المطالبات</span></button>
-        <button data-view="documents" onclick="showView('documents',this)"><span class="icon">📎</span><span class="label">المستندات</span></button>
-        <button data-view="renewals" onclick="showView('renewals',this)"><span class="icon">🔄</span><span class="label">التجديدات</span></button>
-        <button data-view="offers" onclick="showView('offers',this)"><span class="icon">🎯</span><span class="label">العروض</span></button>
+        <button data-view="clients" onclick="showView('clients',this)"><span class="icon">♙</span><span class="label">العملاء</span></button>
+        <button data-view="policies" onclick="showView('policies',this)"><span class="icon">▣</span><span class="label">الوثائق</span></button>
+        <button data-view="payments" onclick="showView('payments',this)"><span class="icon">₣</span><span class="label">المدفوعات</span></button>
+        <button data-view="claims" onclick="showView('claims',this)"><span class="icon">!</span><span class="label">المطالبات</span></button>
+        <button data-view="documents" onclick="showView('documents',this)"><span class="icon">▤</span><span class="label">المستندات</span></button>
+        <button data-view="renewals" onclick="showView('renewals',this)"><span class="icon">↻</span><span class="label">التجديدات</span></button>
+        <button data-view="offers" onclick="showView('offers',this)"><span class="icon">★</span><span class="label">العروض</span></button>
+        
         <div class="nav-section">الإعدادات</div>
-        <button data-view="companies" onclick="showView('companies',this)"><span class="icon">🏢</span><span class="label">شركات التأمين</span></button>
-        <button data-view="types" onclick="showView('types',this)"><span class="icon">📑</span><span class="label">أنواع التأمين</span></button>
-        <button data-view="products" onclick="showView('products',this)"><span class="icon">📦</span><span class="label">المنتجات</span></button>
+        <button data-view="companies" onclick="showView('companies',this)"><span class="icon">◆</span><span class="label">شركات التأمين</span></button>
+        <button data-view="types" onclick="showView('types',this)"><span class="icon">◈</span><span class="label">أنواع التأمين</span></button>
+        <button data-view="products" onclick="showView('products',this)"><span class="icon">▰</span><span class="label">المنتجات</span></button>
+        
         <div class="nav-section">التحليلات</div>
-        <button data-view="reports" onclick="showView('reports',this)"><span class="icon">📈</span><span class="label">التقارير</span></button>
-        <button data-view="assessments" onclick="showView('assessments',this)"><span class="icon">🛡️</span><span class="label">تقييمات الحماية</span></button>
+        <button data-view="reports" onclick="showView('reports',this)"><span class="icon">▥</span><span class="label">التقارير</span></button>
+        <button data-view="assessments" onclick="showView('assessments',this)"><span class="icon">◉</span><span class="label">تقييمات الحماية</span></button>
+        
         <div class="nav-section">التواصل</div>
-        <button data-view="messages" onclick="showView('messages',this)"><span class="icon">💬</span><span class="label">المحادثات</span><b id="msgBadge" class="badge hidden">0</b></button>
-        <button data-view="notifications" onclick="showView('notifications',this)"><span class="icon">🔔</span><span class="label">الإشعارات</span></button>
-        <button data-view="activity" onclick="showView('activity',this)"><span class="icon">📋</span><span class="label">سجل النشاط</span></button>
-        <button data-view="compliance" onclick="showView('compliance',this)"><span class="icon">✅</span><span class="label">الامتثال</span></button>
+        <button data-view="messages" onclick="showView('messages',this)"><span class="icon">✉</span><span class="label">المحادثات</span><b id="msgBadge" class="badge hidden">0</b></button>
+        <button data-view="notifications" onclick="showView('notifications',this)"><span class="icon">◉</span><span class="label">الإشعارات</span></button>
+        <button data-view="activity" onclick="showView('activity',this)"><span class="icon">◷</span><span class="label">سجل النشاط</span></button>
+        <button data-view="compliance" onclick="showView('compliance',this)"><span class="icon">✓</span><span class="label">الامتثال</span></button>
       </nav>
       <div class="footer">
         <span id="userEmail">—</span>
-        <button class="logout-btn" onclick="logout()">🚪 تسجيل الخروج</button>
+        <button class="logout-btn" onclick="logout()">↪ تسجيل الخروج</button>
         <span class="copy">Secure PATH © 2026</span>
       </div>
     </aside>
@@ -1215,15 +1060,15 @@ tr:hover td { background: var(--navy-50); }
     <main class="main">
       <header class="topbar">
         <div class="topbar-left">
-          <div class="page-icon" id="pageIcon">📊</div>
+          <div class="page-icon" id="pageIcon">▦</div>
           <div>
             <h1 id="title">لوحة التحكم</h1>
             <div class="topbar-sub" id="pageSub">نظرة عامة على الأداء والنشاطات</div>
           </div>
         </div>
         <div class="actions">
-          <button class="btn btn-dark btn-sm" onclick="openModal('clientModal')">➕ عميل جديد</button>
-          <button class="btn btn-primary btn-sm" onclick="openPolicyModal()">📄 وثيقة</button>
+          <button class="btn btn-dark btn-sm" onclick="openModal('clientModal')">+ عميل جديد</button>
+          <button class="btn btn-primary btn-sm" onclick="openPolicyModal()">+ وثيقة</button>
           <button class="btn btn-outline btn-sm" onclick="refreshAllData()">🔄 تحديث</button>
         </div>
       </header>
@@ -1232,16 +1077,16 @@ tr:hover td { background: var(--navy-50); }
         <!-- DASHBOARD -->
         <div id="v-dashboard" class="view active">
           <div class="grid grid-4">
-            <div class="card stat-card"><span class="stat-icon">👤</span><div class="label">إجمالي العملاء</div><div class="value" id="sClients">0</div><div class="sub blue">CRM</div></div>
-            <div class="card stat-card"><span class="stat-icon">📄</span><div class="label">إجمالي الوثائق</div><div class="value" id="sPolicies">0</div><div class="sub green" id="sActive">0 سارية</div></div>
-            <div class="card stat-card"><span class="stat-icon">⚠️</span><div class="label">المطالبات المفتوحة</div><div class="value" id="sClaims">0</div><div class="sub red">متابعة</div></div>
-            <div class="card stat-card"><span class="stat-icon">💬</span><div class="label">الرسائل الجديدة</div><div class="value" id="sMessages">0</div><div class="sub gold">Real-time</div></div>
+            <div class="card stat-card"><div class="label">إجمالي العملاء</div><div class="value" id="sClients">0</div><div class="sub blue">CRM</div></div>
+            <div class="card stat-card"><div class="label">إجمالي الوثائق</div><div class="value" id="sPolicies">0</div><div class="sub green" id="sActive">0 سارية</div></div>
+            <div class="card stat-card"><div class="label">المطالبات المفتوحة</div><div class="value" id="sClaims">0</div><div class="sub red">متابعة</div></div>
+            <div class="card stat-card"><div class="label">الرسائل الجديدة</div><div class="value" id="sMessages">0</div><div class="sub gold">Real-time</div></div>
           </div>
           <div class="grid grid-4" style="margin-top:20px">
-            <div class="card stat-card"><span class="stat-icon">⏰</span><div class="label">وثائق تنتهي قريباً</div><div class="value" id="sExpiring">0</div><div class="sub red">45 يوم</div></div>
-            <div class="card stat-card"><span class="stat-icon">💰</span><div class="label">إجمالي المدفوعات</div><div class="value" id="sPayments">0</div><div class="sub green">EGP</div></div>
-            <div class="card stat-card"><span class="stat-icon">📎</span><div class="label">المستندات</div><div class="value" id="sDocs">0</div><div class="sub blue">ملفات</div></div>
-            <div class="card stat-card"><span class="stat-icon">👑</span><div class="label">المستخدم الحالي</div><div class="value" id="sAgent" style="font-size:20px">—</div><div class="sub gold">Admin</div></div>
+            <div class="card stat-card"><div class="label">وثائق تنتهي قريباً</div><div class="value" id="sExpiring">0</div><div class="sub red">45 يوم</div></div>
+            <div class="card stat-card"><div class="label">إجمالي المدفوعات</div><div class="value" id="sPayments">0</div><div class="sub green">EGP</div></div>
+            <div class="card stat-card"><div class="label">المستندات</div><div class="value" id="sDocs">0</div><div class="sub blue">ملفات</div></div>
+            <div class="card stat-card"><div class="label">المستخدم الحالي</div><div class="value" id="sAgent" style="font-size:20px">—</div><div class="sub gold">Admin</div></div>
           </div>
           <div class="grid grid-2" style="margin-top:20px">
             <div class="card"><div class="card-header"><h3>📋 وثائق قريبة الانتهاء</h3><button class="btn btn-outline btn-xs" onclick="showView('renewals')">عرض الكل</button></div><div id="dashExpiring" class="card-body"></div></div>
@@ -1253,7 +1098,7 @@ tr:hover td { background: var(--navy-50); }
         <div id="v-clients" class="view">
           <div class="toolbar">
             <div class="search"><input id="clientSearch" oninput="renderClients()" placeholder="ابحث بالاسم أو الهاتف"></div>
-            <div class="actions"><button class="btn btn-primary" onclick="openModal('clientModal')">➕ إضافة عميل</button></div>
+            <div class="actions"><button class="btn btn-primary" onclick="openModal('clientModal')">+ إضافة عميل</button></div>
           </div>
           <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>الهاتف</th><th>الوثائق</th><th>المطالبات</th><th>آخر رسالة</th><th>الحالة</th><th>مؤشر الحماية</th><th>إجراءات</th></tr></thead><tbody id="clientsBody"></tbody></table></div></div></div>
         </div>
@@ -1262,7 +1107,7 @@ tr:hover td { background: var(--navy-50); }
         <div id="v-policies" class="view">
           <div class="toolbar">
             <div class="search"><input id="policySearch" oninput="renderPolicies()" placeholder="ابحث بالعميل أو الشركة أو النوع"></div>
-            <div class="actions"><button class="btn btn-primary" onclick="openPolicyModal()">📄 إضافة وثيقة</button></div>
+            <div class="actions"><button class="btn btn-primary" onclick="openPolicyModal()">+ إضافة وثيقة</button></div>
           </div>
           <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>النوع</th><th>الشركة</th><th>رقم الوثيقة</th><th>القسط</th><th>الانتهاء</th><th>الحالة</th></tr></thead><tbody id="policiesBody"></tbody></table></div></div></div>
         </div>
@@ -1270,26 +1115,63 @@ tr:hover td { background: var(--navy-50); }
         <!-- PAYMENTS -->
         <div id="v-payments" class="view">
           <div class="payment-summary">
-            <div class="summary-card"><div class="summary-label">💰 إجمالي الأقساط المستحقة</div><div class="summary-value" id="totalPremium">0</div><div class="summary-sub green">جميع الوثائق النشطة</div></div>
-            <div class="summary-card"><div class="summary-label">✅ إجمالي المدفوعات المحصلة</div><div class="summary-value" id="totalCollected">0</div><div class="summary-sub blue">المدفوعات المسجلة</div></div>
-            <div class="summary-card"><div class="summary-label">📊 المتبقي من الأقساط</div><div class="summary-value" id="totalRemaining">0</div><div class="summary-sub red">غير محصلة</div></div>
-            <div class="summary-card"><div class="summary-label">📈 نسبة التحصيل</div><div class="summary-value" id="collectionRate">0%</div><div class="summary-sub gold">من إجمالي الأقساط</div></div>
+            <div class="summary-card">
+              <div class="summary-label">💰 إجمالي الأقساط المستحقة</div>
+              <div class="summary-value" id="totalPremium">0</div>
+              <div class="summary-sub green">جميع الوثائق النشطة</div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-label">✅ إجمالي المدفوعات المحصلة</div>
+              <div class="summary-value" id="totalCollected">0</div>
+              <div class="summary-sub blue">المدفوعات المسجلة</div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-label">📊 المتبقي من الأقساط</div>
+              <div class="summary-value" id="totalRemaining">0</div>
+              <div class="summary-sub red">غير محصلة</div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-label">📈 نسبة التحصيل</div>
+              <div class="summary-value" id="collectionRate">0%</div>
+              <div class="summary-sub gold">من إجمالي الأقساط</div>
+            </div>
           </div>
+
           <div class="toolbar">
             <div class="search"><input id="paymentSearch" oninput="renderPayments()" placeholder="ابحث بالعميل أو الوثيقة"></div>
             <div class="actions">
-              <button class="btn btn-primary" onclick="openPaymentModal()">💰 تسجيل دفعة</button>
+              <button class="btn btn-primary" onclick="openPaymentModal()">+ تسجيل دفعة</button>
               <button class="btn btn-outline btn-sm" onclick="renderPayments()">🔄 تحديث</button>
             </div>
           </div>
-          <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>الوثيقة</th><th>القسط السنوي</th><th>المدفوع</th><th>المتبقي</th><th>تاريخ الدفع</th><th>طريقة الدفع</th><th>ملاحظة</th></tr></thead><tbody id="paymentsBody"></tbody></table></div></div></div>
+          <div class="card">
+            <div class="card-body p-0">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>العميل</th>
+                      <th>الوثيقة</th>
+                      <th>القسط السنوي</th>
+                      <th>المدفوع</th>
+                      <th>المتبقي</th>
+                      <th>تاريخ الدفع</th>
+                      <th>طريقة الدفع</th>
+                      <th>ملاحظة</th>
+                    </tr>
+                  </thead>
+                  <tbody id="paymentsBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- CLAIMS -->
         <div id="v-claims" class="view">
           <div class="toolbar">
             <div class="search"><input id="claimSearch" oninput="renderClaims()" placeholder="ابحث بالعميل أو النوع"></div>
-            <div class="actions"><button class="btn btn-primary" onclick="openClaimModal()">⚠️ إضافة مطالبة</button></div>
+            <div class="actions"><button class="btn btn-primary" onclick="openClaimModal()">+ إضافة مطالبة</button></div>
           </div>
           <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>النوع</th><th>رقم الوثيقة</th><th>المبلغ</th><th>الحالة</th><th>آخر تحديث</th><th>إجراء</th></tr></thead><tbody id="claimsBody"></tbody></table></div></div></div>
         </div>
@@ -1308,7 +1190,7 @@ tr:hover td { background: var(--navy-50); }
           <div class="toolbar">
             <div class="search"><input id="offerSearch" oninput="renderOffers()" placeholder="ابحث باسم العرض أو الشركة"></div>
             <div class="actions">
-              <button class="btn btn-primary" onclick="openOfferModal()">🎯 إضافة عرض جديد</button>
+              <button class="btn btn-primary" onclick="openOfferModal()">+ إضافة عرض جديد</button>
               <button class="btn btn-outline btn-sm" onclick="renderOffers()">🔄 تحديث</button>
             </div>
           </div>
@@ -1327,7 +1209,7 @@ tr:hover td { background: var(--navy-50); }
         <div id="v-renewals" class="view">
           <div class="toolbar">
             <div class="search"><input id="renewalSearch" oninput="renderRenewals()" placeholder="ابحث بالعميل"></div>
-            <div class="actions"><button class="btn btn-primary" id="runRenewalBtn" onclick="runRenewalReminders()">🔄 تشغيل التذكيرات</button></div>
+            <div class="actions"><button class="btn btn-primary" id="runRenewalBtn" onclick="runRenewalReminders()">↻ تشغيل التذكيرات</button></div>
           </div>
           <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>الوثيقة</th><th>الشركة</th><th>الانتهاء</th><th>المتبقي</th><th>إجراء</th></tr></thead><tbody id="renewalsBody"></tbody></table></div></div></div>
         </div>
@@ -1336,7 +1218,7 @@ tr:hover td { background: var(--navy-50); }
         <div id="v-companies" class="view">
           <div class="toolbar">
             <div class="search"><input id="companySearch" oninput="renderCompanies()" placeholder="ابحث باسم الشركة"></div>
-            <div class="actions"><button class="btn btn-primary" onclick="openCompanyModal()">🏢 إضافة شركة</button></div>
+            <div class="actions"><button class="btn btn-primary" onclick="openCompanyModal()">+ إضافة شركة</button></div>
           </div>
           <div class="card" id="companiesList"></div>
         </div>
@@ -1345,20 +1227,20 @@ tr:hover td { background: var(--navy-50); }
         <div id="v-types" class="view">
           <div class="toolbar">
             <div class="search"><input id="typeSearch" oninput="renderInsuranceTypes()" placeholder="ابحث عن نوع التأمين"></div>
-            <div class="actions"><button class="btn btn-primary" onclick="openTypeModal()">📑 إضافة نوع</button></div>
+            <div class="actions"><button class="btn btn-primary" onclick="openTypeModal()">+ إضافة نوع</button></div>
           </div>
           <div class="grid grid-4" id="typesGrid"></div>
         </div>
 
         <!-- PRODUCTS -->
         <div id="v-products" class="view">
-          <div class="card" style="padding:14px 20px;margin-bottom:20px;background:linear-gradient(135deg, var(--gold-soft), var(--gold-100));border-color:var(--gold);border-radius:16px">
+          <div class="card" style="padding:14px 20px;margin-bottom:20px;background:var(--gold-soft);border-color:var(--gold);border-radius:var(--radius-lg)">
             <b>📌 النشر للمستخدم:</b> أي منتج حالته <span class="badge badge-success">Published</span> سيظهر تلقائياً في تطبيق العميل.
           </div>
           <div class="toolbar">
             <div class="search"><input id="productSearch" oninput="renderProducts()" placeholder="ابحث في المنتجات"></div>
             <div class="actions">
-              <button class="btn btn-primary" onclick="openProductModal()">📦 إضافة منتج</button>
+              <button class="btn btn-primary" onclick="openProductModal()">+ إضافة منتج</button>
               <button class="btn btn-outline btn-sm" onclick="renderProducts()">🔄 تحديث</button>
             </div>
           </div>
@@ -1368,10 +1250,10 @@ tr:hover td { background: var(--navy-50); }
         <!-- REPORTS -->
         <div id="v-reports" class="view">
           <div class="grid grid-4">
-            <div class="card stat-card"><span class="stat-icon">👤</span><div class="label">العملاء</div><div class="value" id="rClients">0</div></div>
-            <div class="card stat-card"><span class="stat-icon">📄</span><div class="label">الوثائق السارية</div><div class="value" id="rActive">0</div></div>
-            <div class="card stat-card"><span class="stat-icon">⏰</span><div class="label">تجديدات 45 يوم</div><div class="value" id="rRenewals">0</div></div>
-            <div class="card stat-card"><span class="stat-icon">💰</span><div class="label">المدفوعات</div><div class="value" id="rPaid">0</div></div>
+            <div class="card stat-card"><div class="label">العملاء</div><div class="value" id="rClients">0</div></div>
+            <div class="card stat-card"><div class="label">الوثائق السارية</div><div class="value" id="rActive">0</div></div>
+            <div class="card stat-card"><div class="label">تجديدات 45 يوم</div><div class="value" id="rRenewals">0</div></div>
+            <div class="card stat-card"><div class="label">المدفوعات</div><div class="value" id="rPaid">0</div></div>
           </div>
           <div class="grid grid-2" style="margin-top:20px">
             <div class="card"><div class="card-header"><h3>📊 توزيع الوثائق حسب النوع</h3></div><div id="reportTypeDistribution" class="card-body"></div></div>
@@ -1383,18 +1265,21 @@ tr:hover td { background: var(--navy-50); }
         <div id="v-assessments" class="view">
           <div class="toolbar">
             <div class="search"><input id="assessmentSearch" oninput="renderAssessments()" placeholder="ابحث باسم العميل"></div>
-            <div class="actions"><button class="btn btn-outline btn-sm" onclick="renderAssessments()">🔄 تحديث</button></div>
+            <div class="actions"><button class="btn btn-outline btn-sm" onclick="renderAssessments()">↻ تحديث</button></div>
           </div>
-          <div class="card"><div class="card-header"><h3>🛡️ تقييمات الحماية التأمينية</h3><span class="badge badge-info" id="assessmentCount">0</span></div><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>الصفة</th><th>النشاط</th><th>الوثائق السارية</th><th>المؤشر</th><th>التقييم</th><th>آخر تحديث</th><th>إجراء</th></tr></thead><tbody id="assessmentsBody"></tbody></table></div></div></div>
+          <div class="card"><div class="card-header"><h3>تقييمات الحماية التأمينية</h3><span class="badge badge-info" id="assessmentCount">0</span></div><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>الصفة</th><th>النشاط</th><th>الوثائق السارية</th><th>المؤشر</th><th>التقييم</th><th>آخر تحديث</th><th>إجراء</th></tr></thead><tbody id="assessmentsBody"></tbody></table></div></div></div>
         </div>
 
         <!-- COMPLIANCE -->
         <div id="v-compliance" class="view">
           <div class="card"><div class="card-body">
-            <h3 style="font-size:18px;display:flex;align-items:center;gap:10px;">✅ مركز الامتثال</h3>
+            <h3 style="font-size:18px;display:flex;align-items:center;gap:10px;">✓ مركز الامتثال</h3>
             <p style="line-height:1.8;font-size:14px;color:var(--text-secondary)">Secure PATH يعمل كـ CRM وخدمة ومتابعة للعميل. جميع البيانات محفوظة ومشفرة وفق أعلى المعايير.</p>
-            <div class="list-item" style="border:1px solid var(--line-soft);border-radius:12px;margin-top:12px;background:var(--gold-soft);cursor:default;">
-              <div class="list-content"><h4>📋 تنبيه قانوني</h4><p style="font-size:13px;color:var(--muted);margin-top:4px">هذه الشاشة أداة تشغيلية وليست رأياً قانونياً. يُرجى الرجوع إلى المستشار القانوني عند الحاجة.</p></div>
+            <div class="list-item" style="border:1px solid var(--line-soft);border-radius:var(--radius-md);margin-top:12px;background:var(--gold-soft);cursor:default;">
+              <div class="list-content">
+                <h4>📋 تنبيه قانوني</h4>
+                <p style="font-size:13px;color:var(--muted);margin-top:4px">هذه الشاشة أداة تشغيلية وليست رأياً قانونياً. يُرجى الرجوع إلى المستشار القانوني عند الحاجة.</p>
+              </div>
             </div>
           </div></div>
         </div>
@@ -1406,21 +1291,22 @@ tr:hover td { background: var(--navy-50); }
 
         <!-- ACTIVITY -->
         <div id="v-activity" class="view">
-          <div class="card"><div class="card-header"><h3>📋 سجل النشاط</h3></div><div id="activityList" class="card-body"></div></div>
+          <div class="card"><div class="card-header"><h3>📜 سجل النشاط</h3></div><div id="activityList" class="card-body"></div></div>
         </div>
       </section>
     </main>
   </div>
 </div>
 
-<!-- ================================================================
-   MODALS
-   ================================================================ -->
+<!-- ===== MODALS ===== -->
 
 <!-- Client Modal -->
 <div id="clientModal" class="overlay">
   <div class="modal">
-    <div class="modal-header"><h2>👤 إضافة عميل جديد</h2><button class="modal-close" onclick="closeModal('clientModal')">✕</button></div>
+    <div class="modal-header">
+      <h2>👤 إضافة عميل جديد</h2>
+      <button class="modal-close" onclick="closeModal('clientModal')">✕</button>
+    </div>
     <div class="form-grid">
       <div class="field"><label>الاسم الكامل</label><input id="cName" placeholder="أدخل الاسم"></div>
       <div class="field"><label>الهاتف</label><input id="cPhone" placeholder="أدخل رقم الهاتف"></div>
@@ -1440,7 +1326,10 @@ tr:hover td { background: var(--navy-50); }
 <!-- Policy Modal -->
 <div id="policyModal" class="overlay">
   <div class="modal">
-    <div class="modal-header"><h2>📄 إضافة وثيقة تأمين</h2><button class="modal-close" onclick="closeModal('policyModal')">✕</button></div>
+    <div class="modal-header">
+      <h2>📄 إضافة وثيقة تأمين</h2>
+      <button class="modal-close" onclick="closeModal('policyModal')">✕</button>
+    </div>
     <div class="field"><label>العميل</label><select id="pClient"><option value="">اختر العميل</option></select></div>
     <div class="form-grid">
       <div class="field"><label>نوع التأمين</label><select id="pType"><option value="">اختر النوع</option></select></div>
@@ -1470,7 +1359,10 @@ tr:hover td { background: var(--navy-50); }
 <!-- Payment Modal -->
 <div id="paymentModal" class="overlay">
   <div class="modal">
-    <div class="modal-header"><h2>💰 تسجيل دفعة</h2><button class="modal-close" onclick="closeModal('paymentModal')">✕</button></div>
+    <div class="modal-header">
+      <h2>💰 تسجيل دفعة</h2>
+      <button class="modal-close" onclick="closeModal('paymentModal')">✕</button>
+    </div>
     <div class="field"><label>العميل</label><select id="payClient" onchange="refreshPolicySelect('payClient','payPolicy')"><option value="">اختر العميل</option></select></div>
     <div class="field"><label>الوثيقة</label><select id="payPolicy"><option value="">اختر الوثيقة</option></select></div>
     <div class="form-grid">
@@ -1493,7 +1385,10 @@ tr:hover td { background: var(--navy-50); }
 <!-- Claim Modal -->
 <div id="claimModal" class="overlay">
   <div class="modal">
-    <div class="modal-header"><h2>⚠️ إضافة مطالبة</h2><button class="modal-close" onclick="closeModal('claimModal')">✕</button></div>
+    <div class="modal-header">
+      <h2>📋 إضافة مطالبة</h2>
+      <button class="modal-close" onclick="closeModal('claimModal')">✕</button>
+    </div>
     <div class="field"><label>العميل</label><select id="clClient" onchange="refreshPolicySelect('clClient','clPolicy')"><option value="">اختر العميل</option></select></div>
     <div class="field"><label>الوثيقة</label><select id="clPolicy"><option value="">اختر الوثيقة</option></select></div>
     <div class="form-grid">
@@ -1512,57 +1407,29 @@ tr:hover td { background: var(--navy-50); }
 
 <!-- Document Upload Modal -->
 <div id="docUploadModal" class="overlay">
-  <div class="modal" style="width:min(750px,96vw)">
+  <div class="modal">
     <div class="modal-header">
       <h2>📎 رفع مستند جديد</h2>
       <button class="modal-close" onclick="closeModal('docUploadModal')">✕</button>
     </div>
-    <div class="field">
-      <label>العميل <span style="color:var(--red)">*</span></label>
-      <select id="docClient"><option value="">اختر العميل</option></select>
-    </div>
+    <div class="field"><label>العميل</label><select id="docClient"><option value="">اختر العميل</option></select></div>
     <div class="form-grid">
-      <div class="field">
-        <label>اسم المستند <span style="color:var(--red)">*</span></label>
-        <input id="docName" placeholder="مثال: بطاقة الرقم القومي">
-      </div>
-      <div class="field">
-        <label>نوع المستند <span style="color:var(--red)">*</span></label>
-        <select id="docType">
-          <option value="هوية شخصية">هوية شخصية</option>
-          <option value="رخصة قيادة">رخصة قيادة</option>
-          <option value="جواز سفر">جواز سفر</option>
-          <option value="تقرير طبي">تقرير طبي</option>
-          <option value="عقد تأمين">عقد تأمين</option>
-          <option value="فاتورة">فاتورة</option>
-          <option value="كشف حساب">كشف حساب</option>
-          <option value="صورة شخصية">صورة شخصية</option>
-          <option value="أخرى">أخرى</option>
-        </select>
-      </div>
+      <div class="field"><label>اسم المستند</label><input id="docName" placeholder="مثال: بطاقة الرقم القومي"></div>
+      <div class="field"><label>نوع المستند</label><select id="docType"><option value="هوية شخصية">هوية شخصية</option><option value="رخصة قيادة">رخصة قيادة</option><option value="تقرير طبي">تقرير طبي</option><option value="عقد تأمين">عقد تأمين</option><option value="فاتورة">فاتورة</option><option value="أخرى">أخرى</option></select></div>
     </div>
     <div class="field">
-      <label>اختر الملف <span style="color:var(--red)">*</span></label>
+      <label>اختر الملف</label>
       <div class="file-upload-area" id="dropArea">
-        <input type="file" id="docFile" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx">
-        <label for="docFile" class="upload-label">📤 اختر ملف أو اسحبه هنا</label>
+        <input type="file" id="docFile" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+        <label for="docFile" class="upload-label">📤 اختر ملف</label>
         <div class="file-name" id="docFileName">لم يتم اختيار ملف</div>
-        <div class="file-size" id="docFileSize"></div>
-        <div class="file-preview" id="filePreview"></div>
-        <div class="upload-progress" id="docUploadProgress">
-          <div class="progress-bar" id="progressBar"></div>
-        </div>
-      </div>
-      <div style="font-size:11px;color:var(--muted);margin-top:4px;">
-        <span>الحد الأقصى: 10MB. الصيغ المدعومة: PDF, JPG, PNG, DOC, DOCX, XLS, XLSX</span>
-        <br>
-        <span>📦 يتم الرفع عبر <b>Cloudinary</b> (تخزين سحابي مجاني)</span>
+        <div class="upload-progress" id="docUploadProgress"><div class="progress-bar" id="progressBar"></div></div>
       </div>
     </div>
     <div id="docUploadErr" class="error"></div>
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('docUploadModal')">إلغاء</button>
-      <button class="btn btn-primary" id="uploadDocBtn" onclick="uploadDocument()">📤 رفع المستند</button>
+      <button class="btn btn-primary" id="uploadDocBtn" onclick="uploadDocument()">رفع المستند</button>
     </div>
   </div>
 </div>
@@ -1570,7 +1437,10 @@ tr:hover td { background: var(--navy-50); }
 <!-- Company Modal -->
 <div id="companyModal" class="overlay">
   <div class="modal">
-    <div class="modal-header"><h2>🏢 إضافة شركة تأمين</h2><button class="modal-close" onclick="closeModal('companyModal')">✕</button></div>
+    <div class="modal-header">
+      <h2>🏢 إضافة شركة تأمين</h2>
+      <button class="modal-close" onclick="closeModal('companyModal')">✕</button>
+    </div>
     <div class="field"><label>اسم الشركة</label><input id="coName" placeholder="اسم الشركة"></div>
     <div class="field"><label>لوجو (URL)</label><input id="coLogo" placeholder="https://example.com/logo.png"></div>
     <div class="field"><label>وصف</label><textarea id="coDesc" rows="2" placeholder="وصف الشركة"></textarea></div>
@@ -1585,7 +1455,10 @@ tr:hover td { background: var(--navy-50); }
 <!-- Type Modal -->
 <div id="typeModal" class="overlay">
   <div class="modal">
-    <div class="modal-header"><h2>📑 إضافة نوع تأمين</h2><button class="modal-close" onclick="closeModal('typeModal')">✕</button></div>
+    <div class="modal-header">
+      <h2>📑 إضافة نوع تأمين</h2>
+      <button class="modal-close" onclick="closeModal('typeModal')">✕</button>
+    </div>
     <div class="field"><label>اسم النوع</label><input id="tName" placeholder="مثال: تأمين السيارات"></div>
     <div class="field"><label>الوصف</label><textarea id="tDesc" rows="2" placeholder="وصف النوع"></textarea></div>
     <div class="field"><label>اللون</label><select id="tColor"><option value="medical">طبي</option><option value="life">حياة</option><option value="car">سيارات</option><option value="property">ممتلكات</option><option value="travel">سفر</option><option value="engineering">هندسي</option><option value="liability">مسؤولية</option><option value="marine">بحري</option><option value="agriculture">زراعي</option><option value="cyber">سيبراني</option><option value="health">صحي</option><option value="investment">استثماري</option><option value="pension">معاشات</option><option value="export">صادرات</option><option value="micro">متناهي الصغر</option><option value="takaful">تكافلي</option><option value="other">أخرى</option></select></div>
@@ -1600,7 +1473,10 @@ tr:hover td { background: var(--navy-50); }
 <!-- Product Modal -->
 <div id="productModal" class="overlay">
   <div class="modal">
-    <div class="modal-header"><h2>📦 إضافة منتج</h2><button class="modal-close" onclick="closeModal('productModal')">✕</button></div>
+    <div class="modal-header">
+      <h2>📦 إضافة منتج</h2>
+      <button class="modal-close" onclick="closeModal('productModal')">✕</button>
+    </div>
     <div class="form-grid">
       <div class="field"><label>شركة التأمين</label><select id="prCompany"><option value="">اختر الشركة</option></select></div>
       <div class="field"><label>نوع التأمين</label><select id="prType"><option value="">اختر النوع</option></select></div>
@@ -1608,7 +1484,11 @@ tr:hover td { background: var(--navy-50); }
     <div class="field"><label>اسم المنتج</label><input id="prName" placeholder="اسم المنتج"></div>
     <div class="field"><label>الوصف</label><textarea id="prDesc" rows="2" placeholder="وصف المنتج"></textarea></div>
     <div class="field"><label>المميزات</label><textarea id="prFeatures" rows="3" placeholder="كل مميز على سطر"></textarea></div>
-    <div class="field"><label>صورة (URL)</label><input id="prImage" placeholder="https://example.com/image.jpg"><div id="imagePreview" style="display:none;margin-top:8px;"></div></div>
+    <div class="field">
+      <label>صورة (URL)</label>
+      <input id="prImage" placeholder="https://example.com/image.jpg">
+      <div id="imagePreview" style="display:none;margin-top:8px;"></div>
+    </div>
     <div class="field"><label>الحالة</label><select id="prStatus"><option value="draft">مسودة</option><option value="published">منشور</option><option value="archived">مؤرشف</option></select></div>
     <div id="prErr" class="error"></div>
     <div class="modal-footer">
@@ -1621,20 +1501,23 @@ tr:hover td { background: var(--navy-50); }
 <!-- Offer Modal -->
 <div id="offerModal" class="overlay">
   <div class="modal" style="width:min(850px,96vw)">
-    <div class="modal-header"><h2>🎯 إضافة عرض جديد</h2><button class="modal-close" onclick="closeModal('offerModal')">✕</button></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-      <div class="field"><label>اسم العرض</label><input id="offerName" placeholder="مثال: خصم 20% على التأمين الطبي"></div>
-      <div class="field"><label>رمز العرض</label><input id="offerCode" placeholder="مثال: MED20"></div>
+    <div class="modal-header">
+      <h2>🎯 إضافة عرض جديد</h2>
+      <button class="modal-close" onclick="closeModal('offerModal')">✕</button>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+      <div class="field"><label>اسم العرض</label><input id="offerName" placeholder="مثال: خصم 20% على التأمين الطبي"></div>
+      <div class="field"><label>رمز العرض (كود)</label><input id="offerCode" placeholder="مثال: MED20"></div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
       <div class="field"><label>شركة التأمين</label><select id="offerCompany"><option value="">اختر الشركة</option></select></div>
       <div class="field"><label>نوع التأمين</label><select id="offerType"><option value="">اختر النوع</option></select></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
       <div class="field"><label>نسبة الخصم (%)</label><input id="offerDiscount" type="number" placeholder="0" min="0" max="100"></div>
       <div class="field"><label>الحالة</label><select id="offerStatus"><option value="active">نشط</option><option value="expired">منتهي</option><option value="draft">مسودة</option></select></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
       <div class="field"><label>تاريخ البداية</label><input id="offerStart" type="date"></div>
       <div class="field"><label>تاريخ الانتهاء</label><input id="offerEnd" type="date"></div>
     </div>
@@ -1651,7 +1534,10 @@ tr:hover td { background: var(--navy-50); }
 <!-- Company Profile Modal -->
 <div id="companyProfileModal" class="overlay">
   <div class="modal" style="width:min(900px,96vw)">
-    <div class="modal-header"><div><h2 id="companyProfileName" style="margin:0;font-size:20px">شركة التأمين</h2><div id="companyProfileMeta" style="font-size:13px;color:var(--muted)"></div></div><button class="modal-close" onclick="closeModal('companyProfileModal')">✕</button></div>
+    <div class="modal-header">
+      <div><h2 id="companyProfileName" style="margin:0;font-size:20px">شركة التأمين</h2><div id="companyProfileMeta" style="font-size:13px;color:var(--muted)"></div></div>
+      <button class="modal-close" onclick="closeModal('companyProfileModal')">✕</button>
+    </div>
     <div id="companyProfileBody"></div>
   </div>
 </div>
@@ -1659,7 +1545,10 @@ tr:hover td { background: var(--navy-50); }
 <!-- Client Profile Modal -->
 <div id="clientProfileModal" class="overlay">
   <div class="modal" style="width:min(900px,96vw)">
-    <div class="modal-header"><div><h2 id="profileName" style="margin:0;font-size:20px">ملف العميل</h2><div id="profileMeta" style="font-size:13px;color:var(--muted)"></div></div><button class="modal-close" onclick="closeModal('clientProfileModal')">✕</button></div>
+    <div class="modal-header">
+      <div><h2 id="profileName" style="margin:0;font-size:20px">ملف العميل</h2><div id="profileMeta" style="font-size:13px;color:var(--muted)"></div></div>
+      <button class="modal-close" onclick="closeModal('clientProfileModal')">✕</button>
+    </div>
     <div id="profileBody"></div>
   </div>
 </div>
@@ -1667,7 +1556,10 @@ tr:hover td { background: var(--navy-50); }
 <!-- Assessment Modal -->
 <div id="assessmentModal" class="overlay">
   <div class="modal" style="width:min(850px,96vw)">
-    <div class="modal-header"><div><h2 id="assessmentModalTitle" style="margin:0;font-size:20px">تقييم الحماية</h2><div id="assessmentModalMeta" style="font-size:13px;color:var(--muted)"></div></div><button class="modal-close" onclick="closeModal('assessmentModal')">✕</button></div>
+    <div class="modal-header">
+      <div><h2 id="assessmentModalTitle" style="margin:0;font-size:20px">تقييم الحماية</h2><div id="assessmentModalMeta" style="font-size:13px;color:var(--muted)"></div></div>
+      <button class="modal-close" onclick="closeModal('assessmentModal')">✕</button>
+    </div>
     <div id="assessmentModalBody"></div>
   </div>
 </div>
@@ -1675,9 +1567,9 @@ tr:hover td { background: var(--navy-50); }
 <!-- Toast -->
 <div id="toast" class="toast"></div>
 
-<!-- ================================================================
-   JAVASCRIPT
-   ================================================================ -->
+<!-- ============================================================ -->
+<!-- JAVASCRIPT - النسخة النهائية المتكاملة مع العروض -->
+<!-- ============================================================ -->
 <script>
 // ================================================================
 // 1. FIREBASE CONFIG
@@ -1697,46 +1589,10 @@ if (typeof firebase !== 'undefined' && !firebase.apps.length) {
 
 var auth = firebase.auth();
 var db = firebase.firestore();
+var storage = firebase.storage();
 
 // ================================================================
-// 2. CLOUDINARY CONFIG
-// ================================================================
-var CLOUDINARY_URL = 'cloudinary://562182276356247:eQrL1QxKdKZ53e6shIgBIv7m-Dc@zs4wny34';
-
-function parseCloudinaryUrl(url) {
-  try {
-    var match = url.match(/cloudinary:\/\/([^:]+):([^@]+)@(.+)/);
-    if (match) {
-      return {
-        apiKey: match[1],
-        apiSecret: match[2],
-        cloudName: match[3]
-      };
-    }
-    return null;
-  } catch (e) {
-    console.error('فشل تحليل Cloudinary URL:', e);
-    return null;
-  }
-}
-
-var cloudinaryConfig = parseCloudinaryUrl(CLOUDINARY_URL);
-
-var CLOUDINARY = {
-  cloudName: cloudinaryConfig ? cloudinaryConfig.cloudName : 'zs4wny34',
-  apiKey: cloudinaryConfig ? cloudinaryConfig.apiKey : '562182276356247',
-  apiSecret: cloudinaryConfig ? cloudinaryConfig.apiSecret : 'eQrL1QxKdKZ53e6shIgBIv7m-Dc',
-  uploadPreset: 'securepath'
-};
-
-console.log('✅ Cloudinary Config:', {
-  cloudName: CLOUDINARY.cloudName,
-  apiKey: CLOUDINARY.apiKey ? 'موجود ✅' : 'غير موجود ❌',
-  apiSecret: CLOUDINARY.apiSecret ? 'موجود ✅' : 'غير موجود ❌'
-});
-
-// ================================================================
-// 3. MASTER DATA
+// 2. MASTER DATA
 // ================================================================
 var INSURANCE_COMPANIES = [
   { id: 'misr', name: 'مصر للتأمين' },
@@ -1818,7 +1674,7 @@ var INSURANCE_TYPES = [
 ];
 
 // ================================================================
-// 4. STATE MANAGEMENT
+// 3. STATE MANAGEMENT
 // ================================================================
 var DATA = {
   clients: [],
@@ -1842,10 +1698,9 @@ var MSG_UNSUB = null;
 var LOADED = false;
 var ADMIN_EMAILS = ['admin@securepath.com', 'admin@path.com'];
 var currentUser = null;
-var selectedFile = null;
 
 // ================================================================
-// 5. UTILITY FUNCTIONS
+// 4. UTILITY FUNCTIONS
 // ================================================================
 function esc(v) {
   if (!v) return '';
@@ -1971,7 +1826,7 @@ function hideLoading(btnId) {
 }
 
 // ================================================================
-// 6. AUTHENTICATION
+// 5. AUTHENTICATION
 // ================================================================
 function isAdminEmail(email) {
   if (!email) return false;
@@ -1986,26 +1841,7 @@ function checkAdminAccess(user) {
 function forceLogout() {
   if (CHAT_UNSUB) CHAT_UNSUB();
   if (MSG_UNSUB) MSG_UNSUB();
-  auth.signOut().then(function() { toast('🔒 تم تسجيل الخروج'); setTimeout(function() { location.reload(); }, 500); });
-}
-
-function togglePassword() {
-  var pass = document.getElementById('pass');
-  var btn = document.getElementById('togglePassBtn');
-  if (pass.type === 'password') { pass.type = 'text'; btn.textContent = '🙈'; } 
-  else { pass.type = 'password'; btn.textContent = '👁️'; }
-}
-
-function resetPassword() {
-  var email = document.getElementById('email').value.trim();
-  if (!email) { document.getElementById('loginErr').textContent = '⚠️ يرجى إدخال البريد الإلكتروني'; return; }
-  if (!isAdminEmail(email)) { document.getElementById('loginErr').textContent = '⚠️ هذا البريد غير مسجل كأدمن'; return; }
-  auth.sendPasswordResetEmail(email).then(function() {
-    toast('📧 تم إرسال رابط إعادة تعيين كلمة المرور');
-    document.getElementById('loginErr').textContent = '';
-  }).catch(function(err) {
-    document.getElementById('loginErr').textContent = '❌ ' + err.message;
-  });
+  auth.signOut().then(function() { location.reload(); });
 }
 
 function login() {
@@ -2013,71 +1849,78 @@ function login() {
   var pass = document.getElementById('pass').value;
   var err = document.getElementById('loginErr');
   err.textContent = '';
-  if (!email || !pass) { err.textContent = 'يرجى إدخال البريد وكلمة المرور'; return; }
-  if (!isAdminEmail(email)) { err.textContent = '⚠️ هذا البريد غير مصرح له بدخول لوحة التحكم.'; return; }
+  
+  if (!email || !pass) { 
+    err.textContent = 'يرجى إدخال البريد وكلمة المرور'; 
+    return; 
+  }
+  
+  if (!isAdminEmail(email)) {
+    err.textContent = '⚠️ هذا البريد غير مصرح له بدخول لوحة التحكم.';
+    return;
+  }
+  
   showLoading('loginBtn', 'جاري تسجيل الدخول...');
-  auth.signInWithEmailAndPassword(email, pass).then(function(result) {
-    var user = result.user;
-    if (!checkAdminAccess(user)) {
-      err.textContent = '⚠️ هذا الحساب ليس حساب أدمن.';
-      auth.signOut();
+  
+  auth.signInWithEmailAndPassword(email, pass)
+    .then(function(result) {
+      var user = result.user;
+      if (!checkAdminAccess(user)) {
+        err.textContent = '⚠️ تم تسجيل الدخول ولكن هذا الحساب ليس حساب أدمن.';
+        auth.signOut();
+        hideLoading('loginBtn');
+        return;
+      }
+      
+      currentUser = user;
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      document.getElementById('unauthorized').classList.remove('show');
+      document.getElementById('userEmail').textContent = email;
+      document.getElementById('sAgent').textContent = email.split('@')[0];
+      
       hideLoading('loginBtn');
-      return;
-    }
-    var remember = document.getElementById('rememberMe').checked;
-    if (remember) localStorage.setItem('adminEmail', email);
-    else localStorage.removeItem('adminEmail');
-    currentUser = user;
-    document.getElementById('login').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    document.getElementById('unauthorized').classList.remove('show');
-    document.getElementById('userEmail').textContent = email;
-    document.getElementById('sAgent').textContent = email.split('@')[0];
-    hideLoading('loginBtn');
-    toast('✅ مرحباً بك ' + email);
-    if (!LOADED) loadAll();
-  }).catch(function(error) {
-    hideLoading('loginBtn');
-    err.textContent = '❌ ' + error.message;
-  });
+      
+      if (!LOADED) loadAll();
+    })
+    .catch(function(error) {
+      hideLoading('loginBtn');
+      err.textContent = '❌ ' + error.message;
+    });
 }
 
 function logout() {
   if (CHAT_UNSUB) CHAT_UNSUB();
   if (MSG_UNSUB) MSG_UNSUB();
-  toast('🔒 جاري تسجيل الخروج...');
-  auth.signOut().then(function() { setTimeout(function() { location.reload(); }, 500); });
+  auth.signOut().then(function() { location.reload(); });
 }
 
+// ================================================================
+// 6. AUTH STATE MONITOR
+// ================================================================
 auth.onAuthStateChanged(function(user) {
   if (user) {
     if (!checkAdminAccess(user)) {
       document.getElementById('unauthorized').classList.add('show');
       document.getElementById('login').style.display = 'none';
       document.getElementById('app').style.display = 'none';
-      toast('⚠️ حساب غير مصرح به', true);
       setTimeout(function() { forceLogout(); }, 3000);
       return;
     }
+    
     currentUser = user;
     document.getElementById('unauthorized').classList.remove('show');
     document.getElementById('login').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     document.getElementById('userEmail').textContent = user.email || '';
     document.getElementById('sAgent').textContent = (user.email || '').split('@')[0];
-    var savedEmail = localStorage.getItem('adminEmail');
-    if (savedEmail && !document.getElementById('email').value) {
-      document.getElementById('email').value = savedEmail;
-      document.getElementById('rememberMe').checked = true;
-    }
+    
     if (!LOADED) loadAll();
   } else {
     document.getElementById('login').style.display = 'grid';
     document.getElementById('app').style.display = 'none';
     document.getElementById('unauthorized').classList.remove('show');
     currentUser = null;
-    var savedEmail = localStorage.getItem('adminEmail');
-    if (savedEmail) { document.getElementById('email').value = savedEmail; document.getElementById('rememberMe').checked = true; }
   }
 });
 
@@ -2085,48 +1928,51 @@ auth.onAuthStateChanged(function(user) {
 // 7. DATA LOADING
 // ================================================================
 function loadCollection(name) {
-  return db.collection(name).get().then(function(snap) {
-    var results = snap.docs.map(function(d) {
-      var data = d.data();
-      data.id = d.id;
+  return db.collection(name).get()
+    .then(function(snap) {
+      var results = snap.docs.map(function(d) {
+        var data = d.data();
+        data.id = d.id;
+        
+        // معالجة خاصة للمنتجات
+        if (name === 'products') {
+          if (!data.imageUrl && data.image) data.imageUrl = data.image;
+          if (!data.image && data.imageUrl) data.image = data.imageUrl;
+          if (!data.imageUrl && data.photo) data.imageUrl = data.photo;
+          if (!data.imageUrl && data.logo) data.imageUrl = data.logo;
+          if (data.status === 'published') data.published = true;
+          if (data.published === true) data.status = 'published';
+          if (!data.status) data.status = 'draft';
+          if (!data.premium) data.premium = 0;
+          if (!data.sumInsured) data.sumInsured = 0;
+        }
+        
+        // توحيد المعرفات
+        if (name === 'clients' && !data.uid && data.id) data.uid = data.id;
+        if (name === 'policies' && !data.uid && data.clientId) data.uid = data.clientId;
+        if (name === 'documents' && !data.uid && data.clientId) data.uid = data.clientId;
+        if (name === 'messages' && !data.uid && data.clientId) data.uid = data.clientId;
+        if (name === 'notifications' && !data.uid && data.clientId) data.uid = data.clientId;
+        if (name === 'payments' && !data.uid && data.clientId) data.uid = data.clientId;
+        if (name === 'claims' && !data.uid && data.clientId) data.uid = data.clientId;
+        if (name === 'offers' && !data.uid) data.uid = data.id;
+        
+        return data;
+      });
       
-      if (name === 'clients' && !data.uid && data.id) data.uid = data.id;
-      if (name === 'policies' && !data.uid && data.clientId) data.uid = data.clientId;
-      if (name === 'documents' && !data.uid && data.clientId) data.uid = data.clientId;
-      if (name === 'messages' && !data.uid && data.clientId) data.uid = data.clientId;
-      if (name === 'notifications' && !data.uid && data.clientId) data.uid = data.clientId;
-      if (name === 'payments' && !data.uid && data.clientId) data.uid = data.clientId;
-      if (name === 'claims' && !data.uid && data.clientId) data.uid = data.clientId;
-      if (name === 'offers' && !data.uid) data.uid = data.id;
-      
-      if (name === 'products') {
-        if (!data.imageUrl && data.image) data.imageUrl = data.image;
-        if (!data.image && data.imageUrl) data.image = data.imageUrl;
-        if (data.status === 'published') data.published = true;
-        if (data.published === true) data.status = 'published';
-        if (!data.status) data.status = 'draft';
-      }
-      
-      if (name === 'offers') {
-        if (!data.imageUrl && data.image) data.imageUrl = data.image;
-        if (!data.image && data.imageUrl) data.image = data.imageUrl;
-      }
-      
-      return data;
+      return results;
+    })
+    .catch(function(e) {
+      console.warn('Error loading ' + name + ':', e);
+      return [];
     });
-    console.log(`📊 ${name}: ${results.length} سجل`);
-    return results;
-  }).catch(function(e) {
-    console.warn('Error loading ' + name + ':', e);
-    return [];
-  });
 }
 
 function loadAll() {
   var names = ['clients', 'policies', 'payments', 'claims', 'documents', 'messages', 'notifications', 'activity', 'products', 'companies', 'insuranceAssessments', 'insuranceTypes', 'offers'];
   var promises = names.map(function(n) { return loadCollection(n); });
   
-  return Promise.all(promises).then(function(results) {
+  Promise.all(promises).then(function(results) {
     names.forEach(function(n, i) {
       if (n === 'insuranceAssessments') {
         DATA.assessments = results[i];
@@ -2143,16 +1989,6 @@ function loadAll() {
     startMessagesListener();
     startActivityListener();
     startNotificationsListener();
-    toast('✅ تم تحميل البيانات بنجاح');
-    console.log('📊 جميع البيانات:', {
-      clients: DATA.clients.length,
-      policies: DATA.policies.length,
-      payments: DATA.payments.length,
-      claims: DATA.claims.length,
-      documents: DATA.documents.length,
-      products: DATA.products.length,
-      offers: DATA.offers.length
-    });
   });
 }
 
@@ -2160,7 +1996,9 @@ function refreshAllData() {
   if (!LOADED) { toast('⚠️ لم يتم تحميل البيانات بعد'); return; }
   toast('🔄 جاري تحديث البيانات...');
   LOADED = false;
-  loadAll();
+  loadAll().then(function() {
+    toast('✅ تم تحديث البيانات');
+  });
 }
 
 // ================================================================
@@ -2470,6 +2308,7 @@ function renderDocuments() {
   document.getElementById('documentsBody').innerHTML = html || '<tr><td colspan="7"><div class="empty">لا توجد مستندات</div></td></tr>';
 }
 
+// ===== OFFERS RENDER =====
 function renderOffers() {
   var q = (document.getElementById('offerSearch')?.value || '').toLowerCase();
   var offers = (DATA.offers || []).filter(function(o) {
@@ -2491,9 +2330,10 @@ function renderOffers() {
   var html = offers.map(function(o) {
     var isActive = o.status === 'active';
     var now = new Date();
+    var start = o.startDate ? new Date(o.startDate) : null;
     var end = o.endDate ? new Date(o.endDate) : null;
     var isExpired = end && end < now;
-    var isUpcoming = o.startDate ? new Date(o.startDate) > now : false;
+    var isUpcoming = start && start > now;
     
     var statusBadge = isExpired ? '<span class="badge badge-danger">منتهي</span>' :
                       isUpcoming ? '<span class="badge badge-warning">قادم</span>' :
@@ -2694,7 +2534,12 @@ function renderInsuranceTypes() {
   document.getElementById('typesGrid').innerHTML = html;
 }
 
+// ================================================================
+// 11. PRODUCTS
+// ================================================================
 function renderProducts() {
+  console.log('🔄 Rendering products...', DATA.products);
+  
   var q = (document.getElementById('productSearch')?.value || '').toLowerCase();
   var products = (DATA.products || []).filter(function(p) {
     return [p.name, p.companyName, p.company, p.description, p.typeName, p.type]
@@ -2705,7 +2550,10 @@ function renderProducts() {
   });
   
   var grid = document.getElementById('productsGrid');
-  if (!grid) return;
+  if (!grid) {
+    console.error('❌ productsGrid not found');
+    return;
+  }
   
   if (products.length === 0) {
     grid.innerHTML = '<div class="empty" style="grid-column:span 3;padding:60px 20px;">' +
@@ -2784,6 +2632,449 @@ function renderProducts() {
   }).join('');
   
   grid.innerHTML = html;
+  console.log('✅ Products rendered:', products.length);
+}
+
+function createProduct() {
+  var company = document.getElementById('prCompany').value;
+  var type = document.getElementById('prType').value;
+  var name = document.getElementById('prName').value.trim();
+  var imageUrl = document.getElementById('prImage').value.trim();
+  var err = document.getElementById('prErr');
+  
+  err.textContent = '';
+  
+  if (!company || !type || !name) {
+    err.textContent = 'أكمل جميع البيانات (الشركة، النوع، والاسم)';
+    return;
+  }
+  
+  if (imageUrl && !imageUrl.startsWith('http') && !imageUrl.startsWith('data:')) {
+    err.textContent = '⚠️ رابط الصورة غير صحيح. يجب أن يبدأ بـ http:// أو https://';
+    return;
+  }
+  
+  showLoading('createProductBtn', 'جاري حفظ المنتج...');
+  
+  var status = document.getElementById('prStatus').value;
+  var product = {
+    company: company,
+    companyName: getCompanyName(company),
+    type: type,
+    typeName: getTypeName(type),
+    name: name,
+    description: document.getElementById('prDesc').value.trim(),
+    features: document.getElementById('prFeatures').value.trim(),
+    imageUrl: imageUrl,
+    image: imageUrl,
+    photo: imageUrl,
+    status: status,
+    published: status === 'published',
+    premium: 0,
+    sumInsured: 0,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  
+  db.collection('products').add(product)
+    .then(function(docRef) {
+      product.id = docRef.id;
+      DATA.products.push(product);
+      hideLoading('createProductBtn');
+      closeModal('productModal');
+      toast('✅ تم حفظ المنتج بنجاح');
+      return loadCollection('products');
+    })
+    .then(function(products) {
+      DATA.products = products;
+      renderProducts();
+      refreshAllSelects();
+    })
+    .catch(function(e) {
+      hideLoading('createProductBtn');
+      err.textContent = 'تعذر حفظ المنتج: ' + e.message;
+    });
+}
+
+function editProduct(productId) {
+  if (!productId) {
+    toast('❌ معرف المنتج غير موجود', true);
+    return;
+  }
+  
+  var product = DATA.products.find(function(p) { return p.id === productId; });
+  if (!product) {
+    toast('❌ لم يتم العثور على المنتج', true);
+    return;
+  }
+  
+  document.getElementById('prCompany').value = product.company || '';
+  document.getElementById('prType').value = product.type || '';
+  document.getElementById('prName').value = product.name || '';
+  document.getElementById('prDesc').value = product.description || '';
+  document.getElementById('prFeatures').value = product.features || '';
+  document.getElementById('prImage').value = product.imageUrl || '';
+  document.getElementById('prStatus').value = product.status || 'draft';
+  
+  var preview = document.getElementById('imagePreview');
+  if (preview && product.imageUrl) {
+    preview.style.display = 'block';
+    preview.innerHTML = '<div style="margin-top:8px;border-radius:8px;overflow:hidden;border:1px solid var(--line);max-width:200px;"><img src="' + esc(product.imageUrl) + '" alt="معاينة" style="width:100%;height:auto;max-height:150px;object-fit:contain;background:var(--paper);"></div>';
+  }
+  
+  var saveBtn = document.getElementById('createProductBtn');
+  saveBtn.textContent = '🔄 تحديث المنتج';
+  saveBtn.onclick = function() {
+    updateProduct(productId);
+  };
+  
+  refreshAllSelects();
+  openModal('productModal');
+}
+
+function updateProduct(productId) {
+  var company = document.getElementById('prCompany').value;
+  var type = document.getElementById('prType').value;
+  var name = document.getElementById('prName').value.trim();
+  var imageUrl = document.getElementById('prImage').value.trim();
+  var err = document.getElementById('prErr');
+  
+  err.textContent = '';
+  
+  if (!company || !type || !name) {
+    err.textContent = 'أكمل جميع البيانات';
+    return;
+  }
+  
+  showLoading('createProductBtn', 'جاري التحديث...');
+  
+  var status = document.getElementById('prStatus').value;
+  var updatedData = {
+    company: company,
+    companyName: getCompanyName(company),
+    type: type,
+    typeName: getTypeName(type),
+    name: name,
+    description: document.getElementById('prDesc').value.trim(),
+    features: document.getElementById('prFeatures').value.trim(),
+    imageUrl: imageUrl,
+    image: imageUrl,
+    photo: imageUrl,
+    status: status,
+    published: status === 'published',
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  
+  db.collection('products').doc(productId).update(updatedData)
+    .then(function() {
+      hideLoading('createProductBtn');
+      closeModal('productModal');
+      toast('✅ تم تحديث المنتج بنجاح');
+      return loadCollection('products');
+    })
+    .then(function(products) {
+      DATA.products = products;
+      renderProducts();
+      refreshAllSelects();
+      
+      var saveBtn = document.getElementById('createProductBtn');
+      saveBtn.textContent = 'حفظ المنتج';
+      saveBtn.onclick = function() {
+        createProduct();
+      };
+    })
+    .catch(function(e) {
+      hideLoading('createProductBtn');
+      err.textContent = 'تعذر تحديث المنتج: ' + e.message;
+    });
+}
+
+function deleteProduct(productId) {
+  if (!productId) {
+    toast('❌ معرف المنتج غير موجود', true);
+    return;
+  }
+  
+  if (!confirm('هل أنت متأكد من حذف هذا المنتج؟')) return;
+  
+  db.collection('products').doc(productId).delete()
+    .then(function() {
+      toast('✅ تم حذف المنتج');
+      DATA.products = DATA.products.filter(function(p) { return p.id !== productId; });
+      renderProducts();
+    })
+    .catch(function(e) {
+      toast('❌ تعذر حذف المنتج: ' + e.message, true);
+    });
+}
+
+function toggleProductStatus(productId) {
+  if (!productId) {
+    toast('❌ معرف المنتج غير موجود', true);
+    return;
+  }
+  
+  var product = DATA.products.find(function(p) { return p.id === productId; });
+  if (!product) {
+    toast('❌ لم يتم العثور على المنتج', true);
+    return;
+  }
+  
+  var isPublished = product.status === 'published' || product.published === true;
+  var newStatus = isPublished ? 'draft' : 'published';
+  
+  db.collection('products').doc(productId).update({
+    status: newStatus,
+    published: newStatus === 'published',
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(function() {
+    toast(isPublished ? '📁 تم إلغاء النشر' : '🚀 تم نشر المنتج');
+    return loadCollection('products');
+  })
+  .then(function(products) {
+    DATA.products = products;
+    renderProducts();
+  })
+  .catch(function(e) {
+    toast('❌ تعذر تغيير الحالة: ' + e.message, true);
+  });
+}
+
+function openProductModal() {
+  document.getElementById('prErr').textContent = '';
+  document.getElementById('prName').value = '';
+  document.getElementById('prDesc').value = '';
+  document.getElementById('prFeatures').value = '';
+  document.getElementById('prImage').value = '';
+  document.getElementById('prStatus').value = 'draft';
+  
+  var saveBtn = document.getElementById('createProductBtn');
+  saveBtn.textContent = 'حفظ المنتج';
+  saveBtn.onclick = function() {
+    createProduct();
+  };
+  
+  var preview = document.getElementById('imagePreview');
+  if (preview) {
+    preview.style.display = 'none';
+    preview.innerHTML = '';
+  }
+  
+  refreshAllSelects();
+  openModal('productModal');
+  
+  var imageInput = document.getElementById('prImage');
+  imageInput.oninput = function() {
+    var url = this.value.trim();
+    var preview = document.getElementById('imagePreview');
+    if (preview) {
+      if (url && (url.startsWith('http') || url.startsWith('data:'))) {
+        preview.style.display = 'block';
+        preview.innerHTML = '<div style="margin-top:8px;border-radius:8px;overflow:hidden;border:1px solid var(--line);max-width:200px;"><img src="' + esc(url) + '" alt="معاينة" style="width:100%;height:auto;max-height:150px;object-fit:contain;background:var(--paper);" onerror="this.parentElement.innerHTML=\'<div style=\\\'padding:20px;text-align:center;color:var(--muted);\\\'>⚠️ رابط غير صالح</div>\'"></div>';
+      } else {
+        preview.style.display = 'none';
+        preview.innerHTML = '';
+      }
+    }
+  };
+}
+
+// ===== OFFERS CRUD =====
+function openOfferModal() {
+  document.getElementById('offerErr').textContent = '';
+  document.getElementById('offerName').value = '';
+  document.getElementById('offerCode').value = '';
+  document.getElementById('offerDiscount').value = '';
+  document.getElementById('offerDesc').value = '';
+  document.getElementById('offerImage').value = '';
+  document.getElementById('offerStatus').value = 'active';
+  document.getElementById('offerStart').value = '';
+  document.getElementById('offerEnd').value = '';
+  
+  refreshCompanySelects();
+  refreshTypeSelects();
+  
+  var saveBtn = document.getElementById('createOfferBtn');
+  saveBtn.textContent = 'حفظ العرض';
+  saveBtn.onclick = function() { createOffer(); };
+  
+  openModal('offerModal');
+}
+
+function createOffer() {
+  var name = document.getElementById('offerName').value.trim();
+  var code = document.getElementById('offerCode').value.trim();
+  var company = document.getElementById('offerCompany').value;
+  var type = document.getElementById('offerType').value;
+  var discount = document.getElementById('offerDiscount').value;
+  var status = document.getElementById('offerStatus').value;
+  var startDate = document.getElementById('offerStart').value;
+  var endDate = document.getElementById('offerEnd').value;
+  var description = document.getElementById('offerDesc').value.trim();
+  var imageUrl = document.getElementById('offerImage').value.trim();
+  var err = document.getElementById('offerErr');
+  
+  err.textContent = '';
+  
+  if (!name || !company || !type) {
+    err.textContent = 'أكمل جميع البيانات (الاسم، الشركة، والنوع)';
+    return;
+  }
+  
+  showLoading('createOfferBtn', 'جاري حفظ العرض...');
+  
+  var offer = {
+    name: name,
+    code: code || 'OFFER-' + Date.now().toString().slice(-6),
+    company: company,
+    companyName: getCompanyName(company),
+    type: type,
+    typeName: getTypeName(type),
+    discount: Number(discount) || 0,
+    status: status,
+    startDate: startDate || null,
+    endDate: endDate || null,
+    description: description,
+    imageUrl: imageUrl,
+    image: imageUrl,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  
+  db.collection('offers').add(offer)
+    .then(function(docRef) {
+      offer.id = docRef.id;
+      if (!DATA.offers) DATA.offers = [];
+      DATA.offers.push(offer);
+      hideLoading('createOfferBtn');
+      closeModal('offerModal');
+      toast('✅ تم حفظ العرض بنجاح');
+      return loadCollection('offers').then(function(offers) {
+        DATA.offers = offers;
+        renderOffers();
+      });
+    })
+    .catch(function(e) {
+      hideLoading('createOfferBtn');
+      err.textContent = 'تعذر حفظ العرض: ' + e.message;
+    });
+}
+
+function editOffer(offerId) {
+  if (!offerId) { toast('❌ معرف العرض غير موجود', true); return; }
+  
+  var offer = (DATA.offers || []).find(function(o) { return o.id === offerId; });
+  if (!offer) { toast('❌ لم يتم العثور على العرض', true); return; }
+  
+  document.getElementById('offerName').value = offer.name || '';
+  document.getElementById('offerCode').value = offer.code || '';
+  document.getElementById('offerDiscount').value = offer.discount || '';
+  document.getElementById('offerStatus').value = offer.status || 'active';
+  document.getElementById('offerStart').value = offer.startDate || '';
+  document.getElementById('offerEnd').value = offer.endDate || '';
+  document.getElementById('offerDesc').value = offer.description || '';
+  document.getElementById('offerImage').value = offer.imageUrl || '';
+  
+  refreshCompanySelects();
+  refreshTypeSelects();
+  
+  document.getElementById('offerCompany').value = offer.company || '';
+  document.getElementById('offerType').value = offer.type || '';
+  
+  var saveBtn = document.getElementById('createOfferBtn');
+  saveBtn.textContent = '🔄 تحديث العرض';
+  saveBtn.onclick = function() {
+    updateOffer(offerId);
+  };
+  
+  openModal('offerModal');
+}
+
+function updateOffer(offerId) {
+  var name = document.getElementById('offerName').value.trim();
+  var company = document.getElementById('offerCompany').value;
+  var type = document.getElementById('offerType').value;
+  var err = document.getElementById('offerErr');
+  
+  err.textContent = '';
+  if (!name || !company || !type) {
+    err.textContent = 'أكمل جميع البيانات';
+    return;
+  }
+  
+  showLoading('createOfferBtn', 'جاري التحديث...');
+  
+  var updatedData = {
+    name: name,
+    code: document.getElementById('offerCode').value.trim(),
+    company: company,
+    companyName: getCompanyName(company),
+    type: type,
+    typeName: getTypeName(type),
+    discount: Number(document.getElementById('offerDiscount').value) || 0,
+    status: document.getElementById('offerStatus').value,
+    startDate: document.getElementById('offerStart').value || null,
+    endDate: document.getElementById('offerEnd').value || null,
+    description: document.getElementById('offerDesc').value.trim(),
+    imageUrl: document.getElementById('offerImage').value.trim(),
+    image: document.getElementById('offerImage').value.trim(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  
+  db.collection('offers').doc(offerId).update(updatedData)
+    .then(function() {
+      hideLoading('createOfferBtn');
+      closeModal('offerModal');
+      toast('✅ تم تحديث العرض بنجاح');
+      return loadCollection('offers').then(function(offers) {
+        DATA.offers = offers;
+        renderOffers();
+      });
+    })
+    .catch(function(e) {
+      hideLoading('createOfferBtn');
+      err.textContent = 'تعذر تحديث العرض: ' + e.message;
+    });
+}
+
+function deleteOffer(offerId) {
+  if (!offerId) { toast('❌ معرف العرض غير موجود', true); return; }
+  if (!confirm('هل أنت متأكد من حذف هذا العرض؟')) return;
+  
+  db.collection('offers').doc(offerId).delete()
+    .then(function() {
+      toast('✅ تم حذف العرض');
+      DATA.offers = (DATA.offers || []).filter(function(o) { return o.id !== offerId; });
+      renderOffers();
+    })
+    .catch(function(e) {
+      toast('❌ تعذر حذف العرض: ' + e.message, true);
+    });
+}
+
+function toggleOfferStatus(offerId) {
+  if (!offerId) { toast('❌ معرف العرض غير موجود', true); return; }
+  
+  var offer = (DATA.offers || []).find(function(o) { return o.id === offerId; });
+  if (!offer) { toast('❌ لم يتم العثور على العرض', true); return; }
+  
+  var newStatus = offer.status === 'active' ? 'expired' : 'active';
+  
+  db.collection('offers').doc(offerId).update({
+    status: newStatus,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(function() {
+    toast(newStatus === 'active' ? '✅ تم تفعيل العرض' : '⏸️ تم إيقاف العرض');
+    return loadCollection('offers').then(function(offers) {
+      DATA.offers = offers;
+      renderOffers();
+    });
+  })
+  .catch(function(e) {
+    toast('❌ تعذر تغيير الحالة: ' + e.message, true);
+  });
 }
 
 function renderReports() {
@@ -2885,100 +3176,33 @@ function updateBadge() {
 }
 
 // ================================================================
-// 11. DOCUMENT UPLOAD - مع Cloudinary
+// 12. DOCUMENT UPLOAD
 // ================================================================
 function openDocUploadModal() {
   document.getElementById('docUploadErr').textContent = '';
   document.getElementById('docName').value = '';
   document.getElementById('docFile').value = '';
   document.getElementById('docFileName').textContent = 'لم يتم اختيار ملف';
-  document.getElementById('docFileSize').textContent = '';
   document.getElementById('docUploadProgress').style.display = 'none';
   document.getElementById('progressBar').style.width = '0%';
-  document.getElementById('filePreview').style.display = 'none';
-  document.getElementById('filePreview').innerHTML = '';
-  selectedFile = null;
   refreshDocClientSelect();
   openModal('docUploadModal');
   
-  var fileInput = document.getElementById('docFile');
-  fileInput.onchange = handleFileSelect;
-  
-  var dropArea = document.getElementById('dropArea');
-  dropArea.ondragover = function(e) { e.preventDefault(); this.classList.add('dragover'); };
-  dropArea.ondragleave = function(e) { e.preventDefault(); this.classList.remove('dragover'); };
-  dropArea.ondrop = function(e) {
-    e.preventDefault();
-    this.classList.remove('dragover');
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      fileInput.files = e.dataTransfer.files;
-      handleFileSelect.call(fileInput, { target: fileInput });
+  document.getElementById('docFile').onchange = function(e) {
+    var file = e.target.files[0];
+    if (file) {
+      document.getElementById('docFileName').textContent = '📎 ' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+    } else {
+      document.getElementById('docFileName').textContent = 'لم يتم اختيار ملف';
     }
   };
-}
-
-function handleFileSelect(e) {
-  var file = e.target.files[0];
-  if (!file) {
-    document.getElementById('docFileName').textContent = 'لم يتم اختيار ملف';
-    document.getElementById('docFileSize').textContent = '';
-    document.getElementById('filePreview').style.display = 'none';
-    document.getElementById('filePreview').innerHTML = '';
-    selectedFile = null;
-    return;
-  }
-  
-  var maxSize = 10 * 1024 * 1024;
-  if (file.size > maxSize) {
-    document.getElementById('docUploadErr').textContent = '⚠️ حجم الملف كبير جداً. الحد الأقصى 10MB';
-    document.getElementById('docFileName').textContent = '❌ ' + file.name;
-    document.getElementById('docFileSize').textContent = '';
-    selectedFile = null;
-    return;
-  }
-  
-  var allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg', 
-    'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
-  
-  if (!allowedTypes.includes(file.type)) {
-    document.getElementById('docUploadErr').textContent = '⚠️ صيغة الملف غير مدعومة. الصيغ المدعومة: PDF, JPG, PNG, DOC, DOCX, XLS, XLSX';
-    document.getElementById('docFileName').textContent = '❌ ' + file.name;
-    document.getElementById('docFileSize').textContent = '';
-    selectedFile = null;
-    return;
-  }
-  
-  document.getElementById('docUploadErr').textContent = '';
-  document.getElementById('docFileName').textContent = '📎 ' + file.name;
-  document.getElementById('docFileSize').textContent = 'حجم: ' + (file.size / 1024).toFixed(1) + ' KB';
-  selectedFile = file;
-  
-  var preview = document.getElementById('filePreview');
-  if (file.type.startsWith('image/')) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      preview.style.display = 'block';
-      preview.innerHTML = '<img src="' + e.target.result + '" alt="معاينة الملف">';
-    };
-    reader.readAsDataURL(file);
-  } else {
-    preview.style.display = 'block';
-    var iconMap = {
-      'application/pdf': '📄',
-      'application/msword': '📝',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '📝',
-      'application/vnd.ms-excel': '📊',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '📊'
-    };
-    preview.innerHTML = '<div style="font-size:48px;padding:20px;text-align:center;">' + (iconMap[file.type] || '📎') + '</div><div style="text-align:center;font-size:12px;color:var(--muted);">' + file.name + '</div>';
-  }
 }
 
 function uploadDocument() {
   var clientId = document.getElementById('docClient').value;
   var fileName = document.getElementById('docName').value.trim();
   var fileType = document.getElementById('docType').value;
+  var fileInput = document.getElementById('docFile');
   var err = document.getElementById('docUploadErr');
   var progress = document.getElementById('docUploadProgress');
   var progressBar = document.getElementById('progressBar');
@@ -2987,104 +3211,70 @@ function uploadDocument() {
   
   if (!clientId) { err.textContent = 'يرجى اختيار العميل'; return; }
   if (!fileName) { err.textContent = 'يرجى إدخال اسم المستند'; return; }
-  if (!selectedFile) { err.textContent = 'يرجى اختيار ملف للرفع'; return; }
+  if (!fileInput.files || !fileInput.files[0]) { err.textContent = 'يرجى اختيار ملف'; return; }
   
-  var existing = DATA.documents.find(function(d) { 
-    return (d.clientId === clientId || d.uid === clientId) && d.fileName === fileName; 
-  });
-  if (existing) {
-    if (!confirm('⚠️ يوجد مستند بنفس الاسم لهذا العميل. هل تريد استبداله؟')) return;
+  var file = fileInput.files[0];
+  if (file.size > 10 * 1024 * 1024) {
+    err.textContent = 'حجم الملف كبير جداً. الحد الأقصى 10MB';
+    return;
   }
   
-  showLoading('uploadDocBtn', 'جاري رفع الملف إلى Cloudinary...');
-  if (progress) { progress.style.display = 'block'; progressBar.style.width = '0%'; }
+  showLoading('uploadDocBtn', 'جاري الرفع...');
+  if (progress) {
+    progress.style.display = 'block';
+    progressBar.style.width = '0%';
+  }
   
-  var file = selectedFile;
-  var formData = new FormData();
-  formData.append('file', file);
-  formData.append('upload_preset', CLOUDINARY.uploadPreset);
-  formData.append('folder', 'securepath_documents');
-  formData.append('public_id', clientId + '_' + Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9.]/g, '_'));
+  var timestamp = Date.now();
+  var filePath = 'admin_documents/' + clientId + '/' + timestamp + '_' + file.name;
+  var storageRef = storage.ref(filePath);
+  var uploadTask = storageRef.put(file);
   
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'https://api.cloudinary.com/v1_1/' + CLOUDINARY.cloudName + '/auto/upload', true);
-  
-  xhr.upload.onprogress = function(e) {
-    if (e.lengthComputable) {
-      var percent = (e.loaded / e.total) * 100;
+  uploadTask.on(
+    'state_changed',
+    function(snapshot) {
+      var percent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       if (progressBar) progressBar.style.width = percent + '%';
-      document.getElementById('uploadDocBtn').innerHTML = '📤 رفع ' + Math.round(percent) + '%';
-    }
-  };
-  
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      var response = JSON.parse(xhr.responseText);
-      var downloadURL = response.secure_url;
-      
-      var docData = {
-        clientId: clientId,
-        uid: clientId,
-        fileName: fileName,
-        fileType: fileType,
-        fileOriginalName: file.name,
-        fileSize: file.size,
-        cloudinaryPublicId: response.public_id,
-        downloadURL: downloadURL,
-        uploadedBy: 'agent',
-        verificationStatus: 'pending',
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-      
-      var savePromise;
-      if (existing) {
-        fetch('https://api.cloudinary.com/v1_1/' + CLOUDINARY.cloudName + '/image/destroy', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            public_id: existing.cloudinaryPublicId,
-            api_key: CLOUDINARY.apiKey,
-            api_secret: CLOUDINARY.apiSecret
-          })
-        }).catch(function(e) { console.warn('فشل حذف الملف القديم:', e); });
-        
-        savePromise = db.collection('documents').doc(existing.id).update(docData);
-      } else {
-        savePromise = db.collection('documents').add(docData);
-      }
-      
-      savePromise.then(function() {
-        hideLoading('uploadDocBtn');
-        if (progress) progress.style.display = 'none';
-        closeModal('docUploadModal');
-        toast('✅ تم رفع المستند بنجاح إلى Cloudinary');
-        return loadCollection('documents').then(function(docs) {
-          DATA.documents = docs;
-          renderDocuments();
-          renderDashboard();
-        });
-      }).catch(function(error) {
-        hideLoading('uploadDocBtn');
-        if (progress) progress.style.display = 'none';
-        err.textContent = '❌ فشل حفظ بيانات المستند: ' + error.message;
-        toast('❌ فشل حفظ بيانات المستند: ' + error.message, true);
-      });
-    } else {
+      document.getElementById('uploadDocBtn').innerHTML = 'جاري الرفع ' + Math.round(percent) + '%';
+    },
+    function(error) {
       hideLoading('uploadDocBtn');
       if (progress) progress.style.display = 'none';
-      err.textContent = '❌ فشل رفع الملف إلى Cloudinary: ' + xhr.status;
-      toast('❌ فشل رفع الملف إلى Cloudinary', true);
+      err.textContent = 'فشل رفع الملف: ' + error.message;
+    },
+    function() {
+      uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+        db.collection('documents').add({
+          clientId: clientId,
+          uid: clientId,
+          fileName: fileName,
+          fileType: fileType,
+          fileOriginalName: file.name,
+          fileSize: file.size,
+          filePath: filePath,
+          downloadURL: downloadURL,
+          uploadedBy: 'agent',
+          verificationStatus: 'pending',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        })
+        .then(function() {
+          hideLoading('uploadDocBtn');
+          if (progress) progress.style.display = 'none';
+          closeModal('docUploadModal');
+          toast('✅ تم رفع المستند بنجاح');
+          return loadCollection('documents').then(function(docs) {
+            DATA.documents = docs;
+            renderDocuments();
+          });
+        })
+        .catch(function(error) {
+          hideLoading('uploadDocBtn');
+          if (progress) progress.style.display = 'none';
+          err.textContent = 'فشل حفظ بيانات المستند: ' + error.message;
+        });
+      });
     }
-  };
-  
-  xhr.onerror = function() {
-    hideLoading('uploadDocBtn');
-    if (progress) progress.style.display = 'none';
-    err.textContent = '❌ فشل الاتصال بـ Cloudinary';
-    toast('❌ فشل الاتصال بـ Cloudinary', true);
-  };
-  
-  xhr.send(formData);
+  );
 }
 
 function verifyDocument(id, status) {
@@ -3092,17 +3282,123 @@ function verifyDocument(id, status) {
     verificationStatus: status,
     verifiedAt: firebase.firestore.FieldValue.serverTimestamp(),
     verifiedBy: currentUser ? currentUser.uid : ''
-  }).then(function() {
+  })
+  .then(function() {
     return loadCollection('documents').then(function(docs) {
       DATA.documents = docs;
       renderDocuments();
-      toast(status === 'approved' ? '✅ تم اعتماد المستند' : '✅ تم رفض المستند');
+      toast(status === 'approved' ? '✅ تم الاعتماد' : '✅ تم الرفض');
     });
-  }).catch(function(err) { toast('❌ تعذر التحديث: ' + err.message, true); });
+  })
+  .catch(function() { toast('❌ تعذر التحديث', true); });
 }
 
 // ================================================================
-// 12. CREATE CLIENT - تم إصلاح مشكلة الأذونات
+// 13. CHAT
+// ================================================================
+function openClientChat(id) {
+  if (!id) return;
+  CURRENT_CHAT = id;
+  document.getElementById('chatTitle').textContent = clientName(id);
+  showView('messages');
+  if (CHAT_UNSUB) CHAT_UNSUB();
+  CHAT_UNSUB = db.collection('messages').where('clientId', '==', id).onSnapshot(function(snap) {
+    var docs = snap.docs.slice().sort(function(a, b) { return ms(a.data().createdAt) - ms(b.data().createdAt); });
+    var html = docs.map(function(d) {
+      var m = d.data();
+      return '<div class="bubble ' + (m.sender === 'agent' ? 'agent' : 'client') + '">' + esc(m.text) + '</div>';
+    }).join('');
+    document.getElementById('chatList').innerHTML = html || '<div class="empty">لا توجد رسائل</div>';
+    document.getElementById('chatList').scrollTop = 999999;
+  });
+}
+
+function sendMessage() {
+  var input = document.getElementById('chatInput');
+  var text = input.value.trim();
+  if (!text || !CURRENT_CHAT) return;
+  input.value = '';
+  db.collection('messages').add({
+    clientId: CURRENT_CHAT,
+    uid: CURRENT_CHAT,
+    sender: 'agent',
+    agentId: currentUser ? currentUser.uid : '',
+    text: text,
+    readByClient: false,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function() {
+    toast('✅ تم إرسال الرسالة');
+  }).catch(function() {
+    toast('❌ تعذر إرسال الرسالة', true);
+  });
+}
+
+// ================================================================
+// 14. VIEW NAVIGATION
+// ================================================================
+function showView(view, el) {
+  document.querySelectorAll('.view').forEach(function(x) { x.classList.remove('active'); });
+  var node = document.getElementById('v-' + view);
+  if (node) node.classList.add('active');
+  document.querySelectorAll('.nav button').forEach(function(x) { x.classList.remove('active'); });
+  var target = el || document.querySelector('[data-view="' + view + '"]');
+  if (target) target.classList.add('active');
+  
+  var titles = { 
+    dashboard: 'لوحة التحكم', 
+    clients: 'العملاء', 
+    policies: 'الوثائق', 
+    payments: 'المدفوعات', 
+    claims: 'المطالبات', 
+    documents: 'المستندات', 
+    renewals: 'التجديدات', 
+    companies: 'شركات التأمين', 
+    types: 'أنواع التأمين', 
+    products: 'المنتجات', 
+    reports: 'التقارير', 
+    assessments: 'تقييمات الحماية', 
+    compliance: 'الامتثال', 
+    messages: 'المحادثات', 
+    notifications: 'الإشعارات', 
+    activity: 'سجل النشاط',
+    offers: 'العروض'
+  };
+  var icons = {
+    dashboard: '▦', clients: '♙', policies: '▣', payments: '₣',
+    claims: '!', documents: '▤', renewals: '↻', companies: '◆',
+    types: '◈', products: '▰', reports: '▥', assessments: '◉',
+    compliance: '✓', messages: '✉', notifications: '◉', activity: '◷',
+    offers: '★'
+  };
+  var subs = {
+    dashboard: 'نظرة عامة على الأداء والنشاطات',
+    clients: 'إدارة العملاء والملفات الشخصية',
+    policies: 'إدارة وثائق التأمين',
+    payments: 'إدارة المدفوعات والأقساط',
+    claims: 'إدارة المطالبات',
+    documents: 'إدارة المستندات والملفات',
+    renewals: 'متابعة التجديدات',
+    companies: 'إدارة شركات التأمين',
+    types: 'إدارة أنواع التأمين',
+    products: 'إدارة منتجات التأمين',
+    reports: 'تقارير وتحليلات',
+    assessments: 'تقييمات الحماية',
+    compliance: 'مركز الامتثال',
+    messages: 'المحادثات مع العملاء',
+    notifications: 'إشعارات العملاء',
+    activity: 'سجل النشاطات',
+    offers: 'إدارة العروض الحصرية'
+  };
+  
+  document.getElementById('title').textContent = titles[view] || view;
+  document.getElementById('pageIcon').textContent = icons[view] || '▦';
+  document.getElementById('pageSub').textContent = subs[view] || '';
+  
+  if (view === 'dashboard') renderDashboard();
+}
+
+// ================================================================
+// 15. CRUD OPERATIONS
 // ================================================================
 function createClient() {
   var name = document.getElementById('cName').value.trim();
@@ -3112,96 +3408,46 @@ function createClient() {
   var err = document.getElementById('cErr');
   
   err.textContent = '';
-  
-  // التحقق من صحة البيانات
-  if (!name) { err.textContent = '⚠️ يرجى إدخال الاسم الكامل'; return; }
-  if (!email) { err.textContent = '⚠️ يرجى إدخال البريد الإلكتروني'; return; }
-  if (pass.length < 6) { err.textContent = '⚠️ كلمة المرور يجب أن تكون 6 أحرف على الأقل'; return; }
-  if (!phone) { err.textContent = '⚠️ يرجى إدخال رقم الهاتف'; return; }
-  
-  // التحقق من البريد الإلكتروني
-  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) { err.textContent = '⚠️ البريد الإلكتروني غير صحيح'; return; }
-  
-  // التحقق من عدم وجود العميل مسبقاً
-  var existingClient = DATA.clients.find(function(c) { return c.email === email; });
-  if (existingClient) {
-    err.textContent = '⚠️ هذا البريد الإلكتروني مسجل مسبقاً';
+  if (!name || !email || pass.length < 6) {
+    err.textContent = 'أكمل البيانات وكلمة المرور 6 أحرف';
     return;
   }
   
   showLoading('createClientBtn', 'جاري إنشاء العميل...');
   
-  // الخطوة 1: إنشاء حساب في Firebase Authentication
-  auth.createUserWithEmailAndPassword(email, pass)
-    .then(function(userCredential) {
-      var user = userCredential.user;
-      console.log('✅ تم إنشاء حساب العميل في Authentication:', user.uid);
-      
-      // الخطوة 2: حفظ بيانات العميل في Firestore
-      var clientData = {
-        fullName: name,
-        email: email,
-        phone: phone,
-        username: email.split('@')[0],
-        uid: user.uid,
-        role: 'client',
-        status: 'active',
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        createdBy: currentUser ? currentUser.uid : 'admin',
-        emailVerified: user.emailVerified || false
-      };
-      
-      return db.collection('clients').doc(user.uid).set(clientData)
-        .then(function() {
-          console.log('✅ تم حفظ بيانات العميل في Firestore');
-          return user;
+  db.collection('clients').add({
+    fullName: name,
+    email: email,
+    phone: phone,
+    username: email.split('@')[0],
+    role: 'client',
+    status: 'active',
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    createdBy: currentUser ? currentUser.uid : ''
+  })
+  .then(function(docRef) {
+    return auth.createUserWithEmailAndPassword(email, pass)
+      .then(function(cred) {
+        return db.collection('clients').doc(docRef.id).update({
+          uid: cred.user.uid
         });
-    })
-    .then(function(user) {
-      // الخطوة 3: إرسال بريد تأكيد
-      if (user && user.sendEmailVerification) {
-        user.sendEmailVerification().catch(function(e) {
-          console.warn('⚠️ تعذر إرسال بريد التأكيد:', e.message);
-        });
-      }
-      
-      // الخطوة 4: تحديث الواجهة
-      hideLoading('createClientBtn');
-      closeModal('clientModal');
-      toast('✅ تم إنشاء العميل بنجاح! تم إرسال بريد التأكيد.');
-      
-      // إعادة تحميل البيانات
-      return loadCollection('clients').then(function(clients) {
-        DATA.clients = clients;
-        renderClients();
-        renderDashboard();
-        refreshAllSelects();
+      })
+      .catch(function() {
+        return Promise.resolve();
+      })
+      .then(function() {
+        hideLoading('createClientBtn');
+        closeModal('clientModal');
+        toast('✅ تم إنشاء العميل بنجاح');
+        return loadAll();
       });
-    })
-    .catch(function(error) {
-      hideLoading('createClientBtn');
-      console.error('❌ خطأ في إنشاء العميل:', error);
-      
-      // عرض رسائل خطأ محددة
-      if (error.code === 'auth/email-already-in-use') {
-        err.textContent = '⚠️ هذا البريد الإلكتروني مستخدم بالفعل. يرجى استخدام بريد آخر.';
-      } else if (error.code === 'auth/invalid-email') {
-        err.textContent = '⚠️ البريد الإلكتروني غير صحيح.';
-      } else if (error.code === 'auth/weak-password') {
-        err.textContent = '⚠️ كلمة المرور ضعيفة. يرجى استخدام 6 أحرف على الأقل.';
-      } else if (error.code === 'auth/operation-not-allowed') {
-        err.textContent = '⚠️ خدمة إنشاء المستخدمين غير مفعلة في Firebase. يرجى تفعيلها من لوحة التحكم.';
-        toast('❌ يرجى تفعيل خدمة Email/Password في Firebase Console', true);
-      } else {
-        err.textContent = '❌ ' + error.message;
-      }
-    });
+  })
+  .catch(function(e) {
+    hideLoading('createClientBtn');
+    err.textContent = 'تعذر إنشاء العميل: ' + e.message;
+  });
 }
 
-// ================================================================
-// 13. REST OF CRUD OPERATIONS
-// ================================================================
 function createPolicy() {
   var cid = document.getElementById('pClient').value;
   var type = document.getElementById('pType').value;
@@ -3209,7 +3455,10 @@ function createPolicy() {
   var end = document.getElementById('pEnd').value;
   var err = document.getElementById('pErr');
   
-  if (!cid || !type || !company || !end) { err.textContent = 'أكمل جميع البيانات'; return; }
+  if (!cid || !type || !company || !end) {
+    err.textContent = 'أكمل جميع البيانات';
+    return;
+  }
   
   showLoading('createPolicyBtn', 'جاري الحفظ...');
   
@@ -3249,14 +3498,23 @@ function createPayment() {
   var amount = document.getElementById('payAmount').value;
   var err = document.getElementById('payErr');
   
-  if (!cid || !policyId || !amount || amount <= 0) { err.textContent = 'أكمل البيانات'; return; }
+  if (!cid || !policyId || !amount || amount <= 0) {
+    err.textContent = 'أكمل البيانات (العميل، الوثيقة، المبلغ)';
+    return;
+  }
   
   var policy = DATA.policies.find(function(p) { return p.id === policyId; });
   if (policy) {
     var premium = Number(policy.premium) || 0;
-    var paidAmount = DATA.payments.filter(function(pmt) { return pmt.policyId === policyId; }).reduce(function(sum, pmt) { return sum + (Number(pmt.amount) || 0); }, 0);
+    var paidAmount = DATA.payments
+      .filter(function(pmt) { return pmt.policyId === policyId; })
+      .reduce(function(sum, pmt) { return sum + (Number(pmt.amount) || 0); }, 0);
     var remaining = Math.max(0, premium - paidAmount);
-    if (Number(amount) > remaining) { err.textContent = '⚠️ المبلغ يتجاوز القسط المتبقي'; return; }
+    
+    if (Number(amount) > remaining) {
+      err.textContent = '⚠️ المبلغ المدفوع (' + Number(amount).toLocaleString('en-US') + ' EGP) يتجاوز القسط المتبقي (' + remaining.toLocaleString('en-US') + ' EGP)';
+      return;
+    }
   }
   
   showLoading('createPaymentBtn', 'جاري الحفظ...');
@@ -3274,7 +3532,7 @@ function createPayment() {
   .then(function() {
     hideLoading('createPaymentBtn');
     closeModal('paymentModal');
-    toast('✅ تم تسجيل الدفعة');
+    toast('✅ تم تسجيل الدفعة بنجاح');
     return loadCollection('payments').then(function(docs) {
       DATA.payments = docs;
       renderPayments();
@@ -3325,20 +3583,36 @@ function createClaim() {
 
 function changeClaim(id, status) {
   if (!status) return;
-  db.collection('claims').doc(id).update({ status: status, updatedAt: firebase.firestore.FieldValue.serverTimestamp() })
-    .then(function() { return loadCollection('claims').then(function(docs) { DATA.claims = docs; renderClaims(); toast('✅ تم تحديث الحالة'); }); })
-    .catch(function() { toast('❌ تعذر التحديث', true); });
+  db.collection('claims').doc(id).update({ 
+    status: status, 
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp() 
+  })
+  .then(function() {
+    return loadCollection('claims').then(function(docs) {
+      DATA.claims = docs;
+      renderClaims();
+      toast('✅ تم تحديث الحالة');
+    });
+  })
+  .catch(function() { toast('❌ تعذر التحديث', true); });
 }
 
 function createCompany() {
   var name = document.getElementById('coName').value.trim();
   var err = document.getElementById('coErr');
+  
   err.textContent = '';
   if (!name) { err.textContent = 'أدخل اسم الشركة'; return; }
   
   showLoading('createCompanyBtn', 'جاري الحفظ...');
+  
   var id = name.replace(/\s/g, '_').toLowerCase();
-  var company = { id: id, name: name, logo: document.getElementById('coLogo').value.trim(), description: document.getElementById('coDesc').value.trim() };
+  var company = { 
+    id: id, 
+    name: name, 
+    logo: document.getElementById('coLogo').value.trim(),
+    description: document.getElementById('coDesc').value.trim()
+  };
   
   db.collection('companies').doc(id).set(company)
     .then(function() {
@@ -3361,10 +3635,12 @@ function createInsuranceType() {
   var name = document.getElementById('tName').value.trim();
   var color = document.getElementById('tColor').value;
   var err = document.getElementById('tErr');
+  
   err.textContent = '';
   if (!name) { err.textContent = 'أدخل اسم النوع'; return; }
   
   showLoading('createTypeBtn', 'جاري الحفظ...');
+  
   var id = name.replace(/\s/g, '_').toLowerCase();
   var newType = { id: id, name: name, icon: '📄', color: color, description: document.getElementById('tDesc').value.trim() };
   
@@ -3386,268 +3662,7 @@ function createInsuranceType() {
 }
 
 // ================================================================
-// 14. PRODUCTS CRUD (مختصر)
-// ================================================================
-function createProduct() {
-  var company = document.getElementById('prCompany').value;
-  var type = document.getElementById('prType').value;
-  var name = document.getElementById('prName').value.trim();
-  var imageUrl = document.getElementById('prImage').value.trim();
-  var err = document.getElementById('prErr');
-  err.textContent = '';
-  if (!company || !type || !name) { err.textContent = 'أكمل جميع البيانات'; return; }
-  showLoading('createProductBtn', 'جاري حفظ المنتج...');
-  var status = document.getElementById('prStatus').value;
-  var product = { company: company, companyName: getCompanyName(company), type: type, typeName: getTypeName(type), name: name, description: document.getElementById('prDesc').value.trim(), features: document.getElementById('prFeatures').value.trim(), imageUrl: imageUrl, image: imageUrl, photo: imageUrl, status: status, published: status === 'published', premium: 0, sumInsured: 0, createdAt: firebase.firestore.FieldValue.serverTimestamp(), updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
-  db.collection('products').add(product).then(function(docRef) { product.id = docRef.id; DATA.products.push(product); hideLoading('createProductBtn'); closeModal('productModal'); toast('✅ تم حفظ المنتج بنجاح'); return loadCollection('products'); }).then(function(products) { DATA.products = products; renderProducts(); refreshAllSelects(); }).catch(function(e) { hideLoading('createProductBtn'); err.textContent = 'تعذر حفظ المنتج: ' + e.message; });
-}
-
-function editProduct(productId) {
-  if (!productId) { toast('❌ معرف المنتج غير موجود', true); return; }
-  var product = DATA.products.find(function(p) { return p.id === productId; });
-  if (!product) { toast('❌ لم يتم العثور على المنتج', true); return; }
-  document.getElementById('prCompany').value = product.company || '';
-  document.getElementById('prType').value = product.type || '';
-  document.getElementById('prName').value = product.name || '';
-  document.getElementById('prDesc').value = product.description || '';
-  document.getElementById('prFeatures').value = product.features || '';
-  document.getElementById('prImage').value = product.imageUrl || '';
-  document.getElementById('prStatus').value = product.status || 'draft';
-  var saveBtn = document.getElementById('createProductBtn');
-  saveBtn.textContent = '🔄 تحديث المنتج';
-  saveBtn.onclick = function() { updateProduct(productId); };
-  refreshAllSelects(); openModal('productModal');
-}
-
-function updateProduct(productId) {
-  var company = document.getElementById('prCompany').value;
-  var type = document.getElementById('prType').value;
-  var name = document.getElementById('prName').value.trim();
-  var err = document.getElementById('prErr');
-  err.textContent = '';
-  if (!company || !type || !name) { err.textContent = 'أكمل جميع البيانات'; return; }
-  showLoading('createProductBtn', 'جاري التحديث...');
-  var status = document.getElementById('prStatus').value;
-  var updatedData = { company: company, companyName: getCompanyName(company), type: type, typeName: getTypeName(type), name: name, description: document.getElementById('prDesc').value.trim(), features: document.getElementById('prFeatures').value.trim(), imageUrl: document.getElementById('prImage').value.trim(), image: document.getElementById('prImage').value.trim(), photo: document.getElementById('prImage').value.trim(), status: status, published: status === 'published', updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
-  db.collection('products').doc(productId).update(updatedData).then(function() { hideLoading('createProductBtn'); closeModal('productModal'); toast('✅ تم تحديث المنتج بنجاح'); return loadCollection('products'); }).then(function(products) { DATA.products = products; renderProducts(); refreshAllSelects(); var saveBtn = document.getElementById('createProductBtn'); saveBtn.textContent = 'حفظ المنتج'; saveBtn.onclick = function() { createProduct(); }; }).catch(function(e) { hideLoading('createProductBtn'); err.textContent = 'تعذر تحديث المنتج: ' + e.message; });
-}
-
-function deleteProduct(productId) {
-  if (!productId) { toast('❌ معرف المنتج غير موجود', true); return; }
-  if (!confirm('هل أنت متأكد من حذف هذا المنتج؟')) return;
-  db.collection('products').doc(productId).delete().then(function() { toast('✅ تم حذف المنتج'); DATA.products = DATA.products.filter(function(p) { return p.id !== productId; }); renderProducts(); }).catch(function(e) { toast('❌ تعذر حذف المنتج: ' + e.message, true); });
-}
-
-function toggleProductStatus(productId) {
-  if (!productId) { toast('❌ معرف المنتج غير موجود', true); return; }
-  var product = DATA.products.find(function(p) { return p.id === productId; });
-  if (!product) { toast('❌ لم يتم العثور على المنتج', true); return; }
-  var isPublished = product.status === 'published' || product.published === true;
-  var newStatus = isPublished ? 'draft' : 'published';
-  db.collection('products').doc(productId).update({ status: newStatus, published: newStatus === 'published', updatedAt: firebase.firestore.FieldValue.serverTimestamp() }).then(function() { toast(isPublished ? '📁 تم إلغاء النشر' : '🚀 تم نشر المنتج'); return loadCollection('products'); }).then(function(products) { DATA.products = products; renderProducts(); }).catch(function(e) { toast('❌ تعذر تغيير الحالة: ' + e.message, true); });
-}
-
-function openProductModal() {
-  document.getElementById('prErr').textContent = '';
-  document.getElementById('prName').value = '';
-  document.getElementById('prDesc').value = '';
-  document.getElementById('prFeatures').value = '';
-  document.getElementById('prImage').value = '';
-  document.getElementById('prStatus').value = 'draft';
-  var saveBtn = document.getElementById('createProductBtn');
-  saveBtn.textContent = 'حفظ المنتج';
-  saveBtn.onclick = function() { createProduct(); };
-  refreshAllSelects(); openModal('productModal');
-}
-
-// ================================================================
-// 15. OFFERS CRUD (مختصر)
-// ================================================================
-function openOfferModal() {
-  document.getElementById('offerErr').textContent = '';
-  document.getElementById('offerName').value = '';
-  document.getElementById('offerCode').value = '';
-  document.getElementById('offerDiscount').value = '';
-  document.getElementById('offerDesc').value = '';
-  document.getElementById('offerImage').value = '';
-  document.getElementById('offerStatus').value = 'active';
-  document.getElementById('offerStart').value = '';
-  document.getElementById('offerEnd').value = '';
-  refreshCompanySelects(); refreshTypeSelects();
-  var saveBtn = document.getElementById('createOfferBtn');
-  saveBtn.textContent = 'حفظ العرض';
-  saveBtn.onclick = function() { createOffer(); };
-  openModal('offerModal');
-}
-
-function createOffer() {
-  var name = document.getElementById('offerName').value.trim();
-  var code = document.getElementById('offerCode').value.trim();
-  var company = document.getElementById('offerCompany').value;
-  var type = document.getElementById('offerType').value;
-  var discount = document.getElementById('offerDiscount').value;
-  var status = document.getElementById('offerStatus').value;
-  var startDate = document.getElementById('offerStart').value;
-  var endDate = document.getElementById('offerEnd').value;
-  var description = document.getElementById('offerDesc').value.trim();
-  var imageUrl = document.getElementById('offerImage').value.trim();
-  var err = document.getElementById('offerErr');
-  err.textContent = '';
-  if (!name || !company || !type) { err.textContent = 'أكمل جميع البيانات'; return; }
-  showLoading('createOfferBtn', 'جاري حفظ العرض...');
-  var offer = { name: name, code: code || 'OFFER-' + Date.now().toString().slice(-6), company: company, companyName: getCompanyName(company), type: type, typeName: getTypeName(type), discount: Number(discount) || 0, status: status, startDate: startDate || null, endDate: endDate || null, description: description, imageUrl: imageUrl, image: imageUrl, createdAt: firebase.firestore.FieldValue.serverTimestamp(), updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
-  db.collection('offers').add(offer).then(function(docRef) { offer.id = docRef.id; if (!DATA.offers) DATA.offers = []; DATA.offers.push(offer); hideLoading('createOfferBtn'); closeModal('offerModal'); toast('✅ تم حفظ العرض بنجاح'); return loadCollection('offers').then(function(offers) { DATA.offers = offers; renderOffers(); }); }).catch(function(e) { hideLoading('createOfferBtn'); err.textContent = 'تعذر حفظ العرض: ' + e.message; });
-}
-
-function editOffer(offerId) {
-  if (!offerId) { toast('❌ معرف العرض غير موجود', true); return; }
-  var offer = (DATA.offers || []).find(function(o) { return o.id === offerId; });
-  if (!offer) { toast('❌ لم يتم العثور على العرض', true); return; }
-  document.getElementById('offerName').value = offer.name || '';
-  document.getElementById('offerCode').value = offer.code || '';
-  document.getElementById('offerDiscount').value = offer.discount || '';
-  document.getElementById('offerStatus').value = offer.status || 'active';
-  document.getElementById('offerStart').value = offer.startDate || '';
-  document.getElementById('offerEnd').value = offer.endDate || '';
-  document.getElementById('offerDesc').value = offer.description || '';
-  document.getElementById('offerImage').value = offer.imageUrl || '';
-  refreshCompanySelects(); refreshTypeSelects();
-  document.getElementById('offerCompany').value = offer.company || '';
-  document.getElementById('offerType').value = offer.type || '';
-  var saveBtn = document.getElementById('createOfferBtn');
-  saveBtn.textContent = '🔄 تحديث العرض';
-  saveBtn.onclick = function() { updateOffer(offerId); };
-  openModal('offerModal');
-}
-
-function updateOffer(offerId) {
-  var name = document.getElementById('offerName').value.trim();
-  var company = document.getElementById('offerCompany').value;
-  var type = document.getElementById('offerType').value;
-  var err = document.getElementById('offerErr');
-  err.textContent = '';
-  if (!name || !company || !type) { err.textContent = 'أكمل جميع البيانات'; return; }
-  showLoading('createOfferBtn', 'جاري التحديث...');
-  var updatedData = { name: name, code: document.getElementById('offerCode').value.trim(), company: company, companyName: getCompanyName(company), type: type, typeName: getTypeName(type), discount: Number(document.getElementById('offerDiscount').value) || 0, status: document.getElementById('offerStatus').value, startDate: document.getElementById('offerStart').value || null, endDate: document.getElementById('offerEnd').value || null, description: document.getElementById('offerDesc').value.trim(), imageUrl: document.getElementById('offerImage').value.trim(), image: document.getElementById('offerImage').value.trim(), updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
-  db.collection('offers').doc(offerId).update(updatedData).then(function() { hideLoading('createOfferBtn'); closeModal('offerModal'); toast('✅ تم تحديث العرض بنجاح'); return loadCollection('offers').then(function(offers) { DATA.offers = offers; renderOffers(); }); }).catch(function(e) { hideLoading('createOfferBtn'); err.textContent = 'تعذر تحديث العرض: ' + e.message; });
-}
-
-function deleteOffer(offerId) {
-  if (!offerId) { toast('❌ معرف العرض غير موجود', true); return; }
-  if (!confirm('هل أنت متأكد من حذف هذا العرض؟')) return;
-  db.collection('offers').doc(offerId).delete().then(function() { toast('✅ تم حذف العرض'); DATA.offers = (DATA.offers || []).filter(function(o) { return o.id !== offerId; }); renderOffers(); }).catch(function(e) { toast('❌ تعذر حذف العرض: ' + e.message, true); });
-}
-
-function toggleOfferStatus(offerId) {
-  if (!offerId) { toast('❌ معرف العرض غير موجود', true); return; }
-  var offer = (DATA.offers || []).find(function(o) { return o.id === offerId; });
-  if (!offer) { toast('❌ لم يتم العثور على العرض', true); return; }
-  var newStatus = offer.status === 'active' ? 'expired' : 'active';
-  db.collection('offers').doc(offerId).update({ status: newStatus, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }).then(function() { toast(newStatus === 'active' ? '✅ تم تفعيل العرض' : '⏸️ تم إيقاف العرض'); return loadCollection('offers').then(function(offers) { DATA.offers = offers; renderOffers(); }); }).catch(function(e) { toast('❌ تعذر تغيير الحالة: ' + e.message, true); });
-}
-
-// ================================================================
-// 16. CHAT
-// ================================================================
-function openClientChat(id) {
-  if (!id) return;
-  CURRENT_CHAT = id;
-  document.getElementById('chatTitle').textContent = clientName(id);
-  showView('messages');
-  if (CHAT_UNSUB) CHAT_UNSUB();
-  CHAT_UNSUB = db.collection('messages').where('clientId', '==', id).onSnapshot(function(snap) {
-    var docs = snap.docs.slice().sort(function(a, b) { return ms(a.data().createdAt) - ms(b.data().createdAt); });
-    var html = docs.map(function(d) {
-      var m = d.data();
-      return '<div class="bubble ' + (m.sender === 'agent' ? 'agent' : 'client') + '">' + esc(m.text) + '</div>';
-    }).join('');
-    document.getElementById('chatList').innerHTML = html || '<div class="empty">لا توجد رسائل</div>';
-    document.getElementById('chatList').scrollTop = 999999;
-  });
-}
-
-function sendMessage() {
-  var input = document.getElementById('chatInput');
-  var text = input.value.trim();
-  if (!text || !CURRENT_CHAT) return;
-  input.value = '';
-  db.collection('messages').add({
-    clientId: CURRENT_CHAT,
-    uid: CURRENT_CHAT,
-    sender: 'agent',
-    agentId: currentUser ? currentUser.uid : '',
-    text: text,
-    readByClient: false,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  }).then(function() { toast('✅ تم إرسال الرسالة'); }).catch(function() { toast('❌ تعذر إرسال الرسالة', true); });
-}
-
-// ================================================================
-// 17. VIEW NAVIGATION
-// ================================================================
-function showView(view, el) {
-  document.querySelectorAll('.view').forEach(function(x) { x.classList.remove('active'); });
-  var node = document.getElementById('v-' + view);
-  if (node) node.classList.add('active');
-  document.querySelectorAll('.nav button').forEach(function(x) { x.classList.remove('active'); });
-  var target = el || document.querySelector('[data-view="' + view + '"]');
-  if (target) target.classList.add('active');
-  
-  var titles = { 
-    dashboard: 'لوحة التحكم', 
-    clients: 'العملاء', 
-    policies: 'الوثائق', 
-    payments: 'المدفوعات', 
-    claims: 'المطالبات', 
-    documents: 'المستندات', 
-    renewals: 'التجديدات', 
-    companies: 'شركات التأمين', 
-    types: 'أنواع التأمين', 
-    products: 'المنتجات', 
-    reports: 'التقارير', 
-    assessments: 'تقييمات الحماية', 
-    compliance: 'الامتثال', 
-    messages: 'المحادثات', 
-    notifications: 'الإشعارات', 
-    activity: 'سجل النشاط',
-    offers: 'العروض'
-  };
-  var icons = {
-    dashboard: '📊', clients: '👤', policies: '📄', payments: '💰',
-    claims: '⚠️', documents: '📎', renewals: '🔄', companies: '🏢',
-    types: '📑', products: '📦', reports: '📈', assessments: '🛡️',
-    compliance: '✅', messages: '💬', notifications: '🔔', activity: '📋',
-    offers: '🎯'
-  };
-  var subs = {
-    dashboard: 'نظرة عامة على الأداء والنشاطات',
-    clients: 'إدارة العملاء والملفات الشخصية',
-    policies: 'إدارة وثائق التأمين',
-    payments: 'إدارة المدفوعات والأقساط',
-    claims: 'إدارة المطالبات',
-    documents: 'إدارة المستندات والملفات',
-    renewals: 'متابعة التجديدات',
-    companies: 'إدارة شركات التأمين',
-    types: 'إدارة أنواع التأمين',
-    products: 'إدارة منتجات التأمين',
-    reports: 'تقارير وتحليلات',
-    assessments: 'تقييمات الحماية',
-    compliance: 'مركز الامتثال',
-    messages: 'المحادثات مع العملاء',
-    notifications: 'إشعارات العملاء',
-    activity: 'سجل النشاطات',
-    offers: 'إدارة العروض الحصرية'
-  };
-  
-  document.getElementById('title').textContent = titles[view] || view;
-  document.getElementById('pageIcon').textContent = icons[view] || '📊';
-  document.getElementById('pageSub').textContent = subs[view] || '';
-  
-  if (view === 'dashboard') renderDashboard();
-}
-
-// ================================================================
-// 18. CLIENT & COMPANY PROFILES
+// 16. CLIENT & COMPANY PROFILES
 // ================================================================
 function openClientProfile(id) {
   var c = DATA.clients.find(function(x) { return x.id === id || x.uid === id; });
@@ -3655,46 +3670,63 @@ function openClientProfile(id) {
   openModal('clientProfileModal');
   document.getElementById('profileName').textContent = c.fullName || c.username || 'ملف العميل';
   document.getElementById('profileMeta').textContent = (c.phone || '—') + ' • ' + (c.username || c.email || '—');
+  
   var cid = c.id || c.uid;
   var policies = DATA.policies.filter(function(x) { return x.clientId === cid || x.uid === cid; });
   var docs = DATA.documents.filter(function(x) { return x.clientId === cid || x.uid === cid; });
   var payments = DATA.payments.filter(function(x) { return x.clientId === cid || x.uid === cid; });
   var claims = DATA.claims.filter(function(x) { return x.clientId === cid || x.uid === cid; });
-  var bodyHtml = '<div class="grid grid-4" style="margin-bottom:16px"><div class="card stat-card"><div class="label">الوثائق</div><div class="value" style="font-size:24px">' + policies.length + '</div></div><div class="card stat-card"><div class="label">المطالبات</div><div class="value" style="font-size:24px">' + claims.length + '</div></div><div class="card stat-card"><div class="label">المدفوعات</div><div class="value" style="font-size:24px">' + payments.length + '</div></div><div class="card stat-card"><div class="label">المستندات</div><div class="value" style="font-size:24px">' + docs.length + '</div></div></div>';
+  
+  var bodyHtml = '<div class="grid grid-4" style="margin-bottom:16px">';
+  bodyHtml += '<div class="card stat-card"><div class="label">الوثائق</div><div class="value" style="font-size:24px">' + policies.length + '</div></div>';
+  bodyHtml += '<div class="card stat-card"><div class="label">المطالبات</div><div class="value" style="font-size:24px">' + claims.length + '</div></div>';
+  bodyHtml += '<div class="card stat-card"><div class="label">المدفوعات</div><div class="value" style="font-size:24px">' + payments.length + '</div></div>';
+  bodyHtml += '<div class="card stat-card"><div class="label">المستندات</div><div class="value" style="font-size:24px">' + docs.length + '</div></div>';
+  bodyHtml += '</div>';
+  
   bodyHtml += '<div class="card"><div class="card-header"><h3>الوثائق</h3></div><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>النوع</th><th>الشركة</th><th>رقم الوثيقة</th><th>الانتهاء</th><th>القسط</th><th>المدفوع</th></tr></thead><tbody>';
   bodyHtml += policies.map(function(p) {
-    var paidForPolicy = DATA.payments.filter(function(pmt) { return pmt.policyId === p.id; }).reduce(function(sum, pmt) { return sum + (Number(pmt.amount) || 0); }, 0);
+    var paidForPolicy = DATA.payments
+      .filter(function(pmt) { return pmt.policyId === p.id; })
+      .reduce(function(sum, pmt) { return sum + (Number(pmt.amount) || 0); }, 0);
     return '<tr><td>' + getTypeBadge(p.type) + '</td><td>' + esc(getCompanyName(p.company)) + '</td><td>' + esc(p.policyNumber) + '</td><td>' + date(p.endDate) + '</td><td>' + Number(p.premium || 0).toLocaleString('en-US') + ' EGP</td><td>' + paidForPolicy.toLocaleString('en-US') + ' EGP</td></tr>';
   }).join('') || '<tr><td colspan="6"><div class="empty">لا توجد وثائق</div></td></tr>';
   bodyHtml += '</tbody></table></div></div></div>';
-  bodyHtml += '<div class="card" style="margin-top:16px"><div class="card-header"><h3>المستندات</h3></div><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>المستند</th><th>النوع</th><th>الحالة</th><th>التاريخ</th></tr></thead><tbody>';
-  bodyHtml += docs.map(function(d) {
-    var st = String(d.verificationStatus || '').toLowerCase();
-    var badge = st === 'pending' ? '<span class="badge badge-warning">قيد المراجعة</span>' : st === 'approved' || st === 'verified' ? '<span class="badge badge-success">معتمد</span>' : st === 'rejected' ? '<span class="badge badge-danger">مرفوض</span>' : '<span class="badge badge-gray">—</span>';
-    return '<tr><td>' + esc(d.fileName || '—') + '</td><td>' + esc(d.fileType || '—') + '</td><td>' + badge + '</td><td>' + date(d.createdAt) + '</td></tr>';
-  }).join('') || '<tr><td colspan="4"><div class="empty">لا توجد مستندات</div></td></tr>';
-  bodyHtml += '</tbody></table></div></div></div>';
+  
   document.getElementById('profileBody').innerHTML = bodyHtml;
 }
 
 function openCompanyProfile(id) {
   var company = DATA.companies.find(function(c) { return c.id === id; });
   if (!company) { toast('لم يتم العثور على الشركة', true); return; }
+  
   var policies = DATA.policies.filter(function(p) { return p.company === company.id || p.company === company.name; });
   var products = (DATA.products || []).filter(function(p) { return p.company === company.id || p.company === company.name || p.companyName === company.name; });
+  
   document.getElementById('companyProfileName').textContent = company.name;
   document.getElementById('companyProfileMeta').textContent = policies.length + ' وثيقة • ' + products.length + ' منتج';
-  var bodyHtml = '<div style="display:flex;gap:16px;margin-bottom:16px;padding:16px;background:var(--paper);border-radius:var(--radius-sm)"><div style="width:64px;height:64px;border-radius:12px;background:var(--gold-soft);display:grid;place-items:center;font-size:28px;font-weight:900;color:var(--navy);overflow:hidden">' + (company.logo ? '<img src="' + esc(company.logo) + '" style="width:100%;height:100%;object-fit:contain;border-radius:12px">' : company.name.slice(0, 2)) + '</div><div><h3 style="margin:0;color:var(--navy)">' + esc(company.name) + '</h3><p style="margin:2px 0 0;color:var(--muted)">' + esc(company.description || 'شركة تأمين') + '</p></div></div>';
+  
+  var bodyHtml = '<div style="display:flex;gap:16px;margin-bottom:16px;padding:16px;background:var(--paper);border-radius:var(--radius-sm)">' +
+    '<div style="width:64px;height:64px;border-radius:12px;background:var(--gold-soft);display:grid;place-items:center;font-size:28px;font-weight:900;color:var(--navy);overflow:hidden">' + (company.logo ? '<img src="' + esc(company.logo) + '" style="width:100%;height:100%;object-fit:contain;border-radius:12px">' : company.name.slice(0, 2)) + '</div>' +
+    '<div><h3 style="margin:0;color:var(--navy)">' + esc(company.name) + '</h3><p style="margin:2px 0 0;color:var(--muted)">' + esc(company.description || 'شركة تأمين') + '</p></div>' +
+  '</div>';
+  
   bodyHtml += '<div class="card"><div class="card-header"><h3>الوثائق المرتبطة</h3><span class="badge badge-info">' + policies.length + '</span></div><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>النوع</th><th>رقم الوثيقة</th><th>الانتهاء</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody>';
+  
   bodyHtml += policies.map(function(p) {
     var daysLeft = daysUntil(p.endDate);
     var statusBadge = daysLeft < 0 ? '<span class="badge badge-danger">منتهية</span>' : daysLeft <= 30 ? '<span class="badge badge-warning">تنتهي قريباً</span>' : '<span class="badge badge-success">سارية</span>';
     return '<tr><td>' + esc(clientName(p.clientId || p.uid)) + '</td><td>' + getTypeBadge(p.type) + '</td><td>' + esc(p.policyNumber || '—') + '</td><td>' + date(p.endDate) + '</td><td>' + statusBadge + '</td><td><button class="btn btn-outline btn-xs" onclick="openClientProfile(\'' + (p.clientId || p.uid) + '\')">عرض العميل</button></td></tr>';
   }).join('') || '<tr><td colspan="6"><div class="empty">لا توجد وثائق</div></td></tr>';
+  
   bodyHtml += '</tbody></table></div></div></div>';
+  
   bodyHtml += '<div class="card" style="margin-top:16px"><div class="card-header"><h3>المنتجات</h3><span class="badge badge-info">' + products.length + '</span></div><div class="card-body">';
-  bodyHtml += products.map(function(p) { return '<div class="list-item"><div class="list-content"><h4>' + esc(p.name) + '</h4><p>' + esc(p.description || '') + '</p></div></div>'; }).join('') || '<div class="empty">لا توجد منتجات</div>';
+  bodyHtml += products.map(function(p) {
+    return '<div class="list-item"><div class="list-content"><h4>' + esc(p.name) + '</h4><p>' + esc(p.description || '') + '</p></div></div>';
+  }).join('') || '<div class="empty">لا توجد منتجات</div>';
   bodyHtml += '</div></div>';
+  
   document.getElementById('companyProfileBody').innerHTML = bodyHtml;
   openModal('companyProfileModal');
 }
@@ -3709,16 +3741,55 @@ function openAssessment(clientId) {
 }
 
 // ================================================================
-// 19. MODAL OPEN HELPERS
+// 17. MODAL OPEN HELPERS
 // ================================================================
-function openPolicyModal(cid) { if (cid === undefined) cid = ''; refreshAllSelects(); document.getElementById('pClient').value = cid || ''; document.getElementById('pErr').textContent = ''; openModal('policyModal'); }
-function openPaymentModal(cid) { if (cid === undefined) cid = ''; refreshAllSelects(); document.getElementById('payClient').value = cid || ''; refreshPolicySelect('payClient', 'payPolicy'); var today = new Date().toISOString().slice(0, 10); document.getElementById('payDate').value = today; document.getElementById('payAmount').value = ''; document.getElementById('payRemaining').value = '0'; document.getElementById('payErr').textContent = ''; openModal('paymentModal'); }
-function openClaimModal(cid) { if (cid === undefined) cid = ''; refreshAllSelects(); document.getElementById('clClient').value = cid || ''; refreshPolicySelect('clClient', 'clPolicy'); document.getElementById('clErr').textContent = ''; openModal('claimModal'); }
-function openCompanyModal() { document.getElementById('coErr').textContent = ''; document.getElementById('coName').value = ''; document.getElementById('coLogo').value = ''; document.getElementById('coDesc').value = ''; openModal('companyModal'); }
-function openTypeModal() { document.getElementById('tErr').textContent = ''; document.getElementById('tName').value = ''; document.getElementById('tDesc').value = ''; openModal('typeModal'); }
+function openPolicyModal(cid) {
+  if (cid === undefined) cid = '';
+  refreshAllSelects();
+  document.getElementById('pClient').value = cid || '';
+  document.getElementById('pErr').textContent = '';
+  openModal('policyModal');
+}
+
+function openPaymentModal(cid) {
+  if (cid === undefined) cid = '';
+  refreshAllSelects();
+  document.getElementById('payClient').value = cid || '';
+  refreshPolicySelect('payClient', 'payPolicy');
+  var today = new Date().toISOString().slice(0, 10);
+  document.getElementById('payDate').value = today;
+  document.getElementById('payAmount').value = '';
+  document.getElementById('payRemaining').value = '0';
+  document.getElementById('payErr').textContent = '';
+  openModal('paymentModal');
+}
+
+function openClaimModal(cid) {
+  if (cid === undefined) cid = '';
+  refreshAllSelects();
+  document.getElementById('clClient').value = cid || '';
+  refreshPolicySelect('clClient', 'clPolicy');
+  document.getElementById('clErr').textContent = '';
+  openModal('claimModal');
+}
+
+function openCompanyModal() {
+  document.getElementById('coErr').textContent = '';
+  document.getElementById('coName').value = '';
+  document.getElementById('coLogo').value = '';
+  document.getElementById('coDesc').value = '';
+  openModal('companyModal');
+}
+
+function openTypeModal() {
+  document.getElementById('tErr').textContent = '';
+  document.getElementById('tName').value = '';
+  document.getElementById('tDesc').value = '';
+  openModal('typeModal');
+}
 
 // ================================================================
-// 20. RENDER ALL
+// 18. RENDER ALL
 // ================================================================
 function renderAll() {
   renderDashboard();
@@ -3741,7 +3812,7 @@ function renderAll() {
 }
 
 // ================================================================
-// 21. INIT
+// 19. INIT
 // ================================================================
 function initSelects() {
   var companySelects = ['pCompany', 'prCompany', 'offerCompany'];
@@ -3772,31 +3843,10 @@ function initSelects() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  var savedEmail = localStorage.getItem('adminEmail');
-  if (savedEmail) {
-    document.getElementById('email').value = savedEmail;
-    document.getElementById('rememberMe').checked = true;
-  }
-  document.getElementById('pass').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') login();
-  });
-  document.getElementById('email').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') document.getElementById('pass').focus();
-  });
-});
-
 initSelects();
 
-console.log('✅ Secure PATH Admin Panel v15.0 - تم إصلاح مشكلة إضافة العملاء');
-console.log('📊 Firebase Config:', {
-  apiKey: firebaseConfig.apiKey ? 'موجود ✅' : 'غير موجود ❌',
-  projectId: firebaseConfig.projectId
-});
-console.log('📦 Cloudinary Config:', {
-  cloudName: CLOUDINARY.cloudName,
-  uploadPreset: CLOUDINARY.uploadPreset
-});
+console.log('✅ Secure PATH Admin Panel v8.0 - With Offers Feature');
+console.log('📊 Firebase Collections Loaded:', Object.keys(DATA).filter(k => DATA[k].length > 0));
 </script>
 </body>
 </html>
