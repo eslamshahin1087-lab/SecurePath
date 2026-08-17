@@ -11,21 +11,25 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <style>
-/* ===== RESET & ROOT ===== */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
+/* ================================================================
+   ROOT VARIABLES - الهوية البصرية الجديدة
+   ================================================================ */
 :root {
   --navy: #0E2A5C;
-  --navy-light: #1a3f7a;
   --navy-dark: #071D40;
+  --navy-light: #1a3f7a;
   --navy-50: rgba(14, 42, 92, 0.05);
   --navy-100: rgba(14, 42, 92, 0.1);
   --navy-200: rgba(14, 42, 92, 0.2);
+  --navy-300: rgba(14, 42, 92, 0.3);
+  --navy-400: rgba(14, 42, 92, 0.4);
   --gold: #F2BD63;
   --gold-light: #FFD98F;
+  --gold-dark: #D4A04A;
   --gold-soft: #FFF2D7;
   --gold-100: rgba(242, 189, 99, 0.15);
   --gold-200: rgba(242, 189, 99, 0.25);
+  --gold-300: rgba(242, 189, 99, 0.35);
   --white: #ffffff;
   --paper: #F5F8FC;
   --paper-dark: #E8EEF6;
@@ -50,19 +54,8 @@
   --shadow-md: 0 4px 16px rgba(14, 42, 92, 0.08);
   --shadow-lg: 0 8px 30px rgba(14, 42, 92, 0.12);
   --shadow-xl: 0 16px 48px rgba(14, 42, 92, 0.18);
-  --shadow-gold: 0 4px 20px rgba(242, 189, 99, 0.3);
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 32px;
-  --space-2xl: 48px;
-  --radius-xs: 4px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-full: 9999px;
+  --shadow-gold: 0 4px 20px rgba(242, 189, 99, 0.35);
+  --shadow-gold-lg: 0 8px 40px rgba(242, 189, 99, 0.3);
   --sidebar-width: 260px;
   --sidebar-collapsed: 72px;
   --transition-fast: 0.15s ease;
@@ -70,6 +63,11 @@
   --transition-slow: 0.4s ease;
   --transition-bounce: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+
+/* ================================================================
+   RESET & BASE
+   ================================================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -89,7 +87,9 @@ input, select, textarea { font: inherit; outline: none; font-family: 'Cairo', sa
 ::-webkit-scrollbar-thumb { background: var(--navy-200); border-radius: var(--radius-full); }
 ::-webkit-scrollbar-thumb:hover { background: var(--navy-light); }
 
-/* ===== TYPOGRAPHY ===== */
+/* ================================================================
+   TYPOGRAPHY
+   ================================================================ */
 h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; color: var(--text); }
 .text-muted { color: var(--muted); }
 .text-sm { font-size: 12px; }
@@ -98,17 +98,19 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 .text-xl { font-size: 20px; }
 .text-2xl { font-size: 24px; }
 
-/* ===== BUTTONS ===== */
+/* ================================================================
+   BUTTONS - تحسين الهوية البصرية
+   ================================================================ */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-sm);
-  padding: 10px 20px;
-  border-radius: var(--radius-sm);
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 10px;
   font-weight: 700;
   font-size: 13px;
-  transition: var(--transition-bounce);
+  transition: all var(--transition-bounce);
   text-decoration: none;
   white-space: nowrap;
   border: 1.5px solid transparent;
@@ -117,26 +119,68 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 }
 .btn:active { transform: scale(0.97); }
 
-.btn-primary { background: var(--gold); color: var(--navy); border-color: var(--gold); }
-.btn-primary:hover { background: #e2af5a; transform: translateY(-2px); box-shadow: var(--shadow-gold); }
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--navy);
+  border-color: var(--gold);
+  box-shadow: var(--shadow-gold);
+}
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: var(--shadow-gold-lg);
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+}
 .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 
-.btn-dark { background: var(--navy); color: #fff; border-color: var(--navy); }
-.btn-dark:hover { background: var(--navy-light); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.btn-dark {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  color: #fff;
+  border-color: var(--navy);
+}
+.btn-dark:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  background: linear-gradient(135deg, var(--navy-light), var(--navy));
+}
 
-.btn-outline { background: transparent; border-color: var(--line); color: var(--text-secondary); }
-.btn-outline:hover { border-color: var(--navy); background: var(--navy-50); transform: translateY(-1px); }
+.btn-outline {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--text-secondary);
+}
+.btn-outline:hover {
+  border-color: var(--gold);
+  color: var(--navy);
+  background: var(--gold-100);
+  transform: translateY(-2px);
+}
 
-.btn-success { background: var(--green); color: #fff; border-color: var(--green); }
-.btn-success:hover { background: #0e6a48; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(22, 128, 91, 0.3); }
+.btn-success {
+  background: linear-gradient(135deg, var(--green), #0e6a48);
+  color: #fff;
+  border-color: var(--green);
+}
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(22, 128, 91, 0.35);
+}
 
-.btn-danger { background: var(--red); color: #fff; border-color: var(--red); }
-.btn-danger:hover { background: #a83d2e; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(201, 84, 62, 0.3); }
+.btn-danger {
+  background: linear-gradient(135deg, var(--red), #a83d2e);
+  color: #fff;
+  border-color: var(--red);
+}
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(201, 84, 62, 0.35);
+}
 
-.btn-sm { padding: 6px 14px; font-size: 11px; border-radius: var(--radius-xs); }
-.btn-xs { padding: 4px 10px; font-size: 10px; border-radius: var(--radius-xs); }
+.btn-sm { padding: 6px 14px; font-size: 11px; border-radius: 8px; }
+.btn-xs { padding: 4px 10px; font-size: 10px; border-radius: 6px; }
 
-/* ===== SPINNER ===== */
+/* ================================================================
+   SPINNER
+   ================================================================ */
 .spinner {
   display: inline-block;
   width: 18px;
@@ -148,21 +192,67 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ===== LOGIN ===== */
+/* ================================================================
+   GLASS EFFECT
+   ================================================================ */
+.glass {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* ================================================================
+   LOGIN PAGE - محسّن
+   ================================================================ */
 #login {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  background: radial-gradient(circle at 30% 20%, #1a3f7a 0%, var(--navy) 50%, var(--navy-dark) 100%);
+  background: radial-gradient(ellipse at 30% 20%, var(--navy-light) 0%, var(--navy) 50%, var(--navy-dark) 100%);
   padding: 20px;
+  position: relative;
+  overflow: hidden;
 }
+#login::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--gold-100) 0%, transparent 70%);
+  top: -200px;
+  right: -200px;
+  border-radius: 50%;
+  animation: floatGlow 8s ease-in-out infinite alternate;
+}
+#login::after {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--gold-100) 0%, transparent 70%);
+  bottom: -150px;
+  left: -150px;
+  border-radius: 50%;
+  animation: floatGlow 10s ease-in-out infinite alternate-reverse;
+}
+@keyframes floatGlow {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+  100% { transform: translate(40px, 30px) scale(1.2); opacity: 1; }
+}
+
 .login-box {
   width: min(420px, 92vw);
-  background: #fff;
-  border-radius: var(--radius-xl);
-  padding: 44px 38px;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 48px 40px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.4);
   animation: loginFadeIn 0.6s ease;
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(255,255,255,0.2);
 }
 @keyframes loginFadeIn {
   from { opacity: 0; transform: translateY(30px) scale(0.96); }
@@ -171,15 +261,24 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 .login-box .logo {
   width: 80px; height: 80px;
   margin: 0 auto 20px;
-  border-radius: var(--radius-lg);
-  background: var(--navy);
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
   display: grid;
   place-items: center;
   overflow: hidden;
-  box-shadow: 0 8px 30px rgba(14,42,92,0.25);
+  box-shadow: 0 8px 30px rgba(14,42,92,0.3);
+  position: relative;
 }
-.login-box .logo img { width: 100%; height: 100%; object-fit: contain; }
-.login-box h1 { text-align: center; font-size: 28px; margin: 0 0 4px; }
+.login-box .logo::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--gold-100), transparent);
+  pointer-events: none;
+}
+.login-box .logo img { width: 60%; height: 60%; object-fit: contain; position: relative; z-index: 1; }
+.login-box h1 { text-align: center; font-size: 28px; margin: 0 0 4px; color: var(--navy); }
 .login-box .subtitle { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 28px; }
 
 .field { margin-bottom: 18px; position: relative; }
@@ -187,10 +286,10 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 .field input, .field select, .field textarea {
   width: 100%;
   padding: 12px 16px;
-  border: 1.5px solid var(--line);
-  border-radius: var(--radius-sm);
+  border: 2px solid var(--line);
+  border-radius: 12px;
   background: var(--paper);
-  transition: var(--transition-base);
+  transition: all var(--transition-base);
   font-size: 14px;
   color: var(--text);
 }
@@ -201,21 +300,26 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 }
 .field .toggle-pass {
   position: absolute;
-  left: 12px;
+  left: 14px;
   top: 38px;
   background: transparent;
   border: none;
   font-size: 18px;
   cursor: pointer;
   color: var(--muted);
+  transition: var(--transition-fast);
 }
 .field .toggle-pass:hover { color: var(--text); }
 
-/* ===== APP SHELL ===== */
+/* ================================================================
+   APP SHELL
+   ================================================================ */
 #app { display: none; min-height: 100vh; }
 .shell { display: flex; min-height: 100vh; }
 
-/* ===== SIDEBAR ===== */
+/* ================================================================
+   SIDEBAR - محسّن مع تأثيرات
+   ================================================================ */
 .sidebar {
   width: var(--sidebar-width);
   background: linear-gradient(180deg, var(--navy-dark) 0%, var(--navy) 60%, var(--navy-light) 100%);
@@ -228,8 +332,17 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   z-index: 100;
   display: flex;
   flex-direction: column;
-  box-shadow: 4px 0 40px rgba(7, 29, 64, 0.25);
+  box-shadow: 4px 0 40px rgba(7, 29, 64, 0.3);
   transition: width var(--transition-slow);
+  overflow: hidden;
+}
+.sidebar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, var(--gold-100) 0%, transparent 60%);
+  pointer-events: none;
+  opacity: 0.1;
 }
 
 .sidebar .brand {
@@ -239,17 +352,20 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   padding: 6px 10px 20px;
   border-bottom: 1px solid rgba(255,255,255,0.06);
   flex-shrink: 0;
+  position: relative;
 }
 .sidebar .brand img {
   width: 44px; height: 44px;
-  border-radius: var(--radius-md);
+  border-radius: 14px;
   background: #fff;
   object-fit: contain;
-  padding: 4px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
-.sidebar .brand .brand-name { font-size: 20px; font-weight: 900; letter-spacing: 0.5px; }
-.sidebar .brand .brand-sub { font-size: 9px; opacity: 0.5; font-weight: 400; display: block; margin-top: -2px; letter-spacing: 1px; }
+.sidebar .brand .brand-name { font-size: 20px; font-weight: 900; letter-spacing: 0.5px; background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; }
+.sidebar .brand .brand-sub { font-size: 9px; opacity: 0.5; font-weight: 400; display: block; margin-top: -2px; letter-spacing: 1px; -webkit-text-fill-color: rgba(255,255,255,0.5); }
 
 .sidebar .nav {
   padding-top: 12px;
@@ -259,13 +375,13 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   padding-bottom: 12px;
 }
 .sidebar .nav::-webkit-scrollbar { width: 3px; }
-.sidebar .nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: var(--radius-full); }
+.sidebar .nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
 
 .sidebar .nav .nav-section {
   font-size: 9px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  color: rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.2);
   padding: 12px 14px 6px;
   font-weight: 700;
 }
@@ -277,14 +393,14 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   color: rgba(255,255,255,0.6);
   text-align: right;
   padding: 10px 14px;
-  border-radius: var(--radius-sm);
+  border-radius: 12px;
   margin: 2px 0;
   font-weight: 600;
   font-size: 13px;
   display: flex;
   align-items: center;
   gap: 12px;
-  transition: var(--transition-base);
+  transition: all var(--transition-base);
   position: relative;
 }
 .sidebar .nav button .icon {
@@ -296,12 +412,12 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   transition: var(--transition-fast);
 }
 .sidebar .nav button .label { flex: 1; white-space: nowrap; }
-.sidebar .nav button:hover { background: rgba(255,255,255,0.06); color: #fff; }
+.sidebar .nav button:hover { background: rgba(255,255,255,0.08); color: #fff; transform: translateX(-4px); }
 .sidebar .nav button:hover .icon { opacity: 1; }
 .sidebar .nav button.active {
-  background: var(--gold);
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
   color: var(--navy);
-  box-shadow: 0 4px 16px rgba(242, 189, 99, 0.25);
+  box-shadow: var(--shadow-gold);
 }
 .sidebar .nav button.active .icon { opacity: 1; }
 .sidebar .nav button.active::before {
@@ -310,7 +426,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   right: -4px;
   top: 50%;
   transform: translateY(-50%);
-  width: 3px;
+  width: 4px;
   height: 24px;
   background: var(--gold);
   border-radius: 0 4px 4px 0;
@@ -319,7 +435,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 .sidebar .nav .badge {
   background: var(--red);
   color: #fff;
-  border-radius: var(--radius-full);
+  border-radius: 20px;
   padding: 1px 10px;
   font-size: 10px;
   font-weight: 800;
@@ -350,7 +466,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   color: rgba(255,255,255,0.7);
   border: none;
   padding: 10px;
-  border-radius: var(--radius-sm);
+  border-radius: 12px;
   font-weight: 700;
   font-size: 13px;
   transition: var(--transition-base);
@@ -359,10 +475,12 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   justify-content: center;
   gap: 8px;
 }
-.sidebar .footer .logout-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.sidebar .footer .logout-btn:hover { background: rgba(255,255,255,0.12); color: #fff; transform: translateX(-4px); }
 .sidebar .footer .copy { display: block; margin-top: 10px; font-size: 9px; opacity: 0.3; text-align: center; letter-spacing: 0.5px; }
 
-/* ===== MAIN ===== */
+/* ================================================================
+   MAIN CONTENT
+   ================================================================ */
 .main {
   margin-right: var(--sidebar-width);
   width: calc(100% - var(--sidebar-width));
@@ -370,7 +488,9 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   background: var(--paper);
 }
 
-/* ===== TOPBAR ===== */
+/* ================================================================
+   TOPBAR - محسّن
+   ================================================================ */
 .topbar {
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(12px);
@@ -393,44 +513,55 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   gap: 14px;
 }
 .topbar .topbar-left .page-icon {
-  width: 38px; height: 38px;
-  border-radius: var(--radius-sm);
-  background: var(--gold-soft);
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold-100));
   display: grid;
   place-items: center;
-  font-size: 18px;
+  font-size: 20px;
+  color: var(--navy);
 }
-.topbar h1 { font-size: 20px; margin: 0; }
+.topbar h1 { font-size: 20px; margin: 0; color: var(--navy); }
 .topbar .topbar-sub { font-size: 12px; color: var(--muted); margin-top: -2px; }
 .topbar .actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
 .content { padding: 28px 32px 40px; max-width: 1440px; margin: 0 auto; }
 
-/* ===== VIEWS ===== */
-.view { display: none; animation: viewFadeIn 0.3s ease; }
+/* ================================================================
+   VIEWS
+   ================================================================ */
+.view { display: none; animation: viewFadeIn 0.4s ease; }
 .view.active { display: block; }
 @keyframes viewFadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* ===== GRID ===== */
+/* ================================================================
+   GRID
+   ================================================================ */
 .grid { display: grid; gap: 20px; }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-4 { grid-template-columns: repeat(4, 1fr); }
 .grid-auto { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
 
-/* ===== CARDS ===== */
+/* ================================================================
+   CARDS - محسّنة
+   ================================================================ */
 .card {
   background: #fff;
   border: 1px solid var(--line-soft);
-  border-radius: var(--radius-lg);
+  border-radius: 16px;
   box-shadow: var(--shadow-xs);
-  transition: var(--transition-bounce);
+  transition: all var(--transition-bounce);
   overflow: hidden;
 }
-.card:hover { box-shadow: var(--shadow-md); border-color: var(--gold-200); }
+.card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--gold-200);
+  transform: translateY(-2px);
+}
 .card-header {
   padding: 16px 20px;
   border-bottom: 1px solid var(--line-soft);
@@ -441,18 +572,31 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   gap: 8px;
   background: var(--paper);
 }
-.card-header h3 { font-size: 14px; margin: 0; display: flex; align-items: center; gap: 8px; }
+.card-header h3 { font-size: 14px; margin: 0; display: flex; align-items: center; gap: 8px; color: var(--navy); }
 .card-body { padding: 18px 20px; }
 .card-body.p-0 { padding: 0; }
 
-/* ===== STAT CARDS ===== */
+/* ================================================================
+   STAT CARDS - محسّنة
+   ================================================================ */
 .stat-card {
-  padding: 20px 24px;
+  padding: 22px 24px;
   text-align: center;
   position: relative;
   overflow: hidden;
   border-right: 4px solid var(--gold);
   background: linear-gradient(135deg, #fff 0%, var(--paper) 100%);
+  transition: all var(--transition-bounce);
+  cursor: default;
+}
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+.stat-card .stat-icon {
+  font-size: 28px;
+  margin-bottom: 4px;
+  display: block;
 }
 .stat-card .label { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
 .stat-card .value { font-family: 'Tajawal', sans-serif; font-size: 32px; font-weight: 900; color: var(--text); margin-top: 2px; }
@@ -463,7 +607,9 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 .stat-card .sub.gold { color: var(--gold); }
 .stat-card .sub.purple { color: var(--purple); }
 
-/* ===== TABLE ===== */
+/* ================================================================
+   TABLE - محسّنة
+   ================================================================ */
 .table-wrap { overflow-x: auto; padding: 0 2px; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th, td { padding: 12px 16px; border-bottom: 1px solid var(--line-soft); text-align: right; transition: var(--transition-fast); }
@@ -480,13 +626,15 @@ th {
 tr:hover td { background: var(--navy-50); }
 .empty { padding: 40px 20px; text-align: center; color: var(--muted); font-size: 14px; }
 
-/* ===== BADGES ===== */
+/* ================================================================
+   BADGES - محسّنة
+   ================================================================ */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 2px 12px;
-  border-radius: var(--radius-full);
+  padding: 3px 14px;
+  border-radius: 20px;
   font-size: 10px;
   font-weight: 700;
 }
@@ -498,13 +646,15 @@ tr:hover td { background: var(--navy-50); }
 .badge-gray { background: #f0f0f0; color: var(--muted); }
 .badge-gold { background: var(--gold-soft); color: #8A6D1B; }
 
-/* ===== TYPE BADGES ===== */
+/* ================================================================
+   TYPE BADGES
+   ================================================================ */
 .type-badge {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 2px 12px;
-  border-radius: var(--radius-full);
+  padding: 3px 14px;
+  border-radius: 20px;
   font-size: 10px;
   font-weight: 700;
 }
@@ -520,7 +670,9 @@ tr:hover td { background: var(--navy-50); }
 .type-badge.cyber { background: #F0E6F0; color: #7a2a7a; }
 .type-badge.other { background: #f0f0f0; color: var(--muted); }
 
-/* ===== TOOLBAR ===== */
+/* ================================================================
+   TOOLBAR
+   ================================================================ */
 .toolbar {
   display: flex;
   gap: 16px;
@@ -530,7 +682,7 @@ tr:hover td { background: var(--navy-50); }
   flex-wrap: wrap;
   background: #fff;
   padding: 12px 20px;
-  border-radius: var(--radius-lg);
+  border-radius: 16px;
   border: 1px solid var(--line-soft);
   box-shadow: var(--shadow-xs);
 }
@@ -547,8 +699,8 @@ tr:hover td { background: var(--navy-50); }
 .toolbar .search input {
   width: 100%;
   padding: 9px 38px 9px 16px;
-  border: 1.5px solid var(--line);
-  border-radius: var(--radius-sm);
+  border: 2px solid var(--line);
+  border-radius: 10px;
   transition: var(--transition-base);
   background: var(--paper);
   font-size: 13px;
@@ -556,7 +708,9 @@ tr:hover td { background: var(--navy-50); }
 .toolbar .search input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px var(--gold-100); background: #fff; }
 .toolbar .actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
-/* ===== COMPANY CARD ===== */
+/* ================================================================
+   COMPANY CARD
+   ================================================================ */
 .company-card {
   display: flex;
   align-items: center;
@@ -570,7 +724,7 @@ tr:hover td { background: var(--navy-50); }
 .company-card:last-child { border-bottom: none; }
 .company-card .logo {
   width: 48px; height: 48px; min-width: 48px;
-  border-radius: var(--radius-md);
+  border-radius: 14px;
   background: var(--gold-soft);
   display: grid;
   place-items: center;
@@ -584,10 +738,12 @@ tr:hover td { background: var(--navy-50); }
 .company-card .info h4 { margin: 0; font-size: 14px; }
 .company-card .info p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
 
-/* ===== TYPE CARD ===== */
+/* ================================================================
+   TYPE CARD
+   ================================================================ */
 .type-card {
   border: 2px solid var(--line-soft);
-  border-radius: var(--radius-lg);
+  border-radius: 16px;
   padding: 24px 20px;
   text-align: center;
   transition: var(--transition-bounce);
@@ -598,17 +754,20 @@ tr:hover td { background: var(--navy-50); }
 .type-card h4 { font-size: 14px; margin: 0; }
 .type-card p { font-size: 12px; color: var(--muted); margin: 4px 0 8px; }
 
-/* ===== MODAL ===== */
+/* ================================================================
+   MODAL - محسّن
+   ================================================================ */
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(7,29,64,0.55);
+  background: rgba(7,29,64,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 200;
   padding: 20px;
-  backdrop-filter: blur(6px);
 }
 .overlay.show { display: flex; }
 .modal {
@@ -616,13 +775,13 @@ tr:hover td { background: var(--navy-50); }
   width: min(720px, 96vw);
   max-height: 90vh;
   overflow-y: auto;
-  border-radius: var(--radius-xl);
-  padding: 28px 32px 32px;
+  border-radius: 24px;
+  padding: 32px 36px 36px;
   box-shadow: var(--shadow-xl);
-  animation: modalSlideUp 0.3s ease;
+  animation: modalSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 @keyframes modalSlideUp {
-  from { transform: translateY(30px) scale(0.96); opacity: 0; }
+  from { transform: translateY(40px) scale(0.95); opacity: 0; }
   to { transform: translateY(0) scale(1); opacity: 1; }
 }
 .modal .modal-header {
@@ -631,29 +790,29 @@ tr:hover td { background: var(--navy-50); }
   align-items: center;
   margin-bottom: 20px;
   padding-bottom: 12px;
-  border-bottom: 1px solid var(--line-soft);
+  border-bottom: 2px solid var(--line-soft);
 }
-.modal .modal-header h2 { font-size: 20px; margin: 0; display: flex; align-items: center; gap: 10px; }
+.modal .modal-header h2 { font-size: 20px; margin: 0; display: flex; align-items: center; gap: 10px; color: var(--navy); }
 .modal .modal-close {
-  width: 32px; height: 32px;
+  width: 36px; height: 36px;
   border-radius: 50%;
-  border: 1px solid var(--line);
+  border: 2px solid var(--line);
   background: transparent;
-  font-size: 16px;
+  font-size: 18px;
   color: var(--muted);
   transition: var(--transition-base);
   display: grid;
   place-items: center;
 }
-.modal .modal-close:hover { background: var(--red-light); border-color: var(--red); color: var(--red); }
+.modal .modal-close:hover { background: var(--red-light); border-color: var(--red); color: var(--red); transform: rotate(90deg); }
 .modal .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .modal .field { margin-bottom: 12px; }
 .modal .field label { font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px; }
 .modal .field input, .modal .field select, .modal .field textarea {
   width: 100%;
   padding: 10px 14px;
-  border: 1.5px solid var(--line);
-  border-radius: var(--radius-sm);
+  border: 2px solid var(--line);
+  border-radius: 10px;
   transition: var(--transition-base);
   background: var(--paper);
   font-size: 13px;
@@ -670,42 +829,48 @@ tr:hover td { background: var(--navy-50); }
   gap: 10px;
   margin-top: 20px;
   padding-top: 16px;
-  border-top: 1px solid var(--line-soft);
+  border-top: 2px solid var(--line-soft);
 }
 
-/* ===== FILE UPLOAD ===== */
+/* ================================================================
+   FILE UPLOAD - محسّن
+   ================================================================ */
 .file-upload-area {
   border: 2px dashed var(--line);
-  border-radius: var(--radius-md);
-  padding: 28px 20px;
+  border-radius: 16px;
+  padding: 32px 20px;
   text-align: center;
   transition: var(--transition-base);
   background: var(--paper);
   cursor: pointer;
 }
 .file-upload-area:hover { border-color: var(--gold); background: var(--gold-soft); }
-.file-upload-area.dragover { border-color: var(--gold); background: var(--gold-100); }
+.file-upload-area.dragover { border-color: var(--gold); background: var(--gold-100); border-style: solid; }
 .file-upload-area input[type="file"] { display: none; }
 .file-upload-area .upload-label {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 24px;
-  background: var(--gold);
+  padding: 10px 28px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
   color: var(--navy);
-  border-radius: var(--radius-sm);
+  border-radius: 12px;
   font-weight: 700;
   cursor: pointer;
   transition: var(--transition-base);
+  box-shadow: var(--shadow-gold);
 }
-.file-upload-area .upload-label:hover { background: #e2af5a; transform: translateY(-2px); box-shadow: var(--shadow-gold); }
+.file-upload-area .upload-label:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold-lg);
+}
 .file-upload-area .file-name { margin-top: 10px; font-size: 13px; color: var(--muted); }
 .file-upload-area .file-size { font-size: 11px; color: var(--muted-light); }
 .file-upload-area .file-preview {
   margin-top: 10px;
   max-width: 200px;
   max-height: 150px;
-  border-radius: var(--radius-sm);
+  border-radius: 12px;
   overflow: hidden;
   display: none;
   margin-left: auto;
@@ -722,7 +887,7 @@ tr:hover td { background: var(--navy-50); }
   display: none;
   width: 100%;
   height: 6px;
-  border-radius: var(--radius-full);
+  border-radius: 10px;
   margin-top: 12px;
   background: var(--line);
   overflow: hidden;
@@ -730,12 +895,14 @@ tr:hover td { background: var(--navy-50); }
 .upload-progress .progress-bar {
   height: 100%;
   background: linear-gradient(90deg, var(--gold), var(--gold-light));
-  border-radius: var(--radius-full);
+  border-radius: 10px;
   transition: width 0.3s ease;
   width: 0%;
 }
 
-/* ===== CHAT ===== */
+/* ================================================================
+   CHAT
+   ================================================================ */
 .message-list {
   height: 380px;
   overflow-y: auto;
@@ -748,7 +915,7 @@ tr:hover td { background: var(--navy-50); }
 .bubble {
   max-width: 80%;
   padding: 12px 18px;
-  border-radius: var(--radius-lg);
+  border-radius: 16px;
   font-size: 13px;
   line-height: 1.6;
   word-wrap: break-word;
@@ -762,12 +929,12 @@ tr:hover td { background: var(--navy-50); }
   padding: 12px 16px;
   border-top: 1px solid var(--line-soft);
   background: #fff;
-  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  border-radius: 0 0 16px 16px;
 }
 .composer input {
   flex: 1;
-  border: 1.5px solid var(--line);
-  border-radius: var(--radius-full);
+  border: 2px solid var(--line);
+  border-radius: 10px;
   padding: 10px 18px;
   outline: none;
   font-size: 13px;
@@ -775,7 +942,9 @@ tr:hover td { background: var(--navy-50); }
 }
 .composer input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px var(--gold-100); }
 
-/* ===== LIST ITEMS ===== */
+/* ================================================================
+   LIST ITEMS
+   ================================================================ */
 .list-item {
   padding: 12px 16px;
   border-bottom: 1px solid var(--line-soft);
@@ -793,19 +962,22 @@ tr:hover td { background: var(--navy-50); }
 .list-item .list-content p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
 .list-item.unread { border-right: 3px solid var(--gold); background: var(--gold-50); }
 
-/* ===== PRODUCT CARD ===== */
+/* ================================================================
+   PRODUCT CARD - محسّن
+   ================================================================ */
 .product-card {
   overflow: hidden;
   border: 1px solid var(--line-soft);
-  border-radius: var(--radius-lg);
+  border-radius: 16px;
   background: #fff;
-  transition: var(--transition-bounce);
+  transition: all var(--transition-bounce);
   display: flex;
   flex-direction: column;
 }
 .product-card:hover { 
   box-shadow: var(--shadow-lg); 
-  transform: translateY(-4px);
+  transform: translateY(-6px);
+  border-color: var(--gold);
 }
 .product-card .image {
   height: 180px;
@@ -881,7 +1053,9 @@ tr:hover td { background: var(--navy-50); }
   border-top: 1px solid var(--line-soft);
 }
 
-/* ===== PAYMENT SUMMARY ===== */
+/* ================================================================
+   PAYMENT SUMMARY
+   ================================================================ */
 .payment-summary {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -891,7 +1065,7 @@ tr:hover td { background: var(--navy-50); }
 .payment-summary .summary-card {
   background: #fff;
   border: 1px solid var(--line-soft);
-  border-radius: var(--radius-lg);
+  border-radius: 16px;
   padding: 16px 20px;
   box-shadow: var(--shadow-xs);
   transition: var(--transition-bounce);
@@ -924,7 +1098,9 @@ tr:hover td { background: var(--navy-50); }
 .payment-summary .summary-card .summary-sub.blue { color: var(--blue); }
 .payment-summary .summary-card .summary-sub.gold { color: var(--gold); }
 
-/* ===== TOAST ===== */
+/* ================================================================
+   TOAST - محسّن
+   ================================================================ */
 .toast {
   position: fixed;
   bottom: 30px;
@@ -932,7 +1108,7 @@ tr:hover td { background: var(--navy-50); }
   background: var(--navy);
   color: #fff;
   padding: 16px 28px;
-  border-radius: var(--radius-md);
+  border-radius: 14px;
   z-index: 999;
   display: none;
   box-shadow: var(--shadow-xl);
@@ -940,6 +1116,7 @@ tr:hover td { background: var(--navy-50); }
   font-size: 14px;
   animation: toastIn 0.4s ease;
   max-width: 400px;
+  border: 1px solid rgba(255,255,255,0.1);
 }
 @keyframes toastIn {
   from { transform: translateY(40px); opacity: 0; }
@@ -948,22 +1125,25 @@ tr:hover td { background: var(--navy-50); }
 .toast.show { display: block; }
 .toast.error { background: var(--red); }
 
-/* ===== UNAUTHORIZED ===== */
+/* ================================================================
+   UNAUTHORIZED
+   ================================================================ */
 #unauthorized {
   display: none;
   position: fixed;
   inset: 0;
   background: rgba(7,29,64,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 9999;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  backdrop-filter: blur(8px);
 }
 #unauthorized.show { display: flex; }
 #unauthorized .box {
   background: #fff;
-  border-radius: var(--radius-xl);
+  border-radius: 24px;
   padding: 48px 40px;
   max-width: 500px;
   text-align: center;
@@ -974,7 +1154,9 @@ tr:hover td { background: var(--navy-50); }
 #unauthorized .box p { color: var(--muted); font-size: 15px; line-height: 1.8; margin-bottom: 20px; }
 #unauthorized .box .btn { width: 100%; justify-content: center; }
 
-/* ===== RESPONSIVE ===== */
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
 @media (max-width: 1200px) {
   .payment-summary { grid-template-columns: repeat(2, 1fr); }
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
@@ -1008,7 +1190,9 @@ tr:hover td { background: var(--navy-50); }
 </head>
 <body>
 
-<!-- ===== UNAUTHORIZED OVERLAY ===== -->
+<!-- ================================================================
+   UNAUTHORIZED OVERLAY
+   ================================================================ -->
 <div id="unauthorized" class="show">
   <div class="box">
     <div class="icon">🔒</div>
@@ -1018,7 +1202,9 @@ tr:hover td { background: var(--navy-50); }
   </div>
 </div>
 
-<!-- ===== LOGIN ===== -->
+<!-- ================================================================
+   LOGIN
+   ================================================================ -->
 <div id="login">
   <div class="login-box">
     <div class="logo">
@@ -1048,7 +1234,9 @@ tr:hover td { background: var(--navy-50); }
   </div>
 </div>
 
-<!-- ===== APP ===== -->
+<!-- ================================================================
+   APP
+   ================================================================ -->
 <div id="app">
   <div class="shell">
     <!-- Sidebar -->
@@ -1062,31 +1250,35 @@ tr:hover td { background: var(--navy-50); }
       </div>
       <nav class="nav">
         <div class="nav-section">الرئيسية</div>
-        <button data-view="dashboard" onclick="showView('dashboard',this)"><span class="icon">▦</span><span class="label">لوحة التحكم</span></button>
+        <button data-view="dashboard" onclick="showView('dashboard',this)"><span class="icon">📊</span><span class="label">لوحة التحكم</span></button>
+        
         <div class="nav-section">الإدارة</div>
-        <button data-view="clients" onclick="showView('clients',this)"><span class="icon">♙</span><span class="label">العملاء</span></button>
-        <button data-view="policies" onclick="showView('policies',this)"><span class="icon">▣</span><span class="label">الوثائق</span></button>
-        <button data-view="payments" onclick="showView('payments',this)"><span class="icon">₣</span><span class="label">المدفوعات</span></button>
-        <button data-view="claims" onclick="showView('claims',this)"><span class="icon">!</span><span class="label">المطالبات</span></button>
-        <button data-view="documents" onclick="showView('documents',this)"><span class="icon">▤</span><span class="label">المستندات</span></button>
-        <button data-view="renewals" onclick="showView('renewals',this)"><span class="icon">↻</span><span class="label">التجديدات</span></button>
-        <button data-view="offers" onclick="showView('offers',this)"><span class="icon">★</span><span class="label">العروض</span></button>
+        <button data-view="clients" onclick="showView('clients',this)"><span class="icon">👤</span><span class="label">العملاء</span></button>
+        <button data-view="policies" onclick="showView('policies',this)"><span class="icon">📄</span><span class="label">الوثائق</span></button>
+        <button data-view="payments" onclick="showView('payments',this)"><span class="icon">💰</span><span class="label">المدفوعات</span></button>
+        <button data-view="claims" onclick="showView('claims',this)"><span class="icon">⚠️</span><span class="label">المطالبات</span></button>
+        <button data-view="documents" onclick="showView('documents',this)"><span class="icon">📎</span><span class="label">المستندات</span></button>
+        <button data-view="renewals" onclick="showView('renewals',this)"><span class="icon">🔄</span><span class="label">التجديدات</span></button>
+        <button data-view="offers" onclick="showView('offers',this)"><span class="icon">🎯</span><span class="label">العروض</span></button>
+        
         <div class="nav-section">الإعدادات</div>
-        <button data-view="companies" onclick="showView('companies',this)"><span class="icon">◆</span><span class="label">شركات التأمين</span></button>
-        <button data-view="types" onclick="showView('types',this)"><span class="icon">◈</span><span class="label">أنواع التأمين</span></button>
-        <button data-view="products" onclick="showView('products',this)"><span class="icon">▰</span><span class="label">المنتجات</span></button>
+        <button data-view="companies" onclick="showView('companies',this)"><span class="icon">🏢</span><span class="label">شركات التأمين</span></button>
+        <button data-view="types" onclick="showView('types',this)"><span class="icon">📑</span><span class="label">أنواع التأمين</span></button>
+        <button data-view="products" onclick="showView('products',this)"><span class="icon">📦</span><span class="label">المنتجات</span></button>
+        
         <div class="nav-section">التحليلات</div>
-        <button data-view="reports" onclick="showView('reports',this)"><span class="icon">▥</span><span class="label">التقارير</span></button>
-        <button data-view="assessments" onclick="showView('assessments',this)"><span class="icon">◉</span><span class="label">تقييمات الحماية</span></button>
+        <button data-view="reports" onclick="showView('reports',this)"><span class="icon">📈</span><span class="label">التقارير</span></button>
+        <button data-view="assessments" onclick="showView('assessments',this)"><span class="icon">🛡️</span><span class="label">تقييمات الحماية</span></button>
+        
         <div class="nav-section">التواصل</div>
-        <button data-view="messages" onclick="showView('messages',this)"><span class="icon">✉</span><span class="label">المحادثات</span><b id="msgBadge" class="badge hidden">0</b></button>
-        <button data-view="notifications" onclick="showView('notifications',this)"><span class="icon">◉</span><span class="label">الإشعارات</span></button>
-        <button data-view="activity" onclick="showView('activity',this)"><span class="icon">◷</span><span class="label">سجل النشاط</span></button>
-        <button data-view="compliance" onclick="showView('compliance',this)"><span class="icon">✓</span><span class="label">الامتثال</span></button>
+        <button data-view="messages" onclick="showView('messages',this)"><span class="icon">💬</span><span class="label">المحادثات</span><b id="msgBadge" class="badge hidden">0</b></button>
+        <button data-view="notifications" onclick="showView('notifications',this)"><span class="icon">🔔</span><span class="label">الإشعارات</span></button>
+        <button data-view="activity" onclick="showView('activity',this)"><span class="icon">📋</span><span class="label">سجل النشاط</span></button>
+        <button data-view="compliance" onclick="showView('compliance',this)"><span class="icon">✅</span><span class="label">الامتثال</span></button>
       </nav>
       <div class="footer">
         <span id="userEmail">—</span>
-        <button class="logout-btn" onclick="logout()">↪ تسجيل الخروج</button>
+        <button class="logout-btn" onclick="logout()">🚪 تسجيل الخروج</button>
         <span class="copy">Secure PATH © 2026</span>
       </div>
     </aside>
@@ -1095,15 +1287,15 @@ tr:hover td { background: var(--navy-50); }
     <main class="main">
       <header class="topbar">
         <div class="topbar-left">
-          <div class="page-icon" id="pageIcon">▦</div>
+          <div class="page-icon" id="pageIcon">📊</div>
           <div>
             <h1 id="title">لوحة التحكم</h1>
             <div class="topbar-sub" id="pageSub">نظرة عامة على الأداء والنشاطات</div>
           </div>
         </div>
         <div class="actions">
-          <button class="btn btn-dark btn-sm" onclick="openModal('clientModal')">+ عميل جديد</button>
-          <button class="btn btn-primary btn-sm" onclick="openPolicyModal()">+ وثيقة</button>
+          <button class="btn btn-dark btn-sm" onclick="openModal('clientModal')">➕ عميل جديد</button>
+          <button class="btn btn-primary btn-sm" onclick="openPolicyModal()">📄 وثيقة</button>
           <button class="btn btn-outline btn-sm" onclick="refreshAllData()">🔄 تحديث</button>
         </div>
       </header>
@@ -1112,16 +1304,16 @@ tr:hover td { background: var(--navy-50); }
         <!-- DASHBOARD -->
         <div id="v-dashboard" class="view active">
           <div class="grid grid-4">
-            <div class="card stat-card"><div class="label">إجمالي العملاء</div><div class="value" id="sClients">0</div><div class="sub blue">CRM</div></div>
-            <div class="card stat-card"><div class="label">إجمالي الوثائق</div><div class="value" id="sPolicies">0</div><div class="sub green" id="sActive">0 سارية</div></div>
-            <div class="card stat-card"><div class="label">المطالبات المفتوحة</div><div class="value" id="sClaims">0</div><div class="sub red">متابعة</div></div>
-            <div class="card stat-card"><div class="label">الرسائل الجديدة</div><div class="value" id="sMessages">0</div><div class="sub gold">Real-time</div></div>
+            <div class="card stat-card"><span class="stat-icon">👤</span><div class="label">إجمالي العملاء</div><div class="value" id="sClients">0</div><div class="sub blue">CRM</div></div>
+            <div class="card stat-card"><span class="stat-icon">📄</span><div class="label">إجمالي الوثائق</div><div class="value" id="sPolicies">0</div><div class="sub green" id="sActive">0 سارية</div></div>
+            <div class="card stat-card"><span class="stat-icon">⚠️</span><div class="label">المطالبات المفتوحة</div><div class="value" id="sClaims">0</div><div class="sub red">متابعة</div></div>
+            <div class="card stat-card"><span class="stat-icon">💬</span><div class="label">الرسائل الجديدة</div><div class="value" id="sMessages">0</div><div class="sub gold">Real-time</div></div>
           </div>
           <div class="grid grid-4" style="margin-top:20px">
-            <div class="card stat-card"><div class="label">وثائق تنتهي قريباً</div><div class="value" id="sExpiring">0</div><div class="sub red">45 يوم</div></div>
-            <div class="card stat-card"><div class="label">إجمالي المدفوعات</div><div class="value" id="sPayments">0</div><div class="sub green">EGP</div></div>
-            <div class="card stat-card"><div class="label">المستندات</div><div class="value" id="sDocs">0</div><div class="sub blue">ملفات</div></div>
-            <div class="card stat-card"><div class="label">المستخدم الحالي</div><div class="value" id="sAgent" style="font-size:20px">—</div><div class="sub gold">Admin</div></div>
+            <div class="card stat-card"><span class="stat-icon">⏰</span><div class="label">وثائق تنتهي قريباً</div><div class="value" id="sExpiring">0</div><div class="sub red">45 يوم</div></div>
+            <div class="card stat-card"><span class="stat-icon">💰</span><div class="label">إجمالي المدفوعات</div><div class="value" id="sPayments">0</div><div class="sub green">EGP</div></div>
+            <div class="card stat-card"><span class="stat-icon">📎</span><div class="label">المستندات</div><div class="value" id="sDocs">0</div><div class="sub blue">ملفات</div></div>
+            <div class="card stat-card"><span class="stat-icon">👑</span><div class="label">المستخدم الحالي</div><div class="value" id="sAgent" style="font-size:20px">—</div><div class="sub gold">Admin</div></div>
           </div>
           <div class="grid grid-2" style="margin-top:20px">
             <div class="card"><div class="card-header"><h3>📋 وثائق قريبة الانتهاء</h3><button class="btn btn-outline btn-xs" onclick="showView('renewals')">عرض الكل</button></div><div id="dashExpiring" class="card-body"></div></div>
@@ -1133,7 +1325,7 @@ tr:hover td { background: var(--navy-50); }
         <div id="v-clients" class="view">
           <div class="toolbar">
             <div class="search"><input id="clientSearch" oninput="renderClients()" placeholder="ابحث بالاسم أو الهاتف"></div>
-            <div class="actions"><button class="btn btn-primary" onclick="openModal('clientModal')">+ إضافة عميل</button></div>
+            <div class="actions"><button class="btn btn-primary" onclick="openModal('clientModal')">➕ إضافة عميل</button></div>
           </div>
           <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>الهاتف</th><th>الوثائق</th><th>المطالبات</th><th>آخر رسالة</th><th>الحالة</th><th>مؤشر الحماية</th><th>إجراءات</th></tr></thead><tbody id="clientsBody"></tbody></table></div></div></div>
         </div>
@@ -1142,7 +1334,7 @@ tr:hover td { background: var(--navy-50); }
         <div id="v-policies" class="view">
           <div class="toolbar">
             <div class="search"><input id="policySearch" oninput="renderPolicies()" placeholder="ابحث بالعميل أو الشركة أو النوع"></div>
-            <div class="actions"><button class="btn btn-primary" onclick="openPolicyModal()">+ إضافة وثيقة</button></div>
+            <div class="actions"><button class="btn btn-primary" onclick="openPolicyModal()">📄 إضافة وثيقة</button></div>
           </div>
           <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>النوع</th><th>الشركة</th><th>رقم الوثيقة</th><th>القسط</th><th>الانتهاء</th><th>الحالة</th></tr></thead><tbody id="policiesBody"></tbody></table></div></div></div>
         </div>
@@ -1158,7 +1350,7 @@ tr:hover td { background: var(--navy-50); }
           <div class="toolbar">
             <div class="search"><input id="paymentSearch" oninput="renderPayments()" placeholder="ابحث بالعميل أو الوثيقة"></div>
             <div class="actions">
-              <button class="btn btn-primary" onclick="openPaymentModal()">+ تسجيل دفعة</button>
+              <button class="btn btn-primary" onclick="openPaymentModal()">💰 تسجيل دفعة</button>
               <button class="btn btn-outline btn-sm" onclick="renderPayments()">🔄 تحديث</button>
             </div>
           </div>
@@ -1169,7 +1361,7 @@ tr:hover td { background: var(--navy-50); }
         <div id="v-claims" class="view">
           <div class="toolbar">
             <div class="search"><input id="claimSearch" oninput="renderClaims()" placeholder="ابحث بالعميل أو النوع"></div>
-            <div class="actions"><button class="btn btn-primary" onclick="openClaimModal()">+ إضافة مطالبة</button></div>
+            <div class="actions"><button class="btn btn-primary" onclick="openClaimModal()">⚠️ إضافة مطالبة</button></div>
           </div>
           <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>النوع</th><th>رقم الوثيقة</th><th>المبلغ</th><th>الحالة</th><th>آخر تحديث</th><th>إجراء</th></tr></thead><tbody id="claimsBody"></tbody></table></div></div></div>
         </div>
@@ -1188,7 +1380,7 @@ tr:hover td { background: var(--navy-50); }
           <div class="toolbar">
             <div class="search"><input id="offerSearch" oninput="renderOffers()" placeholder="ابحث باسم العرض أو الشركة"></div>
             <div class="actions">
-              <button class="btn btn-primary" onclick="openOfferModal()">+ إضافة عرض جديد</button>
+              <button class="btn btn-primary" onclick="openOfferModal()">🎯 إضافة عرض جديد</button>
               <button class="btn btn-outline btn-sm" onclick="renderOffers()">🔄 تحديث</button>
             </div>
           </div>
@@ -1207,7 +1399,7 @@ tr:hover td { background: var(--navy-50); }
         <div id="v-renewals" class="view">
           <div class="toolbar">
             <div class="search"><input id="renewalSearch" oninput="renderRenewals()" placeholder="ابحث بالعميل"></div>
-            <div class="actions"><button class="btn btn-primary" id="runRenewalBtn" onclick="runRenewalReminders()">↻ تشغيل التذكيرات</button></div>
+            <div class="actions"><button class="btn btn-primary" id="runRenewalBtn" onclick="runRenewalReminders()">🔄 تشغيل التذكيرات</button></div>
           </div>
           <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>الوثيقة</th><th>الشركة</th><th>الانتهاء</th><th>المتبقي</th><th>إجراء</th></tr></thead><tbody id="renewalsBody"></tbody></table></div></div></div>
         </div>
@@ -1216,7 +1408,7 @@ tr:hover td { background: var(--navy-50); }
         <div id="v-companies" class="view">
           <div class="toolbar">
             <div class="search"><input id="companySearch" oninput="renderCompanies()" placeholder="ابحث باسم الشركة"></div>
-            <div class="actions"><button class="btn btn-primary" onclick="openCompanyModal()">+ إضافة شركة</button></div>
+            <div class="actions"><button class="btn btn-primary" onclick="openCompanyModal()">🏢 إضافة شركة</button></div>
           </div>
           <div class="card" id="companiesList"></div>
         </div>
@@ -1225,20 +1417,20 @@ tr:hover td { background: var(--navy-50); }
         <div id="v-types" class="view">
           <div class="toolbar">
             <div class="search"><input id="typeSearch" oninput="renderInsuranceTypes()" placeholder="ابحث عن نوع التأمين"></div>
-            <div class="actions"><button class="btn btn-primary" onclick="openTypeModal()">+ إضافة نوع</button></div>
+            <div class="actions"><button class="btn btn-primary" onclick="openTypeModal()">📑 إضافة نوع</button></div>
           </div>
           <div class="grid grid-4" id="typesGrid"></div>
         </div>
 
         <!-- PRODUCTS -->
         <div id="v-products" class="view">
-          <div class="card" style="padding:14px 20px;margin-bottom:20px;background:var(--gold-soft);border-color:var(--gold);border-radius:var(--radius-lg)">
+          <div class="card" style="padding:14px 20px;margin-bottom:20px;background:linear-gradient(135deg, var(--gold-soft), var(--gold-100));border-color:var(--gold);border-radius:16px">
             <b>📌 النشر للمستخدم:</b> أي منتج حالته <span class="badge badge-success">Published</span> سيظهر تلقائياً في تطبيق العميل.
           </div>
           <div class="toolbar">
             <div class="search"><input id="productSearch" oninput="renderProducts()" placeholder="ابحث في المنتجات"></div>
             <div class="actions">
-              <button class="btn btn-primary" onclick="openProductModal()">+ إضافة منتج</button>
+              <button class="btn btn-primary" onclick="openProductModal()">📦 إضافة منتج</button>
               <button class="btn btn-outline btn-sm" onclick="renderProducts()">🔄 تحديث</button>
             </div>
           </div>
@@ -1248,10 +1440,10 @@ tr:hover td { background: var(--navy-50); }
         <!-- REPORTS -->
         <div id="v-reports" class="view">
           <div class="grid grid-4">
-            <div class="card stat-card"><div class="label">العملاء</div><div class="value" id="rClients">0</div></div>
-            <div class="card stat-card"><div class="label">الوثائق السارية</div><div class="value" id="rActive">0</div></div>
-            <div class="card stat-card"><div class="label">تجديدات 45 يوم</div><div class="value" id="rRenewals">0</div></div>
-            <div class="card stat-card"><div class="label">المدفوعات</div><div class="value" id="rPaid">0</div></div>
+            <div class="card stat-card"><span class="stat-icon">👤</span><div class="label">العملاء</div><div class="value" id="rClients">0</div></div>
+            <div class="card stat-card"><span class="stat-icon">📄</span><div class="label">الوثائق السارية</div><div class="value" id="rActive">0</div></div>
+            <div class="card stat-card"><span class="stat-icon">⏰</span><div class="label">تجديدات 45 يوم</div><div class="value" id="rRenewals">0</div></div>
+            <div class="card stat-card"><span class="stat-icon">💰</span><div class="label">المدفوعات</div><div class="value" id="rPaid">0</div></div>
           </div>
           <div class="grid grid-2" style="margin-top:20px">
             <div class="card"><div class="card-header"><h3>📊 توزيع الوثائق حسب النوع</h3></div><div id="reportTypeDistribution" class="card-body"></div></div>
@@ -1263,17 +1455,17 @@ tr:hover td { background: var(--navy-50); }
         <div id="v-assessments" class="view">
           <div class="toolbar">
             <div class="search"><input id="assessmentSearch" oninput="renderAssessments()" placeholder="ابحث باسم العميل"></div>
-            <div class="actions"><button class="btn btn-outline btn-sm" onclick="renderAssessments()">↻ تحديث</button></div>
+            <div class="actions"><button class="btn btn-outline btn-sm" onclick="renderAssessments()">🔄 تحديث</button></div>
           </div>
-          <div class="card"><div class="card-header"><h3>تقييمات الحماية التأمينية</h3><span class="badge badge-info" id="assessmentCount">0</span></div><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>الصفة</th><th>النشاط</th><th>الوثائق السارية</th><th>المؤشر</th><th>التقييم</th><th>آخر تحديث</th><th>إجراء</th></tr></thead><tbody id="assessmentsBody"></tbody></table></div></div></div>
+          <div class="card"><div class="card-header"><h3>🛡️ تقييمات الحماية التأمينية</h3><span class="badge badge-info" id="assessmentCount">0</span></div><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>الصفة</th><th>النشاط</th><th>الوثائق السارية</th><th>المؤشر</th><th>التقييم</th><th>آخر تحديث</th><th>إجراء</th></tr></thead><tbody id="assessmentsBody"></tbody></table></div></div></div>
         </div>
 
         <!-- COMPLIANCE -->
         <div id="v-compliance" class="view">
           <div class="card"><div class="card-body">
-            <h3 style="font-size:18px;display:flex;align-items:center;gap:10px;">✓ مركز الامتثال</h3>
+            <h3 style="font-size:18px;display:flex;align-items:center;gap:10px;">✅ مركز الامتثال</h3>
             <p style="line-height:1.8;font-size:14px;color:var(--text-secondary)">Secure PATH يعمل كـ CRM وخدمة ومتابعة للعميل. جميع البيانات محفوظة ومشفرة وفق أعلى المعايير.</p>
-            <div class="list-item" style="border:1px solid var(--line-soft);border-radius:var(--radius-md);margin-top:12px;background:var(--gold-soft);cursor:default;">
+            <div class="list-item" style="border:1px solid var(--line-soft);border-radius:12px;margin-top:12px;background:var(--gold-soft);cursor:default;">
               <div class="list-content"><h4>📋 تنبيه قانوني</h4><p style="font-size:13px;color:var(--muted);margin-top:4px">هذه الشاشة أداة تشغيلية وليست رأياً قانونياً. يُرجى الرجوع إلى المستشار القانوني عند الحاجة.</p></div>
             </div>
           </div></div>
@@ -1286,14 +1478,16 @@ tr:hover td { background: var(--navy-50); }
 
         <!-- ACTIVITY -->
         <div id="v-activity" class="view">
-          <div class="card"><div class="card-header"><h3>📜 سجل النشاط</h3></div><div id="activityList" class="card-body"></div></div>
+          <div class="card"><div class="card-header"><h3>📋 سجل النشاط</h3></div><div id="activityList" class="card-body"></div></div>
         </div>
       </section>
     </main>
   </div>
 </div>
 
-<!-- ===== MODALS ===== -->
+<!-- ================================================================
+   MODALS
+   ================================================================ -->
 
 <!-- Client Modal -->
 <div id="clientModal" class="overlay">
@@ -1371,7 +1565,7 @@ tr:hover td { background: var(--navy-50); }
 <!-- Claim Modal -->
 <div id="claimModal" class="overlay">
   <div class="modal">
-    <div class="modal-header"><h2>📋 إضافة مطالبة</h2><button class="modal-close" onclick="closeModal('claimModal')">✕</button></div>
+    <div class="modal-header"><h2>⚠️ إضافة مطالبة</h2><button class="modal-close" onclick="closeModal('claimModal')">✕</button></div>
     <div class="field"><label>العميل</label><select id="clClient" onchange="refreshPolicySelect('clClient','clPolicy')"><option value="">اختر العميل</option></select></div>
     <div class="field"><label>الوثيقة</label><select id="clPolicy"><option value="">اختر الوثيقة</option></select></div>
     <div class="form-grid">
@@ -1558,9 +1752,9 @@ tr:hover td { background: var(--navy-50); }
 <!-- Toast -->
 <div id="toast" class="toast"></div>
 
-<!-- ============================================================ -->
-<!-- JAVASCRIPT -->
-<!-- ============================================================ -->
+<!-- ================================================================
+   JAVASCRIPT
+   ================================================================ -->
 <script>
 // ================================================================
 // 1. FIREBASE CONFIG
@@ -1582,12 +1776,11 @@ var auth = firebase.auth();
 var db = firebase.firestore();
 
 // ================================================================
-// 2. CLOUDINARY CONFIG - استخدم CLOUDINARY_URL كما هي
+// 2. CLOUDINARY CONFIG - مع CLOUDINARY_URL
 // ================================================================
-// 🔑 أدخل CLOUDINARY_URL كاملاً مع الـ API Key و API Secret
-var CLOUDINARY_URL = 'cloudinary://<your_api_key>:<your_api_secret>@zs4wny34';
+// 🔑 استخدم CLOUDINARY_URL الخاصة بك
+var CLOUDINARY_URL = 'cloudinary://562182276356247:YOUR_API_SECRET_HERE@zs4wny34';
 
-// استخراج البيانات من الـ URL
 function parseCloudinaryUrl(url) {
   try {
     var match = url.match(/cloudinary:\/\/([^:]+):([^@]+)@(.+)/);
@@ -1609,16 +1802,15 @@ var cloudinaryConfig = parseCloudinaryUrl(CLOUDINARY_URL);
 
 var CLOUDINARY = {
   cloudName: cloudinaryConfig ? cloudinaryConfig.cloudName : 'zs4wny34',
-  apiKey: cloudinaryConfig ? cloudinaryConfig.apiKey : '',
+  apiKey: cloudinaryConfig ? cloudinaryConfig.apiKey : '562182276356247',
   apiSecret: cloudinaryConfig ? cloudinaryConfig.apiSecret : '',
-  uploadPreset: 'securepath' // أنشئ هذا الـ Preset في لوحة التحكم
+  uploadPreset: 'securepath'
 };
 
 console.log('✅ Cloudinary Config:', {
   cloudName: CLOUDINARY.cloudName,
   apiKey: CLOUDINARY.apiKey ? 'موجود ✅' : 'غير موجود ❌',
-  apiSecret: CLOUDINARY.apiSecret ? 'موجود ✅' : 'غير موجود ❌',
-  uploadPreset: CLOUDINARY.uploadPreset
+  apiSecret: CLOUDINARY.apiSecret ? 'موجود ✅' : 'غير موجود ❌'
 });
 
 // ================================================================
@@ -2660,7 +2852,7 @@ function renderProducts() {
         '</div>' +
         '<div class="product-actions">' +
           '<button class="btn btn-outline btn-xs" onclick="editProduct(\'' + (p.id || '') + '\')">✏️ تعديل</button>' +
-          '<button class="btn btn-danger btn-xs" onclick="deleteProduct(\'' + (p.id || '') + '\")">🗑️ حذف</button>' +
+          '<button class="btn btn-danger btn-xs" onclick="deleteProduct(\'' + (p.id || '') + '\')">🗑️ حذف</button>' +
           '<button class="btn btn-success btn-xs" onclick="toggleProductStatus(\'' + (p.id || '') + '\')">' + 
             (isPublished ? '📁 إلغاء النشر' : '🚀 نشر') + 
           '</button>' +
@@ -2771,7 +2963,7 @@ function updateBadge() {
 }
 
 // ================================================================
-// 11. DOCUMENT UPLOAD - مع Cloudinary
+// 11. DOCUMENT UPLOAD - مع Cloudinary (تم إصلاحه)
 // ================================================================
 function openDocUploadModal() {
   document.getElementById('docUploadErr').textContent = '';
@@ -2988,7 +3180,7 @@ function verifyDocument(id, status) {
 }
 
 // ================================================================
-// 12. PRODUCTS CRUD
+// 12. PRODUCTS CRUD (مختصر)
 // ================================================================
 function createProduct() {
   var company = document.getElementById('prCompany').value;
@@ -3063,7 +3255,7 @@ function openProductModal() {
 }
 
 // ================================================================
-// 13. OFFERS CRUD
+// 13. OFFERS CRUD (مختصر)
 // ================================================================
 function openOfferModal() {
   document.getElementById('offerErr').textContent = '';
@@ -3215,11 +3407,11 @@ function showView(view, el) {
     offers: 'العروض'
   };
   var icons = {
-    dashboard: '▦', clients: '♙', policies: '▣', payments: '₣',
-    claims: '!', documents: '▤', renewals: '↻', companies: '◆',
-    types: '◈', products: '▰', reports: '▥', assessments: '◉',
-    compliance: '✓', messages: '✉', notifications: '◉', activity: '◷',
-    offers: '★'
+    dashboard: '📊', clients: '👤', policies: '📄', payments: '💰',
+    claims: '⚠️', documents: '📎', renewals: '🔄', companies: '🏢',
+    types: '📑', products: '📦', reports: '📈', assessments: '🛡️',
+    compliance: '✅', messages: '💬', notifications: '🔔', activity: '📋',
+    offers: '🎯'
   };
   var subs = {
     dashboard: 'نظرة عامة على الأداء والنشاطات',
@@ -3242,7 +3434,7 @@ function showView(view, el) {
   };
   
   document.getElementById('title').textContent = titles[view] || view;
-  document.getElementById('pageIcon').textContent = icons[view] || '▦';
+  document.getElementById('pageIcon').textContent = icons[view] || '📊';
   document.getElementById('pageSub').textContent = subs[view] || '';
   
   if (view === 'dashboard') renderDashboard();
@@ -3480,7 +3672,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 initSelects();
 
-console.log('✅ Secure PATH Admin Panel v12.0');
+console.log('✅ Secure PATH Admin Panel v13.0 - محسّن بالكامل');
 console.log('📊 Firebase Config:', {
   apiKey: firebaseConfig.apiKey ? 'موجود ✅' : 'غير موجود ❌',
   projectId: firebaseConfig.projectId
