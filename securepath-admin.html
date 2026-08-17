@@ -12,7 +12,7 @@
 
 <style>
 /* ================================================================
-   ROOT VARIABLES - الهوية البصرية الجديدة
+   ROOT VARIABLES
    ================================================================ */
 :root {
   --navy: #0E2A5C;
@@ -22,14 +22,12 @@
   --navy-100: rgba(14, 42, 92, 0.1);
   --navy-200: rgba(14, 42, 92, 0.2);
   --navy-300: rgba(14, 42, 92, 0.3);
-  --navy-400: rgba(14, 42, 92, 0.4);
   --gold: #F2BD63;
   --gold-light: #FFD98F;
   --gold-dark: #D4A04A;
   --gold-soft: #FFF2D7;
   --gold-100: rgba(242, 189, 99, 0.15);
   --gold-200: rgba(242, 189, 99, 0.25);
-  --gold-300: rgba(242, 189, 99, 0.35);
   --white: #ffffff;
   --paper: #F5F8FC;
   --paper-dark: #E8EEF6;
@@ -47,8 +45,6 @@
   --blue-light: #E3F0FF;
   --purple: #7255B7;
   --purple-light: #F0EBFF;
-  --orange: #E67E22;
-  --orange-light: #FFF3E6;
   --shadow-xs: 0 1px 3px rgba(14, 42, 92, 0.04);
   --shadow-sm: 0 2px 8px rgba(14, 42, 92, 0.06);
   --shadow-md: 0 4px 16px rgba(14, 42, 92, 0.08);
@@ -84,7 +80,7 @@ input, select, textarea { font: inherit; outline: none; font-family: 'Cairo', sa
 
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: var(--paper); }
-::-webkit-scrollbar-thumb { background: var(--navy-200); border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb { background: var(--navy-200); border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--navy-light); }
 
 /* ================================================================
@@ -96,10 +92,9 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 .text-md { font-size: 14px; }
 .text-lg { font-size: 16px; }
 .text-xl { font-size: 20px; }
-.text-2xl { font-size: 24px; }
 
 /* ================================================================
-   BUTTONS - تحسين الهوية البصرية
+   BUTTONS
    ================================================================ */
 .btn {
   display: inline-flex;
@@ -114,8 +109,6 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   text-decoration: none;
   white-space: nowrap;
   border: 1.5px solid transparent;
-  position: relative;
-  overflow: hidden;
 }
 .btn:active { transform: scale(0.97); }
 
@@ -128,7 +121,6 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 .btn-primary:hover {
   transform: translateY(-2px) scale(1.02);
   box-shadow: var(--shadow-gold-lg);
-  background: linear-gradient(135deg, var(--gold-light), var(--gold));
 }
 .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 
@@ -137,43 +129,28 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   color: #fff;
   border-color: var(--navy);
 }
-.btn-dark:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  background: linear-gradient(135deg, var(--navy-light), var(--navy));
-}
+.btn-dark:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
 
 .btn-outline {
   background: transparent;
   border-color: var(--line);
   color: var(--text-secondary);
 }
-.btn-outline:hover {
-  border-color: var(--gold);
-  color: var(--navy);
-  background: var(--gold-100);
-  transform: translateY(-2px);
-}
+.btn-outline:hover { border-color: var(--gold); color: var(--navy); background: var(--gold-100); transform: translateY(-2px); }
 
 .btn-success {
   background: linear-gradient(135deg, var(--green), #0e6a48);
   color: #fff;
   border-color: var(--green);
 }
-.btn-success:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(22, 128, 91, 0.35);
-}
+.btn-success:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(22, 128, 91, 0.35); }
 
 .btn-danger {
   background: linear-gradient(135deg, var(--red), #a83d2e);
   color: #fff;
   border-color: var(--red);
 }
-.btn-danger:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(201, 84, 62, 0.35);
-}
+.btn-danger:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(201, 84, 62, 0.35); }
 
 .btn-sm { padding: 6px 14px; font-size: 11px; border-radius: 8px; }
 .btn-xs { padding: 4px 10px; font-size: 10px; border-radius: 6px; }
@@ -193,17 +170,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ================================================================
-   GLASS EFFECT
-   ================================================================ */
-.glass {
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.2);
-}
-
-/* ================================================================
-   LOGIN PAGE - محسّن
+   LOGIN PAGE
    ================================================================ */
 #login {
   min-height: 100vh;
@@ -245,7 +212,6 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   width: min(420px, 92vw);
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border-radius: 24px;
   padding: 48px 40px;
   box-shadow: 0 30px 80px rgba(0,0,0,0.4);
@@ -267,17 +233,8 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   place-items: center;
   overflow: hidden;
   box-shadow: 0 8px 30px rgba(14,42,92,0.3);
-  position: relative;
 }
-.login-box .logo::after {
-  content: '';
-  position: absolute;
-  inset: 2px;
-  border-radius: 18px;
-  background: linear-gradient(135deg, var(--gold-100), transparent);
-  pointer-events: none;
-}
-.login-box .logo img { width: 60%; height: 60%; object-fit: contain; position: relative; z-index: 1; }
+.login-box .logo img { width: 60%; height: 60%; object-fit: contain; }
 .login-box h1 { text-align: center; font-size: 28px; margin: 0 0 4px; color: var(--navy); }
 .login-box .subtitle { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 28px; }
 
@@ -307,7 +264,6 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   font-size: 18px;
   cursor: pointer;
   color: var(--muted);
-  transition: var(--transition-fast);
 }
 .field .toggle-pass:hover { color: var(--text); }
 
@@ -318,7 +274,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 .shell { display: flex; min-height: 100vh; }
 
 /* ================================================================
-   SIDEBAR - محسّن مع تأثيرات
+   SIDEBAR
    ================================================================ */
 .sidebar {
   width: var(--sidebar-width);
@@ -352,7 +308,6 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   padding: 6px 10px 20px;
   border-bottom: 1px solid rgba(255,255,255,0.06);
   flex-shrink: 0;
-  position: relative;
 }
 .sidebar .brand img {
   width: 44px; height: 44px;
@@ -362,10 +317,10 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   padding: 6px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
-.sidebar .brand .brand-name { font-size: 20px; font-weight: 900; letter-spacing: 0.5px; background: linear-gradient(135deg, var(--gold), var(--gold-light));
+.sidebar .brand .brand-name { font-size: 20px; font-weight: 900; background: linear-gradient(135deg, var(--gold), var(--gold-light));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent; }
-.sidebar .brand .brand-sub { font-size: 9px; opacity: 0.5; font-weight: 400; display: block; margin-top: -2px; letter-spacing: 1px; -webkit-text-fill-color: rgba(255,255,255,0.5); }
+.sidebar .brand .brand-sub { font-size: 9px; opacity: 0.5; display: block; margin-top: -2px; letter-spacing: 1px; -webkit-text-fill-color: rgba(255,255,255,0.5); }
 
 .sidebar .nav {
   padding-top: 12px;
@@ -401,7 +356,6 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   align-items: center;
   gap: 12px;
   transition: all var(--transition-base);
-  position: relative;
 }
 .sidebar .nav button .icon {
   width: 28px;
@@ -409,7 +363,6 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   text-align: center;
   flex-shrink: 0;
   opacity: 0.6;
-  transition: var(--transition-fast);
 }
 .sidebar .nav button .label { flex: 1; white-space: nowrap; }
 .sidebar .nav button:hover { background: rgba(255,255,255,0.08); color: #fff; transform: translateX(-4px); }
@@ -489,12 +442,11 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 }
 
 /* ================================================================
-   TOPBAR - محسّن
+   TOPBAR
    ================================================================ */
 .topbar {
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line-soft);
   padding: 14px 32px;
   display: flex;
@@ -544,10 +496,9 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-4 { grid-template-columns: repeat(4, 1fr); }
-.grid-auto { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
 
 /* ================================================================
-   CARDS - محسّنة
+   CARDS
    ================================================================ */
 .card {
   background: #fff;
@@ -577,7 +528,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 .card-body.p-0 { padding: 0; }
 
 /* ================================================================
-   STAT CARDS - محسّنة
+   STAT CARDS
    ================================================================ */
 .stat-card {
   padding: 22px 24px;
@@ -593,11 +544,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
   transform: translateY(-4px);
   box-shadow: var(--shadow-md);
 }
-.stat-card .stat-icon {
-  font-size: 28px;
-  margin-bottom: 4px;
-  display: block;
-}
+.stat-card .stat-icon { font-size: 28px; margin-bottom: 4px; display: block; }
 .stat-card .label { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
 .stat-card .value { font-family: 'Tajawal', sans-serif; font-size: 32px; font-weight: 900; color: var(--text); margin-top: 2px; }
 .stat-card .sub { font-size: 12px; margin-top: 4px; font-weight: 500; }
@@ -605,10 +552,9 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Tajawal', sans-serif; font-weight: 800; c
 .stat-card .sub.red { color: var(--red); }
 .stat-card .sub.blue { color: var(--blue); }
 .stat-card .sub.gold { color: var(--gold); }
-.stat-card .sub.purple { color: var(--purple); }
 
 /* ================================================================
-   TABLE - محسّنة
+   TABLE
    ================================================================ */
 .table-wrap { overflow-x: auto; padding: 0 2px; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -627,7 +573,7 @@ tr:hover td { background: var(--navy-50); }
 .empty { padding: 40px 20px; text-align: center; color: var(--muted); font-size: 14px; }
 
 /* ================================================================
-   BADGES - محسّنة
+   BADGES
    ================================================================ */
 .badge {
   display: inline-flex;
@@ -646,9 +592,6 @@ tr:hover td { background: var(--navy-50); }
 .badge-gray { background: #f0f0f0; color: var(--muted); }
 .badge-gold { background: var(--gold-soft); color: #8A6D1B; }
 
-/* ================================================================
-   TYPE BADGES
-   ================================================================ */
 .type-badge {
   display: inline-flex;
   align-items: center;
@@ -755,14 +698,13 @@ tr:hover td { background: var(--navy-50); }
 .type-card p { font-size: 12px; color: var(--muted); margin: 4px 0 8px; }
 
 /* ================================================================
-   MODAL - محسّن
+   MODAL
    ================================================================ */
 .overlay {
   position: fixed;
   inset: 0;
   background: rgba(7,29,64,0.6);
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   display: none;
   align-items: center;
   justify-content: center;
@@ -833,7 +775,7 @@ tr:hover td { background: var(--navy-50); }
 }
 
 /* ================================================================
-   FILE UPLOAD - محسّن
+   FILE UPLOAD
    ================================================================ */
 .file-upload-area {
   border: 2px dashed var(--line);
@@ -860,10 +802,7 @@ tr:hover td { background: var(--navy-50); }
   transition: var(--transition-base);
   box-shadow: var(--shadow-gold);
 }
-.file-upload-area .upload-label:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-gold-lg);
-}
+.file-upload-area .upload-label:hover { transform: translateY(-2px); box-shadow: var(--shadow-gold-lg); }
 .file-upload-area .file-name { margin-top: 10px; font-size: 13px; color: var(--muted); }
 .file-upload-area .file-size { font-size: 11px; color: var(--muted-light); }
 .file-upload-area .file-preview {
@@ -876,13 +815,7 @@ tr:hover td { background: var(--navy-50); }
   margin-left: auto;
   margin-right: auto;
 }
-.file-upload-area .file-preview img {
-  width: 100%;
-  height: auto;
-  max-height: 150px;
-  object-fit: contain;
-  background: #fff;
-}
+.file-upload-area .file-preview img { width: 100%; height: auto; max-height: 150px; object-fit: contain; background: #fff; }
 .upload-progress {
   display: none;
   width: 100%;
@@ -963,7 +896,7 @@ tr:hover td { background: var(--navy-50); }
 .list-item.unread { border-right: 3px solid var(--gold); background: var(--gold-50); }
 
 /* ================================================================
-   PRODUCT CARD - محسّن
+   PRODUCT CARD
    ================================================================ */
 .product-card {
   overflow: hidden;
@@ -1006,7 +939,7 @@ tr:hover td { background: var(--navy-50); }
   gap: 8px;
 }
 .product-card .image .image-placeholder span { font-size: 14px; font-weight: 700; opacity: 0.6; }
-.product-card .image .product-icon { font-size: 56px; opacity: 0.8; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1)); }
+.product-card .image .product-icon { font-size: 56px; opacity: 0.8; }
 .product-card .image .status-badge { position: absolute; top: 10px; right: 10px; z-index: 2; }
 
 .product-card .body {
@@ -1099,7 +1032,7 @@ tr:hover td { background: var(--navy-50); }
 .payment-summary .summary-card .summary-sub.gold { color: var(--gold); }
 
 /* ================================================================
-   TOAST - محسّن
+   TOAST
    ================================================================ */
 .toast {
   position: fixed;
@@ -1134,7 +1067,6 @@ tr:hover td { background: var(--navy-50); }
   inset: 0;
   background: rgba(7,29,64,0.92);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   z-index: 9999;
   align-items: center;
   justify-content: center;
@@ -1251,7 +1183,6 @@ tr:hover td { background: var(--navy-50); }
       <nav class="nav">
         <div class="nav-section">الرئيسية</div>
         <button data-view="dashboard" onclick="showView('dashboard',this)"><span class="icon">📊</span><span class="label">لوحة التحكم</span></button>
-        
         <div class="nav-section">الإدارة</div>
         <button data-view="clients" onclick="showView('clients',this)"><span class="icon">👤</span><span class="label">العملاء</span></button>
         <button data-view="policies" onclick="showView('policies',this)"><span class="icon">📄</span><span class="label">الوثائق</span></button>
@@ -1260,16 +1191,13 @@ tr:hover td { background: var(--navy-50); }
         <button data-view="documents" onclick="showView('documents',this)"><span class="icon">📎</span><span class="label">المستندات</span></button>
         <button data-view="renewals" onclick="showView('renewals',this)"><span class="icon">🔄</span><span class="label">التجديدات</span></button>
         <button data-view="offers" onclick="showView('offers',this)"><span class="icon">🎯</span><span class="label">العروض</span></button>
-        
         <div class="nav-section">الإعدادات</div>
         <button data-view="companies" onclick="showView('companies',this)"><span class="icon">🏢</span><span class="label">شركات التأمين</span></button>
         <button data-view="types" onclick="showView('types',this)"><span class="icon">📑</span><span class="label">أنواع التأمين</span></button>
         <button data-view="products" onclick="showView('products',this)"><span class="icon">📦</span><span class="label">المنتجات</span></button>
-        
         <div class="nav-section">التحليلات</div>
         <button data-view="reports" onclick="showView('reports',this)"><span class="icon">📈</span><span class="label">التقارير</span></button>
         <button data-view="assessments" onclick="showView('assessments',this)"><span class="icon">🛡️</span><span class="label">تقييمات الحماية</span></button>
-        
         <div class="nav-section">التواصل</div>
         <button data-view="messages" onclick="showView('messages',this)"><span class="icon">💬</span><span class="label">المحادثات</span><b id="msgBadge" class="badge hidden">0</b></button>
         <button data-view="notifications" onclick="showView('notifications',this)"><span class="icon">🔔</span><span class="label">الإشعارات</span></button>
@@ -1589,12 +1517,10 @@ tr:hover td { background: var(--navy-50); }
       <h2>📎 رفع مستند جديد</h2>
       <button class="modal-close" onclick="closeModal('docUploadModal')">✕</button>
     </div>
-    
     <div class="field">
       <label>العميل <span style="color:var(--red)">*</span></label>
       <select id="docClient"><option value="">اختر العميل</option></select>
     </div>
-    
     <div class="form-grid">
       <div class="field">
         <label>اسم المستند <span style="color:var(--red)">*</span></label>
@@ -1615,7 +1541,6 @@ tr:hover td { background: var(--navy-50); }
         </select>
       </div>
     </div>
-    
     <div class="field">
       <label>اختر الملف <span style="color:var(--red)">*</span></label>
       <div class="file-upload-area" id="dropArea">
@@ -1634,9 +1559,7 @@ tr:hover td { background: var(--navy-50); }
         <span>📦 يتم الرفع عبر <b>Cloudinary</b> (تخزين سحابي مجاني)</span>
       </div>
     </div>
-    
     <div id="docUploadErr" class="error"></div>
-    
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('docUploadModal')">إلغاء</button>
       <button class="btn btn-primary" id="uploadDocBtn" onclick="uploadDocument()">📤 رفع المستند</button>
@@ -1776,7 +1699,7 @@ var auth = firebase.auth();
 var db = firebase.firestore();
 
 // ================================================================
-// 2. CLOUDINARY CONFIG - مع CLOUDINARY_URL كاملة
+// 2. CLOUDINARY CONFIG
 // ================================================================
 var CLOUDINARY_URL = 'cloudinary://562182276356247:eQrL1QxKdKZ53e6shIgBIv7m-Dc@zs4wny34';
 
@@ -3179,7 +3102,291 @@ function verifyDocument(id, status) {
 }
 
 // ================================================================
-// 12. PRODUCTS CRUD
+// 12. CREATE CLIENT - تم إصلاح مشكلة الأذونات
+// ================================================================
+function createClient() {
+  var name = document.getElementById('cName').value.trim();
+  var email = document.getElementById('cEmail').value.trim().toLowerCase();
+  var phone = document.getElementById('cPhone').value.trim();
+  var pass = document.getElementById('cPass').value;
+  var err = document.getElementById('cErr');
+  
+  err.textContent = '';
+  
+  // التحقق من صحة البيانات
+  if (!name) { err.textContent = '⚠️ يرجى إدخال الاسم الكامل'; return; }
+  if (!email) { err.textContent = '⚠️ يرجى إدخال البريد الإلكتروني'; return; }
+  if (pass.length < 6) { err.textContent = '⚠️ كلمة المرور يجب أن تكون 6 أحرف على الأقل'; return; }
+  if (!phone) { err.textContent = '⚠️ يرجى إدخال رقم الهاتف'; return; }
+  
+  // التحقق من البريد الإلكتروني
+  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) { err.textContent = '⚠️ البريد الإلكتروني غير صحيح'; return; }
+  
+  // التحقق من عدم وجود العميل مسبقاً
+  var existingClient = DATA.clients.find(function(c) { return c.email === email; });
+  if (existingClient) {
+    err.textContent = '⚠️ هذا البريد الإلكتروني مسجل مسبقاً';
+    return;
+  }
+  
+  showLoading('createClientBtn', 'جاري إنشاء العميل...');
+  
+  // الخطوة 1: إنشاء حساب في Firebase Authentication
+  auth.createUserWithEmailAndPassword(email, pass)
+    .then(function(userCredential) {
+      var user = userCredential.user;
+      console.log('✅ تم إنشاء حساب العميل في Authentication:', user.uid);
+      
+      // الخطوة 2: حفظ بيانات العميل في Firestore
+      var clientData = {
+        fullName: name,
+        email: email,
+        phone: phone,
+        username: email.split('@')[0],
+        uid: user.uid,
+        role: 'client',
+        status: 'active',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        createdBy: currentUser ? currentUser.uid : 'admin',
+        emailVerified: user.emailVerified || false
+      };
+      
+      return db.collection('clients').doc(user.uid).set(clientData)
+        .then(function() {
+          console.log('✅ تم حفظ بيانات العميل في Firestore');
+          return user;
+        });
+    })
+    .then(function(user) {
+      // الخطوة 3: إرسال بريد تأكيد
+      if (user && user.sendEmailVerification) {
+        user.sendEmailVerification().catch(function(e) {
+          console.warn('⚠️ تعذر إرسال بريد التأكيد:', e.message);
+        });
+      }
+      
+      // الخطوة 4: تحديث الواجهة
+      hideLoading('createClientBtn');
+      closeModal('clientModal');
+      toast('✅ تم إنشاء العميل بنجاح! تم إرسال بريد التأكيد.');
+      
+      // إعادة تحميل البيانات
+      return loadCollection('clients').then(function(clients) {
+        DATA.clients = clients;
+        renderClients();
+        renderDashboard();
+        refreshAllSelects();
+      });
+    })
+    .catch(function(error) {
+      hideLoading('createClientBtn');
+      console.error('❌ خطأ في إنشاء العميل:', error);
+      
+      // عرض رسائل خطأ محددة
+      if (error.code === 'auth/email-already-in-use') {
+        err.textContent = '⚠️ هذا البريد الإلكتروني مستخدم بالفعل. يرجى استخدام بريد آخر.';
+      } else if (error.code === 'auth/invalid-email') {
+        err.textContent = '⚠️ البريد الإلكتروني غير صحيح.';
+      } else if (error.code === 'auth/weak-password') {
+        err.textContent = '⚠️ كلمة المرور ضعيفة. يرجى استخدام 6 أحرف على الأقل.';
+      } else if (error.code === 'auth/operation-not-allowed') {
+        err.textContent = '⚠️ خدمة إنشاء المستخدمين غير مفعلة في Firebase. يرجى تفعيلها من لوحة التحكم.';
+        toast('❌ يرجى تفعيل خدمة Email/Password في Firebase Console', true);
+      } else {
+        err.textContent = '❌ ' + error.message;
+      }
+    });
+}
+
+// ================================================================
+// 13. REST OF CRUD OPERATIONS
+// ================================================================
+function createPolicy() {
+  var cid = document.getElementById('pClient').value;
+  var type = document.getElementById('pType').value;
+  var company = document.getElementById('pCompany').value;
+  var end = document.getElementById('pEnd').value;
+  var err = document.getElementById('pErr');
+  
+  if (!cid || !type || !company || !end) { err.textContent = 'أكمل جميع البيانات'; return; }
+  
+  showLoading('createPolicyBtn', 'جاري الحفظ...');
+  
+  db.collection('policies').add({
+    clientId: cid,
+    uid: cid,
+    type: type,
+    company: company,
+    policyNumber: document.getElementById('pNumber').value || 'POL-' + Date.now(),
+    premium: Number(document.getElementById('pPremium').value) || 0,
+    sumInsured: Number(document.getElementById('pSumInsured').value) || 0,
+    startDate: document.getElementById('pStart').value || new Date().toISOString().split('T')[0],
+    endDate: end,
+    coverage: document.getElementById('pCoverage').value.trim(),
+    status: document.getElementById('pStatus').value || 'active',
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(function() {
+    hideLoading('createPolicyBtn');
+    closeModal('policyModal');
+    toast('✅ تم حفظ الوثيقة بنجاح');
+    return loadCollection('policies').then(function(docs) {
+      DATA.policies = docs;
+      renderPolicies();
+      renderDashboard();
+    });
+  })
+  .catch(function(e) {
+    hideLoading('createPolicyBtn');
+    err.textContent = 'تعذر حفظ الوثيقة: ' + e.message;
+  });
+}
+
+function createPayment() {
+  var cid = document.getElementById('payClient').value;
+  var policyId = document.getElementById('payPolicy').value;
+  var amount = document.getElementById('payAmount').value;
+  var err = document.getElementById('payErr');
+  
+  if (!cid || !policyId || !amount || amount <= 0) { err.textContent = 'أكمل البيانات'; return; }
+  
+  var policy = DATA.policies.find(function(p) { return p.id === policyId; });
+  if (policy) {
+    var premium = Number(policy.premium) || 0;
+    var paidAmount = DATA.payments.filter(function(pmt) { return pmt.policyId === policyId; }).reduce(function(sum, pmt) { return sum + (Number(pmt.amount) || 0); }, 0);
+    var remaining = Math.max(0, premium - paidAmount);
+    if (Number(amount) > remaining) { err.textContent = '⚠️ المبلغ يتجاوز القسط المتبقي'; return; }
+  }
+  
+  showLoading('createPaymentBtn', 'جاري الحفظ...');
+  
+  db.collection('payments').add({
+    clientId: cid,
+    uid: cid,
+    policyId: policyId,
+    amount: Number(amount),
+    date: document.getElementById('payDate').value || new Date().toISOString().split('T')[0],
+    method: document.getElementById('payMethod').value,
+    note: document.getElementById('payNote').value.trim(),
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(function() {
+    hideLoading('createPaymentBtn');
+    closeModal('paymentModal');
+    toast('✅ تم تسجيل الدفعة');
+    return loadCollection('payments').then(function(docs) {
+      DATA.payments = docs;
+      renderPayments();
+      renderDashboard();
+      renderReports();
+    });
+  })
+  .catch(function(e) {
+    hideLoading('createPaymentBtn');
+    err.textContent = 'تعذر حفظ الدفعة: ' + e.message;
+  });
+}
+
+function createClaim() {
+  var cid = document.getElementById('clClient').value;
+  var type = document.getElementById('clType').value;
+  var err = document.getElementById('clErr');
+  
+  if (!cid || !type) { err.textContent = 'أكمل البيانات'; return; }
+  
+  showLoading('createClaimBtn', 'جاري الحفظ...');
+  
+  db.collection('claims').add({
+    clientId: cid,
+    uid: cid,
+    policyId: document.getElementById('clPolicy').value || null,
+    type: type,
+    amount: Number(document.getElementById('clAmount').value) || 0,
+    status: document.getElementById('clStatus').value,
+    description: document.getElementById('clDesc').value.trim(),
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(function() {
+    hideLoading('createClaimBtn');
+    closeModal('claimModal');
+    toast('✅ تم تسجيل المطالبة');
+    return loadCollection('claims').then(function(docs) {
+      DATA.claims = docs;
+      renderClaims();
+      renderDashboard();
+    });
+  })
+  .catch(function(e) {
+    hideLoading('createClaimBtn');
+    err.textContent = 'تعذر حفظ المطالبة: ' + e.message;
+  });
+}
+
+function changeClaim(id, status) {
+  if (!status) return;
+  db.collection('claims').doc(id).update({ status: status, updatedAt: firebase.firestore.FieldValue.serverTimestamp() })
+    .then(function() { return loadCollection('claims').then(function(docs) { DATA.claims = docs; renderClaims(); toast('✅ تم تحديث الحالة'); }); })
+    .catch(function() { toast('❌ تعذر التحديث', true); });
+}
+
+function createCompany() {
+  var name = document.getElementById('coName').value.trim();
+  var err = document.getElementById('coErr');
+  err.textContent = '';
+  if (!name) { err.textContent = 'أدخل اسم الشركة'; return; }
+  
+  showLoading('createCompanyBtn', 'جاري الحفظ...');
+  var id = name.replace(/\s/g, '_').toLowerCase();
+  var company = { id: id, name: name, logo: document.getElementById('coLogo').value.trim(), description: document.getElementById('coDesc').value.trim() };
+  
+  db.collection('companies').doc(id).set(company)
+    .then(function() {
+      hideLoading('createCompanyBtn');
+      closeModal('companyModal');
+      toast('✅ تمت إضافة الشركة');
+      return loadCollection('companies').then(function(docs) {
+        DATA.companies = docs;
+        renderCompanies();
+        refreshAllSelects();
+      });
+    })
+    .catch(function(e) {
+      hideLoading('createCompanyBtn');
+      err.textContent = 'تعذر حفظ الشركة: ' + e.message;
+    });
+}
+
+function createInsuranceType() {
+  var name = document.getElementById('tName').value.trim();
+  var color = document.getElementById('tColor').value;
+  var err = document.getElementById('tErr');
+  err.textContent = '';
+  if (!name) { err.textContent = 'أدخل اسم النوع'; return; }
+  
+  showLoading('createTypeBtn', 'جاري الحفظ...');
+  var id = name.replace(/\s/g, '_').toLowerCase();
+  var newType = { id: id, name: name, icon: '📄', color: color, description: document.getElementById('tDesc').value.trim() };
+  
+  db.collection('insuranceTypes').doc(id).set(newType)
+    .then(function() {
+      hideLoading('createTypeBtn');
+      closeModal('typeModal');
+      toast('✅ تم إضافة نوع التأمين');
+      return loadCollection('insuranceTypes').then(function(docs) {
+        DATA.types = docs;
+        renderInsuranceTypes();
+        refreshAllSelects();
+      });
+    })
+    .catch(function(e) {
+      hideLoading('createTypeBtn');
+      err.textContent = 'تعذر حفظ النوع: ' + e.message;
+    });
+}
+
+// ================================================================
+// 14. PRODUCTS CRUD (مختصر)
 // ================================================================
 function createProduct() {
   var company = document.getElementById('prCompany').value;
@@ -3254,7 +3461,7 @@ function openProductModal() {
 }
 
 // ================================================================
-// 13. OFFERS CRUD
+// 15. OFFERS CRUD (مختصر)
 // ================================================================
 function openOfferModal() {
   document.getElementById('offerErr').textContent = '';
@@ -3340,7 +3547,7 @@ function toggleOfferStatus(offerId) {
 }
 
 // ================================================================
-// 14. CHAT
+// 16. CHAT
 // ================================================================
 function openClientChat(id) {
   if (!id) return;
@@ -3376,7 +3583,7 @@ function sendMessage() {
 }
 
 // ================================================================
-// 15. VIEW NAVIGATION
+// 17. VIEW NAVIGATION
 // ================================================================
 function showView(view, el) {
   document.querySelectorAll('.view').forEach(function(x) { x.classList.remove('active'); });
@@ -3440,97 +3647,7 @@ function showView(view, el) {
 }
 
 // ================================================================
-// 16. CRUD OPERATIONS
-// ================================================================
-function createClient() {
-  var name = document.getElementById('cName').value.trim();
-  var email = document.getElementById('cEmail').value.trim().toLowerCase();
-  var phone = document.getElementById('cPhone').value.trim();
-  var pass = document.getElementById('cPass').value;
-  var err = document.getElementById('cErr');
-  err.textContent = '';
-  if (!name || !email || pass.length < 6) { err.textContent = 'أكمل البيانات وكلمة المرور 6 أحرف'; return; }
-  showLoading('createClientBtn', 'جاري إنشاء العميل...');
-  db.collection('clients').add({ fullName: name, email: email, phone: phone, username: email.split('@')[0], role: 'client', status: 'active', createdAt: firebase.firestore.FieldValue.serverTimestamp(), createdBy: currentUser ? currentUser.uid : '' })
-    .then(function(docRef) { return auth.createUserWithEmailAndPassword(email, pass).then(function(cred) { return db.collection('clients').doc(docRef.id).update({ uid: cred.user.uid }); }).catch(function() { return Promise.resolve(); }).then(function() { hideLoading('createClientBtn'); closeModal('clientModal'); toast('✅ تم إنشاء العميل بنجاح'); return loadAll(); }); })
-    .catch(function(e) { hideLoading('createClientBtn'); err.textContent = 'تعذر إنشاء العميل: ' + e.message; });
-}
-
-function createPolicy() {
-  var cid = document.getElementById('pClient').value;
-  var type = document.getElementById('pType').value;
-  var company = document.getElementById('pCompany').value;
-  var end = document.getElementById('pEnd').value;
-  var err = document.getElementById('pErr');
-  if (!cid || !type || !company || !end) { err.textContent = 'أكمل جميع البيانات'; return; }
-  showLoading('createPolicyBtn', 'جاري الحفظ...');
-  db.collection('policies').add({ clientId: cid, uid: cid, type: type, company: company, policyNumber: document.getElementById('pNumber').value || 'POL-' + Date.now(), premium: Number(document.getElementById('pPremium').value) || 0, sumInsured: Number(document.getElementById('pSumInsured').value) || 0, startDate: document.getElementById('pStart').value || new Date().toISOString().split('T')[0], endDate: end, coverage: document.getElementById('pCoverage').value.trim(), status: document.getElementById('pStatus').value || 'active', createdAt: firebase.firestore.FieldValue.serverTimestamp() })
-    .then(function() { hideLoading('createPolicyBtn'); closeModal('policyModal'); toast('✅ تم حفظ الوثيقة بنجاح'); return loadCollection('policies').then(function(docs) { DATA.policies = docs; renderPolicies(); renderDashboard(); }); })
-    .catch(function(e) { hideLoading('createPolicyBtn'); err.textContent = 'تعذر حفظ الوثيقة: ' + e.message; });
-}
-
-function createPayment() {
-  var cid = document.getElementById('payClient').value;
-  var policyId = document.getElementById('payPolicy').value;
-  var amount = document.getElementById('payAmount').value;
-  var err = document.getElementById('payErr');
-  if (!cid || !policyId || !amount || amount <= 0) { err.textContent = 'أكمل البيانات'; return; }
-  var policy = DATA.policies.find(function(p) { return p.id === policyId; });
-  if (policy) {
-    var premium = Number(policy.premium) || 0;
-    var paidAmount = DATA.payments.filter(function(pmt) { return pmt.policyId === policyId; }).reduce(function(sum, pmt) { return sum + (Number(pmt.amount) || 0); }, 0);
-    var remaining = Math.max(0, premium - paidAmount);
-    if (Number(amount) > remaining) { err.textContent = '⚠️ المبلغ يتجاوز القسط المتبقي'; return; }
-  }
-  showLoading('createPaymentBtn', 'جاري الحفظ...');
-  db.collection('payments').add({ clientId: cid, uid: cid, policyId: policyId, amount: Number(amount), date: document.getElementById('payDate').value || new Date().toISOString().split('T')[0], method: document.getElementById('payMethod').value, note: document.getElementById('payNote').value.trim(), createdAt: firebase.firestore.FieldValue.serverTimestamp() })
-    .then(function() { hideLoading('createPaymentBtn'); closeModal('paymentModal'); toast('✅ تم تسجيل الدفعة'); return loadCollection('payments').then(function(docs) { DATA.payments = docs; renderPayments(); renderDashboard(); renderReports(); }); })
-    .catch(function(e) { hideLoading('createPaymentBtn'); err.textContent = 'تعذر حفظ الدفعة: ' + e.message; });
-}
-
-function createClaim() {
-  var cid = document.getElementById('clClient').value;
-  var type = document.getElementById('clType').value;
-  var err = document.getElementById('clErr');
-  if (!cid || !type) { err.textContent = 'أكمل البيانات'; return; }
-  showLoading('createClaimBtn', 'جاري الحفظ...');
-  db.collection('claims').add({ clientId: cid, uid: cid, policyId: document.getElementById('clPolicy').value || null, type: type, amount: Number(document.getElementById('clAmount').value) || 0, status: document.getElementById('clStatus').value, description: document.getElementById('clDesc').value.trim(), createdAt: firebase.firestore.FieldValue.serverTimestamp() })
-    .then(function() { hideLoading('createClaimBtn'); closeModal('claimModal'); toast('✅ تم تسجيل المطالبة'); return loadCollection('claims').then(function(docs) { DATA.claims = docs; renderClaims(); renderDashboard(); }); })
-    .catch(function(e) { hideLoading('createClaimBtn'); err.textContent = 'تعذر حفظ المطالبة: ' + e.message; });
-}
-
-function changeClaim(id, status) {
-  if (!status) return;
-  db.collection('claims').doc(id).update({ status: status, updatedAt: firebase.firestore.FieldValue.serverTimestamp() })
-    .then(function() { return loadCollection('claims').then(function(docs) { DATA.claims = docs; renderClaims(); toast('✅ تم تحديث الحالة'); }); })
-    .catch(function() { toast('❌ تعذر التحديث', true); });
-}
-
-function createCompany() {
-  var name = document.getElementById('coName').value.trim();
-  var err = document.getElementById('coErr');
-  err.textContent = '';
-  if (!name) { err.textContent = 'أدخل اسم الشركة'; return; }
-  showLoading('createCompanyBtn', 'جاري الحفظ...');
-  var id = name.replace(/\s/g, '_').toLowerCase();
-  var company = { id: id, name: name, logo: document.getElementById('coLogo').value.trim(), description: document.getElementById('coDesc').value.trim() };
-  db.collection('companies').doc(id).set(company).then(function() { hideLoading('createCompanyBtn'); closeModal('companyModal'); toast('✅ تمت إضافة الشركة'); return loadCollection('companies').then(function(docs) { DATA.companies = docs; renderCompanies(); refreshAllSelects(); }); }).catch(function(e) { hideLoading('createCompanyBtn'); err.textContent = 'تعذر حفظ الشركة: ' + e.message; });
-}
-
-function createInsuranceType() {
-  var name = document.getElementById('tName').value.trim();
-  var color = document.getElementById('tColor').value;
-  var err = document.getElementById('tErr');
-  err.textContent = '';
-  if (!name) { err.textContent = 'أدخل اسم النوع'; return; }
-  showLoading('createTypeBtn', 'جاري الحفظ...');
-  var id = name.replace(/\s/g, '_').toLowerCase();
-  var newType = { id: id, name: name, icon: '📄', color: color, description: document.getElementById('tDesc').value.trim() };
-  db.collection('insuranceTypes').doc(id).set(newType).then(function() { hideLoading('createTypeBtn'); closeModal('typeModal'); toast('✅ تم إضافة نوع التأمين'); return loadCollection('insuranceTypes').then(function(docs) { DATA.types = docs; renderInsuranceTypes(); refreshAllSelects(); }); }).catch(function(e) { hideLoading('createTypeBtn'); err.textContent = 'تعذر حفظ النوع: ' + e.message; });
-}
-
-// ================================================================
-// 17. CLIENT & COMPANY PROFILES
+// 18. CLIENT & COMPANY PROFILES
 // ================================================================
 function openClientProfile(id) {
   var c = DATA.clients.find(function(x) { return x.id === id || x.uid === id; });
@@ -3592,7 +3709,7 @@ function openAssessment(clientId) {
 }
 
 // ================================================================
-// 18. MODAL OPEN HELPERS
+// 19. MODAL OPEN HELPERS
 // ================================================================
 function openPolicyModal(cid) { if (cid === undefined) cid = ''; refreshAllSelects(); document.getElementById('pClient').value = cid || ''; document.getElementById('pErr').textContent = ''; openModal('policyModal'); }
 function openPaymentModal(cid) { if (cid === undefined) cid = ''; refreshAllSelects(); document.getElementById('payClient').value = cid || ''; refreshPolicySelect('payClient', 'payPolicy'); var today = new Date().toISOString().slice(0, 10); document.getElementById('payDate').value = today; document.getElementById('payAmount').value = ''; document.getElementById('payRemaining').value = '0'; document.getElementById('payErr').textContent = ''; openModal('paymentModal'); }
@@ -3601,7 +3718,7 @@ function openCompanyModal() { document.getElementById('coErr').textContent = '';
 function openTypeModal() { document.getElementById('tErr').textContent = ''; document.getElementById('tName').value = ''; document.getElementById('tDesc').value = ''; openModal('typeModal'); }
 
 // ================================================================
-// 19. RENDER ALL
+// 20. RENDER ALL
 // ================================================================
 function renderAll() {
   renderDashboard();
@@ -3624,7 +3741,7 @@ function renderAll() {
 }
 
 // ================================================================
-// 20. INIT
+// 21. INIT
 // ================================================================
 function initSelects() {
   var companySelects = ['pCompany', 'prCompany', 'offerCompany'];
@@ -3671,16 +3788,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 initSelects();
 
-console.log('✅ Secure PATH Admin Panel v14.0 - مع Cloudinary API Secret');
+console.log('✅ Secure PATH Admin Panel v15.0 - تم إصلاح مشكلة إضافة العملاء');
 console.log('📊 Firebase Config:', {
   apiKey: firebaseConfig.apiKey ? 'موجود ✅' : 'غير موجود ❌',
   projectId: firebaseConfig.projectId
 });
 console.log('📦 Cloudinary Config:', {
   cloudName: CLOUDINARY.cloudName,
-  uploadPreset: CLOUDINARY.uploadPreset,
-  apiKey: CLOUDINARY.apiKey ? 'موجود ✅' : 'غير موجود ❌',
-  apiSecret: CLOUDINARY.apiSecret ? 'موجود ✅' : 'غير موجود ❌'
+  uploadPreset: CLOUDINARY.uploadPreset
 });
 </script>
 </body>
