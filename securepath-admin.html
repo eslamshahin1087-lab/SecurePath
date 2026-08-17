@@ -1776,10 +1776,9 @@ var auth = firebase.auth();
 var db = firebase.firestore();
 
 // ================================================================
-// 2. CLOUDINARY CONFIG - مع CLOUDINARY_URL
+// 2. CLOUDINARY CONFIG - مع CLOUDINARY_URL كاملة
 // ================================================================
-// 🔑 استخدم CLOUDINARY_URL الخاصة بك
-var CLOUDINARY_URL = 'cloudinary://562182276356247:YOUR_API_SECRET_HERE@zs4wny34';
+var CLOUDINARY_URL = 'cloudinary://562182276356247:eQrL1QxKdKZ53e6shIgBIv7m-Dc@zs4wny34';
 
 function parseCloudinaryUrl(url) {
   try {
@@ -1803,7 +1802,7 @@ var cloudinaryConfig = parseCloudinaryUrl(CLOUDINARY_URL);
 var CLOUDINARY = {
   cloudName: cloudinaryConfig ? cloudinaryConfig.cloudName : 'zs4wny34',
   apiKey: cloudinaryConfig ? cloudinaryConfig.apiKey : '562182276356247',
-  apiSecret: cloudinaryConfig ? cloudinaryConfig.apiSecret : '',
+  apiSecret: cloudinaryConfig ? cloudinaryConfig.apiSecret : 'eQrL1QxKdKZ53e6shIgBIv7m-Dc',
   uploadPreset: 'securepath'
 };
 
@@ -2963,7 +2962,7 @@ function updateBadge() {
 }
 
 // ================================================================
-// 11. DOCUMENT UPLOAD - مع Cloudinary (تم إصلاحه)
+// 11. DOCUMENT UPLOAD - مع Cloudinary
 // ================================================================
 function openDocUploadModal() {
   document.getElementById('docUploadErr').textContent = '';
@@ -3180,7 +3179,7 @@ function verifyDocument(id, status) {
 }
 
 // ================================================================
-// 12. PRODUCTS CRUD (مختصر)
+// 12. PRODUCTS CRUD
 // ================================================================
 function createProduct() {
   var company = document.getElementById('prCompany').value;
@@ -3255,7 +3254,7 @@ function openProductModal() {
 }
 
 // ================================================================
-// 13. OFFERS CRUD (مختصر)
+// 13. OFFERS CRUD
 // ================================================================
 function openOfferModal() {
   document.getElementById('offerErr').textContent = '';
@@ -3672,14 +3671,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 initSelects();
 
-console.log('✅ Secure PATH Admin Panel v13.0 - محسّن بالكامل');
+console.log('✅ Secure PATH Admin Panel v14.0 - مع Cloudinary API Secret');
 console.log('📊 Firebase Config:', {
   apiKey: firebaseConfig.apiKey ? 'موجود ✅' : 'غير موجود ❌',
   projectId: firebaseConfig.projectId
 });
 console.log('📦 Cloudinary Config:', {
   cloudName: CLOUDINARY.cloudName,
-  uploadPreset: CLOUDINARY.uploadPreset
+  uploadPreset: CLOUDINARY.uploadPreset,
+  apiKey: CLOUDINARY.apiKey ? 'موجود ✅' : 'غير موجود ❌',
+  apiSecret: CLOUDINARY.apiSecret ? 'موجود ✅' : 'غير موجود ❌'
 });
 </script>
 </body>
