@@ -966,6 +966,13 @@ html{color-scheme:light;}
   @keyframes chat-icon-breathe{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.08) rotate(-3deg)}}
   @keyframes whatsapp-button-shine{0%,55%{transform:translateX(-120%)}75%,100%{transform:translateX(120%)}}
   @media (prefers-reduced-motion:reduce){.advice-option.active .option-icon,.advice-whatsapp-container .wa-big-icon,.whatsapp-btn .wa-icon,.chat-fab .fab-icon svg,.whatsapp-btn::before{animation:none!important}}
+
+/* Stable company directory presentation */
+.companies-slider-section{min-height:96px;}
+#companiesSlider{min-height:54px;display:flex;align-items:center;}
+#sliderTrack{min-height:48px;align-items:center!important;}
+#sliderTrack:empty::before{content:'';display:block;}
+.slider-empty{width:100%;padding:12px 16px;text-align:center;}
 </style>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1158,8 +1165,8 @@ html[dir=ltr] #sliderTrack .slider-item{--slider-item-dir:ltr;}
     <div class="login-card">
       <h2 id="loginTitle">تسجيل الدخول</h2>
       <div id="loginError" style="color:var(--red);font-size:12px;margin-bottom:10px;display:none;"></div>
-      <div class="field"><label id="loginEmailLabel">البريد الإلكتروني</label><input type="email" id="loginEmail" placeholder="example@domain.com"></div>
-      <div class="field"><label id="loginPassLabel">كلمة المرور</label><input type="password" id="loginPass" placeholder="••••••••"></div>
+      <div class="field"><label id="loginEmailLabel">اسم المستخدم أو البريد الإلكتروني</label><input type="text" id="loginEmail" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="اسم المستخدم أو البريد الإلكتروني"></div>
+      <div class="field"><label id="loginPassLabel">كلمة المرور</label><input type="password" id="loginPass" autocomplete="current-password" placeholder="••••••••"></div>
       <button class="btn-primary" id="loginBtn" onclick="handleLogin()">🚀 دخول المنصة</button>
       <div class="switch-auth" id="loginSwitch">ليس لديك حساب؟ <b onclick="showScreen('signup')">إنشاء حساب جديد</b></div>
     </div>
@@ -1460,7 +1467,7 @@ html[dir=ltr] #sliderTrack .slider-item{--slider-item-dir:ltr;}
 
   <!-- ====== ACCOUNT SCREEN ====== -->
   <div class="screen" id="account">
-    <div class="account-header"><div class="avatar" id="accAvatar">م</div><h2 id="accName">مستخدم</h2><p id="accEmail">user@securepath.com</p></div>
+    <div class="account-header"><div class="avatar" id="accAvatar">م</div><h2 id="accName">—</h2><p id="accEmail">—</p></div>
     <div style="padding:16px;display:flex;flex-direction:column;gap:10px;">
       <div class="p-card" style="padding:14px;flex-direction:column;align-items:flex-start;gap:8px;cursor:default;">
         <b id="accountClientData">
@@ -1651,12 +1658,28 @@ if (typeof firebase !== 'undefined' && !firebase.apps.length) firebase.initializ
 var auth = firebase.auth();
 var db = firebase.firestore();
 
+// Authentication is explicit in the client portal. Never inherit a previous
+// browser session (admin or another client) and never let the auth listener
+// decide that a user should enter automatically.
+var AUTH_READY = null;
+var LOGIN_IN_PROGRESS = false;
+try {
+  AUTH_READY = auth.setPersistence(firebase.auth.Auth.Persistence.NONE)
+    .then(function(){ return auth.signOut().catch(function(){}); })
+    .catch(function(e){
+      console.warn('Authentication initialization warning:', e);
+      return auth.signOut().catch(function(){});
+    });
+} catch(e) {
+  AUTH_READY = Promise.resolve().then(function(){ return auth.signOut().catch(function(){}); });
+}
+
 // ============================================================
 // TRANSLATIONS
 // ============================================================
 var TRANSLATIONS = {
   ar: {
-    loginTitle:'تسجيل الدخول', loginEmailLabel:'البريد الإلكتروني', loginPassLabel:'كلمة المرور',
+    loginTitle:'تسجيل الدخول', loginEmailLabel:'اسم المستخدم أو البريد الإلكتروني', loginPassLabel:'كلمة المرور',
     loginBtn:'🚀 دخول المنصة', loginSwitch:'ليس لديك حساب؟ ', loginSwitchLink:'إنشاء حساب جديد',
     loginTagline:'✨ منظومتك التأمينية الذكية والشاملة',
     signupTitle:'✨ إنشاء حساب جديد', regFullNameLabel:'الاسم الرباعي', regEmailLabel:'البريد الإلكتروني',
@@ -1992,12 +2015,127 @@ function friendlyFirebaseError(e){
   };
   return STATE.language==='ar' && ar[code] ? ar[code] : ((e&&e.message)||'Unknown error');
 }
-function handleLogin(){
-  var email=(document.getElementById('loginEmail').value||'').trim(), pass=document.getElementById('loginPass').value||'', err=document.getElementById('loginError'); err.style.display='none';
-  if(!email||!pass){err.textContent=STATE.language==='ar'?'يرجى إدخال البريد الإلكتروني وكلمة المرور':'Please enter email and password';err.style.display='block';return;}
-  showLoading('loginBtn',STATE.language==='ar'?'جاري الدخول...':'Logging in...');
-  auth.signInWithEmailAndPassword(email,pass).catch(function(e){hideLoading('loginBtn');err.textContent=(STATE.language==='ar'?'فشل تسجيل الدخول: ':'Login failed: ')+friendlyFirebaseError(e);err.style.display='block';});
+function normalizeLoginIdentifier(value){
+  return (value || '').trim().toLowerCase();
 }
+
+function resolveLoginEmail(identifier){
+  identifier=normalizeLoginIdentifier(identifier);
+  if(identifier.indexOf('@')>0) return Promise.resolve(identifier);
+  if(!identifier) return Promise.reject({code:'auth/invalid-identifier',message:'Missing username.'});
+
+  // A username must resolve to exactly one client record. We never guess an
+  // email domain and never fall back to another account.
+  return db.collection('clients').where('username','==',identifier).limit(2).get()
+    .then(function(snap){
+      if(snap.size>1) throw {code:'auth/username-ambiguous',message:'Username is assigned to more than one client.'};
+      if(!snap.size) throw {code:'auth/username-not-found',message:'Username is not registered.'};
+      var data=snap.docs[0].data()||{};
+      var email=String(data.email||data.loginEmail||data.authEmail||'').trim().toLowerCase();
+      if(!email || email.indexOf('@')<1){
+        throw {code:'auth/username-email-missing',message:'This client record does not contain its Firebase login email.'};
+      }
+      return email;
+    });
+}
+
+function getClientProfile(uid,email){
+  return db.collection('clients').doc(uid).get().then(function(doc){
+    if(doc.exists) return {ref:doc.ref,data:doc.data()||{}};
+    return db.collection('clients').where('uid','==',uid).limit(2).get().then(function(snap){
+      if(snap.size>1) throw {code:'client/duplicate-uid',message:'Multiple client records are linked to this account.'};
+      if(snap.size===1) return {ref:snap.docs[0].ref,data:snap.docs[0].data()||{}};
+      return db.collection('clients').where('email','==',String(email||'').trim().toLowerCase()).limit(2).get().then(function(esnap){
+        if(esnap.size>1) throw {code:'client/duplicate-email',message:'Multiple client records use this email.'};
+        if(esnap.size===1) return {ref:esnap.docs[0].ref,data:esnap.docs[0].data()||{}};
+        return null;
+      });
+    });
+  });
+}
+
+function displayClientName(data,identifier){
+  data=data||{};
+  return String(data.fullName||data.full_name||data.name||data.clientName||data.customerName||data.displayName||data.username||identifier||'').trim();
+}
+function verifyClientIdentity(profile,user,identifier){
+  var data=profile&&profile.data||{};
+  if(identifier && identifier.indexOf('@')<0){
+    var requested=normalizeLoginIdentifier(identifier);
+    var storedUsername=normalizeLoginIdentifier(data.username||'');
+    var storedEmail=normalizeLoginIdentifier(data.email||data.loginEmail||data.authEmail||user.email||'');
+    var emailLocal=storedEmail.split('@')[0]||'';
+    if(storedUsername!==requested && emailLocal!==requested){
+      throw {code:'client/identity-mismatch',message:'The authenticated account does not match the requested username.'};
+    }
+  }
+  var role=String(data.role||'client').trim().toLowerCase();
+  if(role!=='client' && role!=='customer') throw {code:'client/invalid-role',message:'This account is not a client account.'};
+  var name=displayClientName(data,identifier);
+  if(!name) throw {code:'client/name-missing',message:'Client profile has no display name.'};
+  return name;
+}
+function finishClientLogin(credential,identifier){
+  var user=credential&&credential.user;
+  if(!user) return Promise.reject({code:'auth/no-user',message:'Firebase did not return a user.'});
+  return getClientProfile(user.uid,user.email).then(function(profile){
+    if(!profile) throw {code:'client/profile-not-found',message:'Client profile not found.'};
+    var name=verifyClientIdentity(profile,user,identifier);
+    STATE.userData=Object.assign({},profile.data||{});
+    STATE.currentUser={uid:user.uid,name:name,email:user.email||STATE.userData.email||STATE.userData.loginEmail||''};
+    if(STATE.userData.language==='ar'||STATE.userData.language==='en') STATE.language=STATE.userData.language;
+    updateUserUI(STATE.userData);
+    return loadUserData(user.uid,profile);
+  }).then(function(){
+    updateAllTexts();
+    renderAll();
+    showScreen('home');
+    requestAnimationFrame(function(){renderCompaniesSlider();});
+    setTimeout(function(){renderCompaniesSlider();},120);
+    requestNotificationPermission().catch(function(){});
+  });
+}
+function handleLogin(){
+  var input=document.getElementById('loginEmail'),passInput=document.getElementById('loginPass'),err=document.getElementById('loginError');
+  var identifier=normalizeLoginIdentifier(input&&input.value),pass=passInput?passInput.value:'';
+  if(err) err.style.display='none';
+  if(LOGIN_IN_PROGRESS) return;
+  if(!identifier||!pass){
+    if(err){err.textContent=STATE.language==='ar'?'يرجى إدخال اسم المستخدم أو البريد الإلكتروني وكلمة المرور':'Please enter your username/email and password';err.style.display='block';}
+    return;
+  }
+  LOGIN_IN_PROGRESS=true;
+  showLoading('loginBtn',STATE.language==='ar'?'جاري التحقق من الحساب...':'Verifying account...');
+  AUTH_READY.then(function(){
+    resetState();
+    return resolveLoginEmail(identifier);
+  }).then(function(email){
+    return auth.signInWithEmailAndPassword(email,pass);
+  }).then(function(credential){
+    return finishClientLogin(credential,identifier);
+  }).catch(function(e){
+    return auth.signOut().catch(function(){}).then(function(){
+      resetState();
+      var code=e&&e.code||'';
+      var message;
+      if(code==='auth/username-not-found') message=STATE.language==='ar'?'اسم المستخدم غير مسجل في بيانات العملاء.':'Username is not registered in the client directory.';
+      else if(code==='auth/username-email-missing') message=STATE.language==='ar'?'هذا العميل موجود في Firestore لكن لا يوجد البريد الإلكتروني المرتبط بحساب Firebase داخل سجل العميل. يجب تحديث ربط العميل من لوحة Secure PATH.':'The client exists in Firestore, but its Firebase login email is missing from the client record. Update the client link in Secure PATH.';
+      else if(code==='auth/username-ambiguous') message=STATE.language==='ar'?'اسم المستخدم مرتبط بأكثر من حساب. يجب أن يكون فريدًا.':'This username is linked to more than one client account.';
+      else if(code==='client/profile-not-found') message=STATE.language==='ar'?'تم التحقق من الحساب، لكن ملف العميل غير مرتبط بهذا الحساب.':'Authentication succeeded, but no client profile is linked to this account.';
+      else if(code==='client/identity-mismatch') message=STATE.language==='ar'?'تم تسجيل الدخول بحساب Firebase مختلف عن اسم المستخدم المطلوب. تم إيقاف الدخول لحماية البيانات.':'The authenticated Firebase account does not match the requested username. Login was stopped to protect your data.';
+      else if(code==='client/name-missing') message=STATE.language==='ar'?'ملف العميل لا يحتوي اسمًا صالحًا للعرض. تم إيقاف الدخول بدل عرض حساب مجهول.':'The client profile has no valid display name. Login was stopped instead of showing an anonymous account.';
+      else if(code==='client/invalid-role') message=STATE.language==='ar'?'هذا الحساب ليس حساب عميل ولا يمكن استخدامه في واجهة العملاء.':'This account is not a client account.';
+      else if(code==='permission-denied' || code==='firestore/permission-denied') message=STATE.language==='ar'?'تم تسجيل الدخول لكن Firebase يمنع قراءة ملف العميل. راجع Firestore Rules.':'Authentication succeeded, but Firestore rules deny access to the client profile.';
+      else message=(STATE.language==='ar'?'فشل تسجيل الدخول: ':'Login failed: ')+friendlyFirebaseError(e);
+      if(err){err.textContent=message;err.style.display='block';}
+      showScreen('login');
+    });
+  }).finally(function(){
+    LOGIN_IN_PROGRESS=false;
+    hideLoading('loginBtn');
+  });
+}
+
 function getSelectedPolicies(){
   var sel=document.getElementById('regExistingPolicies'), out=[]; if(!sel)return out;
   for(var i=0;i<sel.options.length;i++) if(sel.options[i].selected && sel.options[i].value!=='none') out.push(sel.options[i].value);
@@ -2019,12 +2157,26 @@ function handleSignup(){
   showLoading('signupBtn',STATE.language==='ar'?'جاري التسجيل...':'Signing up...');
   auth.createUserWithEmailAndPassword(email,pass).then(function(cred){
     return db.collection('clients').doc(cred.user.uid).set(data,{merge:true}).then(function(){return cred;});
-  }).then(function(){hideLoading('signupBtn');showScreen('home');}).catch(function(e){hideLoading('signupBtn');err.textContent=(STATE.language==='ar'?'فشل إنشاء الحساب: ':'Account creation failed: ')+friendlyFirebaseError(e);err.style.display='block';});
+  }).then(function(cred){
+    return finishClientLogin(cred,email).then(function(){hideLoading('signupBtn');});
+  }).catch(function(e){
+    hideLoading('signupBtn');
+    auth.signOut().catch(function(){});
+    err.textContent=(STATE.language==='ar'?'فشل إنشاء الحساب: ':'Account creation failed: ')+friendlyFirebaseError(e);
+    err.style.display='block';
+  });
 }
 function handleLogout(){
+  LOGIN_IN_PROGRESS=false;
   if(STATE.chatUnsub) STATE.chatUnsub(); if(STATE.msgUnsub) STATE.msgUnsub(); STATE.chatUnsub=null;STATE.msgUnsub=null;
   closeModal('policyModal');closeModal('docPreviewModal');closeModal('uploadDocModal');closeModal('wheelModal');
-  auth.signOut().catch(function(e){console.error('Logout error',e);});
+  auth.signOut().catch(function(e){console.error('Logout error',e);}).then(function(){
+    resetState();
+    var email=document.getElementById('loginEmail'),pass=document.getElementById('loginPass');
+    if(email)email.value=''; if(pass)pass.value='';
+    hideLoading('loginBtn');
+    showScreen('login');
+  });
 }
 
 function resetState(){
@@ -2037,21 +2189,34 @@ function resetState(){
 function normalizeArrayDocs(snap){return snap.docs.map(function(d){var x=d.data()||{};x.id=d.id;return x;});}
 function sortByDateDesc(arr,field){return arr.slice().sort(function(a,b){return dateMillis(b[field])-dateMillis(a[field]);});}
 function dateMillis(v){ if(!v)return 0; var d=v&&typeof v.toDate==='function'?v.toDate():new Date(v); return isNaN(d.getTime())?0:d.getTime(); }
-function loadUserData(uid){
-  var clientPromise=db.collection('clients').doc(uid).get().then(function(doc){
-    STATE.userData=doc.exists?(doc.data()||{}):{};
-    STATE.currentUser={uid:uid,name:STATE.userData.fullName||STATE.userData.name||'مستخدم',email:STATE.userData.email||''};
+function loadCompanyDirectory(){
+  var sources=['companies','insurers','insuranceCompanies'];
+  function read(index){
+    if(index>=sources.length) return Promise.resolve([]);
+    return db.collection(sources[index]).get().then(function(snap){
+      var rows=normalizeArrayDocs(snap);
+      return rows.length?rows:read(index+1);
+    }).catch(function(){return read(index+1);});
+  }
+  return read(0);
+}
+function loadUserData(uid,preloadedProfile){
+  var clientPromise=preloadedProfile ? Promise.resolve(preloadedProfile) : getClientProfile(uid,(auth.currentUser&&auth.currentUser.email)||'');
+  clientPromise=clientPromise.then(function(profile){
+    if(!profile) throw {code:'client/profile-not-found',message:'Client profile not found.'};
+    STATE.userData=profile.data||{};
+    STATE.currentUser={uid:uid,name:displayClientName(STATE.userData,(auth.currentUser&&auth.currentUser.email||'').split('@')[0]),email:(auth.currentUser&&auth.currentUser.email)||STATE.userData.email||STATE.userData.loginEmail||STATE.userData.authEmail||''};
     if(STATE.userData.wheelLastSpin)STATE.wheelLastSpin=STATE.userData.wheelLastSpin;
     if(STATE.userData.wheelResult)STATE.wheelResult=STATE.userData.wheelResult;
     var stored=STATE.userData.language; if(stored==='ar'||stored==='en')STATE.language=stored;
-    updateUserUI(STATE.userData);updateAllTexts();return doc;
+    updateUserUI(STATE.userData);updateAllTexts();return profile;
   });
   var p=[];
   p.push(db.collection('policies').where('clientId','==',uid).get().then(function(s){STATE.policies=normalizeArrayDocs(s);}).catch(function(e){console.warn('Policies load failed',e);STATE.policies=[];}));
   p.push(db.collection('documents').where('clientId','==',uid).get().then(function(s){STATE.documents=normalizeArrayDocs(s);}).catch(function(e){console.warn('Documents load failed',e);STATE.documents=[];}));
   p.push(db.collection('notifications').where('clientId','==',uid).limit(100).get().then(function(s){STATE.notifications=sortByDateDesc(normalizeArrayDocs(s),'createdAt');}).catch(function(e){console.warn('Notifications load failed',e);STATE.notifications=[];}));
   p.push(db.collection('products').where('published','==',true).get().then(function(s){STATE.products=normalizeArrayDocs(s);}).catch(function(e){console.warn('Products load failed',e);STATE.products=[];}));
-  p.push(db.collection('companies').get().then(function(s){STATE.companies=normalizeArrayDocs(s);}).catch(function(e){console.warn('Companies load failed',e);STATE.companies=[];}));
+  p.push(loadCompanyDirectory().then(function(rows){STATE.companies=rows;}).catch(function(e){console.warn('Company directory load failed',e);STATE.companies=[];}));
   p.push(db.collection('offers').get().then(function(s){STATE.offers=normalizeArrayDocs(s);}).catch(function(e){console.warn('Offers load failed',e);STATE.offers=[];}));
   p.push(db.collection('insuranceAssessments').doc(uid).get().then(function(doc){if(doc.exists){STATE.insuranceAssessments[uid]=doc.data()||{};assessmentCache[uid]=doc.data()||{};}}).catch(function(e){console.warn('Assessment load failed',e);}));
   return Promise.all([clientPromise].concat(p)).then(function(){
@@ -2061,8 +2226,10 @@ function loadUserData(uid){
 }
 function refreshNotifications(uid){return db.collection('notifications').where('clientId','==',uid).limit(100).get().then(function(s){STATE.notifications=sortByDateDesc(normalizeArrayDocs(s),'createdAt');renderNotificationsList();updateNotificationDot();});}
 function updateUserUI(data){
-  var name=data.fullName||data.name||data.username||(STATE.language==='ar'?'مستخدم':'User'),email=data.email||'';
-  setText('userNameHome',name);setText('accName',name);setText('accEmail',email);setText('accLoginEmail',email);setText('accAvatar',name.charAt(0));setText('welcomeText',getText('welcomeText'));ensureLanguageToggle();
+  var name=displayClientName(data,(STATE.currentUser&&STATE.currentUser.email||'').split('@')[0]);
+  var email=(STATE.currentUser&&STATE.currentUser.email)||data.email||data.loginEmail||data.authEmail||'';
+  if(!name) name='—';
+  setText('userNameHome',name);setText('accName',name);setText('accEmail',email||'—');setText('accLoginEmail',email||'—');setText('accAvatar',name.charAt(0)||'—');setText('welcomeText',getText('welcomeText'));ensureLanguageToggle();
 }
 
 var InsuranceSlider=(function(){
@@ -2083,11 +2250,11 @@ var InsuranceSlider=(function(){
   function normalize(){if(S.cycle>0)S.offset=((S.offset%S.cycle)+S.cycle)%S.cycle;else S.offset=0;}
   function paint(){if(S.t)S.t.style.transform='translate3d('+(-S.offset).toFixed(3)+'px,0,0)';}
   function getName(co){
-    var ar=co.nameAr||co.arName||co.name_ar;
-    var en=co.nameEn||co.enName||co.name_en;
-    return (STATE.language==='ar'?ar:en)||co.name||co.companyName||(STATE.language==='ar'?'شركة تأمين':'Insurance Company');
+    var ar=co.nameAr||co.arName||co.name_ar||co.ar||co.titleAr;
+    var en=co.nameEn||co.enName||co.name_en||co.en||co.titleEn;
+    return (STATE.language==='ar'?ar:en)||co.name||co.companyName||co.insurerName||co.title||(STATE.language==='ar'?'شركة تأمين':'Insurance Company');
   }
-  function getLogo(co){return co.logo||co.logoUrl||co.image||co.imageUrl||co.logoURL||co.companyLogo||'';}
+  function getLogo(co){return co.logo||co.logoUrl||co.image||co.imageUrl||co.logoURL||co.companyLogo||co.insurerLogo||'';}
   function createItem(co,cloneIndex){
     var d=document.createElement('div');
     d.className='slider-item';
@@ -2118,6 +2285,10 @@ var InsuranceSlider=(function(){
     while(S.t.scrollWidth<target && guard<40){
       for(var i=0;i<S.items.length;i++)S.t.appendChild(createItem(S.items[i],guard));
       guard++;
+      if(S.t.children.length>=S.items.length*2 && S.t.scrollWidth>=target) break;
+    }
+    if(!S.t.children.length){
+      S.items.forEach(function(item){S.t.appendChild(createItem(item,0));});
     }
     /* If measurements are not available yet, force a layout read. */
     void S.t.offsetWidth;
@@ -2462,11 +2633,19 @@ function initFormBindings(){
 document.addEventListener('DOMContentLoaded',function(){
   try{STATE.language=normalizeLanguage((localStorage.getItem('SecurePath_language')||'ar'));}catch(e){STATE.language='ar';}
   initFormBindings();ensureLanguageToggle();updateAllTexts();updateCharCount();
-  // Do not request browser notifications automatically. Ask only after a successful login.
-  auth.onAuthStateChanged(function(user){
-    if(user){
-      db.collection('clients').doc(user.uid).get().then(function(doc){var d=doc.exists?(doc.data()||{}):{};STATE.language=normalizeLanguage(d.language||STATE.language);return loadUserData(user.uid);}).then(function(){updateAllTexts();renderAll();showScreen('home');requestNotificationPermission().catch(function(){});}).catch(function(e){console.error('User load error',e);showScreen('home');});
-    }else{if(STATE.msgUnsub)STATE.msgUnsub();resetState();updateAllTexts();showScreen('login');}
+  // The portal is explicit-login only. We intentionally do NOT attach an
+  // authStateChanged listener because Firebase's currentUser must never be
+  // allowed to decide which client appears on screen.
+  AUTH_READY.then(function(){
+    resetState();
+    updateAllTexts();
+    showScreen('login');
+    var email=document.getElementById('loginEmail'),pass=document.getElementById('loginPass');
+    if(email){email.value='';email.focus();}
+    if(pass)pass.value='';
+  }).catch(function(e){
+    console.error('Authentication initialization failed:',e);
+    resetState();showScreen('login');
   });
 });
 function iconSvg(name, cls) {
