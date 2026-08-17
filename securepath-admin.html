@@ -9,7 +9,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 
   <style>
     /* ================================================================
@@ -1540,22 +1539,25 @@
         </div>
         <div class="upload-diagnostics" id="uploadDiagnostics">
           <div class="diagnostic-head">
-            <div><b>🔎 تشخيص رفع المستند</b><span class="diagnostic-sub">فحص الجلسة وFirebase Storage والمسار قبل وأثناء الرفع</span></div>
-            <button type="button" class="btn btn-outline btn-xs" id="runStorageDiagBtn" onclick="runStorageDiagnostics()">اختبار الآن</button>
+            <div><b>🔎 تشخيص رفع المستند — وضع Spark</b><span class="diagnostic-sub">فحص جلسة الأدمن وFirestore وحدود Data URL قبل الحفظ</span></div>
+            <button type="button" class="btn btn-outline btn-xs" id="runStorageDiagBtn" onclick="runDataUrlDiagnostics()">اختبار الآن</button>
           </div>
           <div class="diagnostic-grid">
             <div class="diag-item"><span>تسجيل الدخول</span><strong id="diagAuth">غير مفحوص</strong></div>
-            <div class="diag-item"><span>Firebase Storage</span><strong id="diagStorageInit">غير مفحوص</strong></div>
-            <div class="diag-item"><span>Storage Rules</span><strong id="diagRules">غير مفحوص</strong></div>
-            <div class="diag-item"><span>المسار</span><strong id="diagPath" dir="ltr">—</strong></div>
-            <div class="diag-item"><span>حجم الملف</span><strong id="diagSize">—</strong></div>
+            <div class="diag-item"><span>وضع Spark / Firestore</span><strong id="diagStorageInit">غير مفحوص</strong></div>
+            <div class="diag-item"><span>صلاحية الكتابة</span><strong id="diagRules">غير مفحوص</strong></div>
+            <div class="diag-item"><span>سجل المستند</span><strong id="diagPath" dir="ltr">documents / —</strong></div>
+            <div class="diag-item"><span>حجم الملف الأصلي</span><strong id="diagSize">—</strong></div>
+            <div class="diag-item"><span>الحجم المتوقع بعد Base64</span><strong id="diagEncodedSize">—</strong></div>
           </div>
           <div class="diagnostic-error" id="diagError">لا توجد أخطاء مسجلة.</div>
         </div>
         <div style="font-size:11px;color:var(--muted);margin-top:4px;">
-          <span>الحد الأقصى: 10MB. الصيغ المدعومة: PDF, JPG, PNG, DOC, DOCX, XLS, XLSX</span>
+          <span><b>الحد الآمن في وضع Spark: 720KB للملف الأصلي.</b> السبب: الملف يتحول إلى Base64 ويُحفظ داخل مستند Firestore.</span>
           <br>
-          <span>📦 يتم الرفع عبر <b>Firebase Storage</b> مع حفظ سجل المستند داخل <b>documents</b>.</span>
+          <span>📦 يتم حفظ المحتوى في <b>dataUrl</b> داخل <b>documents</b> للحفاظ على توافق Wathiqati والبيانات الحالية.</span>
+          <br>
+          <span>✅ الصيغ المدعومة: PDF, JPG, JPEG, PNG, DOC, DOCX, XLS, XLSX</span>
         </div>
       </div>
       <div id="docUploadErr" class="error"></div>
@@ -1696,7 +1698,6 @@
 
     var auth = firebase.auth();
     var db = firebase.firestore();
-    var storage = firebase.storage();
 
     // حساب Firebase ثانوي لإنشاء العملاء بدون تغيير جلسة الأدمن الأساسية.
     var clientAuthApp = null;
@@ -2452,13 +2453,46 @@
         .map(function(d) {
           var st = String(d.verificationStatus || '').toLowerCase();
           var badge = st === 'pending' ? '<span class="badge badge-warning">قيد المراجعة</span>' : st === 'approved' || st === 'verified' ? '<span class="badge badge-success">معتمد</span>' : st === 'rejected' ? '<span class="badge badge-danger">مرفوض</span>' : '<span class="badge badge-gray">—</span>';
-          var url = d.downloadURL || d.fileUrl || d.url || '';
-          var openBtn = url ? '<button class="btn btn-outline btn-xs" onclick="window.open(\'' + url + '\',\'_blank\')">فتح</button>' : '<button class="btn btn-outline btn-xs" onclick="toast(\'لا يوجد رابط\')">فتح</button>';
+          var hasData = !!d.dataUrl;
+          var hasUrl = !!(d.downloadURL || d.fileUrl || d.url);
+          var openBtn = (hasData || hasUrl) ? '<button class="btn btn-outline btn-xs" onclick="openDocumentById(\'' + d.id + '\')">فتح</button>' : '<button class="btn btn-outline btn-xs" onclick="toast(\'لا يوجد محتوى محفوظ للمستند\')">فتح</button>';
           var verifyBtns = st === 'pending' ? '<button class="btn btn-success btn-xs" onclick="verifyDocument(\'' + d.id + '\',\'approved\')">اعتماد</button><button class="btn btn-danger btn-xs" onclick="verifyDocument(\'' + d.id + '\',\'rejected\')">رفض</button>' : '';
           return '<tr><td>' + esc(clientName(d.clientId || d.uid)) + '</td><td>' + esc(d.fileName || '—') + '</td><td>' + esc(d.fileType || d.category || '—') + '</td><td>' + (d.uploadedBy === 'agent' ? '<span class="badge badge-info">وكيل</span>' : '<span class="badge badge-success">عميل</span>') + '</td><td>' + badge + '</td><td>' + date(d.createdAt) + '</td><td><div style="display:flex;gap:4px;flex-wrap:wrap">' + openBtn + verifyBtns + '</div></td></tr>';
         })
         .join('');
       document.getElementById('documentsBody').innerHTML = html || '<tr><td colspan="7"><div class="empty">لا توجد مستندات</div></td></tr>';
+    }
+
+    function openDocumentById(id) {
+      var doc = DATA.documents.find(function(d) { return d.id === id; });
+      if (!doc) { toast('❌ لم يتم العثور على المستند', true); return; }
+      var url = doc.dataUrl || doc.downloadURL || doc.fileUrl || doc.url || '';
+      if (!url) { toast('❌ لا يوجد محتوى محفوظ للمستند', true); return; }
+      try {
+        var win = window.open('', '_blank');
+        if (!win) {
+          toast('⚠️ المتصفح منع نافذة المستند. اسمح بالنوافذ المنبثقة ثم حاول مرة أخرى.', true);
+          return;
+        }
+        // For data URLs, writing a small HTML wrapper avoids putting the very long
+        // payload inside an inline onclick handler.
+        var safeTitle = esc(doc.fileName || doc.fileOriginalName || 'المستند');
+        var mime = String(doc.mimeType || '').toLowerCase();
+        var isImage = mime.indexOf('image/') === 0 || /^data:image\//i.test(url);
+        if (isImage) {
+          win.document.write('<!doctype html><html><head><meta charset="utf-8"><title>' + safeTitle + '</title><style>html,body{margin:0;background:#111;display:grid;place-items:center;min-height:100vh}img{max-width:100%;max-height:100vh;object-fit:contain}</style></head><body><img src="' + url + '" alt="' + safeTitle + '"></body></html>');
+        } else if (mime === 'application/pdf' || /^data:application\/pdf/i.test(url)) {
+          win.document.write('<!doctype html><html><head><meta charset="utf-8"><title>' + safeTitle + '</title></head><body style="margin:0"><embed src="' + url + '" type="application/pdf" width="100%" height="100%" style="position:fixed;inset:0;border:0"></body></html>');
+        } else {
+          // DOC/XLS formats are not reliably viewable by browsers from data URLs;
+          // expose the original payload as a downloadable link instead.
+          win.document.write('<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>' + safeTitle + '</title><style>body{font-family:Arial,sans-serif;max-width:680px;margin:60px auto;padding:20px;line-height:1.8}a{display:inline-block;padding:12px 20px;background:#F2BD63;color:#0E2A5C;text-decoration:none;border-radius:10px;font-weight:700}</style></head><body><h2>📎 ' + safeTitle + '</h2><p>هذا النوع من الملفات لا يُعرض مباشرة داخل المتصفح. استخدم الزر التالي لتنزيل الملف الأصلي.</p><a id="download" download="' + safeTitle + '">تنزيل المستند</a><script>document.getElementById("download").href=' + JSON.stringify(url) + ';<\/script></body></html>');
+        }
+        win.document.close();
+      } catch (e) {
+        console.error(e);
+        toast('❌ تعذر فتح المستند: ' + e.message, true);
+      }
     }
 
     function renderOffers() {
@@ -2940,6 +2974,86 @@
       }
     }
 
+    // ================================================================
+    // 11. DOCUMENT UPLOAD — Spark / Firestore dataUrl mode
+    // ================================================================
+    // Firestore has a per-document size limit. To remain compatible with
+    // the free Spark plan and the existing documents.dataUrl structure,
+    // the raw file is intentionally capped before Base64 encoding.
+    var DOCUMENT_MAX_RAW_BYTES = 720 * 1024; // ~720 KB raw; leaves headroom under 1 MiB after Base64 + metadata
+    var DOCUMENT_MAX_BASE64_BYTES = 1024 * 1024 - 64 * 1024; // conservative encoded-data ceiling
+    var DOCUMENT_ALLOWED_MIME_TYPES = {
+      'application/pdf': 'PDF',
+      'image/jpeg': 'JPG',
+      'image/png': 'PNG',
+      'application/msword': 'DOC',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'DOCX',
+      'application/vnd.ms-excel': 'XLS',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'XLSX'
+    };
+    var DOCUMENT_ALLOWED_EXTENSIONS = ['pdf','jpg','jpeg','png','doc','docx','xls','xlsx'];
+
+    function openDocUploadModal() {
+      document.getElementById('docUploadErr').textContent = '';
+      document.getElementById('docName').value = '';
+      document.getElementById('docFile').value = '';
+      document.getElementById('docFileName').textContent = 'لم يتم اختيار ملف';
+      document.getElementById('docFileSize').textContent = '';
+      document.getElementById('docUploadProgress').style.display = 'none';
+      document.getElementById('progressBar').style.width = '0%';
+      document.getElementById('filePreview').style.display = 'none';
+      document.getElementById('filePreview').innerHTML = '';
+      document.getElementById('uploadStatus').className = 'upload-status';
+      document.getElementById('uploadStatus').textContent = '';
+      selectedFile = null;
+      renderUploadDiagnostics('', null, 'documents / —');
+      setDiagError('الوضع الحالي متوافق مع خطة Spark: لن يتم استخدام Firebase Storage. سيتم حفظ الملف داخل dataUrl في Firestore.', false, true);
+      refreshDocClientSelect();
+      openModal('docUploadModal');
+
+      var fileInput = document.getElementById('docFile');
+      fileInput.onchange = handleFileSelect;
+
+      var dropArea = document.getElementById('dropArea');
+      dropArea.ondragover = function(e) { e.preventDefault(); this.classList.add('dragover'); };
+      dropArea.ondragleave = function(e) { e.preventDefault(); this.classList.remove('dragover'); };
+      dropArea.ondrop = function(e) {
+        e.preventDefault();
+        this.classList.remove('dragover');
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+          fileInput.files = e.dataTransfer.files;
+          handleFileSelect.call(fileInput, { target: fileInput });
+        }
+      };
+    }
+
+    function getFileExtension(name) {
+      var parts = String(name || '').toLowerCase().split('.');
+      return parts.length > 1 ? parts.pop() : '';
+    }
+
+    function getAllowedType(file) {
+      if (!file) return '';
+      var mime = String(file.type || '').toLowerCase();
+      if (DOCUMENT_ALLOWED_MIME_TYPES[mime]) return mime;
+      var ext = getFileExtension(file.name);
+      var byExt = {
+        pdf: 'application/pdf',
+        jpg: 'image/jpeg',
+        jpeg: 'image/jpeg',
+        png: 'image/png',
+        doc: 'application/msword',
+        docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        xls: 'application/vnd.ms-excel',
+        xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      };
+      return byExt[ext] || '';
+    }
+
+    function estimateBase64Bytes(rawBytes) {
+      return Math.ceil(Number(rawBytes || 0) * 4 / 3);
+    }
+
     function formatBytes(bytes) {
       if (!Number.isFinite(Number(bytes)) || Number(bytes) < 0) return '—';
       var n = Number(bytes);
@@ -2964,102 +3078,230 @@
       el.classList.toggle('success', !!isSuccess);
     }
 
-    function getStorageErrorArabic(error) {
+    function getFirestoreErrorArabic(error) {
       var code = error && error.code ? String(error.code) : '';
       var raw = error && (error.message || error.toString) ? String(error.message || error.toString()) : 'خطأ غير معروف';
       var map = {
-        'storage/unauthorized': 'تم رفض العملية من Firebase Storage Rules. المستخدم الحالي لا يملك صلاحية القراءة أو الرفع لهذا المسار.',
-        'storage/canceled': 'تم إلغاء عملية رفع الملف قبل اكتمالها.',
-        'storage/unknown': 'حدث خطأ غير معروف داخل Firebase Storage. راجع Console وسجل Network للتفاصيل.',
-        'storage/object-not-found': 'المسار المطلوب غير موجود في Firebase Storage.',
-        'storage/bucket-not-found': 'حاوية Firebase Storage غير موجودة أو إعداد bucket غير صحيح.',
-        'storage/project-not-found': 'مشروع Firebase المرتبط بالتطبيق غير موجود أو غير متاح.',
-        'storage/quota-exceeded': 'تم تجاوز حصة التخزين أو الحد المسموح للمشروع.',
-        'storage/invalid-checksum': 'فشل التحقق من سلامة الملف أثناء الرفع. حاول رفع الملف مرة أخرى.',
-        'storage/retry-limit-exceeded': 'انتهت محاولات إعادة الاتصال أثناء الرفع. تحقق من الشبكة ثم أعد المحاولة.',
-        'storage/invalid-argument': 'تم إرسال بيانات غير صالحة إلى Firebase Storage.',
-        'storage/cannot-slice-blob': 'تعذر قراءة أجزاء الملف أثناء الرفع. قد يكون الملف غير صالح أو حدثت مشكلة في المتصفح.',
-        'storage/server-file-wrong-size': 'حجم الملف على الخادم لا يطابق الحجم المتوقع.',
-        'storage/unauthenticated': 'انتهت جلسة تسجيل الدخول أو لم يتم التعرف على المستخدم الحالي.'
+        'permission-denied': 'تم رفض العملية بواسطة Firestore Rules. حساب الأدمن الحالي لا يملك صلاحية الكتابة في Collection documents.',
+        'unauthenticated': 'انتهت جلسة تسجيل الدخول أو لم يتم التعرف على المستخدم الحالي.',
+        'resource-exhausted': 'تم استهلاك الحصة المتاحة أو تم تجاوز حد خدمة Firestore.',
+        'invalid-argument': 'تم إرسال بيانات غير صالحة إلى Firestore.',
+        'failed-precondition': 'تعذر تنفيذ العملية بسبب حالة مسبقة أو إعدادات Firestore.',
+        'unavailable': 'خدمة Firestore غير متاحة مؤقتًا. تحقق من الإنترنت وحاول مرة أخرى.',
+        'deadline-exceeded': 'انتهت مهلة الاتصال بـ Firestore.',
+        'aborted': 'أوقف Firestore العملية مؤقتًا. حاول مرة أخرى.',
+        'already-exists': 'يوجد سجل بنفس المعرف بالفعل.',
+        'not-found': 'السجل المطلوب غير موجود.',
+        'cancelled': 'تم إلغاء العملية.'
       };
-      return (map[code] || 'تعذر إتمام عملية Firebase Storage.') + '\nرمز الخطأ: ' + (code || 'غير متاح') + '\nالتفاصيل التقنية: ' + raw;
+      return (map[code] || 'تعذر إتمام عملية Firestore.') +
+        '\nرمز الخطأ: ' + (code || 'غير متاح') +
+        '\nالتفاصيل التقنية: ' + raw;
     }
 
-    function getCurrentDiagnosticPath(clientId, file) {
-      if (!clientId || !file) return '';
-      var safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-      var suffix = String(Date.now()) + '_' + Math.random().toString(36).slice(2, 8);
-      return 'securepath_documents/' + clientId + '/' + suffix + '_' + safeName;
+    function getBrowserErrorArabic(error) {
+      var raw = error && (error.message || error.toString) ? String(error.message || error.toString()) : 'خطأ غير معروف';
+      return 'تعذر قراءة الملف داخل المتصفح. تأكد من صلاحية الملف ثم حاول مرة أخرى.\nالتفاصيل التقنية: ' + raw;
+    }
+
+    function getCurrentDocumentPath(clientId, fileName) {
+      return 'documents / ' + String(clientId || '—') + ' / ' + String(fileName || '—');
     }
 
     function renderUploadDiagnostics(clientId, file, path) {
       var authOk = !!(currentUser && currentUser.uid);
-      setDiag('diagAuth', authOk ? ('مسجل: ' + (currentUser.email || currentUser.uid)) : 'غير مسجل الدخول', authOk ? 'ok' : 'bad');
-      setDiag('diagStorageInit', (typeof firebase !== 'undefined' && firebase.storage && storage) ? 'جاهز' : 'غير متاح', (typeof firebase !== 'undefined' && firebase.storage && storage) ? 'ok' : 'bad');
+      var firestoreOk = typeof firebase !== 'undefined' && firebase.firestore && db;
+      setDiag('diagAuth', authOk ? ('✅ ' + (currentUser.email || currentUser.uid)) : '❌ غير مسجل الدخول', authOk ? 'ok' : 'bad');
+      setDiag('diagStorageInit', firestoreOk ? '✅ Firestore جاهز — Spark' : '❌ Firestore غير متاح', firestoreOk ? 'ok' : 'bad');
       setDiag('diagRules', 'لم يتم الاختبار بعد', 'warn');
-      setDiag('diagPath', path || '—');
+      setDiag('diagPath', path || 'documents / —');
       setDiag('diagSize', file ? formatBytes(file.size) : '—');
-      if (authOk) setDiagError('الهوية الحالية جاهزة للاختبار. اضغط «اختبار الآن» لفحص Firebase Storage Rules.', false, false);
+      setDiag('diagEncodedSize', file ? formatBytes(estimateBase64Bytes(file.size)) : '—');
     }
 
-    async function runStorageDiagnostics() {
+    async function runDataUrlDiagnostics() {
       var btn = document.getElementById('runStorageDiagBtn');
       var clientId = document.getElementById('docClient') ? document.getElementById('docClient').value : '';
       var file = selectedFile;
       var authOk = !!(currentUser && currentUser.uid);
-      setDiag('diagAuth', authOk ? ('مسجل: ' + (currentUser.email || currentUser.uid)) : 'غير مسجل الدخول', authOk ? 'ok' : 'bad');
-      setDiag('diagStorageInit', (typeof firebase !== 'undefined' && firebase.storage && storage) ? 'جاهز' : 'غير متاح', (typeof firebase !== 'undefined' && firebase.storage && storage) ? 'ok' : 'bad');
+      var firestoreOk = typeof firebase !== 'undefined' && firebase.firestore && db;
+
+      setDiag('diagAuth', authOk ? ('✅ ' + (currentUser.email || currentUser.uid)) : '❌ غير مسجل الدخول', authOk ? 'ok' : 'bad');
+      setDiag('diagStorageInit', firestoreOk ? '✅ Firestore جاهز — Spark' : '❌ Firestore غير متاح', firestoreOk ? 'ok' : 'bad');
       setDiag('diagSize', file ? formatBytes(file.size) : '—');
+      setDiag('diagEncodedSize', file ? formatBytes(estimateBase64Bytes(file.size)) : '—');
 
       if (!authOk) {
-        setDiag('diagRules', 'فشل — لا توجد جلسة', 'bad');
-        setDiagError('لا يمكن اختبار Storage Rules قبل تسجيل الدخول بحساب الأدمن.', true, false);
+        setDiag('diagRules', '❌ لا توجد جلسة', 'bad');
+        setDiagError('لا يمكن اختبار صلاحية Firestore قبل تسجيل الدخول بحساب الأدمن.', true, false);
         return false;
       }
-      if (!(typeof firebase !== 'undefined' && firebase.storage && storage)) {
-        setDiag('diagRules', 'فشل — Storage غير متاح', 'bad');
-        setDiagError('مكتبة Firebase Storage غير متاحة في الصفحة. تحقق من تحميل firebase-storage-compat.js.', true, false);
+      if (!firestoreOk) {
+        setDiag('diagRules', '❌ Firestore غير متاح', 'bad');
+        setDiagError('مكتبة Firestore غير متاحة في الصفحة. تحقق من تحميل Firebase Firestore.', true, false);
+        return false;
+      }
+      if (!clientId) {
+        setDiag('diagRules', '⚠️ اختر عميلًا أولًا', 'warn');
+        setDiagError('اختر العميل الذي تريد ربط المستند به ثم أعد الاختبار. الاختبار سيستخدم سجلًا مؤقتًا ثم يحذفه.', true, false);
         return false;
       }
 
       if (btn) { btn.disabled = true; btn.textContent = '⏳ جاري الاختبار...'; }
-      var testPath = 'securepath_documents/_diagnostics/' + currentUser.uid + '/rules-test-' + Date.now() + '.txt';
-      setDiag('diagPath', testPath);
-      setDiag('diagRules', 'جاري الفحص...', 'warn');
-      setDiagError('يتم الآن اختبار صلاحية الكتابة والقراءة في Firebase Storage باستخدام ملف تشخيص صغير، ثم حذفه تلقائيًا.', false, false);
+      var testId = '__securepath_diag__' + currentUser.uid + '_' + Date.now();
+      setDiag('diagPath', 'documents / ' + testId);
+      setDiag('diagRules', 'جاري اختبار الكتابة...', 'warn');
+      setDiagError('يتم إنشاء سجل تشخيص مؤقت داخل documents ثم حذفه مباشرة. لا يتم تعديل أي مستند حقيقي.', false, false);
 
-      var testRef = storage.ref().child(testPath);
-      var testBlob = new Blob(['Secure PATH Storage Rules diagnostic'], { type: 'text/plain' });
       try {
-        var snap = await testRef.put(testBlob, {
-          contentType: 'text/plain',
-          customMetadata: { diagnostic: 'true', uploaderUid: currentUser.uid }
+        await db.collection('documents').doc(testId).set({
+          diagnostic: true,
+          clientId: clientId,
+          uid: clientId,
+          uploadedBy: 'agent',
+          uploaderUid: currentUser.uid,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-        var url = await snap.ref.getDownloadURL();
-        if (!url) throw new Error('لم يتم الحصول على رابط القراءة بعد نجاح الرفع.');
+        setDiag('diagRules', '✅ الكتابة تعمل', 'ok');
         try {
-          await snap.ref.delete();
-          setDiag('diagRules', '✅ الكتابة + القراءة + الحذف تعمل', 'ok');
-          setDiagError('تم اجتياز اختبار Firebase Storage Rules بنجاح. صلاحيات الأدمن على مسار التشخيص تعمل بصورة صحيحة.', false, true);
+          await db.collection('documents').doc(testId).delete();
+          setDiag('diagRules', '✅ الكتابة والحذف يعملان', 'ok');
+          setDiagError('اختبار Firestore Rules ناجح. يمكن للوحة الأدمن إنشاء سجل documents وحذفه، وهو المسار المطلوب لحفظ dataUrl.', false, true);
           return true;
         } catch (deleteError) {
-          setDiag('diagRules', '⚠️ الرفع والقراءة تعملان، الحذف مرفوض', 'warn');
-          setDiagError(getStorageErrorArabic(deleteError) + '\nتم رفع ملف التشخيص لكن لم يتمكن النظام من حذفه بسبب قواعد الحذف.', true, false);
+          setDiag('diagRules', '⚠️ الكتابة تعمل والحذف مرفوض', 'warn');
+          setDiagError('تم اختبار الكتابة بنجاح، لكن حذف سجل التشخيص فشل.\n\n' + getFirestoreErrorArabic(deleteError), true, false);
           return false;
         }
       } catch (error) {
-        setDiag('diagRules', '❌ فشل الاختبار', 'bad');
-        setDiagError(getStorageErrorArabic(error), true, false);
+        setDiag('diagRules', '❌ الكتابة مرفوضة', 'bad');
+        setDiagError(getFirestoreErrorArabic(error), true, false);
         return false;
       } finally {
         if (btn) { btn.disabled = false; btn.textContent = 'اختبار الآن'; }
       }
     }
 
-    function uploadDocument() {
+    function validateSelectedDocument(file, dataUrl) {
+      if (!file) return { ok: false, message: 'لم يتم اختيار ملف.' };
+      var mime = getAllowedType(file);
+      var ext = getFileExtension(file.name);
+      if (!mime || !DOCUMENT_ALLOWED_EXTENSIONS.includes(ext)) {
+        return { ok: false, message: 'صيغة الملف غير مدعومة. الصيغ المدعومة: PDF, JPG, JPEG, PNG, DOC, DOCX, XLS, XLSX.' };
+      }
+      if (file.size > DOCUMENT_MAX_RAW_BYTES) {
+        return {
+          ok: false,
+          message: 'حجم الملف ' + formatBytes(file.size) + ' يتجاوز الحد الآمن ' + formatBytes(DOCUMENT_MAX_RAW_BYTES) +
+            ' لوضع Spark، لأن المحتوى سيُحوّل إلى Base64 داخل مستند Firestore.'
+        };
+      }
+      if (dataUrl) {
+        var encodedBytes = new Blob([dataUrl]).size;
+        if (encodedBytes > DOCUMENT_MAX_BASE64_BYTES) {
+          return {
+            ok: false,
+            message: 'الحجم المتوقع للـ Base64 (' + formatBytes(encodedBytes) + ') يتجاوز الحد الآمن قبل حفظ سجل Firestore.'
+          };
+        }
+      }
+      return { ok: true, mime: mime, ext: ext };
+    }
+
+    function fileToDataUrl(file, progressCallback) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onprogress = function(e) {
+          if (e.lengthComputable && typeof progressCallback === 'function') {
+            progressCallback(Math.min(70, Math.round((e.loaded / e.total) * 70)));
+          }
+        };
+        reader.onload = function() {
+          if (typeof progressCallback === 'function') progressCallback(75);
+          resolve(String(reader.result || ''));
+        };
+        reader.onerror = function() { reject(reader.error || new Error('FileReader failed')); };
+        reader.onabort = function() { reject(new Error('تم إلغاء قراءة الملف.')); };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function handleFileSelect(e) {
+      var file = e.target.files[0];
+      var status = document.getElementById('uploadStatus');
+
+      if (!file) {
+        document.getElementById('docFileName').textContent = 'لم يتم اختيار ملف';
+        document.getElementById('docFileSize').textContent = '';
+        document.getElementById('filePreview').style.display = 'none';
+        document.getElementById('filePreview').innerHTML = '';
+        selectedFile = null;
+        status.className = 'upload-status';
+        status.textContent = '';
+        renderUploadDiagnostics('', null, 'documents / —');
+        return;
+      }
+
+      var mime = getAllowedType(file);
+      var ext = getFileExtension(file.name);
+      if (!mime || !DOCUMENT_ALLOWED_EXTENSIONS.includes(ext)) {
+        status.className = 'upload-status error';
+        status.textContent = '⚠️ صيغة الملف غير مدعومة. الصيغ المدعومة: PDF, JPG, JPEG, PNG, DOC, DOCX, XLS, XLSX';
+        document.getElementById('docFileName').textContent = '❌ ' + file.name;
+        document.getElementById('docFileSize').textContent = formatBytes(file.size);
+        selectedFile = null;
+        renderUploadDiagnostics(document.getElementById('docClient').value, file, getCurrentDocumentPath(document.getElementById('docClient').value, file.name));
+        setDiag('diagRules', '⚠️ الصيغة غير مدعومة', 'warn');
+        setDiagError('الصيغة أو امتداد الملف غير مدعوم. اختر PDF أو صورة أو DOC/DOCX أو XLS/XLSX.', true, false);
+        return;
+      }
+
+      if (file.size > DOCUMENT_MAX_RAW_BYTES) {
+        status.className = 'upload-status error';
+        status.textContent = '⚠️ حجم الملف يتجاوز الحد الآمن لخطة Spark: ' + formatBytes(DOCUMENT_MAX_RAW_BYTES);
+        document.getElementById('docFileName').textContent = '❌ ' + file.name;
+        document.getElementById('docFileSize').textContent = formatBytes(file.size);
+        selectedFile = null;
+        renderUploadDiagnostics(document.getElementById('docClient').value, file, getCurrentDocumentPath(document.getElementById('docClient').value, file.name));
+        setDiag('diagRules', '⚠️ الملف كبير', 'warn');
+        setDiagError('الملف كبير على نمط dataUrl. لا نحاول رفعه ثم نفشل في Firestore؛ يتم رفضه قبل التحويل لحماية البيانات.', true, false);
+        return;
+      }
+
+      selectedFile = file;
+      status.className = 'upload-status success';
+      status.textContent = '✅ الملف صالح مبدئيًا للرفع';
+      document.getElementById('docFileName').textContent = '📎 ' + file.name;
+      document.getElementById('docFileSize').textContent = 'الحجم: ' + formatBytes(file.size) + ' • Base64 المتوقع: ' + formatBytes(estimateBase64Bytes(file.size));
+      renderUploadDiagnostics(document.getElementById('docClient').value, file, getCurrentDocumentPath(document.getElementById('docClient').value, file.name));
+      setDiag('diagRules', 'جاهز للاختبار', 'warn');
+      setDiagError('الملف ضمن الحد الآمن. شغّل «اختبار الآن» لفحص صلاحية الكتابة في Firestore قبل الحفظ.', false, false);
+
+      var preview = document.getElementById('filePreview');
+      if (file.type.startsWith('image/')) {
+        var reader = new FileReader();
+        reader.onload = function(evt) {
+          preview.style.display = 'block';
+          preview.innerHTML = '<img src="' + esc(evt.target.result) + '" alt="معاينة الملف">';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        preview.style.display = 'block';
+        var iconMap = {
+          'application/pdf': '📄',
+          'application/msword': '📝',
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '📝',
+          'application/vnd.ms-excel': '📊',
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '📊'
+        };
+        preview.innerHTML = '<div style="font-size:48px;padding:20px;text-align:center;">' + (iconMap[mime] || '📎') + '</div><div style="text-align:center;font-size:12px;color:var(--muted);word-break:break-word;">' + esc(file.name) + '</div>';
+      }
+    }
+
+    async function uploadDocument() {
       var clientId = document.getElementById('docClient').value;
       var fileName = document.getElementById('docName').value.trim();
-      var fileType = document.getElementById('docType').value;
+      var fileTypeLabel = document.getElementById('docType').value;
       var err = document.getElementById('docUploadErr');
       var progress = document.getElementById('docUploadProgress');
       var progressBar = document.getElementById('progressBar');
@@ -3076,6 +3318,14 @@
       status.className = 'upload-status';
       status.textContent = '';
 
+      if (!currentUser || !currentUser.uid) {
+        err.textContent = '❌ جلسة الأدمن غير صالحة. سجّل الدخول مرة أخرى.';
+        status.className = 'upload-status error';
+        status.textContent = '❌ لا توجد جلسة أدمن';
+        setDiag('diagAuth', '❌ غير مسجل الدخول', 'bad');
+        setDiagError('لا يمكن حفظ المستند بدون جلسة أدمن صالحة.', true, false);
+        return;
+      }
       if (!clientId) {
         err.textContent = 'يرجى اختيار العميل';
         status.className = 'upload-status error';
@@ -3089,149 +3339,130 @@
         return;
       }
       if (!selectedFile) {
-        err.textContent = 'يرجى اختيار ملف للرفع';
+        err.textContent = 'يرجى اختيار ملف صالح للرفع';
         status.className = 'upload-status error';
-        status.textContent = '⚠️ يرجى اختيار ملف';
+        status.textContent = '⚠️ لم يتم اختيار ملف صالح';
         return;
       }
 
-      var maxSize = 10 * 1024 * 1024;
-      if (selectedFile.size > maxSize) {
-        err.textContent = 'حجم الملف يتجاوز 10MB';
+      var mime = getAllowedType(selectedFile);
+      var typeCheck = validateSelectedDocument(selectedFile, null);
+      if (!typeCheck.ok) {
+        err.textContent = '❌ ' + typeCheck.message;
         status.className = 'upload-status error';
-        status.textContent = '⚠️ الحد الأقصى لحجم الملف 10MB';
+        status.textContent = '❌ الملف غير صالح للرفع';
+        setDiagError(typeCheck.message, true, false);
         return;
       }
 
-      var diagnosticPath = getCurrentDiagnosticPath(clientId, selectedFile);
-      renderUploadDiagnostics(clientId, selectedFile, diagnosticPath);
-      setDiagError('تم تجهيز بيانات الرفع. سيتم استخدام المسار الموضح أدناه وحفظ الرابط في documents.', false, false);
+      var pathText = getCurrentDocumentPath(clientId, fileName);
+      renderUploadDiagnostics(clientId, selectedFile, pathText);
+      setDiagError('جاري تحويل الملف إلى Data URL ثم فحص حجمه قبل حفظه في Firestore.', false, false);
 
       var existing = DATA.documents.find(function(d) {
         return (d.clientId === clientId || d.uid === clientId) && d.fileName === fileName;
       });
       if (existing) {
-        if (!confirm('⚠️ يوجد مستند بنفس الاسم لهذا العميل. سيتم الاحتفاظ بالنسخة القديمة كمرجع. هل تريد المتابعة؟')) return;
+        if (!confirm('⚠️ يوجد مستند بنفس الاسم لهذا العميل. سيتم استبدال سجل المستند بعد نجاح التحويل والحفظ فقط، ولن يتم حذف النسخة الحالية عند الفشل. متابعة؟')) return;
       }
 
       uploadBtn.disabled = true;
-      uploadBtn.textContent = '⏳ جاري تجهيز الرفع...';
+      uploadBtn.textContent = '⏳ تجهيز الملف...';
       if (progress) {
         progress.style.display = 'block';
-        progressBar.style.width = '0%';
+        progressBar.style.width = '2%';
       }
       status.className = 'upload-status loading';
-      status.textContent = '⏳ جاري رفع المستند إلى Firebase Storage...';
+      status.textContent = '⏳ جاري قراءة الملف وتحويله إلى Data URL...';
 
-      // نستخدم Firebase Storage بدل Cloudinary من المتصفح لتجنب كشف API Secret
-      // والحصول على رابط تحميل آمن مرتبط بصلاحيات Firebase.
-      if (!storage || !currentUser) {
-        resetUploadUi();
-        err.textContent = 'جلسة الأدمن غير صالحة أو Firebase Storage غير متاح.';
-        status.className = 'upload-status error';
-        status.textContent = '❌ تعذر تهيئة التخزين';
-        return;
-      }
+      try {
+        var dataUrl = await fileToDataUrl(selectedFile, function(percent) {
+          if (progressBar) progressBar.style.width = percent + '%';
+          uploadBtn.textContent = '📦 تجهيز ' + percent + '%';
+          status.textContent = '⏳ تجهيز الملف ' + percent + '%';
+        });
 
-      var storagePath = diagnosticPath || getCurrentDiagnosticPath(clientId, selectedFile);
-      var storageRef = storage.ref().child(storagePath);
-      var metadata = {
-        contentType: selectedFile.type || 'application/octet-stream',
-        customMetadata: {
-          clientId: String(clientId),
+        var validation = validateSelectedDocument(selectedFile, dataUrl);
+        if (!validation.ok) {
+          throw new Error(validation.message);
+        }
+
+        var encodedBytes = new Blob([dataUrl]).size;
+        setDiag('diagEncodedSize', formatBytes(encodedBytes), encodedBytes <= DOCUMENT_MAX_BASE64_BYTES ? 'ok' : 'bad');
+        if (progressBar) progressBar.style.width = '82%';
+        uploadBtn.textContent = '💾 حفظ في Firestore...';
+        status.textContent = '⏳ تم تجهيز Data URL. جاري حفظ سجل documents...';
+
+        // We intentionally keep the existing dataUrl field for compatibility with Wathiqati.
+        // No Cloud Storage/Cloudinary call is made in this Spark-compatible mode.
+        var docData = {
+          clientId: clientId,
+          uid: clientId,
+          fileName: fileName,
+          fileType: fileTypeLabel || mime || selectedFile.type || 'application/octet-stream',
+          mimeType: mime || selectedFile.type || 'application/octet-stream',
+          fileOriginalName: selectedFile.name,
+          fileExtension: getFileExtension(selectedFile.name),
+          fileSize: selectedFile.size,
+          dataUrl: dataUrl,
           uploadedBy: 'agent',
           uploaderUid: currentUser.uid,
-          documentName: String(fileName)
-        }
-      };
+          verificationStatus: 'pending',
+          storageMode: 'firestore-dataUrl',
+          createdAt: existing && existing.createdAt ? existing.createdAt : firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
 
-      var uploadTask;
-      try {
-        uploadTask = storageRef.put(selectedFile, metadata);
-      } catch (uploadInitError) {
+        // Preserve legacy metadata when replacing an existing record without copying the huge Base64 field.
+        if (existing) {
+          if (existing.cloudinaryPublicId) docData.previousCloudinaryPublicId = existing.cloudinaryPublicId;
+          if (existing.storagePath) docData.previousStoragePath = existing.storagePath;
+          docData.replacedAt = firebase.firestore.FieldValue.serverTimestamp();
+        }
+
+        var ref = existing ? db.collection('documents').doc(existing.id) : db.collection('documents').doc();
+        await ref.set(docData, { merge: true });
+        if (progressBar) progressBar.style.width = '96%';
+
+        var savedSnap = await ref.get();
+        var savedData = savedSnap.exists ? savedSnap.data() : null;
+        if (!savedData || !savedData.dataUrl) {
+          throw new Error('تم تنفيذ عملية الحفظ لكن لم تتم إعادة قراءة dataUrl من Firestore. لم يتم اعتبار العملية ناجحة.');
+        }
+
+        // Verify that the stored payload begins like a valid Data URL and is not truncated.
+        if (String(savedData.dataUrl).slice(0, 5) !== 'data:') {
+          throw new Error('تم حفظ السجل لكن قيمة dataUrl غير صالحة أو غير مكتملة.');
+        }
+
+        DATA.documents = await loadCollection('documents');
+        renderDocuments();
+        renderDashboard();
+        refreshAllSelects();
+
+        if (progressBar) progressBar.style.width = '100%';
         resetUploadUi();
-        err.textContent = '❌ تعذر بدء رفع الملف: ' + uploadInitError.message;
+        selectedFile = null;
+        status.className = 'upload-status success';
+        status.textContent = '✅ تم رفع المستند وحفظه داخل Firestore بنجاح';
+        setDiag('diagRules', '✅ تم الحفظ والتحقق', 'ok');
+        setDiagError('نجح تحويل الملف إلى Data URL وحفظه في documents ثم إعادة قراءته والتحقق من وجوده. البيانات الحالية لم تُحذف.', false, true);
+        closeModal('docUploadModal');
+        toast('✅ تم حفظ المستند بنجاح على خطة Spark');
+      } catch (error) {
+        console.error('❌ Document upload/save error:', error);
+        resetUploadUi();
+        var message = error && error.message ? String(error.message) : String(error);
+        var detailed = /FirebaseError|permission-denied|unauthenticated|resource-exhausted/.test(message) || (error && error.code)
+          ? getFirestoreErrorArabic(error)
+          : '❌ فشل حفظ المستند.\n' + message;
+        err.textContent = detailed;
         status.className = 'upload-status error';
-        status.textContent = '❌ تعذر بدء الرفع';
-        toast('❌ تعذر بدء رفع الملف', true);
-        return;
+        status.textContent = '❌ لم يتم اعتماد العملية. لم يتم حذف السجل السابق.';
+        setDiag('diagRules', error && error.code === 'permission-denied' ? '❌ مرفوض بواسطة Rules' : '❌ فشل الحفظ', 'bad');
+        setDiagError(detailed, true, false);
+        toast('❌ فشل حفظ المستند — البيانات القديمة محفوظة', true);
       }
-
-      uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-        function(snapshot) {
-          var percent = snapshot.totalBytes ? (snapshot.bytesTransferred / snapshot.totalBytes) * 100 : 0;
-          if (progressBar) progressBar.style.width = percent + '%';
-          uploadBtn.textContent = '📤 رفع ' + Math.round(percent) + '%';
-          status.textContent = '⏳ جاري الرفع ' + Math.round(percent) + '%';
-        },
-        function(error) {
-          console.error('❌ Firebase Storage upload error:', error);
-          resetUploadUi();
-          setDiag('diagRules', error && error.code === 'storage/unauthorized' ? '❌ مرفوض بواسطة Rules' : '❌ فشل الرفع', 'bad');
-          var detailed = getStorageErrorArabic(error);
-          err.textContent = detailed;
-          status.className = 'upload-status error';
-          status.textContent = '❌ فشل الرفع. افتح لوحة التشخيص لمراجعة التفاصيل.';
-          setDiagError(detailed, true, false);
-          toast('❌ فشل رفع المستند — راجع التشخيص', true);
-        },
-        function() {
-          uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-            status.className = 'upload-status success';
-            status.textContent = '✅ تم رفع الملف. جاري حفظ بيانات المستند...';
-
-            var docData = {
-              clientId: clientId,
-              uid: clientId,
-              fileName: fileName,
-              fileType: fileType || selectedFile.type || 'application/octet-stream',
-              fileOriginalName: selectedFile.name,
-              fileSize: selectedFile.size,
-              storagePath: storagePath,
-              storageBucket: firebaseConfig.storageBucket,
-              downloadURL: downloadURL,
-              fileUrl: downloadURL,
-              url: downloadURL,
-              uploadedBy: 'agent',
-              uploaderUid: currentUser ? currentUser.uid : '',
-              verificationStatus: 'pending',
-              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            if (existing) {
-              docData.previousStoragePath = existing.storagePath || null;
-              docData.previousDownloadURL = existing.downloadURL || existing.fileUrl || existing.url || null;
-              docData.replacedAt = firebase.firestore.FieldValue.serverTimestamp();
-            }
-
-            var savePromise = existing
-              ? db.collection('documents').doc(existing.id).set(docData, { merge: true })
-              : db.collection('documents').add(docData);
-
-            return savePromise.then(function() {
-              return loadCollection('documents');
-            }).then(function(docs) {
-              DATA.documents = docs;
-              renderDocuments();
-              renderDashboard();
-              resetUploadUi();
-              closeModal('docUploadModal');
-              selectedFile = null;
-              toast('✅ تم رفع المستند وحفظه بنجاح');
-            });
-          }).catch(function(error) {
-            console.error('❌ Failed to save document metadata:', error);
-            resetUploadUi();
-            var saveMessage = 'تم رفع الملف إلى Firebase Storage، لكن فشل حفظ سجل documents.\nرمز الخطأ: ' + (error.code || 'غير متاح') + '\nالتفاصيل التقنية: ' + (error.message || error);
-            err.textContent = '❌ ' + saveMessage;
-            status.className = 'upload-status error';
-            status.textContent = '❌ فشل حفظ بيانات المستند بعد نجاح الرفع';
-            setDiagError(saveMessage, true, false);
-            toast('❌ تم الرفع لكن فشل حفظ سجل المستند', true);
-          });
-        }
-      );
     }
 
     function verifyDocument(id, status) {
