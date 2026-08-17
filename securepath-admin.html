@@ -9,6 +9,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 
   <style>
     /* ================================================================
@@ -26,6 +27,7 @@
       --gold-soft: #FFF2D7;
       --gold-100: rgba(242, 189, 99, 0.15);
       --gold-200: rgba(242, 189, 99, 0.25);
+       --gold-50: rgba(242, 189, 99, 0.08);
       --white: #ffffff;
       --paper: #F5F8FC;
       --paper-dark: #E8EEF6;
@@ -619,6 +621,12 @@
     .type-badge.marine { background: #E6F7F7; color: #1a6a6a; }
     .type-badge.agriculture { background: #F0F7E6; color: #4a8a1a; }
     .type-badge.cyber { background: #F0E6F0; color: #7a2a7a; }
+    .type-badge.investment { background: #FFF4DB; color: #8A6412; }
+    .type-badge.health { background: #E9F7F0; color: #17724F; }
+    .type-badge.takaful { background: #EFE8FF; color: #5D40A2; }
+    .type-badge.micro { background: #EDF7E8; color: #4A7A22; }
+    .type-badge.pension { background: #EAF0FA; color: #315E9E; }
+    .type-badge.export { background: #FFF0E5; color: #9A4E15; }
     .type-badge.other { background: #f0f0f0; color: var(--muted); }
 
     /* ================================================================
@@ -1650,38 +1658,32 @@
 
     var auth = firebase.auth();
     var db = firebase.firestore();
+    var storage = firebase.storage();
 
-    // ================================================================
-    // 2. CLOUDINARY CONFIG
-    // ================================================================
-    var CLOUDINARY_URL = 'cloudinary://562182276356247:eQrL1QxKdKZ53e6shIgBIv7m-Dc@zs4wny34';
-
-    function parseCloudinaryUrl(url) {
-      try {
-        var match = url.match(/cloudinary:\/\/([^:]+):([^@]+)@(.+)/);
-        if (match) {
-          return { apiKey: match[1], apiSecret: match[2], cloudName: match[3] };
-        }
-        return null;
-      } catch (e) {
-        console.error('فشل تحليل Cloudinary URL:', e);
-        return null;
-      }
+    // حساب Firebase ثانوي لإنشاء العملاء بدون تغيير جلسة الأدمن الأساسية.
+    var clientAuthApp = null;
+    var clientAuth = null;
+    try {
+      clientAuthApp = firebase.initializeApp(firebaseConfig, 'securepath-client-auth');
+      clientAuth = clientAuthApp.auth();
+    } catch (e) {
+      clientAuthApp = firebase.app('securepath-client-auth');
+      clientAuth = clientAuthApp.auth();
     }
 
-    var cloudinaryConfig = parseCloudinaryUrl(CLOUDINARY_URL);
+    // ================================================================
+    // 2. CLOUDINARY CONFIG — آمن للواجهة
+    // ================================================================
+    // مهم: لا نضع API Secret داخل HTML/JavaScript؛ هذا الملف يعمل من المتصفح.
+    // ارفع عبر Unsigned Upload Preset فقط. حذف الأصول القديمة يحتاج Backend/Signed Upload.
     var CLOUDINARY = {
-      cloudName: cloudinaryConfig ? cloudinaryConfig.cloudName : 'zs4wny34',
-      apiKey: cloudinaryConfig ? cloudinaryConfig.apiKey : '562182276356247',
-      apiSecret: cloudinaryConfig ? cloudinaryConfig.apiSecret : 'eQrL1QxKdKZ53e6shIgBIv7m-Dc',
+      cloudName: 'zs4wny34',
       uploadPreset: 'securepath'
     };
 
     console.log('✅ Cloudinary Config:', {
       cloudName: CLOUDINARY.cloudName,
-      uploadPreset: CLOUDINARY.uploadPreset,
-      apiKey: CLOUDINARY.apiKey ? 'موجود ✅' : 'غير موجود ❌',
-      apiSecret: CLOUDINARY.apiSecret ? 'موجود ✅' : 'غير موجود ❌'
+      uploadPreset: CLOUDINARY.uploadPreset
     });
 
     // ================================================================
@@ -1788,7 +1790,10 @@
     var CURRENT_CHAT = null;
     var CHAT_UNSUB = null;
     var MSG_UNSUB = null;
+    var ACT_UNSUB = null;
+    var NOTIF_UNSUB = null;
     var LOADED = false;
+    var LOAD_ERRORS = {};
     var ADMIN_EMAILS = ['admin@securepath.com', 'admin@path.com'];
     var currentUser = null;
     var selectedFile = null;
@@ -1826,6 +1831,12 @@
     function daysUntil(end) {
       if (!end) return 9999;
       return Math.ceil((new Date(end) - new Date()) / 86400000);
+    }
+
+    function slugify(value) {
+      return String(value || '').trim().toLowerCase()
+        .replace(/[^\u0600-\u06FFa-z0-9]+/gi, '_')
+        .replace(/^_+|_+$/g, '') || ('item_' + Date.now());
     }
 
     function clientName(id) {
@@ -1929,7 +1940,8 @@
 
     function checkAdminAccess(user) {
       if (!user) return false;
-      return isAdminEmail(user.email);
+      var claims = (user && user.customClaims) || {};
+      return claims.admin === true || claims.role === 'admin' || isAdminEmail(user.email);
     }
 
     function forceLogout() {
@@ -2035,21 +2047,16 @@
     // 7. DATA LOADING
     // ================================================================
     function loadCollection(name) {
+      LOAD_ERRORS[name] = null;
       return db.collection(name).get()
         .then(function(snap) {
           var results = snap.docs.map(function(d) {
-            var data = d.data();
+            var data = Object.assign({}, d.data());
             data.id = d.id;
-            // توحيد المعرفات
             if (name === 'clients' && !data.uid && data.id) data.uid = data.id;
-            if (name === 'policies' && !data.uid && data.clientId) data.uid = data.clientId;
-            if (name === 'documents' && !data.uid && data.clientId) data.uid = data.clientId;
-            if (name === 'messages' && !data.uid && data.clientId) data.uid = data.clientId;
-            if (name === 'notifications' && !data.uid && data.clientId) data.uid = data.clientId;
-            if (name === 'payments' && !data.uid && data.clientId) data.uid = data.clientId;
-            if (name === 'claims' && !data.uid && data.clientId) data.uid = data.clientId;
+            if (name !== 'clients' && !data.clientId && data.uid) data.clientId = data.uid;
+            if (name !== 'clients' && !data.uid && data.clientId) data.uid = data.clientId;
             if (name === 'offers' && !data.uid) data.uid = data.id;
-            // معالجة المنتجات
             if (name === 'products') {
               if (!data.imageUrl && data.image) data.imageUrl = data.image;
               if (!data.image && data.imageUrl) data.image = data.imageUrl;
@@ -2063,12 +2070,13 @@
             }
             return data;
           });
-          console.log(`📊 ${name}: ${results.length} سجل`);
+          console.log('📊 ' + name + ': ' + results.length + ' سجل');
           return results;
         })
         .catch(function(e) {
-          console.warn('Error loading ' + name + ':', e);
-          return [];
+          LOAD_ERRORS[name] = e;
+          console.error('❌ Error loading ' + name + ':', e);
+          return null;
         });
     }
 
@@ -2077,6 +2085,7 @@
       var promises = names.map(function(n) { return loadCollection(n); });
       return Promise.all(promises).then(function(results) {
         names.forEach(function(n, i) {
+          if (results[i] === null) return;
           if (n === 'insuranceAssessments') DATA.assessments = results[i];
           else if (n === 'insuranceTypes') DATA.types = results[i];
           else DATA[n] = results[i];
@@ -2087,15 +2096,16 @@
         startMessagesListener();
         startActivityListener();
         startNotificationsListener();
-        toast('✅ تم تحميل البيانات بنجاح');
-        console.log('📊 جميع البيانات:', {
-          clients: DATA.clients.length,
-          policies: DATA.policies.length,
-          payments: DATA.payments.length,
-          claims: DATA.claims.length,
-          documents: DATA.documents.length,
-          products: DATA.products.length,
-          offers: DATA.offers.length
+        var failed = Object.keys(LOAD_ERRORS).filter(function(k) { return LOAD_ERRORS[k]; });
+        if (failed.length) {
+          toast('⚠️ تعذر تحميل: ' + failed.join('، ') + ' — تم الحفاظ على البيانات المحملة', true);
+        } else {
+          toast('✅ تم تحميل البيانات بنجاح');
+        }
+        console.log('📊 Data state:', {
+          clients: DATA.clients.length, policies: DATA.policies.length, payments: DATA.payments.length,
+          claims: DATA.claims.length, documents: DATA.documents.length, products: DATA.products.length, offers: DATA.offers.length,
+          failures: failed
         });
       });
     }
@@ -2104,7 +2114,7 @@
       if (!LOADED) { toast('⚠️ لم يتم تحميل البيانات بعد'); return; }
       toast('🔄 جاري تحديث البيانات...');
       LOADED = false;
-      loadAll();
+      loadAll().catch(function(e) { LOADED = true; toast('❌ تعذر تحديث البيانات: ' + e.message, true); });
     }
 
     // ================================================================
@@ -2123,36 +2133,41 @@
         renderConversations();
         renderClients();
         renderDashboard();
+        renderCurrentChat();
       }, function(error) {
         console.error('Messages listener error:', error);
       });
     }
 
     function startActivityListener() {
-      db.collection('activity').orderBy('timestamp', 'desc').limit(100).onSnapshot(function(snap) {
+      if (ACT_UNSUB) ACT_UNSUB();
+      ACT_UNSUB = db.collection('activity').limit(200).onSnapshot(function(snap) {
         DATA.activity = snap.docs.map(function(d) {
-          var data = d.data();
+          var data = Object.assign({}, d.data());
           data.id = d.id;
           return data;
-        });
+        }).sort(function(a, b) { return ms(b.timestamp || b.createdAt) - ms(a.timestamp || a.createdAt); });
         renderActivity();
         renderDashboard();
       }, function(error) {
+        LOAD_ERRORS.activity = error;
         console.error('Activity listener error:', error);
       });
     }
 
     function startNotificationsListener() {
-      db.collection('notifications').orderBy('createdAt', 'desc').limit(100).onSnapshot(function(snap) {
+      if (NOTIF_UNSUB) NOTIF_UNSUB();
+      NOTIF_UNSUB = db.collection('notifications').limit(200).onSnapshot(function(snap) {
         DATA.notifications = snap.docs.map(function(d) {
-          var data = d.data();
+          var data = Object.assign({}, d.data());
           data.id = d.id;
           if (!data.uid && data.clientId) data.uid = data.clientId;
           return data;
-        });
+        }).sort(function(a, b) { return ms(b.createdAt) - ms(a.createdAt); });
         renderNotifications();
         updateBadge();
       }, function(error) {
+        LOAD_ERRORS.notifications = error;
         console.error('Notifications listener error:', error);
       });
     }
@@ -2530,24 +2545,26 @@
 
     function runRenewalReminders() {
       showLoading('runRenewalBtn', 'جاري التشغيل...');
-      var expiring = DATA.policies.filter(function(p) { return daysUntil(p.endDate) >= 0 && daysUntil(p.endDate) <= 30; });
+      var expiring = DATA.policies.filter(function(p) { return daysUntil(p.endDate) >= 0 && daysUntil(p.endDate) <= 45; });
       if (expiring.length === 0) {
         hideLoading('runRenewalBtn');
         toast('✅ لا توجد وثائق تحتاج تذكير');
         return;
       }
+      var now = Date.now();
       var promises = expiring.map(function(p) {
         var clientId = p.clientId || p.uid;
         if (!clientId) return Promise.resolve();
+        var duplicate = DATA.notifications.some(function(n) {
+          return n.policyId === p.id && n.type === 'renewal_reminder' && (n.createdAt && (now - ms(n.createdAt)) < 7 * 86400000);
+        });
+        if (duplicate) return Promise.resolve();
         return db.collection('notifications').add({
-          clientId: clientId,
-          uid: clientId,
-          title: 'تذكير بتجديد الوثيقة',
+          clientId: clientId, uid: clientId, title: 'تذكير بتجديد الوثيقة',
           body: 'وثيقتك (' + (p.policyNumber || p.type) + ') تنتهي في ' + date(p.endDate),
-          type: 'renewal_reminder',
-          policyId: p.id,
-          read: false,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          type: 'renewal_reminder', policyId: p.id, read: false,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          reminderWindowDays: 45
         });
       });
       Promise.all(promises).then(function() {
@@ -2590,7 +2607,8 @@
       }
       var html = types.map(function(t) {
         var policyCount = DATA.policies.filter(function(p) { return p.type === t.id; }).length;
-        return '<div class="type-card" style="border-color:' + t.color + '">' +
+        var colorMap = { investment:'var(--gold)', health:'var(--green)', takaful:'var(--purple)', micro:'var(--green)', pension:'var(--blue)', export:'var(--red)', engineering:'var(--blue)', medical:'var(--blue)', life:'#b8306a', property:'#b86a1a', car:'#1a8a4a', marine:'#1a6a6a', travel:'#6a3ab8', liability:'#b84a1a', cyber:'#7a2a7a', other:'var(--line)' };
+         return '<div class="type-card" style="border-color:' + (colorMap[t.color] || 'var(--line)') + '">' +
           '<div class="icon">' + t.icon + '</div>' +
           '<h4>' + esc(t.name) + '</h4>' +
           '<p>' + esc(t.description || '') + '</p>' +
@@ -2888,6 +2906,12 @@
       var status = document.getElementById('uploadStatus');
       var uploadBtn = document.getElementById('uploadDocBtn');
 
+      function resetUploadUi() {
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = '📤 رفع المستند';
+        if (progress) progress.style.display = 'none';
+      }
+
       err.textContent = '';
       status.className = 'upload-status';
       status.textContent = '';
@@ -2911,10 +2935,11 @@
         return;
       }
 
-      if (!CLOUDINARY.cloudName || !CLOUDINARY.apiKey || !CLOUDINARY.apiSecret) {
-        err.textContent = '⚠️ إعدادات Cloudinary غير مكتملة. يرجى التحقق من CLOUDINARY_URL';
+      var maxSize = 10 * 1024 * 1024;
+      if (selectedFile.size > maxSize) {
+        err.textContent = 'حجم الملف يتجاوز 10MB';
         status.className = 'upload-status error';
-        status.textContent = '⚠️ إعدادات Cloudinary غير مكتملة';
+        status.textContent = '⚠️ الحد الأقصى لحجم الملف 10MB';
         return;
       }
 
@@ -2922,150 +2947,128 @@
         return (d.clientId === clientId || d.uid === clientId) && d.fileName === fileName;
       });
       if (existing) {
-        if (!confirm('⚠️ يوجد مستند بنفس الاسم لهذا العميل. هل تريد استبداله؟')) return;
+        if (!confirm('⚠️ يوجد مستند بنفس الاسم لهذا العميل. سيتم الاحتفاظ بالنسخة القديمة كمرجع. هل تريد المتابعة؟')) return;
       }
 
       uploadBtn.disabled = true;
-      uploadBtn.textContent = '⏳ جاري الرفع...';
-
+      uploadBtn.textContent = '⏳ جاري تجهيز الرفع...';
       if (progress) {
         progress.style.display = 'block';
         progressBar.style.width = '0%';
       }
-
       status.className = 'upload-status loading';
-      status.textContent = '⏳ جاري رفع الملف إلى Cloudinary...';
+      status.textContent = '⏳ جاري رفع المستند إلى Firebase Storage...';
 
-      var file = selectedFile;
-      var formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', CLOUDINARY.uploadPreset);
-      formData.append('folder', 'securepath_documents');
-      formData.append('public_id', clientId + '_' + Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9.]/g, '_'));
+      // نستخدم Firebase Storage بدل Cloudinary من المتصفح لتجنب كشف API Secret
+      // والحصول على رابط تحميل آمن مرتبط بصلاحيات Firebase.
+      if (!storage || !currentUser) {
+        resetUploadUi();
+        err.textContent = 'جلسة الأدمن غير صالحة أو Firebase Storage غير متاح.';
+        status.className = 'upload-status error';
+        status.textContent = '❌ تعذر تهيئة التخزين';
+        return;
+      }
 
-      var xhr = new XMLHttpRequest();
-      var uploadUrl = 'https://api.cloudinary.com/v1_1/' + CLOUDINARY.cloudName + '/auto/upload';
-
-      console.log('📤 رفع إلى Cloudinary:', uploadUrl);
-      console.log('📁 Upload Preset:', CLOUDINARY.uploadPreset);
-
-      xhr.open('POST', uploadUrl, true);
-
-      xhr.upload.onprogress = function(e) {
-        if (e.lengthComputable) {
-          var percent = (e.loaded / e.total) * 100;
-          if (progressBar) progressBar.style.width = percent + '%';
-          uploadBtn.textContent = '📤 رفع ' + Math.round(percent) + '%';
-          status.textContent = '⏳ جاري الرفع ' + Math.round(percent) + '%';
+      var safeName = selectedFile.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      var uniqueId = (firebase.firestore && firebase.firestore().collection) ? firebase.firestore().collection('_tmp').doc().id : String(Date.now());
+      var storagePath = 'securepath_documents/' + clientId + '/' + uniqueId + '_' + safeName;
+      var storageRef = storage.ref().child(storagePath);
+      var metadata = {
+        contentType: selectedFile.type || 'application/octet-stream',
+        customMetadata: {
+          clientId: String(clientId),
+          uploadedBy: 'agent',
+          uploaderUid: currentUser.uid,
+          documentName: String(fileName)
         }
       };
 
-      xhr.onload = function() {
-        console.log('📥 استجابة Cloudinary:', xhr.status, xhr.responseText);
+      var uploadTask;
+      try {
+        uploadTask = storageRef.put(selectedFile, metadata);
+      } catch (uploadInitError) {
+        resetUploadUi();
+        err.textContent = '❌ تعذر بدء رفع الملف: ' + uploadInitError.message;
+        status.className = 'upload-status error';
+        status.textContent = '❌ تعذر بدء الرفع';
+        toast('❌ تعذر بدء رفع الملف', true);
+        return;
+      }
 
-        if (xhr.status === 200) {
-          try {
-            var response = JSON.parse(xhr.responseText);
-            var downloadURL = response.secure_url;
-
+      uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+        function(snapshot) {
+          var percent = snapshot.totalBytes ? (snapshot.bytesTransferred / snapshot.totalBytes) * 100 : 0;
+          if (progressBar) progressBar.style.width = percent + '%';
+          uploadBtn.textContent = '📤 رفع ' + Math.round(percent) + '%';
+          status.textContent = '⏳ جاري الرفع ' + Math.round(percent) + '%';
+        },
+        function(error) {
+          console.error('❌ Firebase Storage upload error:', error);
+          resetUploadUi();
+          var msg = 'فشل رفع الملف';
+          if (error && error.code === 'storage/unauthorized') msg += ': لا توجد صلاحية تخزين. تحقق من Storage Rules.';
+          else if (error && error.code === 'storage/canceled') msg += ': تم إلغاء العملية.';
+          else if (error && error.message) msg += ': ' + error.message;
+          err.textContent = '❌ ' + msg;
+          status.className = 'upload-status error';
+          status.textContent = '❌ ' + msg;
+          toast('❌ ' + msg, true);
+        },
+        function() {
+          uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
             status.className = 'upload-status success';
-            status.textContent = '✅ تم رفع الملف بنجاح! جاري حفظ البيانات...';
+            status.textContent = '✅ تم رفع الملف. جاري حفظ بيانات المستند...';
 
             var docData = {
               clientId: clientId,
               uid: clientId,
               fileName: fileName,
-              fileType: fileType,
-              fileOriginalName: file.name,
-              fileSize: file.size,
-              cloudinaryPublicId: response.public_id,
+              fileType: fileType || selectedFile.type || 'application/octet-stream',
+              fileOriginalName: selectedFile.name,
+              fileSize: selectedFile.size,
+              storagePath: storagePath,
+              storageBucket: firebaseConfig.storageBucket,
               downloadURL: downloadURL,
+              fileUrl: downloadURL,
+              url: downloadURL,
               uploadedBy: 'agent',
+              uploaderUid: currentUser ? currentUser.uid : '',
               verificationStatus: 'pending',
-              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
             };
 
-            var savePromise;
             if (existing) {
-              fetch('https://api.cloudinary.com/v1_1/' + CLOUDINARY.cloudName + '/image/destroy', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  public_id: existing.cloudinaryPublicId,
-                  api_key: CLOUDINARY.apiKey,
-                  api_secret: CLOUDINARY.apiSecret
-                })
-              }).catch(function(e) { console.warn('فشل حذف الملف القديم:', e); });
-
-              savePromise = db.collection('documents').doc(existing.id).update(docData);
-            } else {
-              savePromise = db.collection('documents').add(docData);
+              docData.previousStoragePath = existing.storagePath || null;
+              docData.previousDownloadURL = existing.downloadURL || existing.fileUrl || existing.url || null;
+              docData.replacedAt = firebase.firestore.FieldValue.serverTimestamp();
             }
 
-            savePromise.then(function() {
-              uploadBtn.disabled = false;
-              uploadBtn.textContent = '📤 رفع المستند';
-              if (progress) progress.style.display = 'none';
+            var savePromise = existing
+              ? db.collection('documents').doc(existing.id).set(docData, { merge: true })
+              : db.collection('documents').add(docData);
+
+            return savePromise.then(function() {
+              return loadCollection('documents');
+            }).then(function(docs) {
+              DATA.documents = docs;
+              renderDocuments();
+              renderDashboard();
+              resetUploadUi();
               closeModal('docUploadModal');
-              toast('✅ تم رفع المستند بنجاح إلى Cloudinary');
-              status.textContent = '✅ تم رفع المستند بنجاح!';
-              return loadCollection('documents').then(function(docs) {
-                DATA.documents = docs;
-                renderDocuments();
-                renderDashboard();
-              });
-            }).catch(function(error) {
-              uploadBtn.disabled = false;
-              uploadBtn.textContent = '📤 رفع المستند';
-              if (progress) progress.style.display = 'none';
-              err.textContent = '❌ فشل حفظ بيانات المستند: ' + error.message;
-              status.className = 'upload-status error';
-              status.textContent = '❌ فشل حفظ البيانات: ' + error.message;
-              toast('❌ فشل حفظ بيانات المستند: ' + error.message, true);
+              selectedFile = null;
+              toast('✅ تم رفع المستند وحفظه بنجاح');
             });
-
-          } catch (e) {
-            uploadBtn.disabled = false;
-            uploadBtn.textContent = '📤 رفع المستند';
-            if (progress) progress.style.display = 'none';
-            err.textContent = '❌ خطأ في معالجة الاستجابة: ' + e.message;
+          }).catch(function(error) {
+            console.error('❌ Failed to save document metadata:', error);
+            resetUploadUi();
+            err.textContent = '❌ تم رفع الملف لكن فشل حفظ بياناته: ' + error.message;
             status.className = 'upload-status error';
-            status.textContent = '❌ خطأ في معالجة الاستجابة';
-            toast('❌ خطأ في معالجة الاستجابة', true);
-          }
-        } else {
-          uploadBtn.disabled = false;
-          uploadBtn.textContent = '📤 رفع المستند';
-          if (progress) progress.style.display = 'none';
-
-          var errorMsg = 'فشل رفع الملف إلى Cloudinary: ' + xhr.status;
-          try {
-            var errorResponse = JSON.parse(xhr.responseText);
-            if (errorResponse.error && errorResponse.error.message) {
-              errorMsg = '❌ ' + errorResponse.error.message;
-            }
-          } catch (e) {}
-
-          err.textContent = errorMsg;
-          status.className = 'upload-status error';
-          status.textContent = errorMsg;
-          toast(errorMsg, true);
-          console.error('❌ خطأ Cloudinary:', xhr.status, xhr.responseText);
+            status.textContent = '❌ فشل حفظ بيانات المستند';
+            toast('❌ فشل حفظ بيانات المستند', true);
+          });
         }
-      };
-
-      xhr.onerror = function() {
-        uploadBtn.disabled = false;
-        uploadBtn.textContent = '📤 رفع المستند';
-        if (progress) progress.style.display = 'none';
-        err.textContent = '❌ فشل الاتصال بـ Cloudinary. تحقق من اتصال الإنترنت.';
-        status.className = 'upload-status error';
-        status.textContent = '❌ فشل الاتصال بـ Cloudinary';
-        toast('❌ فشل الاتصال بـ Cloudinary. تحقق من اتصال الإنترنت.', true);
-        console.error('❌ فشل الاتصال بـ Cloudinary');
-      };
-
-      xhr.send(formData);
+      );
     }
 
     function verifyDocument(id, status) {
@@ -3111,7 +3114,13 @@
 
       showLoading('createClientBtn', 'جاري إنشاء العميل...');
 
-      auth.createUserWithEmailAndPassword(email, pass)
+      if (!clientAuth) {
+        err.textContent = '❌ خدمة إنشاء العملاء غير متاحة حاليًا.';
+        hideLoading('createClientBtn');
+        return;
+      }
+
+      clientAuth.createUserWithEmailAndPassword(email, pass)
         .then(function(userCredential) {
           var user = userCredential.user;
           console.log('✅ تم إنشاء حساب العميل في Authentication:', user.uid);
@@ -3141,7 +3150,9 @@
               console.warn('⚠️ تعذر إرسال بريد التأكيد:', e.message);
             });
           }
-
+          return clientAuth.signOut().catch(function() {}).then(function() { return user; });
+        })
+        .then(function(user) {
           hideLoading('createClientBtn');
           closeModal('clientModal');
           toast('✅ تم إنشاء العميل بنجاح! تم إرسال بريد التأكيد.');
@@ -3310,7 +3321,7 @@
       if (!name) { err.textContent = 'أدخل اسم الشركة'; return; }
 
       showLoading('createCompanyBtn', 'جاري الحفظ...');
-      var id = name.replace(/\s/g, '_').toLowerCase();
+      var id = slugify(name);
       var company = { id: id, name: name, logo: document.getElementById('coLogo').value.trim(), description: document.getElementById('coDesc').value.trim() };
 
       db.collection('companies').doc(id).set(company)
@@ -3338,7 +3349,7 @@
       if (!name) { err.textContent = 'أدخل اسم النوع'; return; }
 
       showLoading('createTypeBtn', 'جاري الحفظ...');
-      var id = name.replace(/\s/g, '_').toLowerCase();
+      var id = slugify(name);
       var newType = { id: id, name: name, icon: '📄', color: color, description: document.getElementById('tDesc').value.trim() };
 
       db.collection('insuranceTypes').doc(id).set(newType)
@@ -3615,16 +3626,27 @@
       CURRENT_CHAT = id;
       document.getElementById('chatTitle').textContent = clientName(id);
       showView('messages');
-      if (CHAT_UNSUB) CHAT_UNSUB();
-      CHAT_UNSUB = db.collection('messages').where('clientId', '==', id).onSnapshot(function(snap) {
-        var docs = snap.docs.slice().sort(function(a, b) { return ms(a.data().createdAt) - ms(b.data().createdAt); });
-        var html = docs.map(function(d) {
-          var m = d.data();
-          return '<div class="bubble ' + (m.sender === 'agent' ? 'agent' : 'client') + '">' + esc(m.text) + '</div>';
-        }).join('');
-        document.getElementById('chatList').innerHTML = html || '<div class="empty">لا توجد رسائل</div>';
-        document.getElementById('chatList').scrollTop = 999999;
+      renderCurrentChat();
+      var unread = DATA.messages.filter(function(m) {
+        return (m.clientId === id || m.uid === id) && m.sender === 'client' && !m.readByAdmin;
       });
+      unread.forEach(function(m) {
+        db.collection('messages').doc(m.id).update({ readByAdmin: true }).catch(function(e) { console.warn('read flag:', e.message); });
+      });
+    }
+
+    function renderCurrentChat() {
+      if (!CURRENT_CHAT) return;
+      var msgs = DATA.messages.filter(function(m) { return m.clientId === CURRENT_CHAT || m.uid === CURRENT_CHAT; })
+        .sort(function(a, b) { return ms(a.createdAt) - ms(b.createdAt); });
+      var html = msgs.map(function(m) {
+        var cls = m.sender === 'agent' || m.sender === 'system' ? 'agent' : 'client';
+        return '<div class="bubble ' + cls + '">' + esc(m.text) + '<div style="font-size:9px;opacity:.55;margin-top:4px;">' + esc(date(m.createdAt)) + '</div></div>';
+      }).join('');
+      var chatList = document.getElementById('chatList');
+      if (!chatList) return;
+      chatList.innerHTML = html || '<div class="empty">لا توجد رسائل</div>';
+      chatList.scrollTop = chatList.scrollHeight;
     }
 
     function sendMessage() {
@@ -3772,7 +3794,12 @@
       openModal('assessmentModal');
       document.getElementById('assessmentModalTitle').textContent = 'تقييم حماية — ' + (a.name || clientName(clientId));
       document.getElementById('assessmentModalMeta').textContent = (a.ownerType === 'yes' ? 'شركة' : 'فرد') + ' • ' + date(a.updatedAt || a.timestamp);
-      document.getElementById('assessmentModalBody').innerHTML = '<div class="empty">تفاصيل التقييم</div>';
+      document.getElementById('assessmentModalBody').innerHTML = '<div class="grid grid-2" style="gap:12px">' +
+        '<div class="card"><div class="card-body"><b>النتيجة</b><div style="font-size:36px;font-weight:900;color:var(--navy);margin-top:8px">' + esc(String(a.score ?? '—')) + '%</div></div></div>' +
+        '<div class="card"><div class="card-body"><b>الحالة</b><div style="margin-top:8px">' + esc(a.status || a.label || '—') + '</div></div></div>' +
+        '<div class="card"><div class="card-body"><b>النشاط</b><div style="margin-top:8px">' + esc(a.businessActivity || a.occupation || '—') + '</div></div></div>' +
+        '<div class="card"><div class="card-body"><b>عدد الوثائق السارية</b><div style="margin-top:8px">' + DATA.policies.filter(function(p){ return (p.clientId === clientId || p.uid === clientId) && daysUntil(p.endDate) >= 0; }).length + '</div></div></div>' +
+        '</div><div class="card" style="margin-top:12px"><div class="card-body"><b>ملخص التقييم</b><p style="margin-top:8px;color:var(--muted);line-height:1.8">' + esc(a.summary || a.recommendation || 'لا يوجد ملخص محفوظ لهذا التقييم.') + '</p></div></div>';
     }
 
     // ================================================================
@@ -3855,7 +3882,7 @@
 
     initSelects();
 
-    console.log('✅ Secure PATH Admin Panel v16.0 - إصدار مستقر مع إصلاح إضافة العملاء');
+    console.log('✅ Secure PATH Admin Panel v17.0 - Stable hardened build');
     console.log('📊 Firebase Config:', {
       apiKey: firebaseConfig.apiKey ? 'موجود ✅' : 'غير موجود ❌',
       projectId: firebaseConfig.projectId
@@ -3863,8 +3890,7 @@
     console.log('📦 Cloudinary Config:', {
       cloudName: CLOUDINARY.cloudName,
       uploadPreset: CLOUDINARY.uploadPreset + ' ✅',
-      apiKey: CLOUDINARY.apiKey ? 'موجود ✅' : 'غير موجود ❌',
-      apiSecret: CLOUDINARY.apiSecret ? 'موجود ✅' : 'غير موجود ❌'
+      mode: 'unsigned client upload'
     });
   </script>
 </body>
