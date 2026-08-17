@@ -1582,10 +1582,12 @@ var auth = firebase.auth();
 var db = firebase.firestore();
 
 // ================================================================
-// 2. CLOUDINARY CONFIG
+// 2. CLOUDINARY CONFIG - استخدم CLOUDINARY_URL كما هي
 // ================================================================
-var CLOUDINARY_URL = 'cloudinary://562182276356247:YOUR_ACTUAL_SECRET_KEY@zs4wny34';
+// 🔑 أدخل CLOUDINARY_URL كاملاً مع الـ API Key و API Secret
+var CLOUDINARY_URL = 'cloudinary://<your_api_key>:<your_api_secret>@zs4wny34';
 
+// استخراج البيانات من الـ URL
 function parseCloudinaryUrl(url) {
   try {
     var match = url.match(/cloudinary:\/\/([^:]+):([^@]+)@(.+)/);
@@ -1607,13 +1609,15 @@ var cloudinaryConfig = parseCloudinaryUrl(CLOUDINARY_URL);
 
 var CLOUDINARY = {
   cloudName: cloudinaryConfig ? cloudinaryConfig.cloudName : 'zs4wny34',
-  apiKey: cloudinaryConfig ? cloudinaryConfig.apiKey : '562182276356247',
-  apiSecret: cloudinaryConfig ? cloudinaryConfig.apiSecret : 'YOUR_ACTUAL_SECRET_KEY',
-  uploadPreset: 'securepath'
+  apiKey: cloudinaryConfig ? cloudinaryConfig.apiKey : '',
+  apiSecret: cloudinaryConfig ? cloudinaryConfig.apiSecret : '',
+  uploadPreset: 'securepath' // أنشئ هذا الـ Preset في لوحة التحكم
 };
 
 console.log('✅ Cloudinary Config:', {
   cloudName: CLOUDINARY.cloudName,
+  apiKey: CLOUDINARY.apiKey ? 'موجود ✅' : 'غير موجود ❌',
+  apiSecret: CLOUDINARY.apiSecret ? 'موجود ✅' : 'غير موجود ❌',
   uploadPreset: CLOUDINARY.uploadPreset
 });
 
@@ -1964,7 +1968,7 @@ auth.onAuthStateChanged(function(user) {
 });
 
 // ================================================================
-// 7. DATA LOADING - محسّن
+// 7. DATA LOADING
 // ================================================================
 function loadCollection(name) {
   return db.collection(name).get().then(function(snap) {
@@ -1972,7 +1976,6 @@ function loadCollection(name) {
       var data = d.data();
       data.id = d.id;
       
-      // توحيد المعرفات
       if (name === 'clients' && !data.uid && data.id) data.uid = data.id;
       if (name === 'policies' && !data.uid && data.clientId) data.uid = data.clientId;
       if (name === 'documents' && !data.uid && data.clientId) data.uid = data.clientId;
@@ -1982,7 +1985,6 @@ function loadCollection(name) {
       if (name === 'claims' && !data.uid && data.clientId) data.uid = data.clientId;
       if (name === 'offers' && !data.uid) data.uid = data.id;
       
-      // معالجة المنتجات
       if (name === 'products') {
         if (!data.imageUrl && data.image) data.imageUrl = data.image;
         if (!data.image && data.imageUrl) data.image = data.imageUrl;
@@ -1991,7 +1993,6 @@ function loadCollection(name) {
         if (!data.status) data.status = 'draft';
       }
       
-      // معالجة العروض
       if (name === 'offers') {
         if (!data.imageUrl && data.image) data.imageUrl = data.image;
         if (!data.image && data.imageUrl) data.image = data.imageUrl;
@@ -2659,7 +2660,7 @@ function renderProducts() {
         '</div>' +
         '<div class="product-actions">' +
           '<button class="btn btn-outline btn-xs" onclick="editProduct(\'' + (p.id || '') + '\')">✏️ تعديل</button>' +
-          '<button class="btn btn-danger btn-xs" onclick="deleteProduct(\'' + (p.id || '') + '\')">🗑️ حذف</button>' +
+          '<button class="btn btn-danger btn-xs" onclick="deleteProduct(\'' + (p.id || '') + '\")">🗑️ حذف</button>' +
           '<button class="btn btn-success btn-xs" onclick="toggleProductStatus(\'' + (p.id || '') + '\')">' + 
             (isPublished ? '📁 إلغاء النشر' : '🚀 نشر') + 
           '</button>' +
