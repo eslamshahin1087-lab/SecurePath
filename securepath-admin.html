@@ -68,7 +68,7 @@
     }
 
     /* ================================================================
-       DARK MODE — محسّن ومتناسق
+       DARK MODE
        ================================================================ */
     [data-theme="dark"] {
       --navy: #0a1a2f;
@@ -320,7 +320,7 @@
     .shell { display: flex; min-height: 100vh; }
 
     /* ================================================================
-       SIDEBAR — محسّن
+       SIDEBAR
        ================================================================ */
     .sidebar {
       width: var(--sidebar-width);
@@ -1155,7 +1155,7 @@
 <body>
 
   <!-- ================================================================
-       UNAUTHORIZED — مخفية افتراضياً (تم إزالة class="show")
+       UNAUTHORIZED
        ================================================================ -->
   <div id="unauthorized">
     <div class="box">
@@ -1384,7 +1384,7 @@
           <!-- PRODUCTS -->
           <div id="v-products" class="view">
             <div class="card" style="padding:14px 20px;margin-bottom:20px;background:linear-gradient(135deg, var(--gold-soft), var(--gold-100));border-color:var(--gold);border-radius:var(--radius-lg)">
-              <b>📌 النشر للمستخدم:</b> أي منتج حالته <span class="badge badge-success">Published</span> سيظهر تلقائياً في تطبيق العميل.
+              <b><i class="fas fa-info-circle"></i> النشر للمستخدم:</b> أي منتج حالته <span class="badge badge-success">Published</span> سيظهر تلقائياً في تطبيق العميل.
             </div>
             <div class="toolbar">
               <div class="search"><input id="productSearch" oninput="renderProducts()" placeholder="ابحث في المنتجات"></div>
@@ -1445,7 +1445,7 @@
   </div>
 
   <!-- ================================================================
-       MODALS (جميع النوافذ المنبثقة مع أيقونات FA)
+       MODALS
        ================================================================ -->
   <!-- Client Modal -->
   <div id="clientModal" class="overlay">
@@ -1544,16 +1544,12 @@
   <div id="docUploadModal" class="overlay">
     <div class="modal" style="width:min(750px,96vw)">
       <div class="modal-header"><h2><i class="fas fa-upload"></i> رفع مستند جديد</h2><button class="modal-close" onclick="closeModal('docUploadModal')"><i class="fas fa-times"></i></button></div>
-      <div class="field">
-        <label>العميل <span style="color:var(--red)">*</span></label>
-        <select id="docClient"><option value="">اختر العميل</option></select>
-      </div>
+      <div class="field"><label>العميل <span style="color:var(--red)">*</span></label><select id="docClient"><option value="">اختر العميل</option></select></div>
       <div class="form-grid">
         <div class="field"><label>اسم المستند <span style="color:var(--red)">*</span></label><input id="docName" placeholder="مثال: بطاقة الرقم القومي"></div>
         <div class="field"><label>نوع المستند <span style="color:var(--red)">*</span></label><select id="docType"><option value="هوية شخصية">هوية شخصية</option><option value="رخصة قيادة">رخصة قيادة</option><option value="جواز سفر">جواز سفر</option><option value="تقرير طبي">تقرير طبي</option><option value="عقد تأمين">عقد تأمين</option><option value="فاتورة">فاتورة</option><option value="كشف حساب">كشف حساب</option><option value="صورة شخصية">صورة شخصية</option><option value="أخرى">أخرى</option></select></div>
       </div>
-      <div class="field">
-        <label>اختر الملف <span style="color:var(--red)">*</span></label>
+      <div class="field"><label>اختر الملف <span style="color:var(--red)">*</span></label>
         <div class="file-upload-area" id="dropArea">
           <input type="file" id="docFile" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx">
           <label for="docFile" class="upload-label"><i class="fas fa-cloud-upload-alt"></i> اختر ملف أو اسحبه هنا</label>
@@ -1701,7 +1697,7 @@
   <div id="toast" class="toast"></div>
 
   <!-- ================================================================
-       JAVASCRIPT — كامل ومتكامل
+       JAVASCRIPT — الكامل مع جميع أنواع التأمين
        ================================================================ -->
   <script>
     // ================================================================
@@ -1735,34 +1731,7 @@
     }
 
     // ================================================================
-    // 2. ADMIN EMAILS
-    // ================================================================
-    var ADMIN_EMAILS = ['admin.islam@securepath.com'];
-
-    // ================================================================
-    // 3. MASTER DATA
-    // ================================================================
-    var INSURANCE_COMPANIES = [
-      { id: 'misr', name: 'مصر للتأمين' },
-      { id: 'misr_life', name: 'مصر لتأمينات الحياة' },
-      { id: 'allianz', name: 'أليانز للتأمين' },
-      { id: 'axa', name: 'أكسا للتأمين' },
-      { id: 'gig', name: 'GIG للتأمين' },
-      { id: 'chubb', name: 'تشب للتأمين' },
-      { id: 'bupa', name: 'بوبا إيجيبت' }
-    ];
-
-    var INSURANCE_TYPES = [
-      { id: 'life', name: 'تأمين الحياة', icon: '📋', color: 'life' },
-      { id: 'medical', name: 'تأمين طبي', icon: '🏥', color: 'medical' },
-      { id: 'car', name: 'تأمين سيارات', icon: '🚗', color: 'car' },
-      { id: 'property', name: 'تأمين ممتلكات', icon: '🏠', color: 'property' },
-      { id: 'travel', name: 'تأمين سفر', icon: '✈️', color: 'travel' },
-      { id: 'takaful', name: 'تأمين تكافلي', icon: '🤝', color: 'takaful' }
-    ];
-
-    // ================================================================
-    // 4. STATE
+    // 2. STATE MANAGEMENT
     // ================================================================
     var DATA = {
       clients: [],
@@ -1791,7 +1760,63 @@
     var selectedFile = null;
 
     // ================================================================
-    // 5. UTILITY FUNCTIONS
+    // 3. قائمة جميع أنواع التأمين (أكثر من 40 نوعاً)
+    // ================================================================
+    var ALL_INSURANCE_TYPES = [
+      // ===== تأمينات الحياة =====
+      { id: 'life_temporary', name: 'تأمين الحياة المؤقت', icon: '📋', color: 'life' },
+      { id: 'life_whole', name: 'تأمين الحياة مدى الحياة', icon: '🔄', color: 'life' },
+      { id: 'life_mixed', name: 'تأمين الحياة المختلط', icon: '💰', color: 'investment' },
+      { id: 'life_unit', name: 'تأمين الحياة الاستثماري', icon: '📈', color: 'investment' },
+      { id: 'pension', name: 'تأمين دفعات التقاعد', icon: '👴', color: 'pension' },
+      { id: 'savings', name: 'عمليات تكوين الأموال', icon: '🏦', color: 'investment' },
+      // ===== تأمينات الحوادث والطبي =====
+      { id: 'accident', name: 'تأمين الحوادث الشخصية', icon: '🩹', color: 'medical' },
+      { id: 'medical', name: 'تأمين العلاج الطبي', icon: '🏥', color: 'medical' },
+      { id: 'medical_specialized', name: 'التأمين الطبي المتخصص', icon: '🔬', color: 'health' },
+      { id: 'health_comprehensive', name: 'منظومة التأمين الصحي الشامل', icon: '❤️', color: 'health' },
+      // ===== تأمينات الممتلكات =====
+      { id: 'fire', name: 'التأمين ضد أخطار الحريق', icon: '🔥', color: 'property' },
+      { id: 'theft', name: 'تأمين السرقة والسطو', icon: '🔒', color: 'property' },
+      { id: 'cash_transport', name: 'تأمين نقل النقدية', icon: '💰', color: 'property' },
+      { id: 'fidelity', name: 'تأمين خيانة الأمانة', icon: '⚖️', color: 'liability' },
+      // ===== تأمينات السيارات =====
+      { id: 'car_comprehensive', name: 'التأمين التكميلي على السيارات', icon: '🚗', color: 'car' },
+      { id: 'car_mandatory', name: 'التأمين الإجباري على السيارات', icon: '🚦', color: 'car' },
+      // ===== تأمينات النقل =====
+      { id: 'marine_cargo', name: 'تأمين النقل البحري للبضائع', icon: '🚢', color: 'marine' },
+      { id: 'air_cargo', name: 'تأمين النقل الجوي للبضائع', icon: '✈️', color: 'travel' },
+      { id: 'land_cargo', name: 'تأمين النقل البري', icon: '🚛', color: 'marine' },
+      { id: 'hull_marine', name: 'تأمين أجسام السفن', icon: '⛴️', color: 'marine' },
+      { id: 'hull_air', name: 'تأمين أجسام الطائرات', icon: '🛩️', color: 'travel' },
+      // ===== تأمينات الهندسة =====
+      { id: 'contractors', name: 'تأمين كافة أخطار المقاولين', icon: '🏗️', color: 'engineering' },
+      { id: 'erection', name: 'تأمين كافة أخطار التركيب', icon: '🔧', color: 'engineering' },
+      { id: 'machinery', name: 'تأمين عطب الماكينات', icon: '⚙️', color: 'engineering' },
+      { id: 'profit_loss', name: 'تأمين خسارة الأرباح', icon: '📊', color: 'engineering' },
+      { id: 'oil_gas', name: 'تأمينات البترول والغاز', icon: '🛢️', color: 'engineering' },
+      { id: 'energy', name: 'تأمينات الطاقة والكهرباء', icon: '⚡', color: 'engineering' },
+      // ===== تأمينات متنوعة =====
+      { id: 'agriculture', name: 'التأمين الزراعي', icon: '🌾', color: 'agriculture' },
+      { id: 'credit', name: 'تأمين الائتمان', icon: '💳', color: 'export' },
+      { id: 'export_guarantee', name: 'تأمين ضمان الصادرات', icon: '📦', color: 'export' },
+      { id: 'liability_general', name: 'تأمين المسؤولية المدنية', icon: '⚖️', color: 'liability' },
+      { id: 'liability_professional', name: 'تأمين المسؤولية المهنية', icon: '👨‍⚕️', color: 'liability' },
+      { id: 'terrorism', name: 'تأمين أخطار الإرهاب', icon: '⚠️', color: 'other' },
+      { id: 'cyber', name: 'التأمين ضد المخاطر الإلكترونية', icon: '💻', color: 'cyber' },
+      { id: 'takaful', name: 'التأمين التكافلي', icon: '🤝', color: 'takaful' },
+      { id: 'micro', name: 'التأمين متناهي الصغر', icon: '🌱', color: 'micro' },
+      { id: 'travel', name: 'تأمين السفر', icon: '✈️', color: 'travel' },
+      { id: 'railway', name: 'تأمين حوادث القطارات', icon: '🚆', color: 'other' },
+      { id: 'students', name: 'التأمين على الطلاب', icon: '🎓', color: 'medical' },
+      { id: 'social', name: 'التأمين الاجتماعي', icon: '🏛️', color: 'pension' },
+      { id: 'professional_indemnity', name: 'تأمين المسؤولية المهنية', icon: '⚖️', color: 'liability' },
+      { id: 'directors_liability', name: 'تأمين مسؤولية أعضاء الإدارة', icon: '👔', color: 'liability' },
+      { id: 'environmental', name: 'تأمين المسؤولية البيئية', icon: '🌍', color: 'liability' }
+    ];
+
+    // ================================================================
+    // 4. UTILITY FUNCTIONS
     // ================================================================
     function esc(v) {
       if (!v) return '';
@@ -1837,9 +1862,31 @@
       return c ? (c.fullName || c.name || c.username || id) : id;
     }
 
+    // ================================================================
+    // 5. دوال إدارة أنواع التأمين (شاملة جميع الأنواع)
+    // ================================================================
+    function getAllTypes() {
+      var allTypes = [];
+      var firestoreTypes = DATA.types || [];
+
+      // دمج مع تجنب التكرار
+      allTypes = [...firestoreTypes];
+      ALL_INSURANCE_TYPES.forEach(function(defaultType) {
+        var exists = allTypes.some(function(t) { return t.id === defaultType.id; });
+        if (!exists) {
+          allTypes.push(defaultType);
+        }
+      });
+
+      return allTypes;
+    }
+
     function getType(id) {
       var type = DATA.types.find(function(t) { return t.id === id; });
-      if (!type) type = INSURANCE_TYPES.find(function(t) { return t.id === id; });
+      if (!type) {
+        var allTypes = getAllTypes();
+        type = allTypes.find(function(t) { return t.id === id; });
+      }
       return type || null;
     }
 
@@ -1864,24 +1911,20 @@
       return '<span class="type-badge ' + color + '">' + esc(name) + '</span>';
     }
 
-    function getCompany(id) {
-      if (!id) return null;
-      var company = DATA.companies.find(function(c) { return c.id === id; });
-      if (!company) company = INSURANCE_COMPANIES.find(function(c) { return c.id === id; });
-      return company || null;
-    }
-
     function getCompanyName(id) {
-      var company = getCompany(id);
-      return company ? company.name : id || '—';
-    }
-
-    function getAllCompanies() {
-      return DATA.companies.length > 0 ? DATA.companies : INSURANCE_COMPANIES;
-    }
-
-    function getAllTypes() {
-      return DATA.types.length > 0 ? DATA.types : INSURANCE_TYPES;
+      if (!id) return '—';
+      var company = DATA.companies.find(function(c) { return c.id === id; });
+      if (!company) {
+        var defaultCompanies = [
+          { id: 'misr', name: 'مصر للتأمين' },
+          { id: 'allianz', name: 'أليانز للتأمين' },
+          { id: 'axa', name: 'أكسا للتأمين' },
+          { id: 'gig', name: 'GIG للتأمين' },
+          { id: 'chubb', name: 'تشب للتأمين' }
+        ];
+        company = defaultCompanies.find(function(c) { return c.id === id || c.name === id; });
+      }
+      return company ? company.name : id;
     }
 
     // ================================================================
@@ -1926,25 +1969,8 @@
     }
 
     // ================================================================
-    // 7. AUTHENTICATION
+    // 7. AUTHENTICATION — تعتمد على مجموعة admin
     // ================================================================
-    function isAdminEmail(email) {
-      if (!email) return false;
-      return ADMIN_EMAILS.includes(email.toLowerCase());
-    }
-
-    function checkAdminAccess(user) {
-      if (!user) return false;
-      var claims = (user && user.customClaims) || {};
-      return claims.admin === true || claims.role === 'admin' || isAdminEmail(user.email);
-    }
-
-    function forceLogout() {
-      if (CHAT_UNSUB) CHAT_UNSUB();
-      if (MSG_UNSUB) MSG_UNSUB();
-      auth.signOut().then(function() { toast('🔒 تم تسجيل الخروج'); setTimeout(function() { location.reload(); }, 500); });
-    }
-
     function togglePassword() {
       var pass = document.getElementById('pass');
       var btn = document.getElementById('togglePassBtn');
@@ -1954,12 +1980,21 @@
     function resetPassword() {
       var email = document.getElementById('email').value.trim();
       if (!email) { document.getElementById('loginErr').textContent = '⚠️ يرجى إدخال البريد الإلكتروني'; return; }
-      if (!isAdminEmail(email)) { document.getElementById('loginErr').textContent = '⚠️ هذا البريد غير مسجل كأدمن'; return; }
       auth.sendPasswordResetEmail(email).then(function() {
         toast('📧 تم إرسال رابط إعادة تعيين كلمة المرور');
         document.getElementById('loginErr').textContent = '';
       }).catch(function(err) {
         document.getElementById('loginErr').textContent = '❌ ' + err.message;
+      });
+    }
+
+    function checkAdminFromAdminCollection(user) {
+      if (!user) return Promise.resolve(false);
+      return db.collection('admin').doc(user.uid).get().then(function(doc) {
+        if (doc.exists && doc.data().role === 'admin') {
+          return true;
+        }
+        return false;
       });
     }
 
@@ -1969,29 +2004,29 @@
       var err = document.getElementById('loginErr');
       err.textContent = '';
       if (!email || !pass) { err.textContent = 'يرجى إدخال البريد وكلمة المرور'; return; }
-      if (!isAdminEmail(email)) { err.textContent = '⚠️ هذا البريد غير مصرح له بدخول لوحة التحكم.'; return; }
+
       showLoading('loginBtn', 'جاري تسجيل الدخول...');
       auth.signInWithEmailAndPassword(email, pass)
-        .then(function(result) {
-          var user = result.user;
-          if (!checkAdminAccess(user)) {
-            err.textContent = '⚠️ هذا الحساب ليس حساب أدمن.';
-            auth.signOut();
+        .then(function(userCredential) {
+          var user = userCredential.user;
+          return checkAdminFromAdminCollection(user).then(function(isAdmin) {
+            if (!isAdmin) {
+              auth.signOut();
+              throw new Error('حسابك ليس لديه صلاحيات إدارية (role != admin في مجموعة admin).');
+            }
+            currentUser = user;
+            var remember = document.getElementById('rememberMe').checked;
+            if (remember) localStorage.setItem('adminEmail', email);
+            else localStorage.removeItem('adminEmail');
+            document.getElementById('login').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+            document.getElementById('unauthorized').classList.remove('show');
+            document.getElementById('userEmail').textContent = email;
+            document.getElementById('sAgent').textContent = email.split('@')[0];
             hideLoading('loginBtn');
-            return;
-          }
-          var remember = document.getElementById('rememberMe').checked;
-          if (remember) localStorage.setItem('adminEmail', email);
-          else localStorage.removeItem('adminEmail');
-          currentUser = user;
-          document.getElementById('login').style.display = 'none';
-          document.getElementById('app').style.display = 'block';
-          document.getElementById('unauthorized').classList.remove('show');
-          document.getElementById('userEmail').textContent = email;
-          document.getElementById('sAgent').textContent = email.split('@')[0];
-          hideLoading('loginBtn');
-          toast('✅ مرحباً بك ' + email);
-          if (!LOADED) loadAll();
+            toast('✅ مرحباً بك ' + email);
+            if (!LOADED) loadAll();
+          });
         })
         .catch(function(error) {
           hideLoading('loginBtn');
@@ -2006,28 +2041,41 @@
       auth.signOut().then(function() { setTimeout(function() { location.reload(); }, 500); });
     }
 
+    function forceLogout() {
+      logout();
+    }
+
     auth.onAuthStateChanged(function(user) {
       if (user) {
-        if (!checkAdminAccess(user)) {
+        checkAdminFromAdminCollection(user).then(function(isAdmin) {
+          if (!isAdmin) {
+            document.getElementById('unauthorized').classList.add('show');
+            document.getElementById('login').style.display = 'none';
+            document.getElementById('app').style.display = 'none';
+            toast('⚠️ حساب غير مصرح به', true);
+            auth.signOut().catch(function(){});
+            return;
+          }
+          currentUser = user;
+          document.getElementById('unauthorized').classList.remove('show');
+          document.getElementById('login').style.display = 'none';
+          document.getElementById('app').style.display = 'block';
+          document.getElementById('userEmail').textContent = user.email || '';
+          document.getElementById('sAgent').textContent = (user.email || '').split('@')[0];
+          var savedEmail = localStorage.getItem('adminEmail');
+          if (savedEmail && !document.getElementById('email').value) {
+            document.getElementById('email').value = savedEmail;
+            document.getElementById('rememberMe').checked = true;
+          }
+          if (!LOADED) loadAll();
+        }).catch(function(error) {
+          console.error('❌ خطأ في التحقق من صلاحية الأدمن:', error);
           document.getElementById('unauthorized').classList.add('show');
           document.getElementById('login').style.display = 'none';
           document.getElementById('app').style.display = 'none';
-          toast('⚠️ حساب غير مصرح به', true);
-          setTimeout(function() { forceLogout(); }, 3000);
-          return;
-        }
-        currentUser = user;
-        document.getElementById('unauthorized').classList.remove('show');
-        document.getElementById('login').style.display = 'none';
-        document.getElementById('app').style.display = 'block';
-        document.getElementById('userEmail').textContent = user.email || '';
-        document.getElementById('sAgent').textContent = (user.email || '').split('@')[0];
-        var savedEmail = localStorage.getItem('adminEmail');
-        if (savedEmail && !document.getElementById('email').value) {
-          document.getElementById('email').value = savedEmail;
-          document.getElementById('rememberMe').checked = true;
-        }
-        if (!LOADED) loadAll();
+          toast('⚠️ تعذر التحقق من الصلاحيات', true);
+          auth.signOut().catch(function(){});
+        });
       } else {
         document.getElementById('login').style.display = 'grid';
         document.getElementById('app').style.display = 'none';
@@ -2230,32 +2278,38 @@
     }
 
     function refreshTypeSelects() {
-      var ids = ['pType', 'prType', 'offerType'];
       var allTypes = getAllTypes();
+      var ids = ['pType', 'prType', 'offerType'];
       ids.forEach(function(id) {
         var s = document.getElementById(id);
         if (!s) return;
         var val = s.value;
         s.innerHTML = '<option value="">اختر النوع</option>';
         allTypes.forEach(function(t) {
-          s.innerHTML += '<option value="' + t.id + '">' + t.icon + ' ' + esc(t.name) + '</option>';
+          s.innerHTML += '<option value="' + t.id + '">' + (t.icon || '📄') + ' ' + esc(t.name) + '</option>';
         });
         if (val && allTypes.some(function(t) { return t.id === val; })) s.value = val;
       });
     }
 
     function refreshCompanySelects() {
+      var companies = DATA.companies.length ? DATA.companies : [
+        { id: 'misr', name: 'مصر للتأمين' },
+        { id: 'allianz', name: 'أليانز للتأمين' },
+        { id: 'axa', name: 'أكسا للتأمين' },
+        { id: 'gig', name: 'GIG للتأمين' },
+        { id: 'chubb', name: 'تشب للتأمين' }
+      ];
       var ids = ['pCompany', 'prCompany', 'offerCompany'];
-      var allCompanies = getAllCompanies();
       ids.forEach(function(id) {
         var s = document.getElementById(id);
         if (!s) return;
         var val = s.value;
         s.innerHTML = '<option value="">اختر الشركة</option>';
-        allCompanies.forEach(function(c) {
+        companies.forEach(function(c) {
           s.innerHTML += '<option value="' + (c.id || c.name) + '">' + esc(c.name) + '</option>';
         });
-        if (val && allCompanies.some(function(c) { return (c.id || c.name) === val; })) s.value = val;
+        if (val && companies.some(function(c) { return (c.id || c.name) === val; })) s.value = val;
       });
     }
 
@@ -2649,8 +2703,9 @@
     }
 
     function renderInsuranceTypes() {
+      var allTypes = getAllTypes();
       var q = (document.getElementById('typeSearch')?.value || '').toLowerCase();
-      var types = DATA.types.filter(function(t) { return t.name.toLowerCase().includes(q); });
+      var types = allTypes.filter(function(t) { return t.name.toLowerCase().includes(q); });
       if (types.length === 0) {
         document.getElementById('typesGrid').innerHTML = '<div class="empty" style="grid-column:span 4">لا توجد أنواع تأمين</div>';
         return;
@@ -2846,503 +2901,7 @@
     }
 
     // ================================================================
-    // 13. DOCUMENT UPLOAD — مع إضافة role: 'admin'
-    // ================================================================
-    var DOCUMENT_MAX_RAW_BYTES = 720 * 1024;
-    var DOCUMENT_MAX_BASE64_BYTES = 1024 * 1024 - 64 * 1024;
-    var DOCUMENT_ALLOWED_MIME_TYPES = {
-      'application/pdf': 'PDF',
-      'image/jpeg': 'JPG',
-      'image/png': 'PNG',
-      'application/msword': 'DOC',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'DOCX',
-      'application/vnd.ms-excel': 'XLS',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'XLSX'
-    };
-    var DOCUMENT_ALLOWED_EXTENSIONS = ['pdf','jpg','jpeg','png','doc','docx','xls','xlsx'];
-
-    function openDocUploadModal() {
-      document.getElementById('docUploadErr').textContent = '';
-      document.getElementById('docName').value = '';
-      document.getElementById('docFile').value = '';
-      document.getElementById('docFileName').textContent = 'لم يتم اختيار ملف';
-      document.getElementById('docFileSize').textContent = '';
-      document.getElementById('docUploadProgress').style.display = 'none';
-      document.getElementById('progressBar').style.width = '0%';
-      document.getElementById('filePreview').style.display = 'none';
-      document.getElementById('filePreview').innerHTML = '';
-      document.getElementById('uploadStatus').className = 'upload-status';
-      document.getElementById('uploadStatus').textContent = '';
-      selectedFile = null;
-      renderUploadDiagnostics('', null, 'documents / —');
-      setDiagError('الوضع الحالي متوافق مع خطة Spark: لن يتم استخدام Firebase Storage. سيتم حفظ الملف داخل dataUrl في Firestore.', false, true);
-      refreshDocClientSelect();
-      openModal('docUploadModal');
-
-      var fileInput = document.getElementById('docFile');
-      fileInput.onchange = handleFileSelect;
-
-      var dropArea = document.getElementById('dropArea');
-      dropArea.ondragover = function(e) { e.preventDefault(); this.classList.add('dragover'); };
-      dropArea.ondragleave = function(e) { e.preventDefault(); this.classList.remove('dragover'); };
-      dropArea.ondrop = function(e) {
-        e.preventDefault();
-        this.classList.remove('dragover');
-        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-          fileInput.files = e.dataTransfer.files;
-          handleFileSelect.call(fileInput, { target: fileInput });
-        }
-      };
-    }
-
-    function getFileExtension(name) {
-      var parts = String(name || '').toLowerCase().split('.');
-      return parts.length > 1 ? parts.pop() : '';
-    }
-
-    function getAllowedType(file) {
-      if (!file) return '';
-      var mime = String(file.type || '').toLowerCase();
-      if (DOCUMENT_ALLOWED_MIME_TYPES[mime]) return mime;
-      var ext = getFileExtension(file.name);
-      var byExt = {
-        pdf: 'application/pdf',
-        jpg: 'image/jpeg',
-        jpeg: 'image/jpeg',
-        png: 'image/png',
-        doc: 'application/msword',
-        docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        xls: 'application/vnd.ms-excel',
-        xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      };
-      return byExt[ext] || '';
-    }
-
-    function estimateBase64Bytes(rawBytes) {
-      return Math.ceil(Number(rawBytes || 0) * 4 / 3);
-    }
-
-    function formatBytes(bytes) {
-      if (!Number.isFinite(Number(bytes)) || Number(bytes) < 0) return '—';
-      var n = Number(bytes);
-      if (n < 1024) return n + ' B';
-      if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB';
-      return (n / (1024 * 1024)).toFixed(2) + ' MB';
-    }
-
-    function setDiag(id, text, state) {
-      var el = document.getElementById(id);
-      if (!el) return;
-      el.textContent = text || '—';
-      el.classList.remove('ok', 'bad', 'warn');
-      if (state) el.classList.add(state);
-    }
-
-    function setDiagError(message, isError, isSuccess) {
-      var el = document.getElementById('diagError');
-      if (!el) return;
-      el.textContent = message || 'لا توجد أخطاء مسجلة.';
-      el.classList.toggle('error', !!isError);
-      el.classList.toggle('success', !!isSuccess);
-    }
-
-    function getFirestoreErrorArabic(error) {
-      var code = error && error.code ? String(error.code) : '';
-      var raw = error && (error.message || error.toString) ? String(error.message || error.toString()) : 'خطأ غير معروف';
-      var map = {
-        'permission-denied': 'تم رفض العملية بواسطة Firestore Rules. حساب الأدمن الحالي لا يملك صلاحية الكتابة في Collection documents.',
-        'unauthenticated': 'انتهت جلسة تسجيل الدخول أو لم يتم التعرف على المستخدم الحالي.',
-        'resource-exhausted': 'تم استهلاك الحصة المتاحة أو تم تجاوز حد خدمة Firestore.',
-        'invalid-argument': 'تم إرسال بيانات غير صالحة إلى Firestore.',
-        'failed-precondition': 'تعذر تنفيذ العملية بسبب حالة مسبقة أو إعدادات Firestore.',
-        'unavailable': 'خدمة Firestore غير متاحة مؤقتًا. تحقق من الإنترنت وحاول مرة أخرى.',
-        'deadline-exceeded': 'انتهت مهلة الاتصال بـ Firestore.',
-        'aborted': 'أوقف Firestore العملية مؤقتًا. حاول مرة أخرى.',
-        'already-exists': 'يوجد سجل بنفس المعرف بالفعل.',
-        'not-found': 'السجل المطلوب غير موجود.',
-        'cancelled': 'تم إلغاء العملية.'
-      };
-      return (map[code] || 'تعذر إتمام عملية Firestore.') +
-        '\nرمز الخطأ: ' + (code || 'غير متاح') +
-        '\nالتفاصيل التقنية: ' + raw;
-    }
-
-    function getCurrentDocumentPath(clientId, fileName) {
-      return 'documents / ' + String(clientId || '—') + ' / ' + String(fileName || '—');
-    }
-
-    function renderUploadDiagnostics(clientId, file, path) {
-      var authOk = !!(currentUser && currentUser.uid);
-      var firestoreOk = typeof firebase !== 'undefined' && firebase.firestore && db;
-      setDiag('diagAuth', authOk ? ('✅ ' + (currentUser.email || currentUser.uid)) : '❌ غير مسجل الدخول', authOk ? 'ok' : 'bad');
-      setDiag('diagStorageInit', firestoreOk ? '✅ Firestore جاهز — Spark' : '❌ Firestore غير متاح', firestoreOk ? 'ok' : 'bad');
-      setDiag('diagRules', 'لم يتم الاختبار بعد', 'warn');
-      setDiag('diagPath', path || 'documents / —');
-      setDiag('diagSize', file ? formatBytes(file.size) : '—');
-      setDiag('diagEncodedSize', file ? formatBytes(estimateBase64Bytes(file.size)) : '—');
-    }
-
-    async function runDataUrlDiagnostics() {
-      var btn = document.getElementById('runStorageDiagBtn');
-      var clientId = document.getElementById('docClient') ? document.getElementById('docClient').value : '';
-      var file = selectedFile;
-      var authOk = !!(currentUser && currentUser.uid);
-      var firestoreOk = typeof firebase !== 'undefined' && firebase.firestore && db;
-
-      setDiag('diagAuth', authOk ? ('✅ ' + (currentUser.email || currentUser.uid)) : '❌ غير مسجل الدخول', authOk ? 'ok' : 'bad');
-      setDiag('diagStorageInit', firestoreOk ? '✅ Firestore جاهز — Spark' : '❌ Firestore غير متاح', firestoreOk ? 'ok' : 'bad');
-      setDiag('diagSize', file ? formatBytes(file.size) : '—');
-      setDiag('diagEncodedSize', file ? formatBytes(estimateBase64Bytes(file.size)) : '—');
-
-      if (!authOk) {
-        setDiag('diagRules', '❌ لا توجد جلسة', 'bad');
-        setDiagError('لا يمكن اختبار صلاحية Firestore قبل تسجيل الدخول بحساب الأدمن.', true, false);
-        return false;
-      }
-      if (!firestoreOk) {
-        setDiag('diagRules', '❌ Firestore غير متاح', 'bad');
-        setDiagError('مكتبة Firestore غير متاحة في الصفحة. تحقق من تحميل Firebase Firestore.', true, false);
-        return false;
-      }
-      if (!clientId) {
-        setDiag('diagRules', '⚠️ اختر عميلًا أولًا', 'warn');
-        setDiagError('اختر العميل الذي تريد ربط المستند به ثم أعد الاختبار. الاختبار سيستخدم سجلًا مؤقتًا ثم يحذفه.', true, false);
-        return false;
-      }
-
-      if (btn) { btn.disabled = true; btn.textContent = '⏳ جاري الاختبار...'; }
-      var testId = '__securepath_diag__' + currentUser.uid + '_' + Date.now();
-      setDiag('diagPath', 'documents / ' + testId);
-      setDiag('diagRules', 'جاري اختبار الكتابة...', 'warn');
-      setDiagError('يتم إنشاء سجل تشخيص مؤقت داخل documents ثم حذفه مباشرة. لا يتم تعديل أي مستند حقيقي.', false, false);
-
-      try {
-        await db.collection('documents').doc(testId).set({
-          diagnostic: true,
-          clientId: clientId,
-          uid: clientId,
-          uploadedBy: 'agent',
-          uploaderUid: currentUser.uid,
-          role: 'admin',
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        setDiag('diagRules', '✅ الكتابة تعمل', 'ok');
-        try {
-          await db.collection('documents').doc(testId).delete();
-          setDiag('diagRules', '✅ الكتابة والحذف يعملان', 'ok');
-          setDiagError('اختبار Firestore Rules ناجح. يمكن للوحة الأدمن إنشاء سجل documents وحذفه، وهو المسار المطلوب لحفظ dataUrl.', false, true);
-          return true;
-        } catch (deleteError) {
-          setDiag('diagRules', '⚠️ الكتابة تعمل والحذف مرفوض', 'warn');
-          setDiagError('تم اختبار الكتابة بنجاح، لكن حذف سجل التشخيص فشل.\n\n' + getFirestoreErrorArabic(deleteError), true, false);
-          return false;
-        }
-      } catch (error) {
-        setDiag('diagRules', '❌ الكتابة مرفوضة', 'bad');
-        setDiagError(getFirestoreErrorArabic(error), true, false);
-        return false;
-      } finally {
-        if (btn) { btn.disabled = false; btn.textContent = 'اختبار الآن'; }
-      }
-    }
-
-    function validateSelectedDocument(file, dataUrl) {
-      if (!file) return { ok: false, message: 'لم يتم اختيار ملف.' };
-      var mime = getAllowedType(file);
-      var ext = getFileExtension(file.name);
-      if (!mime || !DOCUMENT_ALLOWED_EXTENSIONS.includes(ext)) {
-        return { ok: false, message: 'صيغة الملف غير مدعومة. الصيغ المدعومة: PDF, JPG, JPEG, PNG, DOC, DOCX, XLS, XLSX.' };
-      }
-      if (file.size > DOCUMENT_MAX_RAW_BYTES) {
-        return {
-          ok: false,
-          message: 'حجم الملف ' + formatBytes(file.size) + ' يتجاوز الحد الآمن ' + formatBytes(DOCUMENT_MAX_RAW_BYTES) +
-            ' لوضع Spark، لأن المحتوى سيُحوّل إلى Base64 داخل مستند Firestore.'
-        };
-      }
-      if (dataUrl) {
-        var encodedBytes = new Blob([dataUrl]).size;
-        if (encodedBytes > DOCUMENT_MAX_BASE64_BYTES) {
-          return {
-            ok: false,
-            message: 'الحجم المتوقع للـ Base64 (' + formatBytes(encodedBytes) + ') يتجاوز الحد الآمن قبل حفظ سجل Firestore.'
-          };
-        }
-      }
-      return { ok: true, mime: mime, ext: ext };
-    }
-
-    function fileToDataUrl(file, progressCallback) {
-      return new Promise(function(resolve, reject) {
-        var reader = new FileReader();
-        reader.onprogress = function(e) {
-          if (e.lengthComputable && typeof progressCallback === 'function') {
-            progressCallback(Math.min(70, Math.round((e.loaded / e.total) * 70)));
-          }
-        };
-        reader.onload = function() {
-          if (typeof progressCallback === 'function') progressCallback(75);
-          resolve(String(reader.result || ''));
-        };
-        reader.onerror = function() { reject(reader.error || new Error('FileReader failed')); };
-        reader.onabort = function() { reject(new Error('تم إلغاء قراءة الملف.')); };
-        reader.readAsDataURL(file);
-      });
-    }
-
-    function handleFileSelect(e) {
-      var file = e.target.files[0];
-      var status = document.getElementById('uploadStatus');
-
-      if (!file) {
-        document.getElementById('docFileName').textContent = 'لم يتم اختيار ملف';
-        document.getElementById('docFileSize').textContent = '';
-        document.getElementById('filePreview').style.display = 'none';
-        document.getElementById('filePreview').innerHTML = '';
-        selectedFile = null;
-        status.className = 'upload-status';
-        status.textContent = '';
-        renderUploadDiagnostics('', null, 'documents / —');
-        return;
-      }
-
-      var mime = getAllowedType(file);
-      var ext = getFileExtension(file.name);
-      if (!mime || !DOCUMENT_ALLOWED_EXTENSIONS.includes(ext)) {
-        status.className = 'upload-status error';
-        status.textContent = '⚠️ صيغة الملف غير مدعومة. الصيغ المدعومة: PDF, JPG, JPEG, PNG, DOC, DOCX, XLS, XLSX';
-        document.getElementById('docFileName').textContent = '❌ ' + file.name;
-        document.getElementById('docFileSize').textContent = formatBytes(file.size);
-        selectedFile = null;
-        renderUploadDiagnostics(document.getElementById('docClient').value, file, getCurrentDocumentPath(document.getElementById('docClient').value, file.name));
-        setDiag('diagRules', '⚠️ الصيغة غير مدعومة', 'warn');
-        setDiagError('الصيغة أو امتداد الملف غير مدعوم. اختر PDF أو صورة أو DOC/DOCX أو XLS/XLSX.', true, false);
-        return;
-      }
-
-      if (file.size > DOCUMENT_MAX_RAW_BYTES) {
-        status.className = 'upload-status error';
-        status.textContent = '⚠️ حجم الملف يتجاوز الحد الآمن لخطة Spark: ' + formatBytes(DOCUMENT_MAX_RAW_BYTES);
-        document.getElementById('docFileName').textContent = '❌ ' + file.name;
-        document.getElementById('docFileSize').textContent = formatBytes(file.size);
-        selectedFile = null;
-        renderUploadDiagnostics(document.getElementById('docClient').value, file, getCurrentDocumentPath(document.getElementById('docClient').value, file.name));
-        setDiag('diagRules', '⚠️ الملف كبير', 'warn');
-        setDiagError('الملف كبير على نمط dataUrl. لا نحاول رفعه ثم نفشل في Firestore؛ يتم رفضه قبل التحويل لحماية البيانات.', true, false);
-        return;
-      }
-
-      selectedFile = file;
-      status.className = 'upload-status success';
-      status.textContent = '✅ الملف صالح مبدئيًا للرفع';
-      document.getElementById('docFileName').textContent = '📎 ' + file.name;
-      document.getElementById('docFileSize').textContent = 'الحجم: ' + formatBytes(file.size) + ' • Base64 المتوقع: ' + formatBytes(estimateBase64Bytes(file.size));
-      renderUploadDiagnostics(document.getElementById('docClient').value, file, getCurrentDocumentPath(document.getElementById('docClient').value, file.name));
-      setDiag('diagRules', 'جاهز للاختبار', 'warn');
-      setDiagError('الملف ضمن الحد الآمن. شغّل «اختبار الآن» لفحص صلاحية الكتابة في Firestore قبل الحفظ.', false, false);
-
-      var preview = document.getElementById('filePreview');
-      if (file.type.startsWith('image/')) {
-        var reader = new FileReader();
-        reader.onload = function(evt) {
-          preview.style.display = 'block';
-          preview.innerHTML = '<img src="' + esc(evt.target.result) + '" alt="معاينة الملف">';
-        };
-        reader.readAsDataURL(file);
-      } else {
-        preview.style.display = 'block';
-        var iconMap = {
-          'application/pdf': '📄',
-          'application/msword': '📝',
-          'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '📝',
-          'application/vnd.ms-excel': '📊',
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '📊'
-        };
-        preview.innerHTML = '<div style="font-size:48px;padding:20px;text-align:center;">' + (iconMap[mime] || '📎') + '</div><div style="text-align:center;font-size:12px;color:var(--muted);word-break:break-word;">' + esc(file.name) + '</div>';
-      }
-    }
-
-    async function uploadDocument() {
-      var clientId = document.getElementById('docClient').value;
-      var fileName = document.getElementById('docName').value.trim();
-      var fileTypeLabel = document.getElementById('docType').value;
-      var err = document.getElementById('docUploadErr');
-      var progress = document.getElementById('docUploadProgress');
-      var progressBar = document.getElementById('progressBar');
-      var status = document.getElementById('uploadStatus');
-      var uploadBtn = document.getElementById('uploadDocBtn');
-
-      function resetUploadUi() {
-        uploadBtn.disabled = false;
-        uploadBtn.textContent = '📤 رفع المستند';
-        if (progress) progress.style.display = 'none';
-      }
-
-      err.textContent = '';
-      status.className = 'upload-status';
-      status.textContent = '';
-
-      if (!currentUser || !currentUser.uid) {
-        err.textContent = '❌ جلسة الأدمن غير صالحة. سجّل الدخول مرة أخرى.';
-        status.className = 'upload-status error';
-        status.textContent = '❌ لا توجد جلسة أدمن';
-        setDiag('diagAuth', '❌ غير مسجل الدخول', 'bad');
-        setDiagError('لا يمكن حفظ المستند بدون جلسة أدمن صالحة.', true, false);
-        return;
-      }
-      if (!clientId) {
-        err.textContent = 'يرجى اختيار العميل';
-        status.className = 'upload-status error';
-        status.textContent = '⚠️ يرجى اختيار العميل';
-        return;
-      }
-      if (!fileName) {
-        err.textContent = 'يرجى إدخال اسم المستند';
-        status.className = 'upload-status error';
-        status.textContent = '⚠️ يرجى إدخال اسم المستند';
-        return;
-      }
-      if (!selectedFile) {
-        err.textContent = 'يرجى اختيار ملف صالح للرفع';
-        status.className = 'upload-status error';
-        status.textContent = '⚠️ لم يتم اختيار ملف صالح';
-        return;
-      }
-
-      var mime = getAllowedType(selectedFile);
-      var typeCheck = validateSelectedDocument(selectedFile, null);
-      if (!typeCheck.ok) {
-        err.textContent = '❌ ' + typeCheck.message;
-        status.className = 'upload-status error';
-        status.textContent = '❌ الملف غير صالح للرفع';
-        setDiagError(typeCheck.message, true, false);
-        return;
-      }
-
-      var pathText = getCurrentDocumentPath(clientId, fileName);
-      renderUploadDiagnostics(clientId, selectedFile, pathText);
-      setDiagError('جاري تحويل الملف إلى Data URL ثم فحص حجمه قبل حفظه في Firestore.', false, false);
-
-      var existing = DATA.documents.find(function(d) {
-        return (d.clientId === clientId || d.uid === clientId) && d.fileName === fileName;
-      });
-      if (existing) {
-        if (!confirm('⚠️ يوجد مستند بنفس الاسم لهذا العميل. سيتم استبدال سجل المستند بعد نجاح التحويل والحفظ فقط، ولن يتم حذف النسخة الحالية عند الفشل. متابعة؟')) return;
-      }
-
-      uploadBtn.disabled = true;
-      uploadBtn.textContent = '⏳ تجهيز الملف...';
-      if (progress) {
-        progress.style.display = 'block';
-        progressBar.style.width = '2%';
-      }
-      status.className = 'upload-status loading';
-      status.textContent = '⏳ جاري قراءة الملف وتحويله إلى Data URL...';
-
-      try {
-        var dataUrl = await fileToDataUrl(selectedFile, function(percent) {
-          if (progressBar) progressBar.style.width = percent + '%';
-          uploadBtn.textContent = '📦 تجهيز ' + percent + '%';
-          status.textContent = '⏳ تجهيز الملف ' + percent + '%';
-        });
-
-        var validation = validateSelectedDocument(selectedFile, dataUrl);
-        if (!validation.ok) {
-          throw new Error(validation.message);
-        }
-
-        var encodedBytes = new Blob([dataUrl]).size;
-        setDiag('diagEncodedSize', formatBytes(encodedBytes), encodedBytes <= DOCUMENT_MAX_BASE64_BYTES ? 'ok' : 'bad');
-        if (progressBar) progressBar.style.width = '82%';
-        uploadBtn.textContent = '💾 حفظ في Firestore...';
-        status.textContent = '⏳ تم تجهيز Data URL. جاري حفظ سجل documents...';
-
-        var docData = {
-          clientId: clientId,
-          uid: clientId,
-          fileName: fileName,
-          fileType: fileTypeLabel || mime || selectedFile.type || 'application/octet-stream',
-          mimeType: mime || selectedFile.type || 'application/octet-stream',
-          fileOriginalName: selectedFile.name,
-          fileExtension: getFileExtension(selectedFile.name),
-          fileSize: selectedFile.size,
-          dataUrl: dataUrl,
-          uploadedBy: 'agent',
-          uploaderUid: currentUser.uid,
-          uploaderEmail: currentUser.email,
-          role: 'admin',
-          verificationStatus: 'pending',
-          storageMode: 'firestore-dataUrl',
-          createdAt: existing && existing.createdAt ? existing.createdAt : firebase.firestore.FieldValue.serverTimestamp(),
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
-
-        if (existing) {
-          if (existing.cloudinaryPublicId) docData.previousCloudinaryPublicId = existing.cloudinaryPublicId;
-          if (existing.storagePath) docData.previousStoragePath = existing.storagePath;
-          docData.replacedAt = firebase.firestore.FieldValue.serverTimestamp();
-        }
-
-        var ref = existing ? db.collection('documents').doc(existing.id) : db.collection('documents').doc();
-        await ref.set(docData, { merge: true });
-        if (progressBar) progressBar.style.width = '96%';
-
-        var savedSnap = await ref.get();
-        var savedData = savedSnap.exists ? savedSnap.data() : null;
-        if (!savedData || !savedData.dataUrl) {
-          throw new Error('تم تنفيذ عملية الحفظ لكن لم تتم إعادة قراءة dataUrl من Firestore. لم يتم اعتبار العملية ناجحة.');
-        }
-
-        if (String(savedData.dataUrl).slice(0, 5) !== 'data:') {
-          throw new Error('تم حفظ السجل لكن قيمة dataUrl غير صالحة أو غير مكتملة.');
-        }
-
-        DATA.documents = await loadCollection('documents');
-        renderDocuments();
-        renderDashboard();
-        refreshAllSelects();
-
-        if (progressBar) progressBar.style.width = '100%';
-        resetUploadUi();
-        selectedFile = null;
-        status.className = 'upload-status success';
-        status.textContent = '✅ تم رفع المستند وحفظه داخل Firestore بنجاح';
-        setDiag('diagRules', '✅ تم الحفظ والتحقق', 'ok');
-        setDiagError('نجح تحويل الملف إلى Data URL وحفظه في documents ثم إعادة قراءته والتحقق من وجوده. البيانات الحالية لم تُحذف.', false, true);
-        closeModal('docUploadModal');
-        toast('✅ تم حفظ المستند بنجاح على خطة Spark');
-      } catch (error) {
-        console.error('❌ Document upload/save error:', error);
-        resetUploadUi();
-        var message = error && error.message ? String(error.message) : String(error);
-        var detailed = /FirebaseError|permission-denied|unauthenticated|resource-exhausted/.test(message) || (error && error.code)
-          ? getFirestoreErrorArabic(error)
-          : '❌ فشل حفظ المستند.\n' + message;
-        err.textContent = detailed;
-        status.className = 'upload-status error';
-        status.textContent = '❌ لم يتم اعتماد العملية. لم يتم حذف السجل السابق.';
-        setDiag('diagRules', error && error.code === 'permission-denied' ? '❌ مرفوض بواسطة Rules' : '❌ فشل الحفظ', 'bad');
-        setDiagError(detailed, true, false);
-        toast('❌ فشل حفظ المستند — البيانات القديمة محفوظة', true);
-      }
-    }
-
-    function verifyDocument(id, status) {
-      db.collection('documents').doc(id).update({
-        verificationStatus: status,
-        verifiedAt: firebase.firestore.FieldValue.serverTimestamp(),
-        verifiedBy: currentUser ? currentUser.uid : ''
-      }).then(function() {
-        return loadCollection('documents').then(function(docs) {
-          DATA.documents = docs;
-          renderDocuments();
-          toast(status === 'approved' ? '✅ تم اعتماد المستند' : '✅ تم رفض المستند');
-        });
-      }).catch(function(err) { toast('❌ تعذر التحديث: ' + err.message, true); });
-    }
-
-    // ================================================================
-    // 14. CREATE CLIENT
+    // 13. CREATE CLIENT
     // ================================================================
     function createClient() {
       var name = document.getElementById('cName').value.trim();
@@ -3350,6 +2909,7 @@
       var phone = document.getElementById('cPhone').value.trim();
       var pass = document.getElementById('cPass').value;
       var err = document.getElementById('cErr');
+
       err.textContent = '';
       if (!name) { err.textContent = '⚠️ يرجى إدخال الاسم الكامل'; return; }
       if (!email) { err.textContent = '⚠️ يرجى إدخال البريد الإلكتروني'; return; }
@@ -3357,12 +2917,11 @@
       if (!phone) { err.textContent = '⚠️ يرجى إدخال رقم الهاتف'; return; }
       var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) { err.textContent = '⚠️ البريد الإلكتروني غير صحيح'; return; }
-      var existingClient = DATA.clients.find(function(c) { return c.email === email; });
-      if (existingClient) { err.textContent = '⚠️ هذا البريد الإلكتروني مسجل مسبقاً'; return; }
+      if (DATA.clients.some(c => c.email === email)) { err.textContent = '⚠️ هذا البريد مسجل مسبقاً'; return; }
 
       showLoading('createClientBtn', 'جاري إنشاء العميل...');
       if (!clientAuth) {
-        err.textContent = '❌ خدمة إنشاء العملاء غير متاحة حاليًا.';
+        err.textContent = '❌ خدمة إنشاء العملاء غير متاحة.';
         hideLoading('createClientBtn');
         return;
       }
@@ -3371,32 +2930,46 @@
         .then(function(userCredential) {
           var user = userCredential.user;
           console.log('✅ تم إنشاء حساب العميل في Authentication:', user.uid);
-          var clientData = {
-            fullName: name,
+
+          var userData = {
             email: email,
-            phone: phone,
-            username: email.split('@')[0],
             uid: user.uid,
-            role: 'client',
-            status: 'active',
+            role: 'user',
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            createdBy: currentUser ? currentUser.uid : 'admin',
-            emailVerified: user.emailVerified || false
+            createdBy: currentUser ? currentUser.uid : 'admin'
           };
-          return db.collection('clients').doc(user.uid).set(clientData)
-            .then(function() { console.log('✅ تم حفظ بيانات العميل في Firestore'); return user; });
+          return db.collection('users').doc(user.uid).set(userData)
+            .then(function() {
+              console.log('✅ تم حفظ بيانات المستخدم في users');
+              var clientData = {
+                fullName: name,
+                email: email,
+                phone: phone,
+                username: email.split('@')[0],
+                uid: user.uid,
+                client: true,
+                status: 'active',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                createdBy: currentUser ? currentUser.uid : 'admin'
+              };
+              return db.collection('clients').doc(user.uid).set(clientData)
+                .then(function() {
+                  console.log('✅ تم حفظ بيانات العميل في clients');
+                  return user;
+                });
+            });
         })
         .then(function(user) {
           if (user && user.sendEmailVerification) {
-            user.sendEmailVerification().catch(function(e) { console.warn('⚠️ تعذر إرسال بريد التأكيد:', e.message); });
+            user.sendEmailVerification().catch(e => console.warn('⚠️ تعذر إرسال بريد التأكيد:', e.message));
           }
-          return clientAuth.signOut().catch(function() {}).then(function() { return user; });
+          return clientAuth.signOut().then(() => user);
         })
-        .then(function(user) {
+        .then(function() {
           hideLoading('createClientBtn');
           closeModal('clientModal');
           toast('✅ تم إنشاء العميل بنجاح! تم إرسال بريد التأكيد.');
-          return loadCollection('clients').then(function(clients) {
+          return loadCollection('clients').then(clients => {
             DATA.clients = clients;
             renderClients();
             renderDashboard();
@@ -3407,14 +2980,11 @@
           hideLoading('createClientBtn');
           console.error('❌ خطأ في إنشاء العميل:', error);
           if (error.code === 'auth/email-already-in-use') {
-            err.textContent = '⚠️ هذا البريد الإلكتروني مستخدم بالفعل. يرجى استخدام بريد آخر.';
-          } else if (error.code === 'auth/invalid-email') {
-            err.textContent = '⚠️ البريد الإلكتروني غير صحيح.';
+            err.textContent = '⚠️ هذا البريد مستخدم بالفعل.';
           } else if (error.code === 'auth/weak-password') {
-            err.textContent = '⚠️ كلمة المرور ضعيفة. يرجى استخدام 6 أحرف على الأقل.';
+            err.textContent = '⚠️ كلمة المرور ضعيفة (6 أحرف على الأقل).';
           } else if (error.code === 'auth/operation-not-allowed') {
-            err.textContent = '⚠️ خدمة إنشاء المستخدمين غير مفعلة في Firebase. يرجى تفعيلها من لوحة التحكم.';
-            toast('❌ يرجى تفعيل خدمة Email/Password في Firebase Console', true);
+            err.textContent = '⚠️ خدمة Email/Password غير مفعلة في Firebase.';
           } else {
             err.textContent = '❌ ' + error.message;
           }
@@ -3422,7 +2992,7 @@
     }
 
     // ================================================================
-    // 15. CRUD: POLICIES, PAYMENTS, CLAIMS, COMPANIES, TYPES
+    // 14. CRUD: POLICIES, PAYMENTS, CLAIMS, COMPANIES, TYPES
     // ================================================================
     function createPolicy() {
       var cid = document.getElementById('pClient').value;
@@ -3552,7 +3122,7 @@
     }
 
     // ================================================================
-    // 16. PRODUCTS CRUD
+    // 15. PRODUCTS CRUD
     // ================================================================
     function openProductModal() {
       document.getElementById('prErr').textContent = '';
@@ -3676,7 +3246,7 @@
     }
 
     // ================================================================
-    // 17. OFFERS CRUD
+    // 16. OFFERS CRUD
     // ================================================================
     function openOfferModal() {
       document.getElementById('offerErr').textContent = '';
@@ -3814,7 +3384,7 @@
     }
 
     // ================================================================
-    // 18. CHAT
+    // 17. CHAT
     // ================================================================
     function openClientChat(id) {
       if (!id) return;
@@ -3861,7 +3431,7 @@
     }
 
     // ================================================================
-    // 19. VIEW NAVIGATION
+    // 18. VIEW NAVIGATION
     // ================================================================
     function showView(view, el) {
       document.querySelectorAll('.view').forEach(function(x) { x.classList.remove('active'); });
@@ -3913,7 +3483,7 @@
     }
 
     // ================================================================
-    // 20. CLIENT & COMPANY PROFILES
+    // 19. CLIENT & COMPANY PROFILES
     // ================================================================
     function openClientProfile(id) {
       var c = DATA.clients.find(function(x) { return x.id === id || x.uid === id; });
@@ -3986,7 +3556,7 @@
     }
 
     // ================================================================
-    // 21. DARK MODE
+    // 20. DARK MODE
     // ================================================================
     function toggleDarkMode() {
       var html = document.documentElement;
@@ -4008,7 +3578,7 @@
     })();
 
     // ================================================================
-    // 22. MODAL OPEN HELPERS
+    // 21. MODAL OPEN HELPERS
     // ================================================================
     function openPolicyModal(cid) { if (cid === undefined) cid = ''; refreshAllSelects(); document.getElementById('pClient').value = cid || ''; document.getElementById('pErr').textContent = ''; openModal('policyModal'); }
     function openPaymentModal(cid) { if (cid === undefined) cid = ''; refreshAllSelects(); document.getElementById('payClient').value = cid || ''; refreshPolicySelect('payClient', 'payPolicy'); var today = new Date().toISOString().slice(0, 10); document.getElementById('payDate').value = today; document.getElementById('payAmount').value = ''; document.getElementById('payRemaining').value = '0'; document.getElementById('payErr').textContent = ''; openModal('paymentModal'); }
@@ -4017,7 +3587,7 @@
     function openTypeModal() { document.getElementById('tErr').textContent = ''; document.getElementById('tName').value = ''; document.getElementById('tDesc').value = ''; openModal('typeModal'); }
 
     // ================================================================
-    // 23. RENDER ALL
+    // 22. RENDER ALL
     // ================================================================
     function renderAll() {
       renderDashboard();
@@ -4040,7 +3610,7 @@
     }
 
     // ================================================================
-    // 24. INIT
+    // 23. INIT
     // ================================================================
     function initSelects() {
       var companySelects = ['pCompany', 'prCompany', 'offerCompany'];
@@ -4048,26 +3618,28 @@
         var s = document.getElementById(id);
         if (!s) return;
         s.innerHTML = '<option value="">اختر الشركة</option>';
-        INSURANCE_COMPANIES.forEach(function(c) {
-          s.innerHTML += '<option value="' + c.id + '">' + c.name + '</option>';
+        var companies = DATA.companies.length ? DATA.companies : [
+          { id: 'misr', name: 'مصر للتأمين' },
+          { id: 'allianz', name: 'أليانز للتأمين' },
+          { id: 'axa', name: 'أكسا للتأمين' },
+          { id: 'gig', name: 'GIG للتأمين' },
+          { id: 'chubb', name: 'تشب للتأمين' }
+        ];
+        companies.forEach(function(c) {
+          s.innerHTML += '<option value="' + (c.id || c.name) + '">' + esc(c.name) + '</option>';
         });
       });
 
-      var typeSelects = ['pType', 'prType', 'offerType'];
-      typeSelects.forEach(function(id) {
-        var s = document.getElementById(id);
-        if (!s) return;
-        s.innerHTML = '<option value="">اختر النوع</option>';
-        INSURANCE_TYPES.forEach(function(t) {
-          s.innerHTML += '<option value="' + t.id + '">' + t.icon + ' ' + t.name + '</option>';
-        });
-      });
+      refreshTypeSelects();
 
       var clientSelects = ['pClient', 'payClient', 'clClient', 'docClient'];
       clientSelects.forEach(function(id) {
         var s = document.getElementById(id);
         if (!s) return;
         s.innerHTML = '<option value="">اختر العميل</option>';
+        DATA.clients.forEach(function(c) {
+          s.innerHTML += '<option value="' + (c.id || c.uid) + '">' + esc(c.fullName || c.username) + '</option>';
+        });
       });
     }
 
@@ -4083,7 +3655,6 @@
       document.getElementById('email').addEventListener('keydown', function(e) {
         if (e.key === 'Enter') document.getElementById('pass').focus();
       });
-      // Reset product button
       var productBtn = document.getElementById('createProductBtn');
       if (productBtn) {
         productBtn.textContent = 'حفظ المنتج';
