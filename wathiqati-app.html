@@ -792,6 +792,31 @@
   }
   .chat-fab .pulse-ring:nth-child(2) { animation-delay:0.5s; }
 
+  /* ===== WHATSAPP FLOATING BUTTON (draggable, home screen) ===== */
+  .whatsapp-fab {
+    position:absolute; bottom:100px; right:12px; z-index:998;
+    width:56px; height:56px; border-radius:50%;
+    background:linear-gradient(145deg,#25D366,#128C7E); color:#fff; border:none;
+    box-shadow:0 8px 30px rgba(37,211,102,0.45);
+    display:flex; align-items:center; justify-content:center; cursor:grab;
+    transition:box-shadow 0.3s ease; touch-action:none; user-select:none;
+    animation:pulse-fab-wa 2s ease-in-out infinite;
+  }
+  .whatsapp-fab:active { cursor:grabbing; transition:none; }
+  .whatsapp-fab.dragging { box-shadow:0 14px 40px rgba(37,211,102,0.6); animation:none; }
+  .whatsapp-fab .fab-icon { position:relative; display:flex; }
+  .whatsapp-fab .fab-icon svg { width:26px; height:26px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .whatsapp-fab .pulse-ring.wa {
+    position:absolute; width:100%; height:100%; border-radius:50%;
+    border:3px solid rgba(37,211,102,0.35);
+    animation:ring-pulse 2s ease-out infinite; pointer-events:none;
+  }
+  .whatsapp-fab .pulse-ring.wa:nth-child(2) { animation-delay:0.5s; }
+  @keyframes pulse-fab-wa {
+    0%,100% { box-shadow:0 8px 30px rgba(37,211,102,0.45); }
+    50% { box-shadow:0 8px 50px rgba(37,211,102,0.65),0 0 30px rgba(37,211,102,0.25); }
+  }
+
   @keyframes pulse-fab {
     0%,100% { box-shadow:0 8px 30px rgba(14,42,92,0.4); }
     50% { box-shadow:0 8px 50px rgba(14,42,92,0.6),0 0 30px rgba(242,189,99,0.2); }
@@ -1056,7 +1081,7 @@ html{color-scheme:light;}
   @keyframes whatsapp-icon-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
   @keyframes chat-icon-breathe{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.08) rotate(-3deg)}}
   @keyframes whatsapp-button-shine{0%,55%{transform:translateX(-120%)}75%,100%{transform:translateX(120%)}}
-  @media (prefers-reduced-motion:reduce){.advice-option.active .option-icon,.advice-whatsapp-container .wa-big-icon,.whatsapp-btn .wa-icon,.chat-fab .fab-icon svg,.whatsapp-btn::before{animation:none!important}}
+  @media (prefers-reduced-motion:reduce){.advice-option.active .option-icon,.advice-whatsapp-container .wa-big-icon,.whatsapp-btn .wa-icon,.chat-fab .fab-icon svg,.whatsapp-btn::before,.whatsapp-fab,.whatsapp-fab .pulse-ring.wa{animation:none!important}}
 
 /* Stable company directory presentation */
 .companies-slider-section{min-height:96px;}
@@ -1411,6 +1436,13 @@ html[dir=ltr] #sliderTrack .slider-item{--slider-item-dir:ltr;}
       </div>
     </div>
     <div class="policies" id="homePoliciesList"></div>
+
+    <!-- ====== WHATSAPP FLOATING BUTTON (home only, draggable) ====== -->
+    <button class="whatsapp-fab" id="whatsappFab" aria-label="WhatsApp">
+      <span class="pulse-ring wa"></span>
+      <span class="pulse-ring wa"></span>
+      <span class="fab-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-11.1 6.6L4 20l1.9-4.6A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8.2 8.6c.2-.5.5-.7.9-.7h.7c.2 0 .4.2.5.5l.7 1.7c.1.3 0 .5-.2.7l-.7.6c.5 1 1.3 1.8 2.3 2.3l.6-.7c.2-.2.4-.3.7-.2l1.7.7c.3.1.5.3.5.5v.7c0 .4-.2.7-.7.9-2 .4-5.9-2.6-6.9-5.1-.2-.6-.2-1.3-.1-1.9Z"/></svg></span>
+    </button>
   </div>
 
   <!-- ====== ASSESSMENT RESULT SCREEN ====== -->
@@ -1566,7 +1598,7 @@ html[dir=ltr] #sliderTrack .slider-item{--slider-item-dir:ltr;}
           <span class="icon-navy"><span class="app-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20c1-4 3-6 7-6s6 2 7 6"/></svg></span></span>
           بياناتي
         </b>
-        <div style="font-size:13px;color:var(--muted);padding:4px 0;"><span id="accountLoggedIn">تم تسجيل الدخول كـ: <strong id="accLoginEmail">---</strong></span></div>
+        <div style="font-size:13px;color:var(--muted);padding:4px 0;"><span id="accountLoggedIn">تم تسجيل الدخول كـ: <strong>---</strong></span></div>
       </div>
       <div class="p-card" style="padding:14px;cursor:pointer;" onclick="runFullAssessment()">
         <b id="accountAssessment">
@@ -1592,6 +1624,18 @@ html[dir=ltr] #sliderTrack .slider-item{--slider-item-dir:ltr;}
           جرب حظك
         </b>
         <div style="font-size:11px;color:var(--muted);margin-top:2px;" id="accountWheelSub">جرب حظك</div>
+      </div>
+      <div class="p-card" style="padding:14px;cursor:pointer;" onclick="toggleChat()">
+        <b id="accountLiveChat">
+          <span class="icon-navy"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M5 5.5A2.5 2.5 0 0 1 7.5 3h9A2.5 2.5 0 0 1 19 5.5v7A2.5 2.5 0 0 1 16.5 15H12l-4.2 4v-4H7.5A2.5 2.5 0 0 1 5 12.5z"/><path d="M8 8h8M8 11h5"/></svg></span></span>
+          محادثة مباشرة مع وكيلك
+        </b>
+      </div>
+      <div class="p-card" style="padding:14px;cursor:pointer;" onclick="shareAppLink()">
+        <b id="accountShareApp">
+          <span class="icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8 15.8 6.2M8.2 13.2l7.6 4.6"/></svg></span></span>
+          مشاركة رابط التطبيق
+        </b>
       </div>
       <div class="p-card" style="padding:14px;color:var(--red);cursor:pointer;" onclick="handleLogout()">
         <b id="accountLogout">
@@ -1626,15 +1670,7 @@ html[dir=ltr] #sliderTrack .slider-item{--slider-item-dir:ltr;}
     </button>
   </div>
 
-  <!-- ====== CHAT FLOATING BUTTON ====== -->
-  <button class="chat-fab" id="chatFab" onclick="toggleChat()">
-    <span class="pulse-ring"></span>
-    <span class="pulse-ring"></span>
-    <span class="fab-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5.5A2.5 2.5 0 0 1 7.5 3h9A2.5 2.5 0 0 1 19 5.5v7A2.5 2.5 0 0 1 16.5 15H12l-4.2 4v-4H7.5A2.5 2.5 0 0 1 5 12.5z"/><path d="M8 8h8M8 11h5"/></svg></span>
-    <span class="fab-badge" id="chatBadge" style="display:none;">1</span>
-  </button>
-
-  <!-- ====== CHAT WIDGET ====== -->
+  <!-- ====== CHAT WIDGET (opened from Account → محادثة مباشرة مع وكيلك) ====== -->
   <div class="chat-widget" id="chatWidget">
     <div class="chat-header">
       <div class="chat-title"><span class="online-dot"></span><span id="chatTitle">💬 وكيل SecurePath</span></div>
@@ -1842,6 +1878,7 @@ var TRANSLATIONS = {
     accountAssessment:'إجراء تقييم شامل للحماية التأمينية',
     accountDocuments:'مستنداتي',
     accountWheel:'جرب حظك', accountWheelSub:'جرب حظك',
+    accountLiveChat:'محادثة مباشرة مع وكيلك', accountShareApp:'مشاركة رابط التطبيق',
     accountLogout:'تسجيل الخروج',
     navHome:'الرئيسية', navPolicies:'وثائقي', navProducts:'المنتجات',
     navDocuments:'المستندات', navAccount:'حسابي',
@@ -1947,6 +1984,7 @@ var TRANSLATIONS = {
     accountAssessment:'Run Comprehensive Protection Assessment',
     accountDocuments:'My Files',
     accountWheel:'Try Your Luck', accountWheelSub:'Try your luck and win exclusive prizes',
+    accountLiveChat:'Live Chat With Your Agent', accountShareApp:'Share App Link',
     accountLogout:'Logout',
     navHome:'Home', navPolicies:'My Policies', navProducts:'Products',
     navDocuments:'Documents', navAccount:'Account',
@@ -2022,7 +2060,10 @@ var wheelPrizes = [
 // Single source of truth: all application functions are defined once below.
 // Existing Firebase collections and document IDs are preserved.
 // ============================================================
-var STORAGE = (typeof firebase !== 'undefined' && firebase.storage) ? firebase.storage() : null;
+var STORAGE = (typeof firebase !== 'undefined' && firebase.storage) ? firebase.storage() : null; // kept for reading legacy documents uploaded before the Cloudinary migration
+var CLOUDINARY_CLOUD_NAME = 'zs4wny34';
+var CLOUDINARY_UPLOAD_PRESET = 'securepath_docs';
+var CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/'+CLOUDINARY_CLOUD_NAME+'/auto/upload';
 var RENEWAL_WINDOW_DAYS = 45;
 var MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 var activeObjectUrls = [];
@@ -2072,7 +2113,7 @@ var I18N_IDS = {
   signupTitle:'signupTitle',regFullNameLabel:'regFullNameLabel',regEmailLabel:'regEmailLabel',regPassLabel:'regPassLabel',regBirthDateLabel:'regBirthDateLabel',regGenderLabel:'regGenderLabel',genderMale:'genderMale',genderFemale:'genderFemale',regPhoneLabel:'regPhoneLabel',regOccupationLabel:'regOccupationLabel',regClientTypeLabel:'regClientTypeLabel',clientTypeIndividual:'clientTypeIndividual',clientTypeCorporate:'clientTypeCorporate',regBusinessNameLabel:'regBusinessNameLabel',regBusinessActivityLabel:'regBusinessActivityLabel',regEmployeesLabel:'regEmployeesLabel',regExistingPoliciesLabel:'regExistingPoliciesLabel',existingPoliciesHelp:'existingPoliciesHelp',termsLink:'termsLink',signupBtn:'signupBtn',signupSwitch:'signupSwitch',
   welcomeText:'welcomeText',protectionLabel:'protectionLabel',quickAccessTitle:'quickAccessTitle',quickUpload:'quickUpload',quickProducts:'quickProducts',quickAssessment:'quickAssessment',quickAdvice:'quickAdvice',myPoliciesTitle:'myPoliciesTitle',viewAllLink:'viewAllLink',
   assessmentResultTitle:'assessmentResultTitle',assessmentResultSub:'assessmentResultSub',assessmentBackBtn:'assessmentBackBtn',adviceTitle:'adviceTitle',adviceSub:'adviceSub',adviceBackBtn:'adviceBackBtn',adviceCardTitle:'adviceCardTitle',adviceCardSub:'adviceCardSub',optTextTitle:'optTextTitle',optTextDesc:'optTextDesc',optTextBadge:'optTextBadge',optWhatsappTitle:'optWhatsappTitle',optWhatsappDesc:'optWhatsappDesc',optWhatsappBadge:'optWhatsappBadge',adviceTextLabel:'adviceTextLabel',adviceSubmitBtn:'adviceSubmitBtn',adviceSuccessTitle:'adviceSuccessTitle',adviceSuccessText:'adviceSuccessText',adviceNewRequest:'adviceNewRequest',whatsappTitle:'whatsappTitle',whatsappText:'whatsappText',whatsappBtnText:'whatsappBtnText',whatsappNumber:'whatsappNumber',
-  policiesTitle:'policiesTitle',policiesSub:'policiesSub',productsTitle:'productsTitle',productsSub:'productsSub',offersBannerTitle:'offersBannerTitle',offersBannerSub:'offersBannerSub',offersTitle:'offersTitle',offersSub:'offersSub',offersBackBtn:'offersBackBtn',accountOffers:'accountOffers',noOffers:'noOffers',noOffersText:'noOffersText',documentsTitle:'documentsTitle',documentsSub:'documentsSub',uploadDocBtn:'uploadDocBtn',notificationsTitle:'notificationsTitle',notificationsSub:'notificationsSub',accountClientData:'accountClientData',accountLoggedIn:'accountLoggedIn',accountAssessment:'accountAssessment',accountDocuments:'accountDocuments',accountWheel:'جرب حظك',accountWheelSub:'جرب حظك',accountLogout:'accountLogout',navHome:'navHome',navPolicies:'navPolicies',navProducts:'navProducts',navDocuments:'navDocuments',navAccount:'navAccount',policyNumberLabel:'policyNumberLabel',policyTypeLabel:'policyTypeLabel',policyExpiryLabel:'policyExpiryLabel',policyAmountLabel:'policyAmountLabel',policyStatusLabel:'policyStatusLabel',btnRenewPolicy:'btnRenewPolicy',btnOpenPolicyDoc:'btnOpenPolicyDoc',uploadTitle:'uploadTitle',uploadSub:'uploadSub',uploadDocNameLabel:'uploadDocNameLabel',uploadCategoryLabel:'uploadCategoryLabel',uploadFileLabel:'uploadFileLabel',uploadBtn:'uploadBtn',termsTitle:'termsTitle',termsSub:'termsSub',termsAgreeBtn:'termsAgreeBtn',wheelTitle:'wheelTitle',wheelSub:'wheelSub',chatTitle:'chatTitle',chatNow:'chatNow',
+  policiesTitle:'policiesTitle',policiesSub:'policiesSub',productsTitle:'productsTitle',productsSub:'productsSub',offersBannerTitle:'offersBannerTitle',offersBannerSub:'offersBannerSub',offersTitle:'offersTitle',offersSub:'offersSub',offersBackBtn:'offersBackBtn',accountOffers:'accountOffers',noOffers:'noOffers',noOffersText:'noOffersText',documentsTitle:'documentsTitle',documentsSub:'documentsSub',uploadDocBtn:'uploadDocBtn',notificationsTitle:'notificationsTitle',notificationsSub:'notificationsSub',accountClientData:'accountClientData',accountLoggedIn:'accountLoggedIn',accountAssessment:'accountAssessment',accountDocuments:'accountDocuments',accountWheel:'جرب حظك',accountWheelSub:'جرب حظك',accountLiveChat:'accountLiveChat',accountShareApp:'accountShareApp',accountLogout:'accountLogout',navHome:'navHome',navPolicies:'navPolicies',navProducts:'navProducts',navDocuments:'navDocuments',navAccount:'navAccount',policyNumberLabel:'policyNumberLabel',policyTypeLabel:'policyTypeLabel',policyExpiryLabel:'policyExpiryLabel',policyAmountLabel:'policyAmountLabel',policyStatusLabel:'policyStatusLabel',btnRenewPolicy:'btnRenewPolicy',btnOpenPolicyDoc:'btnOpenPolicyDoc',uploadTitle:'uploadTitle',uploadSub:'uploadSub',uploadDocNameLabel:'uploadDocNameLabel',uploadCategoryLabel:'uploadCategoryLabel',uploadFileLabel:'uploadFileLabel',uploadBtn:'uploadBtn',termsTitle:'termsTitle',termsSub:'termsSub',termsAgreeBtn:'termsAgreeBtn',wheelTitle:'wheelTitle',wheelSub:'wheelSub',chatTitle:'chatTitle',chatNow:'chatNow',
   assessmentScore:'assessmentScore',assessmentStatus:'assessmentStatus',assessmentDetails:'assessmentDetails',assessmentPolicies:'assessmentPolicies',assessmentExisting:'assessmentExisting',assessmentDocs:'assessmentDocs',assessmentProfile:'assessmentProfile',assessmentAge:'assessmentAge',assessmentOccupation:'assessmentOccupation',assessmentClientType:'assessmentClientType',assessmentActive:'assessmentActive',assessmentOwned:'assessmentOwned',assessmentRecommendations:'assessmentRecommendations',assessmentRecommendationsText:'assessmentRecommendationsText',assessmentExcellent:'assessmentExcellent',assessmentNextSteps:'assessmentNextSteps',assessmentRiskGap:'assessmentRiskGap',assessmentRiskGapText:'assessmentRiskGapText',assessmentCoverageGap:'assessmentCoverageGap',assessmentPremiumRecommendation:'assessmentPremiumRecommendation',noPolicies:'noPolicies',noPoliciesText:'noPoliciesText',noProducts:'noProducts',noProductsText:'noProductsText',noDocuments:'noDocuments',noDocumentsText:'noDocumentsText',noNotifications:'noNotifications',noNotificationsText:'noNotificationsText'
 };
 
@@ -2119,6 +2160,7 @@ function showScreen(id){
   var nav=document.getElementById('mainNavbar');
   if(nav){ if(id==='login'||id==='signup') nav.classList.remove('show'); else nav.classList.add('show'); }
   updateNavHighlight(id); ensureLanguageToggle();
+  var waFab=document.getElementById('whatsappFab'); if(waFab) waFab.style.display=(id==='home')?'flex':'none';
 }
 function switchTab(id){showScreen(id);}
 function updateNavHighlight(id){ document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('on');}); var b=document.getElementById('nav-'+id); if(b)b.classList.add('on'); }
@@ -2623,10 +2665,26 @@ function openPolicyModal(id){
   openModal('policyModal');
 }
 
-// ===== DOCUMENT STORAGE =====
+// ===== DOCUMENT STORAGE (Cloudinary) =====
 function isSupportedFile(file){return !!file && (file.type==='application/pdf'||/^image\/(jpeg|jpg|png|webp|gif)$/i.test(file.type));}
-function storagePathFor(uid,docId,fileName){return 'client-documents/'+uid+'/'+docId+'/'+String(fileName||'document').replace(/[^a-zA-Z0-9._-]/g,'_');}
 function openUploadDocModal(){setText('uploadError','');var e=document.getElementById('uploadError');if(e)e.style.display='none';setText('upDocName','');var n=document.getElementById('upDocName');if(n)n.value='';var f=document.getElementById('upDocFile');if(f)f.value='';openModal('uploadDocModal');}
+function uploadToCloudinary(file,onProgress){
+  return new Promise(function(resolve,reject){
+    var xhr=new XMLHttpRequest();
+    xhr.open('POST',CLOUDINARY_UPLOAD_URL,true);
+    xhr.upload.onprogress=function(e){ if(onProgress && e.lengthComputable) onProgress(Math.round(e.loaded/e.total*100)); };
+    xhr.onload=function(){
+      var res=null; try{ res=JSON.parse(xhr.responseText); }catch(parseErr){}
+      if(xhr.status>=200 && xhr.status<300 && res && res.secure_url) resolve(res);
+      else reject(new Error((res&&res.error&&res.error.message)||('Cloudinary upload failed ('+xhr.status+')')));
+    };
+    xhr.onerror=function(){ reject(new Error('Network error during upload')); };
+    var fd=new FormData();
+    fd.append('file',file);
+    fd.append('upload_preset',CLOUDINARY_UPLOAD_PRESET);
+    xhr.send(fd);
+  });
+}
 function processDocUpload(){
   var name=(document.getElementById('upDocName').value||'').trim(),category=document.getElementById('upDocCategory').value,input=document.getElementById('upDocFile'),err=document.getElementById('uploadError'),file=input&&input.files?input.files[0]:null;
   err.style.display='none';
@@ -2634,14 +2692,14 @@ function processDocUpload(){
   if(!name||!file){err.textContent=STATE.language==='ar'?'يرجى استكمال اسم المستند واختيار الملف.':'Enter a document name and select a file.';err.style.display='block';return;}
   if(!isSupportedFile(file)){err.textContent=STATE.language==='ar'?'نوع الملف غير مدعوم. استخدم PDF أو JPG أو PNG أو WEBP أو GIF.':'Unsupported file type. Use PDF, JPG, PNG, WEBP or GIF.';err.style.display='block';return;}
   if(file.size>MAX_UPLOAD_BYTES){err.textContent=STATE.language==='ar'?'حجم الملف أكبر من 10MB.':'File size exceeds 10MB.';err.style.display='block';return;}
-  if(!STORAGE){err.textContent=STATE.language==='ar'?'Firebase Storage غير متاح في هذه النسخة.':'Firebase Storage is unavailable.';err.style.display='block';return;}
   var progress=document.getElementById('uploadProgress');if(progress){progress.style.display='block';progress.value=0;}showLoading('uploadBtn',STATE.language==='ar'?'جاري الرفع...':'Uploading...');
-  var docRef=db.collection('documents').doc(),path=storagePathFor(STATE.currentUser.uid,docRef.id,file.name),storageRef=STORAGE.ref().child(path),upload=storageRef.put(file,{contentType:file.type,customMetadata:{clientId:STATE.currentUser.uid,documentId:docRef.id}});
-  upload.on('state_changed',function(s){var pct=s.totalBytes?Math.round(s.bytesTransferred/s.totalBytes*100):0;if(progress)progress.value=pct;var b=document.getElementById('uploadBtn');if(b)b.innerHTML='<span class="spinner"></span> '+(STATE.language==='ar'?'جاري الرفع ':'Uploading ')+pct+'%';},function(e){hideLoading('uploadBtn');if(progress)progress.style.display='none';err.textContent=(STATE.language==='ar'?'فشل رفع الملف: ':'Upload failed: ')+friendlyFirebaseError(e);err.style.display='block';},function(){
-    upload.snapshot.ref.getDownloadURL().then(function(url){
-      return docRef.set({clientId:STATE.currentUser.uid,fileName:name,originalFileName:file.name,category:category,fileType:file.type,fileSize:file.size,verificationStatus:'pending',uploadedBy:'client',uploadDate:new Date().toISOString().split('T')[0],storageMode:'firebase_storage',storagePath:path,downloadURL:url,storageBucket:firebaseConfig.storageBucket,createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
-    }).then(function(){hideLoading('uploadBtn');if(progress)progress.style.display='none';closeModal('uploadDocModal');alert(STATE.language==='ar'?'✅ تم حفظ المستند بنجاح وهو الآن قيد المراجعة.':'✅ Document uploaded and submitted for review.');return loadUserData(STATE.currentUser.uid);}).catch(function(e){hideLoading('uploadBtn');if(progress)progress.style.display='none';err.textContent=(STATE.language==='ar'?'فشل حفظ بيانات المستند: ':'Failed to save document metadata: ')+friendlyFirebaseError(e);err.style.display='block';});
-  });
+  var docRef=db.collection('documents').doc();
+  uploadToCloudinary(file,function(pct){
+    if(progress)progress.value=pct;
+    var b=document.getElementById('uploadBtn');if(b)b.innerHTML='<span class="spinner"></span> '+(STATE.language==='ar'?'جاري الرفع ':'Uploading ')+pct+'%';
+  }).then(function(result){
+    return docRef.set({clientId:STATE.currentUser.uid,fileName:name,originalFileName:file.name,category:category,fileType:file.type,fileSize:file.size,verificationStatus:'pending',uploadedBy:'client',uploadDate:new Date().toISOString().split('T')[0],storageMode:'cloudinary',downloadURL:result.secure_url,cloudinaryPublicId:result.public_id,cloudinaryResourceType:result.resource_type,createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+  }).then(function(){hideLoading('uploadBtn');if(progress)progress.style.display='none';closeModal('uploadDocModal');alert(STATE.language==='ar'?'✅ تم حفظ المستند بنجاح وهو الآن قيد المراجعة.':'✅ Document uploaded and submitted for review.');return loadUserData(STATE.currentUser.uid);}).catch(function(e){hideLoading('uploadBtn');if(progress)progress.style.display='none';err.textContent=(STATE.language==='ar'?'فشل رفع المستند: ':'Document upload failed: ')+((e&&e.message)||friendlyFirebaseError(e));err.style.display='block';});
 }
 function base64ToBlobUrl(base64,mime){var bin=atob(base64),bytes=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);var url=URL.createObjectURL(new Blob([bytes],{type:mime||'application/octet-stream'}));activeObjectUrls.push(url);return url;}
 function getDocumentUrl(doc){
@@ -2739,6 +2797,73 @@ function startChatListener(){if(!STATE.currentUser)return;if(STATE.msgUnsub)STAT
 
 function openTermsModal(){openModal('termsModal');}
 
+// ===== SHARE APP LINK =====
+function shareAppLink(){
+  var url=window.location.href.split('#')[0].split('?')[0];
+  var title='SecurePath';
+  var text=STATE.language==='ar'?'حمّل تطبيق SecurePath لإدارة وثائقك التأمينية بسهولة':'Get the SecurePath app to manage your insurance policies easily';
+  if(navigator.share){
+    navigator.share({title:title,text:text,url:url}).catch(function(){});
+  }else if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(function(){
+      alert(STATE.language==='ar'?'✅ تم نسخ رابط التطبيق':'✅ App link copied');
+    }).catch(function(){ prompt(STATE.language==='ar'?'انسخ الرابط:':'Copy link:',url); });
+  }else{
+    prompt(STATE.language==='ar'?'انسخ الرابط:':'Copy link:',url);
+  }
+}
+
+// ===== DRAGGABLE WHATSAPP FLOATING BUTTON =====
+function initDraggableWhatsappFab(){
+  var fab=document.getElementById('whatsappFab'),phone=document.querySelector('.phone');
+  if(!fab||!phone)return;
+  var dragging=false,moved=false,startX=0,startY=0,startRight=0,startBottom=0;
+  function clamp(val,min,max){return Math.max(min,Math.min(max,val));}
+  function applySavedPosition(){
+    try{
+      var saved=JSON.parse(localStorage.getItem('SecurePath_waFabPos')||'null');
+      if(saved&&typeof saved.right==='number'&&typeof saved.bottom==='number'){
+        fab.style.right=saved.right+'px';fab.style.bottom=saved.bottom+'px';
+      }
+    }catch(e){}
+  }
+  function savePosition(right,bottom){
+    try{localStorage.setItem('SecurePath_waFabPos',JSON.stringify({right:right,bottom:bottom}));}catch(e){}
+  }
+  function onPointerDown(e){
+    dragging=true;moved=false;fab.classList.add('dragging');
+    var rect=fab.getBoundingClientRect(),pRect=phone.getBoundingClientRect();
+    startX=e.clientX;startY=e.clientY;
+    startRight=pRect.right-rect.right;startBottom=pRect.bottom-rect.bottom;
+    try{fab.setPointerCapture(e.pointerId);}catch(err){}
+  }
+  function onPointerMove(e){
+    if(!dragging)return;
+    var dx=e.clientX-startX,dy=e.clientY-startY;
+    if(Math.abs(dx)>4||Math.abs(dy)>4)moved=true;
+    var pRect=phone.getBoundingClientRect();
+    var newRight=clamp(startRight-dx,4,pRect.width-60);
+    var newBottom=clamp(startBottom-dy,84,pRect.height-70);
+    fab.style.right=newRight+'px';fab.style.bottom=newBottom+'px';
+  }
+  function onPointerUp(e){
+    if(!dragging)return;
+    dragging=false;fab.classList.remove('dragging');
+    try{fab.releasePointerCapture(e.pointerId);}catch(err){}
+    if(moved){
+      var right=parseFloat(fab.style.right)||12,bottom=parseFloat(fab.style.bottom)||100;
+      savePosition(right,bottom);
+    }else{
+      openWhatsApp();
+    }
+  }
+  fab.addEventListener('pointerdown',onPointerDown);
+  fab.addEventListener('pointermove',onPointerMove);
+  fab.addEventListener('pointerup',onPointerUp);
+  fab.addEventListener('pointercancel',onPointerUp);
+  applySavedPosition();
+}
+
 // ===== INIT =====
 function initFormBindings(){
   var terms=document.getElementById('termsCheck'),signup=document.getElementById('signupBtn');if(terms&&signup)terms.addEventListener('change',function(){signup.disabled=!terms.checked;});
@@ -2748,7 +2873,7 @@ function initFormBindings(){
 document.addEventListener('DOMContentLoaded',function(){
   loadThemePreference();
   try{STATE.language=normalizeLanguage((localStorage.getItem('SecurePath_language')||'ar'));}catch(e){STATE.language='ar';}
-  initFormBindings();ensureLanguageToggle();updateAllTexts();updateCharCount();
+  initFormBindings();ensureLanguageToggle();updateAllTexts();updateCharCount();initDraggableWhatsappFab();
   // The portal is explicit-login only. We intentionally do NOT attach an
   // authStateChanged listener because Firebase's currentUser must never be
   // allowed to decide which client appears on screen.
