@@ -467,6 +467,14 @@
   .p-body h3 { margin:0; color:var(--slate); font-family:'Tajawal',sans-serif; font-size:13.5px; font-weight:700; }
   .p-body .co { font-size:11px; color:var(--muted); margin:2px 0 6px; }
 
+  .p-seal.has-media { padding:0; background:var(--card); }
+  .p-seal.has-media img { width:100%; height:100%; object-fit:cover; display:block; }
+
+  .p-card.has-photo { flex-direction:column; cursor:pointer; }
+  .p-card.has-photo .p-media { width:100%; aspect-ratio:16/10; background:var(--paper); overflow:hidden; }
+  .p-card.has-photo .p-media img { width:100%; height:100%; object-fit:cover; display:block; }
+  .p-card.has-photo .p-body { padding:12px 14px; width:100%; }
+
   .badge {
     font-size:9px; padding:3px 8px; border-radius:99px; font-weight:800; white-space:nowrap;
   }
@@ -2604,7 +2612,13 @@ function renderAll(){
   renderPoliciesList('homePoliciesList',pol.slice(0,2));renderPoliciesList('fullPoliciesList',pol);renderProductsList();renderOffersList();renderOffersBanner();renderDocumentsList(docs);renderNotificationsList();renderCompaniesSlider();updateNotificationDot();updateAllTexts();normalizeIcons();
 }
 function renderPoliciesList(containerId,list){var c=document.getElementById(containerId);if(!c)return;var lang=STATE.language||'ar';if(!list.length){c.innerHTML='<div class="empty-state">'+iconSvg('document','icon-navy')+'<h3>'+esc(getText('noPolicies'))+'</h3><p>'+esc(getText('noPoliciesText'))+'</p></div>';return;}c.innerHTML=list.map(function(p){var d=daysUntil(p.endDate),warn=d>0&&d<=45,expired=d<0,badge=expired?getText('badgeExpired'):(warn?getText('badgeExpiring'):getText('badgeActive')),sealIcon=expired?iconSvg('info','icon-red'):warn?iconSvg('info','icon-orange'):iconSvg('shield','icon-green');return '<div class="p-card" onclick="openPolicyModal(\''+esc(p.id)+'\')"><div class="p-seal '+((warn||expired)?'warn':'')+'"><div class="ring">'+sealIcon+'</div></div><div class="p-body"><div class="top"><h3>'+esc(p.type||p.typeName||(lang==='ar'?'تأمين':'Insurance'))+'</h3><span class="badge '+((warn||expired)?'warn':'ok')+'">'+esc(badge)+'</span></div><div class="co">'+esc(p.company||p.companyName||(lang==='ar'?'شركة تأمين':'Insurance Company'))+'</div><div class="p-foot"><span>'+(lang==='ar'?'رقم الوثيقة: ':'Policy #: ')+'<b>'+esc(p.policyNumber||'--')+'</b></span><span>'+((expired)?getText('expired'):(lang==='ar'?'متبقي: ':'Remaining: ')+'<b>'+d+' '+getText('daysRemaining')+'</b>')+'</span></div></div></div>';}).join('');}
-function renderProductsList(){var c=document.getElementById('productsList');if(!c)return;var ps=STATE.products||[];if(!ps.length){c.innerHTML='<div class="empty-state">'+iconSvg('shield','icon-gold')+'<h3>'+esc(getText('noProducts'))+'</h3><p>'+esc(getText('noProductsText'))+'</p></div>';return;}c.innerHTML=ps.map(function(pr){var feats=Array.isArray(pr.features)?pr.features:String(pr.features||'').split(/\r?\n/).filter(Boolean);return '<div class="p-card" style="cursor:default"><div class="p-seal"><div class="ring">'+iconSvg('shield','icon-gold')+'</div></div><div class="p-body"><div class="top"><h3>'+esc(pr.name||'Product')+'</h3><span class="badge ok">'+esc(pr.companyName||pr.company||'')+'</span></div><div class="co">'+esc(pr.typeName||pr.type||pr.category||'')+'</div><p style="font-size:11px;color:var(--muted);margin:4px 0">'+esc(pr.description||'')+'</p>'+(feats.length?'<ul style="font-size:11px;padding-right:15px;margin:4px 0">'+feats.slice(0,3).map(function(f){return '<li>'+esc(f)+'</li>';}).join('')+'</ul>':'')+'</div></div>';}).join('');}
+function getMediaUrl(obj){return (obj&&(obj.imageUrl||obj.imageURL||obj.photoUrl||obj.photoURL||obj.image||obj.img||obj.picture||obj.coverImage||obj.coverImageUrl||obj.thumbnailUrl||obj.downloadURL))||'';}
+function buildMediaCard(url,iconHtml,bodyHtml,onclickAttr){
+  var click=onclickAttr?' onclick="'+onclickAttr+'"':' style="cursor:default"';
+  if(url) return '<div class="p-card has-photo"'+click+'><div class="p-media"><img src="'+esc(url)+'" alt="" loading="lazy"></div><div class="p-body">'+bodyHtml+'</div></div>';
+  return '<div class="p-card"'+click+'><div class="p-seal"><div class="ring">'+iconHtml+'</div></div><div class="p-body">'+bodyHtml+'</div></div>';
+}
+function renderProductsList(){var c=document.getElementById('productsList');if(!c)return;var ps=STATE.products||[];if(!ps.length){c.innerHTML='<div class="empty-state">'+iconSvg('shield','icon-gold')+'<h3>'+esc(getText('noProducts'))+'</h3><p>'+esc(getText('noProductsText'))+'</p></div>';return;}c.innerHTML=ps.map(function(pr){var feats=Array.isArray(pr.features)?pr.features:String(pr.features||'').split(/\r?\n/).filter(Boolean);var body='<div class="top"><h3>'+esc(pr.name||'Product')+'</h3><span class="badge ok">'+esc(pr.companyName||pr.company||'')+'</span></div><div class="co">'+esc(pr.typeName||pr.type||pr.category||'')+'</div><p style="font-size:11px;color:var(--muted);margin:4px 0">'+esc(pr.description||'')+'</p>'+(feats.length?'<ul style="font-size:11px;padding-right:15px;margin:4px 0">'+feats.slice(0,3).map(function(f){return '<li>'+esc(f)+'</li>';}).join('')+'</ul>':'');return buildMediaCard(getMediaUrl(pr),iconSvg('shield','icon-gold'),body,null);}).join('');}
 function visibleOffers(){
   var now=new Date();
   return (STATE.offers||[]).filter(function(o){
@@ -2625,18 +2639,24 @@ function renderOffersList(){
   if(!list.length){c.innerHTML='<div class="empty-state">'+iconSvg('gift','icon-gold')+'<h3>'+esc(getText('noOffers'))+'</h3><p>'+esc(getText('noOffersText'))+'</p></div>';return;}
   c.innerHTML=list.map(function(o){
     var end=o.endDate?new Date(o.endDate):null,validText=(end&&!isNaN(end.getTime()))?(lang==='ar'?'ساري حتى ':'Valid until ')+formatDate(o.endDate):'';
-    return '<div class="p-card" style="cursor:default">'+
-      '<div class="p-seal"><div class="ring">'+iconSvg('gift','icon-gold')+'</div></div>'+
-      '<div class="p-body">'+
-        '<div class="top"><h3>'+esc(o.name||(lang==='ar'?'عرض':'Offer'))+'</h3>'+
+    var body='<div class="top"><h3>'+esc(o.name||(lang==='ar'?'عرض':'Offer'))+'</h3>'+
           (o.discount?'<span class="badge gold">'+(lang==='ar'?'خصم ':'')+esc(o.discount)+'%'+(lang==='ar'?'':' off')+'</span>':'')+
         '</div>'+
         '<div class="co">'+esc(o.companyName||o.company||'')+(o.typeName||o.type?' · '+esc(o.typeName||o.type):'')+'</div>'+
         (o.description?'<p style="font-size:11px;color:var(--muted);margin:4px 0">'+esc(o.description)+'</p>':'')+
-        '<div class="p-foot"><span>'+(o.code?(lang==='ar'?'الكود: ':'Code: ')+'<b>'+esc(o.code)+'</b>':'')+'</span><span>'+esc(validText)+'</span></div>'+
-      '</div>'+
-    '</div>';
+        '<div class="p-foot"><span>'+(o.code?(lang==='ar'?'الكود: ':'Code: ')+'<b>'+esc(o.code)+'</b>':'')+'</span><span>'+esc(validText)+'</span></div>';
+    return buildMediaCard(getMediaUrl(o),iconSvg('gift','icon-gold'),body,'requestOfferViaWhatsApp(\''+esc(o.id)+'\')');
   }).join('');
+}
+function requestOfferViaWhatsApp(id){
+  var o=(STATE.offers||[]).find(function(x){return x.id===id;});if(!o)return;
+  var number='201123152500';
+  var name=o.name||(STATE.language==='ar'?'عرض':'Offer');
+  var msg=STATE.language==='ar'
+    ? 'مرحباً، أريد الاستفسار عن العرض: '+name+(o.code?' (الكود: '+o.code+')':'')
+    : 'Hello, I would like to ask about the offer: '+name+(o.code?' (Code: '+o.code+')':'');
+  window.open('https://api.whatsapp.com/send?phone='+number+'&text='+encodeURIComponent(msg),'_blank');
+  if(STATE.currentUser)db.collection('activity').add({clientId:STATE.currentUser.uid,action:'offer_whatsapp_click',description:name,offerId:id,timestamp:firebase.firestore.FieldValue.serverTimestamp()}).catch(function(){});
 }
 function renderDocumentsList(docs){var c=document.getElementById('documentsList');if(!c)return;docs=docs||[];if(!docs.length){c.innerHTML='<div class="empty-state">'+iconSvg('folder','icon-purple')+'<h3>'+esc(getText('noDocuments'))+'</h3><p>'+esc(getText('noDocumentsText'))+'</p></div>';return;}c.innerHTML=docs.map(function(d){var s=String(d.verificationStatus||'').toLowerCase(),approved=s==='approved'||s==='verified',pending=s==='pending'||s==='pending verification',typeIcon=String(d.fileType||'').includes('pdf')?iconSvg('document','icon-navy'):iconSvg('file','icon-navy');return '<div class="p-card" onclick="openDocPreviewModal(\''+esc(d.id)+'\')"><div class="p-seal"><div class="ring">'+typeIcon+'</div></div><div class="p-body"><div class="top"><h3>'+esc(d.fileName||d.name||getText('documentsTitle'))+'</h3><span class="badge '+(pending?'pending':approved?'ok':'warn')+'">'+esc(pending?getText('badgePending'):approved?getText('badgeVerified'):getText('badgeRejected'))+'</span></div><div class="co">'+esc(d.category||'--')+'</div><div class="p-foot"><span>'+esc(formatDate(d.createdAt)||d.uploadDate||'--')+'</span><span style="color:var(--navy-2);font-weight:700">'+esc(STATE.language==='ar'?'معاينة':'Preview')+' '+iconSvg('eye')+'</span></div></div></div>';}).join('');}
 function notificationIcon(n){var t=String(n.type||'');return t.includes('renewal')?iconSvg('refresh','icon-navy'):t.includes('advice')?iconSvg('lightbulb','icon-gold'):t.includes('wheel')?iconSvg('gift','icon-gold'):iconSvg('bell','icon-gold');}
