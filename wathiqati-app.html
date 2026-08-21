@@ -479,6 +479,67 @@
             animation: iconSpin 4s linear infinite;
         }
 
+        /* Unified icon motion: one calm, circular rhythm across the app. */
+        .app-icon.animated,
+        .app-icon.bounce,
+        .app-icon.float,
+        .app-icon.spin {
+            animation: iconOrbit 3.6s linear infinite !important;
+            transform-origin: 50% 50%;
+        }
+
+        @keyframes iconOrbit {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.04); }
+            50% { transform: rotate(180deg) scale(1); }
+            75% { transform: rotate(270deg) scale(1.04); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        .auth-brand-icon {
+            position: relative;
+            width: 74px;
+            height: 74px;
+            margin: 0 auto 14px;
+            display: grid;
+            place-items: center;
+            color: var(--gold);
+            border: 1px solid rgba(242, 189, 99, .42);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(242, 189, 99, .24), rgba(242, 189, 99, .04) 66%, transparent 67%);
+            box-shadow: 0 0 0 8px rgba(242, 189, 99, .06), 0 10px 28px rgba(0,0,0,.18);
+            animation: authIconOrbit 6s linear infinite;
+        }
+
+        .auth-brand-icon::after {
+            content: "";
+            position: absolute;
+            inset: -7px;
+            border: 1px dashed rgba(242, 189, 99, .5);
+            border-radius: 50%;
+            animation: authRingOrbit 6s linear infinite reverse;
+        }
+
+        .auth-brand-icon svg {
+            width: 42px;
+            height: 42px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        @keyframes authIconOrbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes authRingOrbit {
+            from { transform: rotate(0deg) scale(.96); }
+            to { transform: rotate(360deg) scale(1.04); }
+        }
+
         @keyframes iconPulse {
             0%,
             100% {
@@ -3888,6 +3949,9 @@
         <!-- ============================================================ -->
         <div class="screen active" id="login">
             <div class="brand brand-premium">
+                <div class="auth-brand-icon" aria-label="SecurePath">
+                    <svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8 12 2.5 2.5L16 9"/></svg>
+                </div>
                 <img class="brand-logo-full" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 80'><path d='M30,15 L55,25 L55,50 C55,65 30,75 30,75 C30,75 5,65 5,50 L5,25 Z' fill='%23F2BD63'/><path d='M30,22 L47,30 L47,48 C47,58 30,66 30,66 C30,66 13,58 13,48 L13,30 Z' fill='%230E2A5C'/><text x='70' y='42' font-family='Tajawal,sans-serif' font-weight='900' font-size='24' fill='%23FFFFFF'>SecurePath</text><text x='72' y='58' font-family='Cairo,sans-serif' font-size='10' fill='%23FFF2D7' letter-spacing='1'>INSURANCE ADVISORY</text></svg>">
                 <div class="brand-tagline securepath-advisory" id="loginTagline">مرحباً في منظومتك التأمينية الرقمية</div>
             </div>
@@ -3910,6 +3974,9 @@
         <!-- ============================================================ -->
         <div class="screen" id="signup">
             <div class="brand brand-premium">
+                <div class="auth-brand-icon" aria-label="SecurePath">
+                    <svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8 12 2.5 2.5L16 9"/></svg>
+                </div>
                 <img class="brand-logo-full" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 80'><path d='M30,15 L55,25 L55,50 C55,65 30,75 30,75 C30,75 5,65 5,50 L5,25 Z' fill='%23F2BD63'/><path d='M30,22 L47,30 L47,48 C47,58 30,66 30,66 C30,66 13,58 13,48 L13,30 Z' fill='%230E2A5C'/><text x='70' y='42' font-family='Tajawal,sans-serif' font-weight='900' font-size='24' fill='%23FFFFFF'>SecurePath</text></svg>">
             </div>
             <div class="login-card">
@@ -4224,6 +4291,23 @@
         </div>
 
         <!-- ============================================================ -->
+        <!-- COMPANY ADS SCREEN                                            -->
+        <!-- ============================================================ -->
+        <div class="screen" id="companyAds">
+            <div class="page-top">
+                <div class="page-left">
+                    <h1 id="companyAdsTitle">
+                        <span class="icon-gold"><span class="app-icon animated"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h10M7 13h6"/></svg></span></span>
+                        إعلانات شركات التأمين
+                    </h1>
+                    <p id="companyAdsSub">اطلع على أحدث الإعلانات المعتمدة من شركات التأمين</p>
+                </div>
+                <div class="page-actions"><button class="btn-gold-small" onclick="showScreen('home')" id="companyAdsBackBtn"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></svg></span> العودة</button></div>
+            </div>
+            <div class="policies" id="companyAdsList" style="padding-top:14px;"></div>
+        </div>
+
+        <!-- ============================================================ -->
         <!-- DOCUMENTS SCREEN                                              -->
         <!-- ============================================================ -->
         <div class="screen" id="documents">
@@ -4311,9 +4395,14 @@
                     </div>
                     <div class="acc-card" onclick="showScreen('offers')">
                         <div class="ac-icon gold"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2 7h20v3H2z"/><path d="M12 7v13M12 7c-4 0-6-2-4-4 2-2 4 1 4 4Zm0 0c4 0 6-2 4-4-2-2-4 1-4 4Z"/></svg></span></div>
-                        <div class="ac-info"><span class="ac-title" id="accountOffers">العروض والخصومات</span><span class="ac-sub" id="accountOffersSub">أحدث العروض الحصرية</span></div>
-                        <span class="ac-arrow">›</span>
-                    </div>
+                         <div class="ac-info"><span class="ac-title" id="accountOffers">العروض والخصومات</span><span class="ac-sub" id="accountOffersSub">أحدث العروض الحصرية</span></div>
+                         <span class="ac-arrow">›</span>
+                     </div>
+                     <div class="acc-card" onclick="showScreen('companyAds')">
+                         <div class="ac-icon navy"><span class="app-icon animated"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h10M7 13h6"/></svg></span></div>
+                         <div class="ac-info"><span class="ac-title" id="accountCompanyAds">إعلانات شركات التأمين</span><span class="ac-sub" id="accountCompanyAdsSub">إعلانات الشركات المضافة من الأدمن</span></div>
+                         <span class="ac-arrow">›</span>
+                     </div>
                 </div>
 
                 <div class="acc-section">
@@ -4580,6 +4669,10 @@
                 <span class="nav-icon icon-purple"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10H3z"/></svg></span></span>
                 <span id="navDocuments">المستندات</span>
             </button>
+            <button class="nav-item" id="nav-companyAds" onclick="switchTab('companyAds')">
+                <span class="nav-icon icon-gold"><span class="app-icon animated"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h10M7 13h6"/></svg></span></span>
+                <span id="companyAdsNav">إعلانات الشركات</span>
+            </button>
             <button class="nav-item" id="nav-account" onclick="switchTab('account')">
                 <span class="nav-icon icon-navy"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20c1-4 3-6 7-6s6 2 7 6"/></svg></span></span>
                 <span id="navAccount">حسابي</span>
@@ -4743,6 +4836,7 @@
             companies: [],
             insuranceAssessments: {},
             offers: [],
+            companyAds: [],
             appointments: [],
             invoices: [],
             wheelLastSpin: null,
@@ -4841,6 +4935,12 @@
                 offersTitle: 'العروض والخصومات',
                 offersSub: 'أحدث العروض الحصرية',
                 offersBackBtn: 'العودة',
+                companyAdsTitle: 'إعلانات شركات التأمين',
+                companyAdsSub: 'اطلع على أحدث الإعلانات المعتمدة من شركات التأمين',
+                companyAdsNav: 'إعلانات الشركات',
+                companyAdsBackBtn: 'العودة',
+                noCompanyAds: 'لا توجد إعلانات حالياً',
+                noCompanyAdsText: 'ستظهر هنا إعلانات شركات التأمين التي يضيفها الأدمن',
                 accountOffers: 'العروض والخصومات',
                 noOffers: 'لا توجد عروض حالياً',
                 noOffersText: 'سيتم إضافة عروض وخصومات جديدة قريباً',
@@ -4856,6 +4956,8 @@
                 accountDocumentsSub: 'إدارة الهوية والوثائق المرفوعة',
                 accountOffers: 'العروض والخصومات',
                 accountOffersSub: 'أحدث العروض الحصرية',
+                accountCompanyAds: 'إعلانات شركات التأمين',
+                accountCompanyAdsSub: 'إعلانات الشركات المضافة من الأدمن',
                 accountWheel: 'جرب حظك',
                 accountWheelSub: 'اربح جوائز حصرية',
                 accountLiveChat: 'محادثة مباشرة مع وكيلك',
@@ -5048,8 +5150,16 @@
                 offersTitle: 'Offers & Discounts',
                 offersSub: 'The latest exclusive offers',
                 offersBackBtn: 'Back',
+                companyAdsTitle: 'Insurance Company Ads',
+                companyAdsSub: 'Explore the latest approved announcements from insurance companies',
+                companyAdsNav: 'Company Ads',
+                companyAdsBackBtn: 'Back',
+                noCompanyAds: 'No advertisements right now',
+                noCompanyAdsText: 'Insurance company advertisements added by the admin will appear here',
                 accountOffers: 'Offers & Discounts',
                 accountOffersSub: 'Latest exclusive offers',
+                accountCompanyAds: 'Insurance Company Ads',
+                accountCompanyAdsSub: 'Company advertisements added by the admin',
                 noOffers: 'No offers right now',
                 noOffersText: 'New offers will be added soon',
                 documentsTitle: 'Documents & Files',
@@ -5193,6 +5303,11 @@
 
         function setHTML(id, html) { var el = document.getElementById(id); if (el) el.innerHTML = html; }
 
+        function setPlaceholder(id, text) {
+            var el = document.getElementById(id);
+            if (el) el.setAttribute('placeholder', text);
+        }
+
         // ============================================================ //
         // UTILITY FUNCTIONS                                             //
         // ============================================================ //
@@ -5305,6 +5420,7 @@
             if (id === 'account') { updateAccountStats();
                 updateAllTexts(); }
             if (id === 'documents') renderDocumentsList(STATE.documents);
+             if (id === 'companyAds') renderCompanyAdsList();
             if (id === 'login') {
                 var err = document.getElementById('loginError');
                 if (err) { err.style.display = 'none';
@@ -6519,6 +6635,39 @@
             }).join('');
         }
 
+        function visibleCompanyAds() {
+            return (STATE.companyAds || []).filter(function(ad) {
+                var status = String(ad.status || '').toLowerCase();
+                if (ad.published === false || status === 'inactive' || status === 'draft') return false;
+                if (ad.endDate) {
+                    var end = new Date(ad.endDate);
+                    if (!isNaN(end.getTime()) && end < new Date()) return false;
+                }
+                return true;
+            }).sort(function(a, b) { return dateMillis(b.createdAt) - dateMillis(a.createdAt); });
+        }
+
+        function renderCompanyAdsList() {
+            var c = document.getElementById('companyAdsList');
+            if (!c) return;
+            var list = visibleCompanyAds(), lang = STATE.language || 'ar';
+            if (!list.length) {
+                c.innerHTML = '<div class="empty-state">' + iconSvg('briefcase', 'icon-gold') + '<h3>' + esc(getText('noCompanyAds')) + '</h3><p>' + esc(getText('noCompanyAdsText')) + '</p></div>';
+                return;
+            }
+            c.innerHTML = list.map(function(ad) {
+                var title = lang === 'ar' ? (ad.titleAr || ad.nameAr || ad.title || ad.name) : (ad.titleEn || ad.nameEn || ad.title || ad.name);
+                var description = lang === 'ar' ? (ad.descriptionAr || ad.description || '') : (ad.descriptionEn || ad.description || '');
+                var company = ad.companyName || ad.company || (lang === 'ar' ? 'شركة تأمين' : 'Insurance company');
+                var url = getImageUrl(ad);
+                var body = '<div class="top"><h3>' + esc(title || (lang === 'ar' ? 'إعلان شركة' : 'Company advertisement')) + '</h3><span class="badge gold">' + esc(company) + '</span></div>' +
+                    (description ? '<p style="font-size:11px;color:var(--muted);margin:6px 0;line-height:1.7">' + esc(description) + '</p>' : '') +
+                    '<div class="p-foot"><span>' + esc(ad.ctaText || (lang === 'ar' ? 'اعرف المزيد' : 'Learn more')) + '</span><span>' + esc(formatDate(ad.createdAt)) + '</span></div>';
+                return url ? '<div class="p-card has-photo"><div class="p-media"><img src="' + esc(url) + '" alt="' + esc(company) + '" loading="lazy" onerror="this.style.display=\'none\'"></div><div class="p-body">' + body + '</div></div>' :
+                    '<div class="p-card"><div class="p-seal"><div class="ring">' + iconSvg('briefcase', 'icon-gold') + '</div></div><div class="p-body">' + body + '</div></div>';
+            }).join('');
+        }
+
         function requestOfferViaWhatsApp(id) {
             var o = (STATE.offers || []).find(function(x) { return x.id === id; });
             if (!o) return;
@@ -7037,6 +7186,11 @@
                     fileSize: file.size,
                     verificationStatus: 'pending',
                     uploadedBy: 'client',
+                     uploadedByRole: 'client',
+                     adminVisible: true,
+                     reviewStatus: 'pending',
+                     submittedForAdminReview: true,
+                     submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
                     uploadDate: new Date().toISOString().split('T')[0],
                     storageMode: 'cloudinary',
                     downloadURL: result.secure_url,
@@ -7597,8 +7751,14 @@
             offersTitle: 'offersTitle',
             offersSub: 'offersSub',
             offersBackBtn: 'offersBackBtn',
+             companyAdsTitle: 'companyAdsTitle',
+             companyAdsSub: 'companyAdsSub',
+             companyAdsNav: 'companyAdsNav',
+             companyAdsBackBtn: 'companyAdsBackBtn',
             accountOffers: 'accountOffers',
             accountOffersSub: 'accountOffersSub',
+             accountCompanyAds: 'accountCompanyAds',
+             accountCompanyAdsSub: 'accountCompanyAdsSub',
             noOffers: 'noOffers',
             noOffersText: 'noOffersText',
             documentsTitle: 'documentsTitle',
@@ -7721,6 +7881,15 @@
             });
             setHTML('loginSwitch', esc(t('loginSwitch')) + '<b onclick="showScreen(\'signup\')">' + esc(t('loginSwitchLink')) + '</b>');
             setHTML('signupSwitch', esc(t('signupSwitch')) + '<b onclick="showScreen(\'login\')">' + esc(t('signupSwitchLink')) + '</b>');
+             setPlaceholder('loginEmail', t('loginEmailLabel'));
+             setPlaceholder('regFullName', STATE.language === 'ar' ? 'مثال: أحمد محمد علي حسن' : 'e.g. Ahmed Mohamed Ali');
+             setPlaceholder('regPhone', STATE.language === 'ar' ? 'مثال: 01012345678' : 'e.g. 01012345678');
+             setPlaceholder('regOccupation', STATE.language === 'ar' ? 'مثال: مهندس، طبيب، محاسب' : 'e.g. Engineer, Doctor, Accountant');
+             setPlaceholder('regBusinessName', STATE.language === 'ar' ? 'اسم الشركة أو المؤسسة' : 'Company or organization name');
+             setPlaceholder('regBusinessActivity', STATE.language === 'ar' ? 'مثال: تجارة، صناعة، خدمات' : 'e.g. Trade, manufacturing, services');
+             setPlaceholder('upDocName', STATE.language === 'ar' ? 'مثال: رخصة القيادة / بطاقة الرقم القومي' : 'e.g. Driving license / ID card');
+             setPlaceholder('adviceText', STATE.language === 'ar' ? 'اكتب استفسارك بالتفصيل... (الحد الأقصى 1000 حرف)' : 'Write your inquiry in detail... (max 1000 characters)');
+             setPlaceholder('chatInputWidget', STATE.language === 'ar' ? 'اكتب رسالتك...' : 'Write your message...');
             document.documentElement.lang = STATE.language;
             document.documentElement.dir = STATE.language === 'ar' ? 'rtl' : 'ltr';
             document.body.dir = document.documentElement.dir;
@@ -7732,7 +7901,12 @@
             if (langBtn) langBtn.textContent = STATE.language === 'ar' ? 'EN' : 'عربي';
             if (STATE.currentUser) {
                 updateAccountStats();
+                 renderCompanyAdsList();
+                 renderOffersList();
+                 renderDocumentsList(STATE.documents);
+                 renderNotificationsList();
             }
+             normalizeIcons(document.querySelector('.phone') || document.body);
             updateOnboardingStep(onboardingStep);
         }
 
@@ -7834,6 +8008,15 @@
                     x.id = d.id; return x; });
             }).catch(function(e) { console.warn('Offers load failed', e);
                 STATE.offers = []; }));
+             p.push(db.collection('companyAds').get().then(function(s) {
+                 STATE.companyAds = s.docs.map(function(d) { var x = d.data() || {};
+                     x.id = d.id; return x; });
+             }).catch(function(e) {
+                 return db.collection('insuranceAds').get().then(function(s) {
+                     STATE.companyAds = s.docs.map(function(d) { var x = d.data() || {};
+                         x.id = d.id; return x; });
+                 }).catch(function() { STATE.companyAds = []; });
+             }));
             p.push(db.collection('insuranceAssessments').doc(uid).get().then(function(doc) {
                 if (doc.exists) { STATE.insuranceAssessments[uid] = doc.data() || {};
                     assessmentCache[uid] = doc.data() || {}; }
