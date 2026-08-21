@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="light">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,7 +13,7 @@
 
   <style>
     /* ================================================================
-       ROOT VARIABLES & RESET (كما هي في الملف الأصلي)
+       ROOT VARIABLES & RESET (نفس الكود السابق)
        ================================================================ */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -36,7 +36,6 @@
       --transition-base: 0.25s ease; --transition-bounce: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       --font: 'Cairo', sans-serif; --font-heading: 'Tajawal', sans-serif;
     }
-
     [data-theme="dark"] {
       --navy: #0a1a2f; --navy-dark: #030d1a; --navy-light: #1a2f4a;
       --paper: #0f1724; --paper-dark: #1a2234;
@@ -49,7 +48,6 @@
       --shadow-xl: 0 16px 48px rgba(0,0,0,0.95);
       --blue-light: #1a2a4a; --green-light: #0a2a1a; --red-light: #2a1a0a; --purple-light: #1a0a2a;
     }
-
     body { margin: 0; background: var(--paper); color: var(--text); font-family: var(--font); min-height: 100vh; transition: background var(--transition-base), color var(--transition-base); }
     button { cursor: pointer; border: none; outline: none; font: inherit; }
     input, select, textarea { font: inherit; outline: none; font-family: var(--font); }
@@ -57,7 +55,6 @@
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: var(--paper); }
     ::-webkit-scrollbar-thumb { background: var(--navy-200); border-radius: var(--radius-full); }
-
     h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); font-weight: 800; color: var(--text); }
     .text-muted { color: var(--muted); }
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 22px; border-radius: var(--radius-md); font-weight: 700; font-size: 13px; transition: all var(--transition-bounce); border: 1.5px solid transparent; }
@@ -67,15 +64,15 @@
     .btn-dark { background: linear-gradient(135deg, var(--navy), var(--navy-light)); color: #fff; border-color: var(--navy); }
     .btn-dark:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
     .btn-outline { background: transparent; border-color: var(--line); color: var(--text-secondary); }
-    .btn-outline:hover { border-color: var(--gold); color: var(--navy); background: var(--gold-100); }
+    .btn-outline:hover { border-color: var(--gold); color: var(--navy); background: var(--gold-soft); }
     .btn-success { background: linear-gradient(135deg, var(--green), #0e6a48); color: #fff; border-color: var(--green); }
     .btn-danger { background: linear-gradient(135deg, var(--red), #a83d2e); color: #fff; border-color: var(--red); }
     .btn-sm { padding: 6px 14px; font-size: 11px; }
     .btn-xs { padding: 4px 10px; font-size: 10px; }
-
     .spinner { display: inline-block; width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.2); border-radius: 50%; border-top-color: #fff; animation: spin 0.7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ===== LOGIN ===== */
     #login { min-height: 100vh; display: grid; place-items: center; background: radial-gradient(ellipse at 30% 20%, var(--navy-light) 0%, var(--navy) 50%, var(--navy-dark) 100%); padding: 20px; }
     .login-box { width: min(420px, 92vw); background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border-radius: var(--radius-xl); padding: 48px 40px; box-shadow: 0 30px 80px rgba(0,0,0,0.4); animation: loginFadeIn 0.6s ease; border: 1px solid rgba(255,255,255,0.2); }
     [data-theme="dark"] .login-box { background: rgba(15, 23, 36, 0.95); border-color: rgba(255,255,255,0.05); }
@@ -88,9 +85,10 @@
     .field { margin-bottom: 18px; }
     .field label { display: block; font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; }
     .field input, .field select, .field textarea { width: 100%; padding: 12px 16px; border: 2px solid var(--line); border-radius: var(--radius-md); background: var(--paper); transition: all var(--transition-base); font-size: 14px; color: var(--text); }
-    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 4px var(--gold-100); background: var(--white); }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 4px var(--gold-soft); background: var(--white); }
     .field .toggle-pass { position: absolute; left: 14px; top: 38px; background: transparent; border: none; font-size: 18px; cursor: pointer; color: var(--muted); }
 
+    /* ===== SIDEBAR ===== */
     .sidebar { width: var(--sidebar-width); background: linear-gradient(180deg, var(--navy-dark) 0%, var(--navy) 60%, var(--navy-light) 100%); color: #fff; padding: 16px 12px; position: fixed; top: 0; bottom: 0; right: 0; z-index: 100; display: flex; flex-direction: column; box-shadow: 4px 0 40px rgba(7, 29, 64, 0.3); transition: width var(--transition-base); overflow: hidden; }
     .sidebar .brand { display: flex; align-items: center; gap: 12px; padding: 4px 8px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); }
     .sidebar .brand img { width: 40px; height: 40px; border-radius: var(--radius-md); background: #fff; padding: 4px; }
@@ -98,26 +96,28 @@
     .sidebar .brand .brand-sub { font-size: 9px; opacity: 0.5; display: block; -webkit-text-fill-color: rgba(255,255,255,0.5); }
     .sidebar .nav { padding-top: 8px; flex: 1; overflow-y: auto; }
     .sidebar .nav .nav-section { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.2); padding: 10px 12px 4px; font-weight: 700; }
-    .sidebar .nav button { width: 100%; background: transparent; color: rgba(255,255,255,0.6); text-align: right; padding: 8px 12px; border-radius: var(--radius-md); margin: 1px 0; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 10px; transition: all var(--transition-base); }
+    .sidebar .nav button { width: 100%; background: transparent; color: rgba(255,255,255,0.6); text-align: right; padding: 8px 12px; border-radius: var(--radius-md); margin: 1px 0; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 10px; transition: all var(--transition-base); position: relative; }
     .sidebar .nav button .icon { width: 24px; font-size: 16px; text-align: center; opacity: 0.7; }
     .sidebar .nav button:hover { background: rgba(255,255,255,0.08); color: #fff; transform: translateX(-4px); }
     .sidebar .nav button.active { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--navy); box-shadow: var(--shadow-gold); }
     .sidebar .nav button.active .icon { opacity: 1; }
     .sidebar .nav button.active::before { content: ''; position: absolute; right: -4px; top: 50%; transform: translateY(-50%); width: 4px; height: 24px; background: var(--gold); border-radius: 0 4px 4px 0; }
+    .sidebar .nav button .badge { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); font-size: 9px; padding: 1px 6px; min-width: 18px; text-align: center; background: var(--red); color: #fff; border-radius: var(--radius-full); }
     .sidebar .footer { flex-shrink: 0; color: rgba(255,255,255,0.4); font-size: 11px; border-top: 1px solid rgba(255,255,255,0.05); padding: 12px 6px 4px; }
     .sidebar .footer #userEmail { display: block; margin-bottom: 8px; font-weight: 600; color: rgba(255,255,255,0.7); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .sidebar .footer .logout-btn { width: 100%; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); padding: 8px; border-radius: var(--radius-md); font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .sidebar .footer .logout-btn:hover { background: rgba(255,255,255,0.12); color: #fff; transform: translateX(-4px); }
+    .sidebar .footer .copy { display: block; text-align: center; font-size: 9px; opacity: 0.4; margin-top: 6px; }
 
+    /* ===== MAIN ===== */
     .main { margin-right: var(--sidebar-width); width: calc(100% - var(--sidebar-width)); min-height: 100vh; background: var(--paper); transition: margin var(--transition-base), width var(--transition-base); }
     .topbar { background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line-soft); padding: 12px 28px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; flex-wrap: wrap; gap: 10px; min-height: 68px; transition: background var(--transition-base), border-color var(--transition-base); }
     [data-theme="dark"] .topbar { background: rgba(15, 23, 36, 0.85); border-bottom-color: var(--line); }
     .topbar .topbar-left { display: flex; align-items: center; gap: 12px; }
-    .topbar .topbar-left .page-icon { width: 36px; height: 36px; border-radius: var(--radius-md); background: linear-gradient(135deg, var(--gold-soft), var(--gold-100)); display: grid; place-items: center; font-size: 18px; color: var(--navy); }
+    .topbar .topbar-left .page-icon { width: 36px; height: 36px; border-radius: var(--radius-md); background: linear-gradient(135deg, var(--gold-soft), var(--gold-soft)); display: grid; place-items: center; font-size: 18px; color: var(--navy); }
     .topbar h1 { font-size: 18px; margin: 0; color: var(--text); }
     .topbar .topbar-sub { font-size: 11px; color: var(--muted); }
     .topbar .actions { display: flex; gap: 6px; flex-wrap: wrap; }
-
     .content { padding: 28px 32px 40px; max-width: 1440px; margin: 0 auto; }
     .view { display: none; animation: viewFadeIn 0.35s ease; }
     .view.active { display: block; }
@@ -126,16 +126,14 @@
     .grid-2 { grid-template-columns: repeat(2, 1fr); }
     .grid-3 { grid-template-columns: repeat(3, 1fr); }
     .grid-4 { grid-template-columns: repeat(4, 1fr); }
-
     .card { background: var(--white); border: 1px solid var(--line-soft); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); transition: all var(--transition-bounce); overflow: hidden; }
     [data-theme="dark"] .card { background: var(--paper-dark); border-color: var(--line); }
-    .card:hover { box-shadow: var(--shadow-md); border-color: var(--gold-200); transform: translateY(-2px); }
+    .card:hover { box-shadow: var(--shadow-md); border-color: var(--gold-soft); transform: translateY(-2px); }
     .card-header { padding: 14px 20px; border-bottom: 1px solid var(--line-soft); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; background: var(--paper); }
     [data-theme="dark"] .card-header { background: var(--navy-dark); }
     .card-header h3 { font-size: 14px; margin: 0; display: flex; align-items: center; gap: 8px; color: var(--text); }
     .card-body { padding: 18px 20px; }
     .card-body.p-0 { padding: 0; }
-
     .stat-card { padding: 24px 20px; text-align: center; border-right: 4px solid var(--gold); background: linear-gradient(135deg, var(--white) 0%, var(--paper) 100%); transition: all var(--transition-bounce); }
     [data-theme="dark"] .stat-card { background: linear-gradient(135deg, var(--paper-dark) 0%, var(--navy-dark) 100%); }
     .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
@@ -163,7 +161,7 @@
     .badge-gray { background: #f0f0f0; color: var(--muted); }
     .badge-gold { background: var(--gold-soft); color: #8A6D1B; }
     [data-theme="dark"] .badge-warning { background: #3a2a0a; color: #f5c542; }
-    [data-theme="dark"] .badge-gray { background: #2a2a2a; color: var(--muted-light); }
+    [data-theme="dark"] .badge-gray { background: #2a2a2a; color: var(--muted); }
 
     .type-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 12px; border-radius: var(--radius-full); font-size: 10px; font-weight: 700; }
     .type-badge.medical { background: var(--blue-light); color: #1a6bc4; }
@@ -194,11 +192,12 @@
     .toolbar .search { flex: 1; min-width: 180px; max-width: 360px; position: relative; }
     .toolbar .search::before { content: '\f002'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; opacity: 0.5; color: var(--muted); }
     .toolbar .search input { width: 100%; padding: 8px 36px 8px 14px; border: 2px solid var(--line); border-radius: var(--radius-md); transition: var(--transition-base); background: var(--paper); font-size: 13px; color: var(--text); }
-    .toolbar .search input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px var(--gold-100); background: var(--white); }
+    .toolbar .search input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px var(--gold-soft); background: var(--white); }
     .toolbar .actions { display: flex; gap: 6px; flex-wrap: wrap; }
 
-    .overlay { position: fixed; inset: 0; background: rgba(7,29,64,0.6); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
-    [data-theme="dark"] .overlay { background: rgba(0,0,0,0.75); }
+    /* ===== OVERLAY / MODAL ===== */
+    .overlay { position: fixed; inset: 0; background: rgba(7, 29, 64, 0.6); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
+    [data-theme="dark"] .overlay { background: rgba(0, 0, 0, 0.75); }
     .overlay.show { display: flex; }
     .modal { background: var(--white); width: min(700px, 96vw); max-height: 90vh; overflow-y: auto; border-radius: var(--radius-xl); padding: 28px 32px; box-shadow: var(--shadow-xl); animation: modalSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
     [data-theme="dark"] .modal { background: var(--paper-dark); }
@@ -212,18 +211,19 @@
     .modal .field { margin-bottom: 10px; }
     .modal .field label { font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px; }
     .modal .field input, .modal .field select, .modal .field textarea { width: 100%; padding: 10px 14px; border: 2px solid var(--line); border-radius: var(--radius-md); transition: var(--transition-base); background: var(--paper); font-size: 13px; color: var(--text); }
-    .modal .field input:focus, .modal .field select:focus, .modal .field textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 4px var(--gold-100); background: var(--white); }
+    .modal .field input:focus, .modal .field select:focus, .modal .field textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 4px var(--gold-soft); background: var(--white); }
     .modal .error { color: var(--red); font-size: 12px; margin-top: 6px; }
     .modal .modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; padding-top: 14px; border-top: 2px solid var(--line-soft); }
     [data-theme="dark"] .modal .modal-footer { border-top-color: var(--line); }
 
+    /* ===== FILE UPLOAD ===== */
     .file-upload-area { border: 2px dashed var(--line); border-radius: var(--radius-lg); padding: 28px 20px; text-align: center; transition: all var(--transition-base); background: var(--paper); cursor: pointer; }
     .file-upload-area:hover { border-color: var(--gold); background: var(--gold-soft); }
     .file-upload-area input[type="file"] { display: none; }
     .file-upload-area .upload-label { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--navy); border-radius: var(--radius-md); font-weight: 700; cursor: pointer; transition: all var(--transition-base); box-shadow: var(--shadow-gold); }
-    .file-upload-area .upload-label:hover { transform: translateY(-2px); box-shadow: var(--shadow-gold-lg); }
+    .file-upload-area .upload-label:hover { transform: translateY(-2px); box-shadow: var(--shadow-gold); }
     .file-upload-area .file-name { margin-top: 8px; font-size: 13px; color: var(--muted); }
-    .file-upload-area .file-size { font-size: 11px; color: var(--muted-light); }
+    .file-upload-area .file-size { font-size: 11px; color: var(--muted); }
     .file-upload-area .file-preview { margin-top: 8px; max-width: 180px; max-height: 130px; border-radius: var(--radius-md); overflow: hidden; display: none; margin: 8px auto 0; }
     .file-upload-area .file-preview img { width: 100%; height: auto; max-height: 130px; object-fit: contain; background: #fff; }
     .upload-progress { display: none; width: 100%; height: 6px; border-radius: var(--radius-full); margin-top: 10px; background: var(--line); overflow: hidden; }
@@ -233,6 +233,7 @@
     .upload-status.error { display: block; background: var(--red-light); color: var(--red); }
     .upload-status.loading { display: block; background: var(--blue-light); color: var(--blue); }
 
+    /* ===== COMPANY / PRODUCT CARDS ===== */
     .company-card { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-bottom: 1px solid var(--line-soft); transition: var(--transition-base); cursor: pointer; }
     [data-theme="dark"] .company-card { border-bottom-color: var(--line); }
     .company-card:hover { background: var(--navy-50); }
@@ -267,6 +268,7 @@
     .product-card .body .product-actions { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line-soft); }
     [data-theme="dark"] .product-card .body .product-actions { border-top-color: var(--line); }
 
+    /* ===== MESSAGES ===== */
     .message-list { height: 360px; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 8px; background: var(--paper); }
     [data-theme="dark"] .message-list { background: var(--navy-dark); }
     .bubble { max-width: 80%; padding: 10px 16px; border-radius: var(--radius-lg); font-size: 13px; line-height: 1.6; word-wrap: break-word; box-shadow: var(--shadow-sm); }
@@ -276,7 +278,7 @@
     .composer { display: flex; gap: 8px; padding: 10px 14px; border-top: 1px solid var(--line-soft); background: var(--white); border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
     [data-theme="dark"] .composer { background: var(--paper-dark); border-top-color: var(--line); }
     .composer input { flex: 1; border: 2px solid var(--line); border-radius: var(--radius-full); padding: 8px 16px; outline: none; font-size: 13px; transition: var(--transition-base); background: var(--paper); color: var(--text); }
-    .composer input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px var(--gold-100); }
+    .composer input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px var(--gold-soft); }
 
     .list-item { padding: 10px 14px; border-bottom: 1px solid var(--line-soft); transition: var(--transition-base); cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
     [data-theme="dark"] .list-item { border-bottom-color: var(--line); }
@@ -285,8 +287,9 @@
     .list-item .list-content { flex: 1; }
     .list-item .list-content h4 { margin: 0; font-size: 13px; font-weight: 700; }
     .list-item .list-content p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
-    .list-item.unread { border-right: 3px solid var(--gold); background: var(--gold-50); }
+    .list-item.unread { border-right: 3px solid var(--gold); background: var(--gold-soft); }
 
+    /* ===== PAYMENTS SUMMARY ===== */
     .payment-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
     .payment-summary .summary-card { background: var(--white); border: 1px solid var(--line-soft); border-radius: var(--radius-lg); padding: 14px 18px; box-shadow: var(--shadow-sm); transition: all var(--transition-bounce); }
     [data-theme="dark"] .payment-summary .summary-card { background: var(--paper-dark); border-color: var(--line); }
@@ -305,7 +308,7 @@
     .toast.show { display: block; }
     .toast.error { background: var(--red); }
 
-    #unauthorized { display: none; position: fixed; inset: 0; background: rgba(7,29,64,0.92); backdrop-filter: blur(12px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
+    #unauthorized { display: none; position: fixed; inset: 0; background: rgba(7, 29, 64, 0.92); backdrop-filter: blur(12px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
     #unauthorized.show { display: flex; }
     #unauthorized .box { background: var(--white); border-radius: var(--radius-xl); padding: 40px 36px; max-width: 500px; text-align: center; box-shadow: var(--shadow-xl); }
     [data-theme="dark"] #unauthorized .box { background: var(--paper-dark); }
@@ -315,29 +318,8 @@
     #unauthorized .box .btn { width: 100%; justify-content: center; }
 
     @media (max-width: 1200px) { .payment-summary { grid-template-columns: repeat(2, 1fr); } .grid-4 { grid-template-columns: repeat(2, 1fr); } .grid-3 { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 992px) {
-      .sidebar { width: var(--sidebar-collapsed); padding: 12px 8px; }
-      .sidebar .brand .brand-name, .sidebar .brand .brand-sub { display: none; }
-      .sidebar .nav button .label { display: none; }
-      .sidebar .nav button .icon { width: 100%; font-size: 18px; }
-      .sidebar .nav button { padding: 10px; justify-content: center; }
-      .sidebar .nav .badge { position: absolute; top: 2px; left: 2px; font-size: 8px; padding: 1px 6px; min-width: 14px; }
-      .sidebar .footer { display: none; }
-      .main { margin-right: var(--sidebar-collapsed); width: calc(100% - var(--sidebar-collapsed)); }
-      .modal .form-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 768px) {
-      .payment-summary { grid-template-columns: 1fr; }
-      .grid, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-      .content { padding: 14px; }
-      .topbar { padding: 10px 14px; flex-direction: column; align-items: stretch; gap: 6px; min-height: auto; }
-      .topbar h1 { font-size: 16px; }
-      .topbar .actions { justify-content: flex-start; }
-      .toolbar { flex-direction: column; align-items: stretch; padding: 10px 14px; }
-      .toolbar .search { max-width: 100%; }
-      .modal { padding: 18px 14px; }
-      .login-box { padding: 24px 16px; }
-    }
+    @media (max-width: 992px) { .sidebar { width: var(--sidebar-collapsed); padding: 12px 8px; } .sidebar .brand .brand-name, .sidebar .brand .brand-sub { display: none; } .sidebar .nav button .label { display: none; } .sidebar .nav button .icon { width: 100%; font-size: 18px; } .sidebar .nav button { padding: 10px; justify-content: center; } .sidebar .nav button .badge { position: absolute; top: 2px; left: 2px; font-size: 8px; padding: 1px 6px; min-width: 14px; } .sidebar .footer { display: none; } .main { margin-right: var(--sidebar-collapsed); width: calc(100% - var(--sidebar-collapsed)); } .modal .form-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) { .payment-summary { grid-template-columns: 1fr; } .grid, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } .content { padding: 14px; } .topbar { padding: 10px 14px; flex-direction: column; align-items: stretch; gap: 6px; min-height: auto; } .topbar h1 { font-size: 16px; } .topbar .actions { justify-content: flex-start; } .toolbar { flex-direction: column; align-items: stretch; padding: 10px 14px; } .toolbar .search { max-width: 100%; } .modal { padding: 18px 14px; } .login-box { padding: 24px 16px; } }
   </style>
 </head>
 <body>
@@ -359,7 +341,7 @@
       <h1>Secure PATH</h1>
       <p class="subtitle">مركز تشغيل الوسيط</p>
       <div id="loginErr" style="color:var(--red);font-size:13px;margin-bottom:12px"></div>
-      <div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" autocomplete="username" placeholder="admin.islam@securepath.com"></div>
+      <div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" autocomplete="username" placeholder="admin@securepath.com"></div>
       <div class="field"><label>كلمة المرور</label><div style="position:relative;"><input id="pass" type="password" autocomplete="current-password" placeholder="••••••••"><button type="button" class="toggle-pass" onclick="togglePassword()" id="togglePassBtn"><i class="fas fa-eye"></i></button></div></div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
         <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" id="rememberMe"> تذكرني</label>
@@ -472,9 +454,14 @@
             <div class="grid grid-3" id="offersGrid"></div>
           </div>
 
-          <!-- Company Ads -->
+          <!-- Company Ads (محسّن) -->
           <div id="v-companyAds" class="view">
-            <div class="toolbar"><div class="search"><input id="adSearch" oninput="renderCompanyAds()" placeholder="ابحث باسم الإعلان أو الشركة"></div><div class="actions"><button class="btn btn-primary" onclick="openAdModal()"><i class="fas fa-bullhorn"></i> إضافة إعلان</button></div></div>
+            <div class="toolbar">
+              <div class="search"><input id="adSearch" oninput="renderCompanyAds()" placeholder="ابحث باسم الإعلان أو الشركة"></div>
+              <div class="actions">
+                <button class="btn btn-primary" onclick="openAdModal()"><i class="fas fa-bullhorn"></i> إضافة إعلان</button>
+              </div>
+            </div>
             <div class="grid grid-3" id="adsGrid"></div>
           </div>
 
@@ -503,7 +490,7 @@
 
           <!-- Products -->
           <div id="v-products" class="view">
-            <div class="card" style="padding:14px 20px;margin-bottom:20px;background:linear-gradient(135deg, var(--gold-soft), var(--gold-100));border-color:var(--gold);border-radius:var(--radius-lg)"><b>📌 الحالة Published تظهر للعملاء.</b></div>
+            <div class="card" style="padding:14px 20px;margin-bottom:20px;background:linear-gradient(135deg, var(--gold-soft), var(--gold-soft));border-color:var(--gold);border-radius:var(--radius-lg)"><b>📌 الحالة Published تظهر للعملاء.</b></div>
             <div class="toolbar"><div class="search"><input id="productSearch" oninput="renderProducts()" placeholder="ابحث في المنتجات"></div><div class="actions"><button class="btn btn-primary" onclick="openProductModal()"><i class="fas fa-box"></i> إضافة</button></div></div>
             <div class="grid grid-3" id="productsGrid"></div>
           </div>
@@ -587,8 +574,68 @@
   <!-- Offer Modal -->
   <div id="offerModal" class="overlay"><div class="modal" style="width:min(850px,96vw)"><div class="modal-header"><h2><i class="fas fa-tag"></i> إضافة عرض</h2><button class="modal-close" onclick="closeModal('offerModal')"><i class="fas fa-times"></i></button></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div class="field"><label>اسم العرض</label><input id="offerName" placeholder="اسم العرض"></div><div class="field"><label>رمز العرض</label><input id="offerCode" placeholder="مثال: MED20"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div class="field"><label>شركة التأمين</label><select id="offerCompany"><option value="">اختر الشركة</option></select></div><div class="field"><label>نوع التأمين</label><select id="offerType"><option value="">اختر النوع</option></select></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div class="field"><label>نسبة الخصم (%)</label><input id="offerDiscount" type="number" placeholder="0" min="0" max="100"></div><div class="field"><label>الحالة</label><select id="offerStatus"><option value="active">نشط</option><option value="expired">منتهي</option></select></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div class="field"><label>تاريخ البداية</label><input id="offerStart" type="date"></div><div class="field"><label>تاريخ الانتهاء</label><input id="offerEnd" type="date"></div></div><div class="field"><label>الوصف</label><textarea id="offerDesc" rows="2" placeholder="وصف العرض"></textarea></div><div class="field"><label>صورة (URL)</label><input id="offerImage" placeholder="https://example.com/offer.jpg"></div><div id="offerErr" class="error"></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('offerModal')">إلغاء</button><button class="btn btn-primary" id="createOfferBtn" onclick="createOffer()">حفظ</button></div></div></div>
 
-  <!-- Company Ad Modal -->
-  <div id="adModal" class="overlay"><div class="modal" style="width:min(850px,96vw)"><div class="modal-header"><h2><i class="fas fa-bullhorn"></i> إضافة إعلان شركة</h2><button class="modal-close" onclick="closeModal('adModal')"><i class="fas fa-times"></i></button></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div class="field"><label>عنوان الإعلان <span style="color:var(--red)">*</span></label><input id="adTitle" placeholder="عنوان الإعلان"></div><div class="field"><label>شركة التأمين <span style="color:var(--red)">*</span></label><select id="adCompany"><option value="">اختر الشركة</option></select></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div class="field"><label>الحالة</label><select id="adStatus"><option value="active">نشط (يظهر للعملاء)</option><option value="inactive">متوقف (مخفي)</option></select></div><div class="field"><label>رابط الإعلان (اختياري)</label><input id="adLink" placeholder="https://... أو رابط واتساب"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div class="field"><label>تاريخ البداية (اختياري)</label><input id="adStart" type="date"></div><div class="field"><label>تاريخ الانتهاء (اختياري)</label><input id="adEnd" type="date"></div></div><div class="field"><label>الوصف</label><textarea id="adDesc" rows="2" placeholder="نص الإعلان"></textarea></div><div class="field"><label>صورة الإعلان (URL)</label><input id="adImage" placeholder="https://example.com/ad.jpg"></div><div id="adErr" class="error"></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('adModal')">إلغاء</button><button class="btn btn-primary" id="createAdBtn" onclick="createAd()">حفظ</button></div></div></div>
+  <!-- ===== COMPANY AD MODAL (محسّن) ===== -->
+  <div id="adModal" class="overlay">
+    <div class="modal" style="width:min(850px,96vw)">
+      <div class="modal-header">
+        <h2><i class="fas fa-bullhorn"></i> <span id="adModalTitle">إضافة إعلان شركة</span></h2>
+        <button class="modal-close" onclick="closeModal('adModal')"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>عنوان الإعلان <span style="color:var(--red)">*</span></label>
+          <input id="adTitle" placeholder="مثال: عرض خاص للسيارات">
+        </div>
+        <div class="field">
+          <label>شركة التأمين <span style="color:var(--red)">*</span></label>
+          <select id="adCompany"><option value="">اختر الشركة</option></select>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>الحالة</label>
+          <select id="adStatus">
+            <option value="active">نشط (يظهر للعملاء)</option>
+            <option value="inactive">متوقف (مخفي)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>رابط الإعلان (اختياري)</label>
+          <input id="adLink" placeholder="https://example.com أو رابط واتساب">
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>تاريخ البداية (اختياري)</label>
+          <input id="adStart" type="date">
+        </div>
+        <div class="field">
+          <label>تاريخ الانتهاء (اختياري)</label>
+          <input id="adEnd" type="date">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>الوصف</label>
+        <textarea id="adDesc" rows="2" placeholder="نص الإعلان"></textarea>
+      </div>
+
+      <div class="field">
+        <label>صورة الإعلان (URL)</label>
+        <input id="adImage" placeholder="https://example.com/ad.jpg">
+      </div>
+
+      <div id="adErr" class="error"></div>
+
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('adModal')">إلغاء</button>
+        <button class="btn btn-primary" id="createAdBtn" onclick="saveAd()">حفظ</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Profile Modals -->
   <div id="clientProfileModal" class="overlay"><div class="modal" style="width:min(900px,96vw)"><div class="modal-header"><div><h2 id="profileName" style="margin:0;font-size:20px">ملف العميل</h2><div id="profileMeta" style="font-size:13px;color:var(--muted)"></div></div><button class="modal-close" onclick="closeModal('clientProfileModal')"><i class="fas fa-times"></i></button></div><div id="profileBody"></div></div></div>
@@ -598,8 +645,8 @@
   <div id="toast" class="toast"></div>
 
   <!-- ================================================================
-       JAVASCRIPT — كامل ومتكامل
-       ================================================================ -->
+  JAVASCRIPT — كامل ومتكامل
+  ================================================================ -->
   <script>
     // ================================================================
     // 1. FIREBASE CONFIG
@@ -693,11 +740,7 @@
       { id: 'social', name: 'التأمين الاجتماعي', icon: '🏛️', color: 'pension' }
     ];
 
-    const getType = (id) => {
-      let t = APP_STATE.types.find(x => x.id === id);
-      if (!t) t = ALL_INSURANCE_TYPES.find(x => x.id === id);
-      return t || null;
-    };
+    const getType = (id) => { let t = APP_STATE.types.find(x => x.id === id); if (!t) t = ALL_INSURANCE_TYPES.find(x => x.id === id); return t || null; };
     const getTypeName = (id) => { const t = getType(id); return t ? t.name : id || '—'; };
     const getTypeColor = (id) => { const t = getType(id); return t ? t.color : 'other'; };
     const getTypeIcon = (id) => { const t = getType(id); return t ? t.icon : '📄'; };
@@ -820,8 +863,7 @@
         document.getElementById('userEmail').textContent = user.email || '';
         document.getElementById('sAgent').textContent = (user.email || '').split('@')[0];
         const saved = localStorage.getItem('adminEmail');
-        if (saved && !document.getElementById('email').value) { document.getElementById('email').value = saved;
-          document.getElementById('rememberMe').checked = true; }
+        if (saved && !document.getElementById('email').value) { document.getElementById('email').value = saved; document.getElementById('rememberMe').checked = true; }
         if (!APP_STATE.loaded) loadAllData();
       } else {
         document.getElementById('login').style.display = 'grid';
@@ -829,8 +871,7 @@
         document.getElementById('unauthorized').classList.remove('show');
         APP_STATE.currentUser = null;
         const saved = localStorage.getItem('adminEmail');
-        if (saved) { document.getElementById('email').value = saved;
-          document.getElementById('rememberMe').checked = true; }
+        if (saved) { document.getElementById('email').value = saved; document.getElementById('rememberMe').checked = true; }
       }
     });
 
@@ -866,6 +907,10 @@
           }
           if (name === 'offers') {
             if (!data.imageUrl && data.image) data.imageUrl = data.image;
+          }
+          if (name === 'companyAds') {
+            if (!data.imageUrl && data.image) data.imageUrl = data.image;
+            if (!data.companyName && data.company) data.companyName = getCompanyName(data.company);
           }
           return data;
         });
@@ -903,8 +948,7 @@
       if (!APP_STATE.loaded) { toast('⚠️ لم يتم تحميل البيانات بعد'); return; }
       toast('🔄 جاري التحديث...');
       APP_STATE.loaded = false;
-      loadAllData().catch(e => { APP_STATE.loaded = true;
-        toast('❌ فشل التحديث: ' + e.message, true); });
+      loadAllData().catch(e => { APP_STATE.loaded = true; toast('❌ فشل التحديث: ' + e.message, true); });
     }
 
     // ================================================================
@@ -921,6 +965,7 @@
         renderCurrentChat();
       });
     }
+
     function startActivityListener() {
       if (listeners.activity) listeners.activity();
       listeners.activity = db.collection('activity').limit(200).onSnapshot(snap => {
@@ -929,6 +974,7 @@
         renderDashboard();
       });
     }
+
     function startNotificationsListener() {
       if (listeners.notifications) listeners.notifications();
       listeners.notifications = db.collection('notifications').limit(200).onSnapshot(snap => {
@@ -937,9 +983,8 @@
         updateBadge();
       });
     }
-    // Live listener for documents: catches uploads coming from the client app instantly,
-    // without waiting for a manual "تحديث" click. Also normalizes field names so documents
-    // written by the client app (which may use slightly different field names) still show up.
+
+    // Live listener for documents - catches uploads from client app instantly
     function startDocumentsListener() {
       if (listeners.documents) listeners.documents();
       listeners.documents = db.collection('documents').onSnapshot(snap => {
@@ -982,6 +1027,7 @@
         if (val && APP_STATE.clients.some(c => (c.id || c.uid) === val)) s.value = val;
       });
     }
+
     function refreshDocClientSelect() {
       const s = document.getElementById('docClient');
       if (!s) return;
@@ -990,6 +1036,7 @@
       APP_STATE.clients.forEach(c => s.innerHTML += `<option value="${c.id || c.uid}">${esc(c.fullName || c.username)}</option>`);
       if (val && APP_STATE.clients.some(c => (c.id || c.uid) === val)) s.value = val;
     }
+
     function refreshTypeSelects() {
       const types = [...APP_STATE.types];
       ALL_INSURANCE_TYPES.forEach(t => { if (!types.some(x => x.id === t.id)) types.push(t); });
@@ -1002,6 +1049,7 @@
         if (val && types.some(t => t.id === val)) s.value = val;
       });
     }
+
     function refreshCompanySelects() {
       const comps = APP_STATE.companies.length ? APP_STATE.companies : [{ id: 'misr', name: 'مصر للتأمين' }, { id: 'allianz', name: 'أليانز للتأمين' }];
       ['pCompany', 'prCompany', 'offerCompany', 'adCompany'].forEach(id => {
@@ -1013,10 +1061,12 @@
         if (val && comps.some(c => (c.id || c.name) === val)) s.value = val;
       });
     }
+
     function refreshPolicySelects() {
       refreshPolicySelect('payClient', 'payPolicy');
       refreshPolicySelect('clClient', 'clPolicy');
     }
+
     function refreshPolicySelect(clientId, policyId) {
       const client = document.getElementById(clientId).value;
       const s = document.getElementById(policyId);
@@ -1043,7 +1093,7 @@
     // ================================================================
     function renderDashboard() {
       const openClaims = APP_STATE.claims.filter(x => !['settled', 'rejected'].includes(x.status)).length;
-      const unread = APP_STATE.messages.filter(x => x.sender === 'client' && !x.autoReply && !x.readByAdmin).length;
+      const unread = APP_STATE.messages.filter(m => m.sender === 'client' && !m.autoReply && !m.readByAdmin).length;
       const exp = APP_STATE.policies.filter(x => daysUntil(x.endDate) >= 0 && daysUntil(x.endDate) <= 45).length;
       const total = APP_STATE.payments.reduce((a, x) => a + (Number(x.amount) || 0), 0);
       const active = APP_STATE.policies.filter(x => daysUntil(x.endDate) >= 0).length;
@@ -1104,7 +1154,7 @@
       document.getElementById('collectionRate').textContent = rate + '%';
 
       const q = (document.getElementById('paymentSearch')?.value || '').toLowerCase();
-      const html = APP_STATE.payments.filter(p => [clientName(p.clientId||p.uid), p.method, p.note].join(' ').toLowerCase().includes(q)).sort((a,b) => String(b.date||'').localeCompare(String(a.date||''))).map(p => {
+      const html = APP_STATE.payments.filter(p => [clientName(p.clientId || p.uid), p.method, p.note].join(' ').toLowerCase().includes(q)).sort((a, b) => String(b.date || '').localeCompare(String(a.date || ''))).map(p => {
         const policy = APP_STATE.policies.find(x => x.id === p.policyId);
         const prem = policy ? Number(policy.premium) || 0 : 0;
         const paid = APP_STATE.payments.filter(pmt => pmt.policyId === p.policyId).reduce((s, pmt) => s + (Number(pmt.amount) || 0), 0);
@@ -1116,9 +1166,9 @@
 
     function renderClaims() {
       const q = (document.getElementById('claimSearch')?.value || '').toLowerCase();
-      const html = APP_STATE.claims.filter(c => [clientName(c.clientId||c.uid), c.type, c.status].join(' ').toLowerCase().includes(q)).sort((a,b) => ms(b.updatedAt||b.createdAt) - ms(a.updatedAt||a.createdAt)).map(c => {
+      const html = APP_STATE.claims.filter(c => [clientName(c.clientId || c.uid), c.type, c.status].join(' ').toLowerCase().includes(q)).sort((a, b) => ms(b.updatedAt || b.createdAt) - ms(a.updatedAt || a.createdAt)).map(c => {
         const policy = APP_STATE.policies.find(x => x.id === c.policyId);
-        const statusMap = { approved:'success', rejected:'danger', settled:'info' };
+        const statusMap = { approved: 'success', rejected: 'danger', settled: 'info' };
         const cls = statusMap[c.status] || 'warning';
         const label = c.status === 'approved' ? 'معتمد' : c.status === 'rejected' ? 'مرفوض' : c.status === 'settled' ? 'مسوى' : 'قيد المراجعة';
         return `<tr><td>${esc(clientName(c.clientId||c.uid))}</td><td>${esc(c.type)}</td><td>${esc(c.policyNumber||policy?.policyNumber||'—')}</td><td>${Number(c.amount||0).toLocaleString()} EGP</td><td><span class="badge badge-${cls}">${label}</span></td><td>${date(c.updatedAt||c.createdAt)}</td><td><select onchange="changeClaim('${c.id}',this.value)" style="padding:4px 8px;border-radius:6px;border:1px solid var(--line);font-size:12px;background:#fff"><option value="">تحديث</option><option value="under_review">قيد المراجعة</option><option value="approved">معتمد</option><option value="settled">مسوى</option><option value="rejected">مرفوض</option></select></td></tr>`;
@@ -1128,8 +1178,8 @@
 
     function renderDocuments() {
       const q = (document.getElementById('docSearch')?.value || '').toLowerCase();
-      const html = APP_STATE.documents.filter(d => [clientName(d.clientId||d.uid), d.fileName, d.fileType, d.verificationStatus].join(' ').toLowerCase().includes(q)).sort((a,b) => ms(b.createdAt) - ms(a.createdAt)).map(d => {
-        const st = String(d.verificationStatus||'').toLowerCase();
+      const html = APP_STATE.documents.filter(d => [clientName(d.clientId || d.uid), d.fileName, d.fileType, d.verificationStatus].join(' ').toLowerCase().includes(q)).sort((a, b) => ms(b.createdAt) - ms(a.createdAt)).map(d => {
+        const st = String(d.verificationStatus || '').toLowerCase();
         const badge = st === 'pending' ? 'badge-warning' : st === 'approved' || st === 'verified' ? 'badge-success' : st === 'rejected' ? 'badge-danger' : 'badge-gray';
         const label = st === 'pending' ? 'قيد المراجعة' : st === 'approved' || st === 'verified' ? 'معتمد' : st === 'rejected' ? 'مرفوض' : '—';
         const hasData = !!(d.dataUrl || d.downloadURL || d.fileUrl || d.url);
@@ -1174,11 +1224,217 @@
       }).join('');
     }
 
+    // ===== COMPANY ADS (محسّن بالكامل) =====
+    function openAdModal(adId) {
+      document.getElementById('adErr').textContent = '';
+      document.getElementById('adModalTitle').textContent = adId ? 'تعديل إعلان' : 'إضافة إعلان شركة';
+      document.getElementById('createAdBtn').textContent = adId ? '🔄 تحديث' : 'حفظ';
+
+      // تنظيف الحقول
+      document.getElementById('adTitle').value = '';
+      document.getElementById('adDesc').value = '';
+      document.getElementById('adImage').value = '';
+      document.getElementById('adLink').value = '';
+      document.getElementById('adStatus').value = 'active';
+      document.getElementById('adStart').value = '';
+      document.getElementById('adEnd').value = '';
+
+      refreshAllSelects();
+
+      if (adId) {
+        // محاولة جلب الإعلان من الحالة المحلية
+        const ad = APP_STATE.companyAds?.find(x => x.id === adId);
+        if (ad) {
+          document.getElementById('adTitle').value = ad.title || '';
+          document.getElementById('adDesc').value = ad.description || '';
+          document.getElementById('adImage').value = ad.imageUrl || '';
+          document.getElementById('adLink').value = ad.link || '';
+          document.getElementById('adStatus').value = ad.status || 'active';
+          document.getElementById('adStart').value = ad.startDate || '';
+          document.getElementById('adEnd').value = ad.endDate || '';
+          document.getElementById('adCompany').value = ad.company || '';
+          document.getElementById('createAdBtn').dataset.adId = adId;
+        } else {
+          // إذا لم يتم العثور عليه محلياً، نحاول جلبه من Firestore مباشرة
+          toast('⏳ جاري تحميل الإعلان...');
+          db.collection('companyAds').doc(adId).get().then(doc => {
+            if (doc.exists) {
+              const data = doc.data();
+              document.getElementById('adTitle').value = data.title || '';
+              document.getElementById('adDesc').value = data.description || '';
+              document.getElementById('adImage').value = data.imageUrl || '';
+              document.getElementById('adLink').value = data.link || '';
+              document.getElementById('adStatus').value = data.status || 'active';
+              document.getElementById('adStart').value = data.startDate || '';
+              document.getElementById('adEnd').value = data.endDate || '';
+              document.getElementById('adCompany').value = data.company || '';
+              document.getElementById('createAdBtn').dataset.adId = adId;
+              // تحديث الحالة المحلية
+              const idx = APP_STATE.companyAds.findIndex(a => a.id === adId);
+              if (idx > -1) APP_STATE.companyAds[idx] = { id: adId, ...data };
+              else APP_STATE.companyAds.push({ id: adId, ...data });
+              toast('✅ تم تحميل الإعلان');
+            } else {
+              toast('❌ الإعلان غير موجود', true);
+              closeModal('adModal');
+            }
+          }).catch(err => {
+            toast('❌ فشل تحميل الإعلان: ' + err.message, true);
+            closeModal('adModal');
+          });
+          // نفتح النموذج مع بيانات فارغة لحين تحميل البيانات
+          openModal('adModal');
+          return;
+        }
+      } else {
+        document.getElementById('createAdBtn').dataset.adId = '';
+      }
+
+      openModal('adModal');
+    }
+
+    async function saveAd() {
+      const title = document.getElementById('adTitle').value.trim();
+      const company = document.getElementById('adCompany').value;
+      const err = document.getElementById('adErr');
+      err.textContent = '';
+
+      if (!title || !company) {
+        err.textContent = '⚠️ يرجى ملء عنوان الإعلان واختيار الشركة';
+        return;
+      }
+
+      const adId = document.getElementById('createAdBtn').dataset.adId;
+      const isEdit = !!adId;
+
+      const data = {
+        title,
+        company,
+        companyName: getCompanyName(company),
+        description: document.getElementById('adDesc').value.trim(),
+        imageUrl: document.getElementById('adImage').value.trim(),
+        link: document.getElementById('adLink').value.trim(),
+        status: document.getElementById('adStatus').value,
+        startDate: document.getElementById('adStart').value || null,
+        endDate: document.getElementById('adEnd').value || null,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
+      if (!isEdit) {
+        data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+      }
+
+      showLoading('createAdBtn', isEdit ? 'جاري التحديث...' : 'جاري الحفظ...');
+
+      try {
+        let saved;
+        if (isEdit) {
+          await updateDocument('companyAds', adId, data);
+          saved = { id: adId, ...data };
+          const idx = APP_STATE.companyAds.findIndex(a => a.id === adId);
+          if (idx > -1) APP_STATE.companyAds[idx] = saved;
+        } else {
+          const ref = await db.collection('companyAds').add(data);
+          saved = { id: ref.id, ...data };
+          if (!APP_STATE.companyAds) APP_STATE.companyAds = [];
+          APP_STATE.companyAds.push(saved);
+        }
+
+        hideLoading('createAdBtn');
+        closeModal('adModal');
+        renderCompanyAds();
+        toast(isEdit ? '✅ تم تحديث الإعلان' : '✅ تم إضافة الإعلان');
+      } catch (e) {
+        hideLoading('createAdBtn');
+        err.textContent = '❌ ' + e.message;
+        toast('❌ فشل الحفظ', true);
+      }
+    }
+
+    function renderCompanyAds() {
+      const q = (document.getElementById('adSearch')?.value || '').toLowerCase();
+      const ads = (APP_STATE.companyAds || []).filter(a =>
+        [a.title, a.companyName, a.description].join(' ').toLowerCase().includes(q)
+      );
+
+      const grid = document.getElementById('adsGrid');
+      if (!grid) return;
+
+      if (!ads.length) {
+        grid.innerHTML = '<div class="empty" style="grid-column:span 3;padding:60px 20px;">لا توجد إعلانات</div>';
+        return;
+      }
+
+      grid.innerHTML = ads.map(a => {
+        const isActive = a.status === 'active';
+        const end = a.endDate ? new Date(a.endDate) : null;
+        const isExpired = end && end < new Date();
+        const badge = isExpired ? 'badge-danger' : isActive ? 'badge-success' : 'badge-gray';
+        const label = isExpired ? 'منتهي' : isActive ? 'نشط' : 'متوقف';
+
+        const img = a.imageUrl && a.imageUrl.startsWith('http') ?
+          `<img src="${esc(a.imageUrl)}" alt="${esc(a.title)}" style="width:100%;height:100%;object-fit:cover;">` :
+          `<div style="font-size:48px;opacity:0.3;"><i class="fas fa-bullhorn"></i></div>`;
+
+        const linkBtn = a.link ?
+          `<a href="${esc(a.link)}" target="_blank" class="btn btn-outline btn-xs" style="text-decoration:none;"><i class="fas fa-external-link-alt"></i> رابط</a>` :
+          '';
+
+        return `
+          <div class="product-card">
+            <div class="image" style="height:140px;background:linear-gradient(135deg, var(--navy-100), var(--paper));position:relative;">
+              ${img}
+              <div style="position:absolute;top:10px;right:10px;z-index:2;">
+                <span class="badge ${badge}">${label}</span>
+              </div>
+            </div>
+            <div class="body">
+              <div class="meta">
+                <span><i class="fas fa-building"></i> ${esc(a.companyName || '—')}</span>
+              </div>
+              <h4>${esc(a.title)}</h4>
+              <p>${esc(a.description || '')}</p>
+              <div class="product-tags">
+                ${a.startDate ? `<span class="badge badge-info"><i class="fas fa-calendar-alt"></i> من ${date(a.startDate)}</span>` : ''}
+                ${a.endDate ? `<span class="badge badge-info"><i class="fas fa-calendar-alt"></i> إلى ${date(a.endDate)}</span>` : ''}
+                ${a.link ? `<span class="badge badge-gold"><i class="fas fa-link"></i> رابط مرفق</span>` : ''}
+              </div>
+              <div class="product-actions">
+                <button class="btn btn-outline btn-xs" onclick="openAdModal('${a.id}')"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-danger btn-xs" onclick="deleteAd('${a.id}')"><i class="fas fa-trash"></i></button>
+                <button class="btn btn-success btn-xs" onclick="toggleAdStatus('${a.id}')">
+                  ${isActive ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>'}
+                </button>
+                ${linkBtn}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function deleteAd(id) {
+      if (!confirm('هل أنت متأكد من حذف هذا الإعلان؟')) return;
+      await deleteDocument('companyAds', id);
+      APP_STATE.companyAds = APP_STATE.companyAds?.filter(a => a.id !== id) || [];
+      toast('✅ تم الحذف');
+      renderCompanyAds();
+    }
+
+    async function toggleAdStatus(id) {
+      const a = APP_STATE.companyAds?.find(x => x.id === id);
+      if (!a) { toast('❌ غير موجود', true); return; }
+      const newStatus = a.status === 'active' ? 'inactive' : 'active';
+      await updateDocument('companyAds', id, { status: newStatus, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+      await refreshCollection('companyAds');
+      toast(newStatus === 'active' ? '✅ تم التفعيل' : '⏸️ تم الإيقاف');
+    }
+
     function renderConversations() {
       const ids = [];
       APP_STATE.messages.forEach(m => { const id = m.clientId || m.uid; if (id && !ids.includes(id)) ids.push(id); });
       const html = ids.map(id => {
-        const msgs = APP_STATE.messages.filter(m => (m.clientId || m.uid) === id).sort((a,b) => ms(b.createdAt) - ms(a.createdAt));
+        const msgs = APP_STATE.messages.filter(m => (m.clientId || m.uid) === id).sort((a, b) => ms(b.createdAt) - ms(a.createdAt));
         const unread = msgs.some(m => m.sender === 'client' && !m.autoReply && !m.readByAdmin);
         return `<div class="list-item ${unread ? 'unread' : ''}" onclick="openClientChat('${id}')"><div class="list-content"><h4>${esc(clientName(id))}${unread ? ' <span class="badge badge-danger">جديد</span>' : ''}</h4><p>${esc(msgs[0]?.text||'')} • ${ago(msgs[0]?.createdAt)} • ${msgs.length} رسائل</p></div></div>`;
       }).join('');
@@ -1187,7 +1443,7 @@
 
     function renderRenewals() {
       const q = (document.getElementById('renewalSearch')?.value || '').toLowerCase();
-      const list = APP_STATE.policies.filter(p => daysUntil(p.endDate) >= 0 && daysUntil(p.endDate) <= 45).filter(p => [clientName(p.clientId||p.uid), p.policyNumber, getCompanyName(p.company)].join(' ').toLowerCase().includes(q)).sort((a,b) => daysUntil(a.endDate) - daysUntil(b.endDate));
+      const list = APP_STATE.policies.filter(p => daysUntil(p.endDate) >= 0 && daysUntil(p.endDate) <= 45).filter(p => [clientName(p.clientId || p.uid), p.policyNumber, getCompanyName(p.company)].join(' ').toLowerCase().includes(q)).sort((a, b) => daysUntil(a.endDate) - daysUntil(b.endDate));
       const html = list.map(p => `<tr><td>${esc(clientName(p.clientId||p.uid))}</td><td>${esc(p.policyNumber)}</td><td>${esc(getCompanyName(p.company))}</td><td>${date(p.endDate)}</td><td>${daysUntil(p.endDate)} يوم</td><td><button class="btn btn-primary btn-xs" onclick="sendRenewalReminder('${p.clientId||p.uid}','${p.id||''}')"><i class="fas fa-bell"></i> تذكير</button></td></tr>`).join('');
       document.getElementById('renewalsBody').innerHTML = html || '<tr><td colspan="6"><div class="empty">لا توجد تجديدات</div></td></tr>';
     }
@@ -1213,7 +1469,7 @@
       const q = (document.getElementById('typeSearch')?.value || '').toLowerCase();
       const filtered = types.filter(t => t.name.toLowerCase().includes(q));
       if (!filtered.length) { document.getElementById('typesGrid').innerHTML = '<div class="empty" style="grid-column:span 4">لا توجد أنواع</div>'; return; }
-      const colorMap = { investment:'var(--gold)', health:'var(--green)', takaful:'var(--purple)', micro:'var(--green)', pension:'var(--blue)', export:'var(--red)', engineering:'var(--blue)', medical:'var(--blue)', life:'#b8306a', property:'#b86a1a', car:'#1a8a4a', marine:'#1a6a6a', travel:'#6a3ab8', liability:'#b84a1a', cyber:'#7a2a7a', other:'var(--line)' };
+      const colorMap = { investment: 'var(--gold)', health: 'var(--green)', takaful: 'var(--purple)', micro: 'var(--green)', pension: 'var(--blue)', export: 'var(--red)', engineering: 'var(--blue)', medical: 'var(--blue)', life: '#b8306a', property: '#b86a1a', car: '#1a8a4a', marine: '#1a6a6a', travel: '#6a3ab8', liability: '#b84a1a', cyber: '#7a2a7a', other: 'var(--line)' };
       const html = filtered.map(t => {
         const count = APP_STATE.policies.filter(p => p.type === t.id).length;
         return `<div class="type-card" style="border-color:${colorMap[t.color]||'var(--line)'}"><div class="icon">${t.icon}</div><h4>${esc(t.name)}</h4><p>${esc(t.description||'')}</p><span class="badge badge-info">${count} وثيقة</span></div>`;
@@ -1251,7 +1507,7 @@
 
       const typeCount = {};
       APP_STATE.policies.forEach(p => { typeCount[p.type] = (typeCount[p.type] || 0) + 1; });
-      const sorted = Object.keys(typeCount).sort((a,b) => typeCount[b] - typeCount[a]);
+      const sorted = Object.keys(typeCount).sort((a, b) => typeCount[b] - typeCount[a]);
       const html1 = sorted.map(type => {
         const count = typeCount[type];
         const name = getTypeName(type);
@@ -1264,9 +1520,9 @@
 
       const compCount = {};
       APP_STATE.policies.forEach(p => { compCount[p.company] = (compCount[p.company] || 0) + 1; });
-      const sorted2 = Object.keys(compCount).sort((a,b) => compCount[b] - compCount[a]);
+      const sorted2 = Object.keys(compCount).sort((a, b) => compCount[b] - compCount[a]);
       const colors2 = ['#0E2A5C', '#164080', '#F2BD63', '#16805B', '#B5482D', '#2E67B1', '#7255B7'];
-      const html2 = sorted2.slice(0,10).map((comp, i) => {
+      const html2 = sorted2.slice(0, 10).map((comp, i) => {
         const count = compCount[comp];
         const name = getCompanyName(comp);
         const percent = APP_STATE.policies.length ? Math.round((count / APP_STATE.policies.length) * 100) : 0;
@@ -1280,7 +1536,7 @@
       const list = APP_STATE.assessments.filter(a => {
         const c = APP_STATE.clients.find(x => x.id === a.clientId || x.id === a.id || x.id === a.uid);
         return [a.name, a.businessActivity, a.occupation, c?.fullName, c?.phone].join(' ').toLowerCase().includes(q);
-      }).sort((a,b) => ms(b.updatedAt||b.timestamp) - ms(a.updatedAt||a.timestamp));
+      }).sort((a, b) => ms(b.updatedAt || b.timestamp) - ms(a.updatedAt || a.timestamp));
       document.getElementById('assessmentCount').textContent = list.length;
       const html = list.map(a => {
         const clientId = a.clientId || a.id || a.uid || '';
@@ -1309,8 +1565,7 @@
     function updateBadge() {
       const n = APP_STATE.messages.filter(m => m.sender === 'client' && !m.autoReply && !m.readByAdmin).length;
       const badge = document.getElementById('msgBadge');
-      if (badge) { badge.textContent = n;
-        badge.classList.toggle('hidden', !n); }
+      if (badge) { badge.textContent = n; badge.classList.toggle('hidden', !n); }
       document.getElementById('sMessages').textContent = n;
       document.getElementById('messageCount').textContent = n;
     }
@@ -1319,8 +1574,16 @@
     // 11. DOCUMENT UPLOAD (Fixed)
     // ================================================================
     const DOC_MAX_RAW = 720 * 1024;
-    const DOC_ALLOWED_EXTS = ['pdf','jpg','jpeg','png','doc','docx','xls','xlsx'];
-    const DOC_ALLOWED_MIME = { 'application/pdf':'PDF','image/jpeg':'JPG','image/png':'PNG','application/msword':'DOC','application/vnd.openxmlformats-officedocument.wordprocessingml.document':'DOCX','application/vnd.ms-excel':'XLS','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':'XLSX' };
+    const DOC_ALLOWED_EXTS = ['pdf', 'jpg', 'jpeg', 'png', 'doc', 'docx', 'xls', 'xlsx'];
+    const DOC_ALLOWED_MIME = {
+      'application/pdf': 'PDF',
+      'image/jpeg': 'JPG',
+      'image/png': 'PNG',
+      'application/msword': 'DOC',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'DOCX',
+      'application/vnd.ms-excel': 'XLS',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'XLSX'
+    };
 
     function openDocUploadModal() {
       document.getElementById('docUploadErr').textContent = '';
@@ -1341,13 +1604,9 @@
       const fileInput = document.getElementById('docFile');
       fileInput.onchange = handleFileSelect;
       const dropArea = document.getElementById('dropArea');
-      dropArea.ondragover = e => { e.preventDefault();
-        dropArea.classList.add('dragover'); };
-      dropArea.ondragleave = e => { e.preventDefault();
-        dropArea.classList.remove('dragover'); };
-      dropArea.ondrop = e => { e.preventDefault();
-        dropArea.classList.remove('dragover'); if (e.dataTransfer.files?.length) { fileInput.files = e.dataTransfer.files;
-          handleFileSelect.call(fileInput, { target: fileInput }); } };
+      dropArea.ondragover = e => { e.preventDefault(); dropArea.classList.add('dragover'); };
+      dropArea.ondragleave = e => { e.preventDefault(); dropArea.classList.remove('dragover'); };
+      dropArea.ondrop = e => { e.preventDefault(); dropArea.classList.remove('dragover'); if (e.dataTransfer.files?.length) { fileInput.files = e.dataTransfer.files; handleFileSelect.call(fileInput, { target: fileInput }); } };
     }
 
     function handleFileSelect(e) {
@@ -1357,15 +1616,9 @@
       const fileSize = document.getElementById('docFileSize');
       const preview = document.getElementById('filePreview');
 
-      if (!file) { fileName.textContent = 'لم يتم اختيار ملف';
-        fileSize.textContent = '';
-        preview.style.display = 'none';
-        preview.innerHTML = '';
-        selectedFile = null;
-        status.className = 'upload-status';
-        status.textContent = ''; return; }
+      if (!file) { fileName.textContent = 'لم يتم اختيار ملف'; fileSize.textContent = ''; preview.style.display = 'none'; preview.innerHTML = ''; selectedFile = null; status.className = 'upload-status'; status.textContent = ''; return; }
 
-      const mime = (() => { if (DOC_ALLOWED_MIME[file.type]) return file.type; const ext = String(file.name).toLowerCase().split('.').pop(); const map = { pdf:'application/pdf', jpg:'image/jpeg', jpeg:'image/jpeg', png:'image/png', doc:'application/msword', docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document', xls:'application/vnd.ms-excel', xlsx:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }; return map[ext] || ''; })();
+      const mime = (() => { if (DOC_ALLOWED_MIME[file.type]) return file.type; const ext = String(file.name).toLowerCase().split('.').pop(); const map = { pdf: 'application/pdf', jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', doc: 'application/msword', docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', xls: 'application/vnd.ms-excel', xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }; return map[ext] || ''; })();
       const ext = String(file.name).toLowerCase().split('.').pop();
 
       if (!mime || !DOC_ALLOWED_EXTS.includes(ext)) {
@@ -1391,12 +1644,11 @@
 
       if (file.type.startsWith('image/')) {
         const reader = new FileReader();
-        reader.onload = ev => { preview.style.display = 'block';
-          preview.innerHTML = `<img src="${esc(ev.target.result)}" alt="معاينة" style="max-width:100%;max-height:150px;">`; };
+        reader.onload = ev => { preview.style.display = 'block'; preview.innerHTML = `<img src="${esc(ev.target.result)}" alt="معاينة" style="max-width:100%;max-height:150px;">`; };
         reader.readAsDataURL(file);
       } else {
         preview.style.display = 'block';
-        const icons = { 'application/pdf':'📄', 'application/msword':'📝', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':'📝', 'application/vnd.ms-excel':'📊', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':'📊' };
+        const icons = { 'application/pdf': '📄', 'application/msword': '📝', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '📝', 'application/vnd.ms-excel': '📊', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '📊' };
         preview.innerHTML = `<div style="font-size:48px;padding:20px;text-align:center;">${icons[mime]||'📎'}</div><div style="text-align:center;font-size:12px;color:var(--muted);word-break:break-word;">${esc(file.name)}</div>`;
       }
     }
@@ -1411,43 +1663,30 @@
       const status = document.getElementById('uploadStatus');
       const btn = document.getElementById('uploadDocBtn');
 
-      function reset() { btn.disabled = false;
-        btn.textContent = '📤 رفع';
-        if (progress) progress.style.display = 'none'; }
+      function reset() { btn.disabled = false; btn.textContent = '📤 رفع'; if (progress) progress.style.display = 'none'; }
 
       err.textContent = '';
       status.className = 'upload-status';
       status.textContent = '';
 
-      if (!APP_STATE.currentUser) { err.textContent = '❌ جلسة غير صالحة';
-        status.className = 'upload-status error';
-        status.textContent = '❌ خطأ في الجلسة'; return; }
-      if (!clientId) { err.textContent = '⚠️ يرجى اختيار العميل';
-        status.className = 'upload-status error';
-        status.textContent = '⚠️ اختر العميل'; return; }
-      if (!fileName) { err.textContent = '⚠️ يرجى إدخال اسم المستند';
-        status.className = 'upload-status error';
-        status.textContent = '⚠️ أدخل الاسم'; return; }
-      if (!selectedFile) { err.textContent = '⚠️ يرجى اختيار ملف';
-        status.className = 'upload-status error';
-        status.textContent = '⚠️ اختر ملفاً'; return; }
+      if (!APP_STATE.currentUser) { err.textContent = '❌ جلسة غير صالحة'; status.className = 'upload-status error'; status.textContent = '❌ خطأ في الجلسة'; return; }
+      if (!clientId) { err.textContent = '⚠️ يرجى اختيار العميل'; status.className = 'upload-status error'; status.textContent = '⚠️ اختر العميل'; return; }
+      if (!fileName) { err.textContent = '⚠️ يرجى إدخال اسم المستند'; status.className = 'upload-status error'; status.textContent = '⚠️ أدخل الاسم'; return; }
+      if (!selectedFile) { err.textContent = '⚠️ يرجى اختيار ملف'; status.className = 'upload-status error'; status.textContent = '⚠️ اختر ملفاً'; return; }
 
       const existing = APP_STATE.documents.find(d => (d.clientId === clientId || d.uid === clientId) && d.fileName === fileName);
       if (existing && !confirm('⚠️ يوجد مستند بنفس الاسم. سيتم استبداله. متابعة؟')) return;
 
       btn.disabled = true;
       btn.textContent = '⏳ جاري...';
-      if (progress) { progress.style.display = 'block';
-        bar.style.width = '2%'; }
+      if (progress) { progress.style.display = 'block'; bar.style.width = '2%'; }
       status.className = 'upload-status loading';
       status.textContent = '⏳ جاري التحويل...';
 
       try {
         const dataUrl = await new Promise((resolve, reject) => {
           const reader = new FileReader();
-          reader.onprogress = e => { if (e.lengthComputable) { const pct = Math.min(70, Math.round((e.loaded / e.total) * 70));
-              bar.style.width = pct + '%';
-              btn.textContent = '📦 ' + pct + '%'; } };
+          reader.onprogress = e => { if (e.lengthComputable) { const pct = Math.min(70, Math.round((e.loaded / e.total) * 70)); bar.style.width = pct + '%'; btn.textContent = '📦 ' + pct + '%'; } };
           reader.onload = () => resolve(String(reader.result));
           reader.onerror = () => reject(reader.error);
           reader.readAsDataURL(selectedFile);
@@ -1475,9 +1714,7 @@
         };
 
         let ref;
-        if (existing) { ref = db.collection('documents').doc(existing.id);
-          await ref.update(docData); } else { ref = db.collection('documents').doc();
-          await ref.set(docData); }
+        if (existing) { ref = db.collection('documents').doc(existing.id); await ref.update(docData); } else { ref = db.collection('documents').doc(); await ref.set(docData); }
 
         bar.style.width = '96%';
         const snap = await ref.get();
@@ -1560,8 +1797,7 @@
         hideLoading('createPolicyBtn');
         closeModal('policyModal');
         toast('✅ تم حفظ الوثيقة');
-      } catch (e) { hideLoading('createPolicyBtn');
-        err.textContent = '❌ ' + e.message; }
+      } catch (e) { hideLoading('createPolicyBtn'); err.textContent = '❌ ' + e.message; }
     }
 
     async function createPayment() {
@@ -1572,7 +1808,7 @@
       if (!cid || !policyId || !amount || amount <= 0) { err.textContent = 'أكمل البيانات'; return; }
       const policy = APP_STATE.policies.find(p => p.id === policyId);
       if (policy) {
-        const paid = APP_STATE.payments.filter(pmt => pmt.policyId === policyId).reduce((s, pmt) => s + (Number(pmt.amount) || 0), 0);
+        const paid = APP_STATE.payments.filter(pmt => pmt.policyId === policyId).reduce((sum, pmt) => sum + (Number(pmt.amount) || 0), 0);
         const rem = Math.max(0, (Number(policy.premium) || 0) - paid);
         if (amount > rem) { err.textContent = '⚠️ المبلغ يتجاوز القسط المتبقي'; return; }
       }
@@ -1583,8 +1819,7 @@
         hideLoading('createPaymentBtn');
         closeModal('paymentModal');
         toast('✅ تم تسجيل الدفعة');
-      } catch (e) { hideLoading('createPaymentBtn');
-        err.textContent = '❌ ' + e.message; }
+      } catch (e) { hideLoading('createPaymentBtn'); err.textContent = '❌ ' + e.message; }
     }
 
     async function createClaim() {
@@ -1599,8 +1834,7 @@
         hideLoading('createClaimBtn');
         closeModal('claimModal');
         toast('✅ تم تسجيل المطالبة');
-      } catch (e) { hideLoading('createClaimBtn');
-        err.textContent = '❌ ' + e.message; }
+      } catch (e) { hideLoading('createClaimBtn'); err.textContent = '❌ ' + e.message; }
     }
 
     async function changeClaim(id, status) {
@@ -1622,8 +1856,7 @@
         hideLoading('createCompanyBtn');
         closeModal('companyModal');
         toast('✅ تمت إضافة الشركة');
-      } catch (e) { hideLoading('createCompanyBtn');
-        err.textContent = '❌ ' + e.message; }
+      } catch (e) { hideLoading('createCompanyBtn'); err.textContent = '❌ ' + e.message; }
     }
 
     async function createInsuranceType() {
@@ -1639,8 +1872,7 @@
         hideLoading('createTypeBtn');
         closeModal('typeModal');
         toast('✅ تم إضافة النوع');
-      } catch (e) { hideLoading('createTypeBtn');
-        err.textContent = '❌ ' + e.message; }
+      } catch (e) { hideLoading('createTypeBtn'); err.textContent = '❌ ' + e.message; }
     }
 
     // ===== Products CRUD =====
@@ -1674,8 +1906,7 @@
         toast('✅ تم حفظ المنتج');
         renderProducts();
         refreshAllSelects();
-      } catch (e) { hideLoading('createProductBtn');
-        err.textContent = '❌ ' + e.message; }
+      } catch (e) { hideLoading('createProductBtn'); err.textContent = '❌ ' + e.message; }
     }
 
     async function editProduct(id) {
@@ -1710,8 +1941,7 @@
         toast('✅ تم التحديث');
         document.getElementById('createProductBtn').textContent = 'حفظ المنتج';
         document.getElementById('createProductBtn').onclick = createProduct;
-      } catch (e) { hideLoading('createProductBtn');
-        err.textContent = '❌ ' + e.message; }
+      } catch (e) { hideLoading('createProductBtn'); err.textContent = '❌ ' + e.message; }
     }
 
     async function deleteProduct(id) {
@@ -1764,8 +1994,7 @@
         closeModal('offerModal');
         toast('✅ تم حفظ العرض');
         renderOffers();
-      } catch (e) { hideLoading('createOfferBtn');
-        err.textContent = '❌ ' + e.message; }
+      } catch (e) { hideLoading('createOfferBtn'); err.textContent = '❌ ' + e.message; }
     }
 
     async function editOffer(id) {
@@ -1802,8 +2031,7 @@
         toast('✅ تم التحديث');
         document.getElementById('createOfferBtn').textContent = 'حفظ العرض';
         document.getElementById('createOfferBtn').onclick = createOffer;
-      } catch (e) { hideLoading('createOfferBtn');
-        err.textContent = '❌ ' + e.message; }
+      } catch (e) { hideLoading('createOfferBtn'); err.textContent = '❌ ' + e.message; }
     }
 
     async function deleteOffer(id) {
@@ -1820,117 +2048,6 @@
       const newStatus = o.status === 'active' ? 'expired' : 'active';
       await updateDocument('offers', id, { status: newStatus, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
       await refreshCollection('offers');
-      toast(newStatus === 'active' ? '✅ تم التفعيل' : '⏸️ تم الإيقاف');
-    }
-
-    // ================================================================
-    // 12b. COMPANY ADS (إعلانات شركات - تظهر لعملاء التطبيق)
-    // Stored in Firestore collection "companyAds". Fields: title, description,
-    // company, companyName, imageUrl, link, status ('active'|'inactive'),
-    // startDate, endDate, createdAt, updatedAt.
-    // Only ads with status === 'active' (and within start/end dates if set)
-    // should be displayed in the client app.
-    // ================================================================
-    function renderCompanyAds() {
-      const q = (document.getElementById('adSearch')?.value || '').toLowerCase();
-      const ads = (APP_STATE.companyAds || []).filter(a => [a.title, a.companyName, a.description].join(' ').toLowerCase().includes(q));
-      const grid = document.getElementById('adsGrid');
-      if (!grid) return;
-      if (!ads.length) { grid.innerHTML = '<div class="empty" style="grid-column:span 3;padding:60px 20px;">لا توجد إعلانات</div>'; return; }
-      grid.innerHTML = ads.map(a => {
-        const isActive = a.status === 'active';
-        const end = a.endDate ? new Date(a.endDate) : null;
-        const isExpired = end && end < new Date();
-        const badge = isExpired ? 'badge-danger' : isActive ? 'badge-success' : 'badge-gray';
-        const label = isExpired ? 'منتهي' : isActive ? 'نشط' : 'متوقف';
-        const img = a.imageUrl && a.imageUrl.startsWith('http') ? `<img src="${esc(a.imageUrl)}" alt="${esc(a.title)}" style="width:100%;height:100%;object-fit:cover;">` : `<div style="font-size:48px;opacity:0.3;"><i class="fas fa-bullhorn"></i></div>`;
-        return `<div class="product-card"><div class="image" style="height:140px;background:linear-gradient(135deg, var(--navy-100), var(--paper));position:relative;">${img}<div style="position:absolute;top:10px;right:10px;z-index:2;"><span class="badge ${badge}">${label}</span></div></div><div class="body"><div class="meta"><span><i class="fas fa-building"></i> ${esc(a.companyName||'—')}</span></div><h4>${esc(a.title)}</h4><p>${esc(a.description||'')}</p><div class="product-tags">${a.startDate ? `<span class="badge badge-info"><i class="fas fa-calendar-alt"></i> من ${date(a.startDate)}</span>` : ''}${a.endDate ? `<span class="badge badge-info"><i class="fas fa-calendar-alt"></i> إلى ${date(a.endDate)}</span>` : ''}${a.link ? `<span class="badge badge-gold"><i class="fas fa-link"></i> رابط مرفق</span>` : ''}</div><div class="product-actions"><button class="btn btn-outline btn-xs" onclick="editAd('${a.id||''}')"><i class="fas fa-edit"></i></button><button class="btn btn-danger btn-xs" onclick="deleteAd('${a.id||''}')"><i class="fas fa-trash"></i></button><button class="btn btn-success btn-xs" onclick="toggleAdStatus('${a.id||''}')">${isActive ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>'}</button></div></div></div>`;
-      }).join('');
-    }
-
-    function openAdModal() {
-      document.getElementById('adErr').textContent = '';
-      document.getElementById('adTitle').value = '';
-      document.getElementById('adDesc').value = '';
-      document.getElementById('adImage').value = '';
-      document.getElementById('adLink').value = '';
-      document.getElementById('adStatus').value = 'active';
-      document.getElementById('adStart').value = '';
-      document.getElementById('adEnd').value = '';
-      document.getElementById('createAdBtn').textContent = 'حفظ';
-      document.getElementById('createAdBtn').onclick = createAd;
-      refreshAllSelects();
-      openModal('adModal');
-    }
-
-    async function createAd() {
-      const title = document.getElementById('adTitle').value.trim();
-      const company = document.getElementById('adCompany').value;
-      const err = document.getElementById('adErr');
-      if (!title || !company) { err.textContent = 'أكمل البيانات'; return; }
-      showLoading('createAdBtn', 'جاري الحفظ...');
-      try {
-        const data = { title, company, companyName: getCompanyName(company), description: document.getElementById('adDesc').value.trim(), imageUrl: document.getElementById('adImage').value.trim(), link: document.getElementById('adLink').value.trim(), status: document.getElementById('adStatus').value, startDate: document.getElementById('adStart').value || null, endDate: document.getElementById('adEnd').value || null, createdAt: firebase.firestore.FieldValue.serverTimestamp(), updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
-        const saved = await saveDocument('companyAds', data);
-        if (!APP_STATE.companyAds) APP_STATE.companyAds = [];
-        APP_STATE.companyAds.push(saved);
-        hideLoading('createAdBtn');
-        closeModal('adModal');
-        toast('✅ تم حفظ الإعلان');
-        renderCompanyAds();
-      } catch (e) { hideLoading('createAdBtn');
-        err.textContent = '❌ ' + e.message; }
-    }
-
-    async function editAd(id) {
-      const a = APP_STATE.companyAds?.find(x => x.id === id);
-      if (!a) { toast('❌ غير موجود', true); return; }
-      document.getElementById('adTitle').value = a.title || '';
-      document.getElementById('adDesc').value = a.description || '';
-      document.getElementById('adImage').value = a.imageUrl || '';
-      document.getElementById('adLink').value = a.link || '';
-      document.getElementById('adStatus').value = a.status || 'active';
-      document.getElementById('adStart').value = a.startDate || '';
-      document.getElementById('adEnd').value = a.endDate || '';
-      document.getElementById('createAdBtn').textContent = '🔄 تحديث';
-      document.getElementById('createAdBtn').onclick = function() { updateAd(id); };
-      refreshAllSelects();
-      document.getElementById('adCompany').value = a.company || '';
-      openModal('adModal');
-    }
-
-    async function updateAd(id) {
-      const title = document.getElementById('adTitle').value.trim();
-      const company = document.getElementById('adCompany').value;
-      const err = document.getElementById('adErr');
-      if (!title || !company) { err.textContent = 'أكمل البيانات'; return; }
-      showLoading('createAdBtn', 'جاري التحديث...');
-      try {
-        await updateDocument('companyAds', id, { title, company, companyName: getCompanyName(company), description: document.getElementById('adDesc').value.trim(), imageUrl: document.getElementById('adImage').value.trim(), link: document.getElementById('adLink').value.trim(), status: document.getElementById('adStatus').value, startDate: document.getElementById('adStart').value || null, endDate: document.getElementById('adEnd').value || null, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
-        await refreshCollection('companyAds');
-        hideLoading('createAdBtn');
-        closeModal('adModal');
-        toast('✅ تم التحديث');
-        document.getElementById('createAdBtn').textContent = 'حفظ';
-        document.getElementById('createAdBtn').onclick = createAd;
-      } catch (e) { hideLoading('createAdBtn');
-        err.textContent = '❌ ' + e.message; }
-    }
-
-    async function deleteAd(id) {
-      if (!confirm('هل أنت متأكد؟')) return;
-      await deleteDocument('companyAds', id);
-      APP_STATE.companyAds = APP_STATE.companyAds?.filter(a => a.id !== id) || [];
-      toast('✅ تم الحذف');
-      renderCompanyAds();
-    }
-
-    async function toggleAdStatus(id) {
-      const a = APP_STATE.companyAds?.find(x => x.id === id);
-      if (!a) { toast('❌ غير موجود', true); return; }
-      const newStatus = a.status === 'active' ? 'inactive' : 'active';
-      await updateDocument('companyAds', id, { status: newStatus, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
-      await refreshCollection('companyAds');
       toast(newStatus === 'active' ? '✅ تم التفعيل' : '⏸️ تم الإيقاف');
     }
 
@@ -1976,8 +2093,7 @@
     function runRenewalReminders() {
       showLoading('runRenewalBtn', 'جاري...');
       const expiring = APP_STATE.policies.filter(p => daysUntil(p.endDate) >= 0 && daysUntil(p.endDate) <= 45);
-      if (!expiring.length) { hideLoading('runRenewalBtn');
-        toast('✅ لا توجد وثائق'); return; }
+      if (!expiring.length) { hideLoading('runRenewalBtn'); toast('✅ لا توجد وثائق'); return; }
       const now = Date.now();
       const promises = expiring.map(p => {
         const cid = p.clientId || p.uid;
@@ -1986,9 +2102,7 @@
         if (dup) return Promise.resolve();
         return db.collection('notifications').add({ clientId: cid, uid: cid, title: 'تذكير بتجديد الوثيقة', body: `وثيقتك (${p.policyNumber || p.type}) تنتهي في ${date(p.endDate)}`, type: 'renewal_reminder', policyId: p.id, read: false, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
       });
-      Promise.all(promises).then(() => { hideLoading('runRenewalBtn');
-        toast('✅ تم إرسال التذكيرات'); }).catch(() => { hideLoading('runRenewalBtn');
-        toast('❌ فشل التشغيل', true); });
+      Promise.all(promises).then(() => { hideLoading('runRenewalBtn'); toast('✅ تم إرسال التذكيرات'); }).catch(() => { hideLoading('runRenewalBtn'); toast('❌ فشل التشغيل', true); });
     }
 
     // ================================================================
@@ -2014,7 +2128,7 @@
       html += `</tbody></table></div></div></div>`;
       html += `<div class="card" style="margin-top:16px"><div class="card-header"><h3>المستندات</h3></div><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>المستند</th><th>النوع</th><th>الحالة</th><th>التاريخ</th></tr></thead><tbody>`;
       html += docs.map(d => {
-        const st = String(d.verificationStatus||'').toLowerCase();
+        const st = String(d.verificationStatus || '').toLowerCase();
         const badge = st === 'pending' ? 'badge-warning' : st === 'approved' || st === 'verified' ? 'badge-success' : st === 'rejected' ? 'badge-danger' : 'badge-gray';
         const label = st === 'pending' ? 'قيد المراجعة' : st === 'approved' || st === 'verified' ? 'معتمد' : st === 'rejected' ? 'مرفوض' : '—';
         return `<tr><td>${esc(d.fileName||'—')}</td><td>${esc(d.fileType||'—')}</td><td><span class="badge ${badge}">${label}</span></td><td>${date(d.createdAt)}</td></tr>`;
@@ -2050,9 +2164,9 @@
       document.querySelectorAll('.nav button').forEach(x => x.classList.remove('active'));
       const target = el || document.querySelector(`[data-view="${view}"]`);
       if (target) target.classList.add('active');
-      const titles = { dashboard:'لوحة التحكم', clients:'العملاء', policies:'الوثائق', payments:'المدفوعات', claims:'المطالبات', documents:'المستندات', renewals:'التجديدات', companies:'شركات التأمين', types:'أنواع التأمين', products:'المنتجات', reports:'التقارير', assessments:'تقييمات الحماية', compliance:'الامتثال', messages:'المحادثات', notifications:'الإشعارات', activity:'سجل النشاط', offers:'العروض', companyAds:'إعلانات شركات' };
-      const icons = { dashboard:'📊', clients:'👤', policies:'📄', payments:'💰', claims:'⚠️', documents:'📎', renewals:'🔄', companies:'🏢', types:'📑', products:'📦', reports:'📈', assessments:'🛡️', compliance:'✅', messages:'💬', notifications:'🔔', activity:'📋', offers:'🎯', companyAds:'📢' };
-      const subs = { dashboard:'نظرة عامة', clients:'إدارة العملاء', policies:'إدارة الوثائق', payments:'إدارة المدفوعات', claims:'إدارة المطالبات', documents:'إدارة المستندات', renewals:'متابعة التجديدات', companies:'إدارة الشركات', types:'إدارة الأنواع', products:'إدارة المنتجات', reports:'تحليلات', assessments:'تقييمات الحماية', compliance:'مركز الامتثال', messages:'المحادثات', notifications:'الإشعارات', activity:'سجل النشاطات', offers:'العروض', companyAds:'إدارة إعلانات الشركات' };
+      const titles = { dashboard: 'لوحة التحكم', clients: 'العملاء', policies: 'الوثائق', payments: 'المدفوعات', claims: 'المطالبات', documents: 'المستندات', renewals: 'التجديدات', companies: 'شركات التأمين', types: 'أنواع التأمين', products: 'المنتجات', reports: 'التقارير', assessments: 'تقييمات الحماية', compliance: 'الامتثال', messages: 'المحادثات', notifications: 'الإشعارات', activity: 'سجل النشاط', offers: 'العروض', companyAds: 'إعلانات شركات' };
+      const icons = { dashboard: '📊', clients: '👤', policies: '📄', payments: '💰', claims: '⚠️', documents: '📎', renewals: '🔄', companies: '🏢', types: '📑', products: '📦', reports: '📈', assessments: '🛡️', compliance: '✅', messages: '💬', notifications: '🔔', activity: '📋', offers: '🎯', companyAds: '📢' };
+      const subs = { dashboard: 'نظرة عامة', clients: 'إدارة العملاء', policies: 'إدارة الوثائق', payments: 'إدارة المدفوعات', claims: 'إدارة المطالبات', documents: 'إدارة المستندات', renewals: 'متابعة التجديدات', companies: 'إدارة الشركات', types: 'إدارة الأنواع', products: 'إدارة المنتجات', reports: 'تحليلات', assessments: 'تقييمات الحماية', compliance: 'مركز الامتثال', messages: 'المحادثات', notifications: 'الإشعارات', activity: 'سجل النشاطات', offers: 'العروض', companyAds: 'إدارة إعلانات الشركات' };
       document.getElementById('title').textContent = titles[view] || view;
       document.getElementById('pageIcon').textContent = icons[view] || '📊';
       document.getElementById('pageSub').textContent = subs[view] || '';
@@ -2072,8 +2186,7 @@
     }
     (function initTheme() {
       const saved = localStorage.getItem('theme');
-      if (saved) { document.documentElement.setAttribute('data-theme', saved);
-        const btn = document.getElementById('darkModeToggle'); if (btn) btn.innerHTML = saved === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>'; }
+      if (saved) { document.documentElement.setAttribute('data-theme', saved); const btn = document.getElementById('darkModeToggle'); if (btn) btn.innerHTML = saved === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>'; }
     })();
 
     // ================================================================
@@ -2111,22 +2224,18 @@
 
     document.addEventListener('DOMContentLoaded', function() {
       const saved = localStorage.getItem('adminEmail');
-      if (saved) { document.getElementById('email').value = saved;
-        document.getElementById('rememberMe').checked = true; }
+      if (saved) { document.getElementById('email').value = saved; document.getElementById('rememberMe').checked = true; }
       document.getElementById('pass').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
       document.getElementById('email').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('pass').focus(); });
       // Reset product button on load
       const pb = document.getElementById('createProductBtn');
-      if (pb) { pb.textContent = 'حفظ المنتج';
-        pb.onclick = createProduct; }
+      if (pb) { pb.textContent = 'حفظ المنتج'; pb.onclick = createProduct; }
       // Reset offer button
       const ob = document.getElementById('createOfferBtn');
-      if (ob) { ob.textContent = 'حفظ العرض';
-        ob.onclick = createOffer; }
+      if (ob) { ob.textContent = 'حفظ العرض'; ob.onclick = createOffer; }
       // Reset company ad button
       const ab = document.getElementById('createAdBtn');
-      if (ab) { ab.textContent = 'حفظ';
-        ab.onclick = createAd; }
+      if (ab) { ab.textContent = 'حفظ'; ab.onclick = saveAd; }
       refreshAllSelects();
     });
   </script>
