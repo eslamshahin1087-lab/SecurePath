@@ -484,16 +484,20 @@
         .app-icon.bounce,
         .app-icon.float,
         .app-icon.spin {
-            animation: iconOrbit 3.6s linear infinite !important;
+            animation: iconLift 4.8s ease-in-out infinite !important;
             transform-origin: 50% 50%;
         }
 
-        @keyframes iconOrbit {
-            0% { transform: rotate(0deg) scale(1); }
-            25% { transform: rotate(90deg) scale(1.04); }
-            50% { transform: rotate(180deg) scale(1); }
-            75% { transform: rotate(270deg) scale(1.04); }
-            100% { transform: rotate(360deg) scale(1); }
+        @keyframes iconLift {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            48% {
+                transform: translateY(-8px);
+            }
+            62% {
+                transform: translateY(-3px);
+            }
         }
 
         .auth-brand-icon {
@@ -508,7 +512,7 @@
             border-radius: 50%;
             background: radial-gradient(circle, rgba(242, 189, 99, .24), rgba(242, 189, 99, .04) 66%, transparent 67%);
             box-shadow: 0 0 0 8px rgba(242, 189, 99, .06), 0 10px 28px rgba(0,0,0,.18);
-            animation: authIconOrbit 6s linear infinite;
+            animation: authIconOrbit 10s linear infinite;
         }
 
         .auth-brand-icon::after {
@@ -517,7 +521,7 @@
             inset: -7px;
             border: 1px dashed rgba(242, 189, 99, .5);
             border-radius: 50%;
-            animation: authRingOrbit 6s linear infinite reverse;
+            animation: authRingOrbit 10s linear infinite reverse;
         }
 
         .auth-brand-icon svg {
