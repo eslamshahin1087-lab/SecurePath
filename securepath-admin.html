@@ -386,6 +386,7 @@
           <button data-view="documents" onclick="showView('documents',this)"><span class="icon"><i class="fas fa-paperclip"></i></span><span class="label">المستندات</span></button>
           <button data-view="renewals" onclick="showView('renewals',this)"><span class="icon"><i class="fas fa-sync-alt"></i></span><span class="label">التجديدات</span></button>
           <button data-view="offers" onclick="showView('offers',this)"><span class="icon"><i class="fas fa-tags"></i></span><span class="label">العروض</span></button>
+          <button data-view="companyAds" onclick="showView('companyAds',this)"><span class="icon"><i class="fas fa-bullhorn"></i></span><span class="label">إعلانات شركات</span></button>
           <div class="nav-section">الإعدادات</div>
           <button data-view="companies" onclick="showView('companies',this)"><span class="icon"><i class="fas fa-building"></i></span><span class="label">شركات التأمين</span></button>
           <button data-view="types" onclick="showView('types',this)"><span class="icon"><i class="fas fa-list-ul"></i></span><span class="label">أنواع التأمين</span></button>
@@ -469,6 +470,12 @@
           <div id="v-offers" class="view">
             <div class="toolbar"><div class="search"><input id="offerSearch" oninput="renderOffers()" placeholder="ابحث باسم العرض أو الشركة"></div><div class="actions"><button class="btn btn-primary" onclick="openOfferModal()"><i class="fas fa-tag"></i> إضافة</button></div></div>
             <div class="grid grid-3" id="offersGrid"></div>
+          </div>
+
+          <!-- Company Ads -->
+          <div id="v-companyAds" class="view">
+            <div class="toolbar"><div class="search"><input id="adSearch" oninput="renderCompanyAds()" placeholder="ابحث باسم الإعلان أو الشركة"></div><div class="actions"><button class="btn btn-primary" onclick="openAdModal()"><i class="fas fa-bullhorn"></i> إضافة إعلان</button></div></div>
+            <div class="grid grid-3" id="adsGrid"></div>
           </div>
 
           <!-- Messages -->
@@ -580,6 +587,9 @@
   <!-- Offer Modal -->
   <div id="offerModal" class="overlay"><div class="modal" style="width:min(850px,96vw)"><div class="modal-header"><h2><i class="fas fa-tag"></i> إضافة عرض</h2><button class="modal-close" onclick="closeModal('offerModal')"><i class="fas fa-times"></i></button></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div class="field"><label>اسم العرض</label><input id="offerName" placeholder="اسم العرض"></div><div class="field"><label>رمز العرض</label><input id="offerCode" placeholder="مثال: MED20"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div class="field"><label>شركة التأمين</label><select id="offerCompany"><option value="">اختر الشركة</option></select></div><div class="field"><label>نوع التأمين</label><select id="offerType"><option value="">اختر النوع</option></select></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div class="field"><label>نسبة الخصم (%)</label><input id="offerDiscount" type="number" placeholder="0" min="0" max="100"></div><div class="field"><label>الحالة</label><select id="offerStatus"><option value="active">نشط</option><option value="expired">منتهي</option></select></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div class="field"><label>تاريخ البداية</label><input id="offerStart" type="date"></div><div class="field"><label>تاريخ الانتهاء</label><input id="offerEnd" type="date"></div></div><div class="field"><label>الوصف</label><textarea id="offerDesc" rows="2" placeholder="وصف العرض"></textarea></div><div class="field"><label>صورة (URL)</label><input id="offerImage" placeholder="https://example.com/offer.jpg"></div><div id="offerErr" class="error"></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('offerModal')">إلغاء</button><button class="btn btn-primary" id="createOfferBtn" onclick="createOffer()">حفظ</button></div></div></div>
 
+  <!-- Company Ad Modal -->
+  <div id="adModal" class="overlay"><div class="modal" style="width:min(850px,96vw)"><div class="modal-header"><h2><i class="fas fa-bullhorn"></i> إضافة إعلان شركة</h2><button class="modal-close" onclick="closeModal('adModal')"><i class="fas fa-times"></i></button></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div class="field"><label>عنوان الإعلان <span style="color:var(--red)">*</span></label><input id="adTitle" placeholder="عنوان الإعلان"></div><div class="field"><label>شركة التأمين <span style="color:var(--red)">*</span></label><select id="adCompany"><option value="">اختر الشركة</option></select></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div class="field"><label>الحالة</label><select id="adStatus"><option value="active">نشط (يظهر للعملاء)</option><option value="inactive">متوقف (مخفي)</option></select></div><div class="field"><label>رابط الإعلان (اختياري)</label><input id="adLink" placeholder="https://... أو رابط واتساب"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div class="field"><label>تاريخ البداية (اختياري)</label><input id="adStart" type="date"></div><div class="field"><label>تاريخ الانتهاء (اختياري)</label><input id="adEnd" type="date"></div></div><div class="field"><label>الوصف</label><textarea id="adDesc" rows="2" placeholder="نص الإعلان"></textarea></div><div class="field"><label>صورة الإعلان (URL)</label><input id="adImage" placeholder="https://example.com/ad.jpg"></div><div id="adErr" class="error"></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('adModal')">إلغاء</button><button class="btn btn-primary" id="createAdBtn" onclick="createAd()">حفظ</button></div></div></div>
+
   <!-- Profile Modals -->
   <div id="clientProfileModal" class="overlay"><div class="modal" style="width:min(900px,96vw)"><div class="modal-header"><div><h2 id="profileName" style="margin:0;font-size:20px">ملف العميل</h2><div id="profileMeta" style="font-size:13px;color:var(--muted)"></div></div><button class="modal-close" onclick="closeModal('clientProfileModal')"><i class="fas fa-times"></i></button></div><div id="profileBody"></div></div></div>
   <div id="companyProfileModal" class="overlay"><div class="modal" style="width:min(900px,96vw)"><div class="modal-header"><div><h2 id="companyProfileName" style="margin:0;font-size:20px">شركة التأمين</h2><div id="companyProfileMeta" style="font-size:13px;color:var(--muted)"></div></div><button class="modal-close" onclick="closeModal('companyProfileModal')"><i class="fas fa-times"></i></button></div><div id="companyProfileBody"></div></div></div>
@@ -620,11 +630,11 @@
     const APP_STATE = {
       clients: [], policies: [], payments: [], claims: [], documents: [],
       messages: [], notifications: [], activity: [], products: [], companies: [],
-      assessments: [], types: [], offers: [],
+      assessments: [], types: [], offers: [], companyAds: [],
       loaded: false, currentUser: null, currentChat: null
     };
     let selectedFile = null;
-    let listeners = { messages: null, activity: null, notifications: null };
+    let listeners = { messages: null, activity: null, notifications: null, documents: null };
 
     // ================================================================
     // 3. UTILITY FUNCTIONS
@@ -872,7 +882,7 @@
     }
 
     async function loadAllData() {
-      const names = ['clients', 'policies', 'payments', 'claims', 'documents', 'messages', 'notifications', 'activity', 'products', 'companies', 'insuranceAssessments', 'insuranceTypes', 'offers'];
+      const names = ['clients', 'policies', 'payments', 'claims', 'documents', 'messages', 'notifications', 'activity', 'products', 'companies', 'insuranceAssessments', 'insuranceTypes', 'offers', 'companyAds'];
       const results = await Promise.all(names.map(n => loadCollection(n)));
       names.forEach((n, i) => {
         if (n === 'insuranceAssessments') APP_STATE.assessments = results[i];
@@ -885,6 +895,7 @@
       startMessagesListener();
       startActivityListener();
       startNotificationsListener();
+      startDocumentsListener();
       toast('✅ تم تحميل البيانات بنجاح');
     }
 
@@ -924,6 +935,29 @@
         APP_STATE.notifications = snap.docs.map(d => ({ ...d.data(), id: d.id })).sort((a, b) => ms(b.createdAt) - ms(a.createdAt));
         renderNotifications();
         updateBadge();
+      });
+    }
+    // Live listener for documents: catches uploads coming from the client app instantly,
+    // without waiting for a manual "تحديث" click. Also normalizes field names so documents
+    // written by the client app (which may use slightly different field names) still show up.
+    function startDocumentsListener() {
+      if (listeners.documents) listeners.documents();
+      listeners.documents = db.collection('documents').onSnapshot(snap => {
+        APP_STATE.documents = snap.docs.map(d => {
+          const data = d.data();
+          data.id = d.id;
+          if (!data.uid && data.clientId) data.uid = data.clientId;
+          if (!data.clientId && (data.uid || data.userId)) data.clientId = data.uid || data.userId;
+          if (!data.fileName && (data.name || data.docName || data.filename)) data.fileName = data.name || data.docName || data.filename;
+          if (!data.fileType && (data.type || data.docType || data.category)) data.fileType = data.type || data.docType || data.category;
+          if (!data.fileUrl && (data.url || data.downloadUrl || data.secure_url)) data.fileUrl = data.url || data.downloadUrl || data.secure_url;
+          if (!data.verificationStatus) data.verificationStatus = data.status || 'pending';
+          if (!data.createdAt && (data.uploadedAt || data.timestamp)) data.createdAt = data.uploadedAt || data.timestamp;
+          if (!data.uploadedBy) data.uploadedBy = 'client';
+          return data;
+        }).sort((a, b) => ms(b.createdAt) - ms(a.createdAt));
+        renderDocuments();
+        renderDashboard();
       });
     }
 
@@ -970,7 +1004,7 @@
     }
     function refreshCompanySelects() {
       const comps = APP_STATE.companies.length ? APP_STATE.companies : [{ id: 'misr', name: 'مصر للتأمين' }, { id: 'allianz', name: 'أليانز للتأمين' }];
-      ['pCompany', 'prCompany', 'offerCompany'].forEach(id => {
+      ['pCompany', 'prCompany', 'offerCompany', 'adCompany'].forEach(id => {
         const s = document.getElementById(id);
         if (!s) return;
         const val = s.value;
@@ -1790,6 +1824,117 @@
     }
 
     // ================================================================
+    // 12b. COMPANY ADS (إعلانات شركات - تظهر لعملاء التطبيق)
+    // Stored in Firestore collection "companyAds". Fields: title, description,
+    // company, companyName, imageUrl, link, status ('active'|'inactive'),
+    // startDate, endDate, createdAt, updatedAt.
+    // Only ads with status === 'active' (and within start/end dates if set)
+    // should be displayed in the client app.
+    // ================================================================
+    function renderCompanyAds() {
+      const q = (document.getElementById('adSearch')?.value || '').toLowerCase();
+      const ads = (APP_STATE.companyAds || []).filter(a => [a.title, a.companyName, a.description].join(' ').toLowerCase().includes(q));
+      const grid = document.getElementById('adsGrid');
+      if (!grid) return;
+      if (!ads.length) { grid.innerHTML = '<div class="empty" style="grid-column:span 3;padding:60px 20px;">لا توجد إعلانات</div>'; return; }
+      grid.innerHTML = ads.map(a => {
+        const isActive = a.status === 'active';
+        const end = a.endDate ? new Date(a.endDate) : null;
+        const isExpired = end && end < new Date();
+        const badge = isExpired ? 'badge-danger' : isActive ? 'badge-success' : 'badge-gray';
+        const label = isExpired ? 'منتهي' : isActive ? 'نشط' : 'متوقف';
+        const img = a.imageUrl && a.imageUrl.startsWith('http') ? `<img src="${esc(a.imageUrl)}" alt="${esc(a.title)}" style="width:100%;height:100%;object-fit:cover;">` : `<div style="font-size:48px;opacity:0.3;"><i class="fas fa-bullhorn"></i></div>`;
+        return `<div class="product-card"><div class="image" style="height:140px;background:linear-gradient(135deg, var(--navy-100), var(--paper));position:relative;">${img}<div style="position:absolute;top:10px;right:10px;z-index:2;"><span class="badge ${badge}">${label}</span></div></div><div class="body"><div class="meta"><span><i class="fas fa-building"></i> ${esc(a.companyName||'—')}</span></div><h4>${esc(a.title)}</h4><p>${esc(a.description||'')}</p><div class="product-tags">${a.startDate ? `<span class="badge badge-info"><i class="fas fa-calendar-alt"></i> من ${date(a.startDate)}</span>` : ''}${a.endDate ? `<span class="badge badge-info"><i class="fas fa-calendar-alt"></i> إلى ${date(a.endDate)}</span>` : ''}${a.link ? `<span class="badge badge-gold"><i class="fas fa-link"></i> رابط مرفق</span>` : ''}</div><div class="product-actions"><button class="btn btn-outline btn-xs" onclick="editAd('${a.id||''}')"><i class="fas fa-edit"></i></button><button class="btn btn-danger btn-xs" onclick="deleteAd('${a.id||''}')"><i class="fas fa-trash"></i></button><button class="btn btn-success btn-xs" onclick="toggleAdStatus('${a.id||''}')">${isActive ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>'}</button></div></div></div>`;
+      }).join('');
+    }
+
+    function openAdModal() {
+      document.getElementById('adErr').textContent = '';
+      document.getElementById('adTitle').value = '';
+      document.getElementById('adDesc').value = '';
+      document.getElementById('adImage').value = '';
+      document.getElementById('adLink').value = '';
+      document.getElementById('adStatus').value = 'active';
+      document.getElementById('adStart').value = '';
+      document.getElementById('adEnd').value = '';
+      document.getElementById('createAdBtn').textContent = 'حفظ';
+      document.getElementById('createAdBtn').onclick = createAd;
+      refreshAllSelects();
+      openModal('adModal');
+    }
+
+    async function createAd() {
+      const title = document.getElementById('adTitle').value.trim();
+      const company = document.getElementById('adCompany').value;
+      const err = document.getElementById('adErr');
+      if (!title || !company) { err.textContent = 'أكمل البيانات'; return; }
+      showLoading('createAdBtn', 'جاري الحفظ...');
+      try {
+        const data = { title, company, companyName: getCompanyName(company), description: document.getElementById('adDesc').value.trim(), imageUrl: document.getElementById('adImage').value.trim(), link: document.getElementById('adLink').value.trim(), status: document.getElementById('adStatus').value, startDate: document.getElementById('adStart').value || null, endDate: document.getElementById('adEnd').value || null, createdAt: firebase.firestore.FieldValue.serverTimestamp(), updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
+        const saved = await saveDocument('companyAds', data);
+        if (!APP_STATE.companyAds) APP_STATE.companyAds = [];
+        APP_STATE.companyAds.push(saved);
+        hideLoading('createAdBtn');
+        closeModal('adModal');
+        toast('✅ تم حفظ الإعلان');
+        renderCompanyAds();
+      } catch (e) { hideLoading('createAdBtn');
+        err.textContent = '❌ ' + e.message; }
+    }
+
+    async function editAd(id) {
+      const a = APP_STATE.companyAds?.find(x => x.id === id);
+      if (!a) { toast('❌ غير موجود', true); return; }
+      document.getElementById('adTitle').value = a.title || '';
+      document.getElementById('adDesc').value = a.description || '';
+      document.getElementById('adImage').value = a.imageUrl || '';
+      document.getElementById('adLink').value = a.link || '';
+      document.getElementById('adStatus').value = a.status || 'active';
+      document.getElementById('adStart').value = a.startDate || '';
+      document.getElementById('adEnd').value = a.endDate || '';
+      document.getElementById('createAdBtn').textContent = '🔄 تحديث';
+      document.getElementById('createAdBtn').onclick = function() { updateAd(id); };
+      refreshAllSelects();
+      document.getElementById('adCompany').value = a.company || '';
+      openModal('adModal');
+    }
+
+    async function updateAd(id) {
+      const title = document.getElementById('adTitle').value.trim();
+      const company = document.getElementById('adCompany').value;
+      const err = document.getElementById('adErr');
+      if (!title || !company) { err.textContent = 'أكمل البيانات'; return; }
+      showLoading('createAdBtn', 'جاري التحديث...');
+      try {
+        await updateDocument('companyAds', id, { title, company, companyName: getCompanyName(company), description: document.getElementById('adDesc').value.trim(), imageUrl: document.getElementById('adImage').value.trim(), link: document.getElementById('adLink').value.trim(), status: document.getElementById('adStatus').value, startDate: document.getElementById('adStart').value || null, endDate: document.getElementById('adEnd').value || null, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+        await refreshCollection('companyAds');
+        hideLoading('createAdBtn');
+        closeModal('adModal');
+        toast('✅ تم التحديث');
+        document.getElementById('createAdBtn').textContent = 'حفظ';
+        document.getElementById('createAdBtn').onclick = createAd;
+      } catch (e) { hideLoading('createAdBtn');
+        err.textContent = '❌ ' + e.message; }
+    }
+
+    async function deleteAd(id) {
+      if (!confirm('هل أنت متأكد؟')) return;
+      await deleteDocument('companyAds', id);
+      APP_STATE.companyAds = APP_STATE.companyAds?.filter(a => a.id !== id) || [];
+      toast('✅ تم الحذف');
+      renderCompanyAds();
+    }
+
+    async function toggleAdStatus(id) {
+      const a = APP_STATE.companyAds?.find(x => x.id === id);
+      if (!a) { toast('❌ غير موجود', true); return; }
+      const newStatus = a.status === 'active' ? 'inactive' : 'active';
+      await updateDocument('companyAds', id, { status: newStatus, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+      await refreshCollection('companyAds');
+      toast(newStatus === 'active' ? '✅ تم التفعيل' : '⏸️ تم الإيقاف');
+    }
+
+    // ================================================================
     // 13. CHAT
     // ================================================================
     function openClientChat(id) {
@@ -1905,9 +2050,9 @@
       document.querySelectorAll('.nav button').forEach(x => x.classList.remove('active'));
       const target = el || document.querySelector(`[data-view="${view}"]`);
       if (target) target.classList.add('active');
-      const titles = { dashboard:'لوحة التحكم', clients:'العملاء', policies:'الوثائق', payments:'المدفوعات', claims:'المطالبات', documents:'المستندات', renewals:'التجديدات', companies:'شركات التأمين', types:'أنواع التأمين', products:'المنتجات', reports:'التقارير', assessments:'تقييمات الحماية', compliance:'الامتثال', messages:'المحادثات', notifications:'الإشعارات', activity:'سجل النشاط', offers:'العروض' };
-      const icons = { dashboard:'📊', clients:'👤', policies:'📄', payments:'💰', claims:'⚠️', documents:'📎', renewals:'🔄', companies:'🏢', types:'📑', products:'📦', reports:'📈', assessments:'🛡️', compliance:'✅', messages:'💬', notifications:'🔔', activity:'📋', offers:'🎯' };
-      const subs = { dashboard:'نظرة عامة', clients:'إدارة العملاء', policies:'إدارة الوثائق', payments:'إدارة المدفوعات', claims:'إدارة المطالبات', documents:'إدارة المستندات', renewals:'متابعة التجديدات', companies:'إدارة الشركات', types:'إدارة الأنواع', products:'إدارة المنتجات', reports:'تحليلات', assessments:'تقييمات الحماية', compliance:'مركز الامتثال', messages:'المحادثات', notifications:'الإشعارات', activity:'سجل النشاطات', offers:'العروض' };
+      const titles = { dashboard:'لوحة التحكم', clients:'العملاء', policies:'الوثائق', payments:'المدفوعات', claims:'المطالبات', documents:'المستندات', renewals:'التجديدات', companies:'شركات التأمين', types:'أنواع التأمين', products:'المنتجات', reports:'التقارير', assessments:'تقييمات الحماية', compliance:'الامتثال', messages:'المحادثات', notifications:'الإشعارات', activity:'سجل النشاط', offers:'العروض', companyAds:'إعلانات شركات' };
+      const icons = { dashboard:'📊', clients:'👤', policies:'📄', payments:'💰', claims:'⚠️', documents:'📎', renewals:'🔄', companies:'🏢', types:'📑', products:'📦', reports:'📈', assessments:'🛡️', compliance:'✅', messages:'💬', notifications:'🔔', activity:'📋', offers:'🎯', companyAds:'📢' };
+      const subs = { dashboard:'نظرة عامة', clients:'إدارة العملاء', policies:'إدارة الوثائق', payments:'إدارة المدفوعات', claims:'إدارة المطالبات', documents:'إدارة المستندات', renewals:'متابعة التجديدات', companies:'إدارة الشركات', types:'إدارة الأنواع', products:'إدارة المنتجات', reports:'تحليلات', assessments:'تقييمات الحماية', compliance:'مركز الامتثال', messages:'المحادثات', notifications:'الإشعارات', activity:'سجل النشاطات', offers:'العروض', companyAds:'إدارة إعلانات الشركات' };
       document.getElementById('title').textContent = titles[view] || view;
       document.getElementById('pageIcon').textContent = icons[view] || '📊';
       document.getElementById('pageSub').textContent = subs[view] || '';
@@ -1951,6 +2096,7 @@
       renderClaims();
       renderDocuments();
       renderOffers();
+      renderCompanyAds();
       renderConversations();
       renderRenewals();
       renderCompanies();
@@ -1977,6 +2123,10 @@
       const ob = document.getElementById('createOfferBtn');
       if (ob) { ob.textContent = 'حفظ العرض';
         ob.onclick = createOffer; }
+      // Reset company ad button
+      const ab = document.getElementById('createAdBtn');
+      if (ab) { ab.textContent = 'حفظ';
+        ab.onclick = createAd; }
       refreshAllSelects();
     });
   </script>
