@@ -106,6 +106,7 @@
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
+
         body {
             margin: 0;
             font-family: var(--font-ui);
@@ -117,9 +118,11 @@
             user-select: none;
             min-height: 100vh;
         }
+
         html.dark-mode body {
             background: #060A14;
         }
+
         html[dir="rtl"] body,
         html[dir="rtl"] .phone,
         html[dir="rtl"] .app {
@@ -139,10 +142,12 @@
             display: flex;
             flex-direction: column;
         }
+
         html.dark-mode .phone {
             border-color: #1A2540;
             box-shadow: 0 30px 75px rgba(0, 0, 0, 0.6);
         }
+
         @media (max-width: 480px) {
             body {
                 padding: 0;
@@ -183,9 +188,11 @@
             scroll-behavior: smooth;
             animation: fadeIn 0.4s ease;
         }
+
         html.dark-mode .screen {
             background: linear-gradient(180deg, #101624 0%, var(--paper) 100%);
         }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -196,9 +203,11 @@
                 transform: translateY(0);
             }
         }
+
         .screen.active {
             display: flex;
         }
+
         .screen::-webkit-scrollbar {
             display: none;
         }
@@ -218,13 +227,16 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
+
         html.dark-mode .navbar {
             background: rgba(10, 14, 26, 0.98);
             border-top-color: var(--line);
         }
+
         .navbar.show {
             display: flex;
         }
+
         .nav-item {
             flex: 1;
             display: flex;
@@ -240,23 +252,29 @@
             padding: 0;
             transition: all var(--transition);
         }
+
         .nav-item .nav-icon {
             font-size: 20px;
             transition: transform var(--transition);
         }
+
         .nav-item span {
             font-size: 9.5px;
             font-weight: 700;
         }
+
         .nav-item.on {
             color: var(--navy);
         }
+
         html.dark-mode .nav-item.on {
             color: #8A9FC0;
         }
+
         .nav-item.on .nav-icon {
             transform: translateY(-2px) scale(1.1);
         }
+
         .nav-item.on::after {
             content: "";
             position: absolute;
@@ -267,6 +285,7 @@
             border-radius: 50%;
             box-shadow: 0 0 10px rgba(242, 189, 99, 0.4);
         }
+
         .nav-item:hover {
             color: var(--slate);
         }
@@ -282,10 +301,12 @@
             gap: 12px;
             flex-wrap: wrap;
         }
+
         .page-top .page-left {
             flex: 1;
             min-width: 0;
         }
+
         .page-top h1 {
             font-family: var(--font-ar);
             font-size: 20px;
@@ -295,11 +316,13 @@
             align-items: center;
             gap: 8px;
         }
+
         .page-top p {
             font-size: 11px;
             color: var(--muted);
             margin: 2px 0 0;
         }
+
         .page-top .page-actions {
             display: flex;
             gap: 8px;
@@ -323,9 +346,11 @@
             position: relative;
             overflow: hidden;
         }
+
         .btn-primary:active {
             transform: scale(0.97);
         }
+
         .btn-primary:disabled {
             opacity: 0.7;
             cursor: not-allowed;
@@ -346,6 +371,7 @@
             box-shadow: 0 8px 18px rgba(242, 189, 99, 0.25);
             transition: all var(--transition);
         }
+
         .btn-secondary:active {
             transform: scale(0.97);
         }
@@ -366,6 +392,7 @@
             align-items: center;
             gap: 6px;
         }
+
         .btn-gold-small:active {
             transform: scale(0.97);
         }
@@ -382,14 +409,198 @@
             cursor: pointer;
             transition: all var(--transition);
         }
+
         .btn-outline:hover {
             border-color: var(--gold) !important;
             box-shadow: var(--shadow);
         }
 
+        /* ===== ANIMATED ICONS ===== */
+        .app-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            flex: 0 0 auto;
+            color: currentColor;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.06));
+            transition: filter var(--transition), transform var(--transition);
+            will-change: transform;
+        }
+
+        .app-icon svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+            overflow: visible;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke var(--transition), fill var(--transition);
+        }
+
+        .app-icon-lg {
+            width: 32px !important;
+            height: 32px !important;
+        }
+
+        /* Icon animations */
+        .app-icon.animated {
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+
+        .app-icon.bounce {
+            animation: iconBounce 2s ease-in-out infinite;
+        }
+
+        .app-icon.float {
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        .app-icon.shimmer {
+            position: relative;
+        }
+
+        .app-icon.shimmer::after {
+            content: '';
+            position: absolute;
+            inset: -30%;
+            background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.25) 48%, transparent 62%);
+            transform: translateX(-120%) rotate(15deg);
+            animation: iconShimmer 3.2s ease-in-out infinite;
+            pointer-events: none;
+            border-radius: 50%;
+        }
+
+        .app-icon.spin {
+            animation: iconSpin 4s linear infinite;
+        }
+
+        @keyframes iconPulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.12);
+            }
+        }
+
+        @keyframes iconBounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-6px);
+            }
+            60% {
+                transform: translateY(-2px);
+            }
+            80% {
+                transform: translateY(-4px);
+            }
+        }
+
+        @keyframes iconFloat {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-8px) rotate(-2deg);
+            }
+        }
+
+        @keyframes iconShimmer {
+            0%,
+            55% {
+                transform: translateX(-120%) rotate(15deg);
+            }
+            75%,
+            100% {
+                transform: translateX(120%) rotate(15deg);
+            }
+        }
+
+        @keyframes iconSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Icon color variants with glow */
+        .icon-gold .app-icon {
+            color: var(--gold);
+            filter: drop-shadow(0 2px 8px rgba(242, 189, 99, 0.3));
+        }
+
+        .icon-gold .app-icon:hover {
+            filter: drop-shadow(0 4px 16px rgba(242, 189, 99, 0.5));
+            transform: scale(1.1);
+        }
+
+        .icon-navy .app-icon {
+            color: var(--navy);
+            filter: drop-shadow(0 2px 8px rgba(14, 42, 92, 0.2));
+        }
+
+        .icon-navy .app-icon:hover {
+            filter: drop-shadow(0 4px 16px rgba(14, 42, 92, 0.35));
+            transform: scale(1.1);
+        }
+
+        .icon-green .app-icon {
+            color: var(--green);
+            filter: drop-shadow(0 2px 8px rgba(22, 128, 91, 0.3));
+        }
+
+        .icon-green .app-icon:hover {
+            filter: drop-shadow(0 4px 16px rgba(22, 128, 91, 0.5));
+            transform: scale(1.1);
+        }
+
+        .icon-purple .app-icon {
+            color: var(--purple);
+            filter: drop-shadow(0 2px 8px rgba(114, 85, 183, 0.3));
+        }
+
+        .icon-purple .app-icon:hover {
+            filter: drop-shadow(0 4px 16px rgba(114, 85, 183, 0.5));
+            transform: scale(1.1);
+        }
+
+        .icon-orange .app-icon {
+            color: #E67E22;
+            filter: drop-shadow(0 2px 8px rgba(230, 126, 34, 0.3));
+        }
+
+        .icon-orange .app-icon:hover {
+            filter: drop-shadow(0 4px 16px rgba(230, 126, 34, 0.5));
+            transform: scale(1.1);
+        }
+
+        .icon-red .app-icon {
+            color: var(--red);
+            filter: drop-shadow(0 2px 8px rgba(201, 84, 62, 0.3));
+        }
+
+        .icon-red .app-icon:hover {
+            filter: drop-shadow(0 4px 16px rgba(201, 84, 62, 0.5));
+            transform: scale(1.1);
+        }
+
+        /* ===== FIELD ===== */
         .field {
             margin-bottom: 14px;
         }
+
         .field label {
             font-size: 12px;
             color: var(--muted);
@@ -397,10 +608,12 @@
             margin-bottom: 6px;
             font-weight: 700;
         }
+
         .field label .required {
             color: var(--red);
             margin-right: 2px;
         }
+
         .field input,
         .field select,
         .field textarea {
@@ -415,12 +628,14 @@
             outline: none;
             transition: all var(--transition);
         }
+
         html.dark-mode .field input,
         html.dark-mode .field select,
         html.dark-mode .field textarea {
             background: #1A2236;
             color: var(--slate);
         }
+
         .field input:focus,
         .field select:focus,
         .field textarea:focus {
@@ -428,6 +643,7 @@
             box-shadow: 0 0 0 4px rgba(242, 189, 99, 0.15);
             background: var(--card);
         }
+
         .field textarea {
             resize: vertical;
             min-height: 80px;
@@ -443,6 +659,7 @@
             border-radius: var(--radius-sm);
             border: 1px solid var(--line);
         }
+
         .checkbox-group input[type="checkbox"] {
             width: 20px;
             height: 20px;
@@ -451,12 +668,14 @@
             accent-color: var(--gold);
             cursor: pointer;
         }
+
         .checkbox-group label {
             font-size: 12px;
             color: var(--slate);
             line-height: 1.5;
             cursor: pointer;
         }
+
         .checkbox-group .link {
             color: var(--navy-2);
             font-weight: 700;
@@ -473,6 +692,7 @@
             border-top-color: #fff;
             animation: spin 0.8s ease-in-out infinite;
         }
+
         @keyframes spin {
             to {
                 transform: rotate(360deg);
@@ -484,11 +704,13 @@
             padding: 40px 20px;
             color: var(--muted);
         }
+
         .empty-state .icon {
             font-size: 48px;
             margin-bottom: 12px;
             animation: float 3s ease-in-out infinite;
         }
+
         @keyframes float {
             0%,
             100% {
@@ -498,11 +720,13 @@
                 transform: translateY(-8px);
             }
         }
+
         .empty-state h3 {
             font-family: var(--font-ar);
             color: var(--slate);
             margin: 0 0 8px;
         }
+
         .empty-state p {
             font-size: 12px;
             margin: 0;
@@ -515,97 +739,55 @@
             font-weight: 800;
             white-space: nowrap;
         }
+
         .badge.ok {
             background: var(--green-light);
             color: var(--green);
         }
+
         .badge.warn {
             background: var(--red-light);
             color: var(--red);
         }
+
         .badge.pending {
             background: #FFF1D2;
             color: #8A5D13;
         }
+
         html.dark-mode .badge.pending {
             background: #2A1E10;
             color: #E8A23A;
         }
+
         .badge.gold {
             background: var(--gold-soft);
             color: #8A6D1B;
         }
+
         html.dark-mode .badge.gold {
             background: #2A2518;
             color: var(--gold);
         }
+
         .badge.blue {
             background: #E3F0FF;
             color: #1A6BC4;
         }
+
         html.dark-mode .badge.blue {
             background: #0A1A3A;
             color: #5A9CE8;
         }
+
         .badge.purple {
             background: var(--purple-light);
             color: var(--purple);
         }
+
         html.dark-mode .badge.purple {
             background: #1E1430;
             color: #9A7AC8;
-        }
-
-        .app-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 22px;
-            height: 22px;
-            flex: 0 0 auto;
-            color: currentColor;
-            filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.08));
-            transition: filter var(--transition), transform var(--transition);
-        }
-        .app-icon svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-            overflow: visible;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-        .app-icon-lg {
-            width: 32px !important;
-            height: 32px !important;
-        }
-
-        .icon-gold .app-icon {
-            color: var(--gold);
-            filter: drop-shadow(0 2px 8px rgba(242, 189, 99, 0.3));
-        }
-        .icon-navy .app-icon {
-            color: var(--navy);
-            filter: drop-shadow(0 2px 8px rgba(14, 42, 92, 0.2));
-        }
-        .icon-green .app-icon {
-            color: var(--green);
-            filter: drop-shadow(0 2px 8px rgba(22, 128, 91, 0.3));
-        }
-        .icon-purple .app-icon {
-            color: var(--purple);
-            filter: drop-shadow(0 2px 8px rgba(114, 85, 183, 0.3));
-        }
-        .icon-orange .app-icon {
-            color: #E67E22;
-            filter: drop-shadow(0 2px 8px rgba(230, 126, 34, 0.3));
-        }
-        .icon-red .app-icon {
-            color: var(--red);
-            filter: drop-shadow(0 2px 8px rgba(201, 84, 62, 0.3));
         }
 
         /* ===== OVERLAY / SHEET ===== */
@@ -619,12 +801,15 @@
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
         }
+
         html.dark-mode .overlay {
             background: rgba(0, 0, 0, 0.75);
         }
+
         .overlay.show {
             display: flex;
         }
+
         .sheet {
             background: var(--paper);
             width: 100%;
@@ -636,6 +821,7 @@
             position: relative;
             animation: slideUp 0.3s ease-out;
         }
+
         @keyframes slideUp {
             from {
                 transform: translateY(30px);
@@ -646,6 +832,7 @@
                 opacity: 1;
             }
         }
+
         .sheet .grabber {
             width: 36px;
             height: 4px;
@@ -653,9 +840,11 @@
             border-radius: 4px;
             margin: 0 auto 16px;
         }
+
         html.dark-mode .sheet .grabber {
             background: #2A3344;
         }
+
         .sheet h2 {
             font-family: var(--font-ar);
             color: var(--slate);
@@ -665,11 +854,13 @@
             align-items: center;
             gap: 8px;
         }
+
         .sheet .sub {
             font-size: 11.5px;
             color: var(--muted);
             margin-bottom: 16px;
         }
+
         .close-x {
             position: absolute;
             top: 16px;
@@ -687,10 +878,12 @@
             color: var(--slate);
             transition: all var(--transition);
         }
+
         .close-x:hover {
             background: var(--red-light);
             border-color: var(--red);
         }
+
         .detail-row {
             display: flex;
             justify-content: space-between;
@@ -698,9 +891,11 @@
             border-bottom: 1px dashed var(--line);
             font-size: 12.5px;
         }
+
         .detail-row span:first-child {
             color: var(--muted);
         }
+
         .detail-row span:last-child {
             color: var(--slate);
             font-weight: 700;
@@ -712,6 +907,7 @@
             margin-top: 18px;
             flex-wrap: wrap;
         }
+
         .actions button {
             flex: 1;
             padding: 12px;
@@ -724,10 +920,12 @@
             transition: all var(--transition);
             min-width: 100px;
         }
+
         .actions button:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow);
         }
+
         .btn-gold {
             background: var(--gradient-gold);
             color: var(--navy);
@@ -741,16 +939,19 @@
             padding-bottom: 20px;
             justify-content: center;
         }
+
         html.dark-mode #login,
         html.dark-mode #signup {
             background: radial-gradient(circle at 50% 7%, rgba(242, 189, 99, 0.10), transparent 28%),
                 linear-gradient(180deg, var(--navy) 0%, var(--navy) 40%, var(--paper) 40%);
         }
+
         .brand-premium {
             padding: 20px 20px 16px;
             text-align: center;
             animation: slideDown 0.6s ease;
         }
+
         @keyframes slideDown {
             from {
                 transform: translateY(-30px);
@@ -761,6 +962,7 @@
                 opacity: 1;
             }
         }
+
         .brand-logo-full {
             display: block;
             width: min(220px, 75%);
@@ -769,12 +971,14 @@
             margin: 0 auto 10px;
             filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
         }
+
         .brand-tagline {
             color: rgba(255, 255, 255, 0.85);
             font-size: 12px;
             font-weight: 600;
             letter-spacing: 1px;
         }
+
         .login-card {
             background: var(--card);
             margin: 0 18px;
@@ -786,9 +990,11 @@
             overflow-y: auto;
             animation: slideUp 0.5s ease;
         }
+
         html.dark-mode .login-card {
             border-color: rgba(255, 255, 255, 0.06);
         }
+
         .login-card h2 {
             font-family: var(--font-ar);
             font-size: 18px;
@@ -796,6 +1002,7 @@
             margin: 0 0 18px;
             font-weight: 700;
         }
+
         .login-subtitle {
             display: block;
             margin-top: 6px;
@@ -804,17 +1011,20 @@
             letter-spacing: .35px;
             opacity: .82;
         }
+
         .switch-auth {
             text-align: center;
             font-size: 12px;
             color: var(--muted);
             margin-top: 16px;
         }
+
         .switch-auth b {
             color: var(--navy-2);
             cursor: pointer;
             text-decoration: underline;
         }
+
         .lang-toggle {
             border: 1px solid rgba(255, 255, 255, .2);
             background: rgba(255, 255, 255, .08);
@@ -827,9 +1037,22 @@
             cursor: pointer;
             transition: all var(--transition);
         }
+
         .lang-toggle:hover {
             background: rgba(255, 255, 255, .16);
         }
+
+        .lang-toggle.light {
+            border-color: var(--line);
+            background: var(--card);
+            color: var(--slate);
+        }
+
+        .lang-toggle.light:hover {
+            background: var(--paper);
+            border-color: var(--gold);
+        }
+
         .forgot-password-link {
             text-align: left;
             font-size: 11px;
@@ -838,6 +1061,7 @@
             cursor: pointer;
             text-decoration: underline;
         }
+
         .forgot-password-link:hover {
             color: var(--navy-2);
         }
@@ -853,6 +1077,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .pro-topbar::before {
             content: '';
             position: absolute;
@@ -864,6 +1089,7 @@
             border-radius: 50%;
             pointer-events: none;
         }
+
         .topbar-row {
             display: flex;
             justify-content: space-between;
@@ -872,10 +1098,12 @@
             z-index: 2;
             gap: 12px;
         }
+
         .topbar-left {
             flex: 1;
             min-width: 0;
         }
+
         .topbar-left .hi {
             font-size: 12px;
             color: rgba(255, 255, 255, 0.7);
@@ -883,6 +1111,7 @@
             font-weight: 400;
             letter-spacing: 0.3px;
         }
+
         .topbar-left .name {
             font-family: var(--font-ar);
             font-weight: 900;
@@ -895,12 +1124,14 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
         .topbar-right {
             display: flex;
             align-items: center;
             gap: 10px;
             flex-shrink: 0;
         }
+
         .bell {
             width: 42px;
             height: 42px;
@@ -917,13 +1148,16 @@
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
         }
+
         .bell:hover {
             background: rgba(255, 255, 255, 0.18);
             transform: scale(1.05);
         }
+
         .bell:active {
             transform: scale(0.95);
         }
+
         .bell .dot {
             position: absolute;
             top: 6px;
@@ -936,6 +1170,7 @@
             animation: pulse-dot 1.5s ease-in-out infinite;
             box-shadow: 0 0 12px rgba(242, 189, 99, 0.4);
         }
+
         @keyframes pulse-dot {
             0%,
             100% {
@@ -945,6 +1180,7 @@
                 transform: scale(1.25);
             }
         }
+
         .theme-toggle {
             width: 42px;
             height: 42px;
@@ -962,14 +1198,119 @@
             font-size: 20px;
             flex-shrink: 0;
         }
+
         .theme-toggle:hover {
             background: rgba(255, 255, 255, 0.18);
             transform: scale(1.05);
         }
+
         .theme-toggle:active {
             transform: scale(0.95);
         }
 
+        /* ===== PROFILE PICTURE ===== */
+        .profile-pic-wrapper {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .profile-pic-wrapper .avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: var(--gradient-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--navy);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            transition: all var(--transition);
+            object-fit: cover;
+        }
+
+        .profile-pic-wrapper .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-pic-wrapper .avatar .initials {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--navy);
+        }
+
+        .profile-pic-wrapper .avatar:hover {
+            transform: scale(1.05);
+            border-color: var(--gold);
+        }
+
+        .profile-pic-wrapper .avatar .upload-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity var(--transition);
+            color: #fff;
+            font-size: 24px;
+            backdrop-filter: blur(4px);
+        }
+
+        .profile-pic-wrapper .avatar:hover .upload-overlay {
+            opacity: 1;
+        }
+
+        .profile-pic-wrapper .avatar .upload-overlay span {
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* Smaller avatar for home */
+        .avatar-sm {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--gradient-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--navy);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            flex-shrink: 0;
+            transition: all var(--transition);
+        }
+
+        .avatar-sm img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .avatar-sm .initials {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--navy);
+        }
+
+        /* ===== PROTECTION CARD ===== */
         .protection-card {
             margin-top: 16px;
             border: 1px solid rgba(255, 255, 255, 0.12);
@@ -986,20 +1327,24 @@
             position: relative;
             z-index: 1;
         }
+
         .protection-card:hover {
             background: rgba(255, 255, 255, 0.14);
             transform: translateY(-2px);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         }
+
         .protection-card:active {
             transform: scale(0.98);
         }
+
         .protection-left span {
             display: block;
             font-size: 11px;
             color: rgba(255, 255, 255, 0.7);
             font-weight: 500;
         }
+
         .protection-left strong {
             display: block;
             font-family: var(--font-ar);
@@ -1008,27 +1353,32 @@
             line-height: 1.1;
             text-shadow: 0 2px 20px rgba(242, 189, 99, 0.2);
         }
+
         .protection-left small {
             font-size: 10px;
             color: rgba(255, 255, 255, 0.6);
             font-weight: 400;
         }
+
         .score-ring {
             width: 56px;
             height: 56px;
             position: relative;
             flex-shrink: 0;
         }
+
         .score-ring svg {
             width: 56px;
             height: 56px;
             transform: rotate(-90deg);
         }
+
         .score-ring circle {
             fill: none;
             stroke: rgba(255, 255, 255, 0.12);
             stroke-width: 5;
         }
+
         .score-ring circle.progress {
             stroke: var(--gold);
             stroke-linecap: round;
@@ -1045,6 +1395,7 @@
             position: relative;
             z-index: 1;
         }
+
         .stat {
             flex: 1;
             background: rgba(255, 255, 255, 0.06);
@@ -1054,16 +1405,19 @@
             text-align: center;
             transition: all var(--transition);
         }
+
         .stat:hover {
             background: rgba(255, 255, 255, 0.12);
             transform: translateY(-2px);
         }
+
         .stat b {
             display: block;
             color: var(--gold-2);
             font-family: var(--font-ar);
             font-size: 18px;
         }
+
         .stat span {
             font-size: 9px;
             color: rgba(255, 255, 255, 0.7);
@@ -1083,6 +1437,7 @@
             position: relative;
             min-height: 96px;
         }
+
         .companies-slider-section .slider-title {
             font-size: 12px;
             color: var(--muted);
@@ -1092,10 +1447,12 @@
             align-items: center;
             gap: 6px;
         }
+
         .companies-slider-section .slider-title span {
             color: var(--slate);
             font-weight: 800;
         }
+
         .slider-wrapper {
             overflow: hidden;
             position: relative;
@@ -1106,6 +1463,7 @@
             -webkit-mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%);
             direction: ltr;
         }
+
         .slider-track {
             display: flex !important;
             align-items: center;
@@ -1119,6 +1477,7 @@
             direction: ltr !important;
             min-height: 48px;
         }
+
         .slider-item {
             display: flex;
             align-items: center;
@@ -1134,11 +1493,13 @@
             direction: rtl;
             box-sizing: border-box;
         }
+
         .slider-item:hover {
             border-color: var(--gold);
             box-shadow: 0 4px 20px rgba(242, 189, 99, 0.25);
             transform: translateY(-4px) scale(1.025);
         }
+
         .slider-item .company-logo {
             width: 28px;
             height: 28px;
@@ -1153,12 +1514,14 @@
             flex-shrink: 0;
             position: relative;
         }
+
         .slider-item .company-logo img {
             width: 100%;
             height: 100%;
             object-fit: contain;
             border-radius: 50%;
         }
+
         .slider-item .company-logo::after {
             content: "";
             position: absolute;
@@ -1168,6 +1531,7 @@
             animation: company-logo-shine 4.8s ease-in-out infinite;
             pointer-events: none;
         }
+
         @keyframes company-logo-shine {
             0%,
             55% {
@@ -1178,6 +1542,7 @@
                 transform: translateX(120%)
             }
         }
+
         .slider-item .company-name {
             font-size: 12px;
             font-weight: 600;
@@ -1185,6 +1550,7 @@
             white-space: nowrap;
             direction: rtl;
         }
+
         .slider-item .company-badge {
             font-size: 7px;
             background: var(--gold-soft);
@@ -1195,6 +1561,7 @@
             white-space: nowrap;
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
+
         .slider-empty {
             padding: 10px 16px;
             font-size: 12px;
@@ -1202,6 +1569,7 @@
             text-align: center;
             width: 100%;
         }
+
         .slider-track:empty::before {
             content: '';
             display: block;
@@ -1211,12 +1579,14 @@
         .quick-section {
             padding: 14px 16px 8px;
         }
+
         .section-head {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
         }
+
         .section-head h2 {
             font-family: var(--font-ar);
             font-size: 15px;
@@ -1227,11 +1597,13 @@
             align-items: center;
             gap: 6px;
         }
+
         .quick-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 10px;
         }
+
         .quick-card {
             display: flex;
             flex-direction: column;
@@ -1247,14 +1619,17 @@
             transition: all var(--transition);
             min-height: 80px;
         }
+
         .quick-card:active {
             transform: scale(0.93);
         }
+
         .quick-card:hover {
             box-shadow: var(--shadow-lg);
             border-color: var(--gold);
             transform: translateY(-2px);
         }
+
         .quick-card .qicon {
             width: 48px;
             height: 48px;
@@ -1266,53 +1641,66 @@
             flex-shrink: 0;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
+
         .quick-card:hover .qicon {
             transform: scale(1.1) rotate(-3deg) translateY(-2px);
         }
+
         .quick-card .qicon .app-icon {
             width: 26px;
             height: 26px;
         }
+
         .quick-card .qicon.navy {
             background: linear-gradient(135deg, #E9F0FA, #D4E0F0);
             color: var(--navy);
         }
+
         html.dark-mode .quick-card .qicon.navy {
             background: linear-gradient(135deg, #1A2640, #0E1A2E);
             color: #8A9FC0;
         }
+
         .quick-card .qicon.gold {
             background: linear-gradient(135deg, var(--gold-soft), #FCE8C7);
             color: #8A6D1B;
         }
+
         html.dark-mode .quick-card .qicon.gold {
             background: linear-gradient(135deg, #2A2518, #1E1A10);
             color: var(--gold);
         }
+
         .quick-card .qicon.green {
             background: linear-gradient(135deg, #E7F6F0, #C8E8DB);
             color: var(--green);
         }
+
         html.dark-mode .quick-card .qicon.green {
             background: linear-gradient(135deg, #0F2A1E, #0A1E14);
             color: #4CAF8C;
         }
+
         .quick-card .qicon.purple {
             background: linear-gradient(135deg, var(--purple-light), #E0D6F5);
             color: var(--purple);
         }
+
         html.dark-mode .quick-card .qicon.purple {
             background: linear-gradient(135deg, #1E1430, #140E24);
             color: #9A7AC8;
         }
+
         .quick-card .qicon.orange {
             background: linear-gradient(135deg, #FFF3E6, #FDE8D0);
             color: #D4761A;
         }
+
         html.dark-mode .quick-card .qicon.orange {
             background: linear-gradient(135deg, #2A1E10, #1E1408);
             color: #E8923A;
         }
+
         .quick-card .quick-label {
             font-size: 10px;
             font-weight: 700;
@@ -1321,6 +1709,7 @@
             line-height: 1.3;
             font-family: var(--font-ui);
         }
+
         @media (max-width: 480px) {
             .quick-grid {
                 gap: 6px;
@@ -1349,6 +1738,7 @@
             flex-direction: column;
             gap: 10px;
         }
+
         .offers-banner {
             display: flex;
             align-items: center;
@@ -1361,13 +1751,16 @@
             box-shadow: var(--shadow);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
+
         .offers-banner:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
         }
+
         .offers-banner:active {
             transform: scale(0.98);
         }
+
         .offers-banner .offers-banner-icon {
             width: 42px;
             height: 42px;
@@ -1378,20 +1771,24 @@
             justify-content: center;
             flex-shrink: 0;
         }
+
         .offers-banner .offers-banner-text {
             flex: 1;
             min-width: 0;
         }
+
         .offers-banner .offers-banner-text b {
             display: block;
             font-family: var(--font-ar);
             font-size: 13.5px;
             color: var(--navy-3);
         }
+
         .offers-banner .offers-banner-text span {
             font-size: 11px;
             color: var(--navy-2);
         }
+
         .offers-banner .offers-banner-count {
             background: var(--navy-3);
             color: var(--gold-2);
@@ -1412,14 +1809,17 @@
             cursor: pointer;
             transition: all var(--transition);
         }
+
         .p-card:hover {
             box-shadow: var(--shadow-lg);
             transform: translateY(-2px);
             border-color: var(--gold);
         }
+
         .p-card:active {
             transform: scale(0.98);
         }
+
         .p-seal {
             width: 62px;
             flex: 0 0 62px;
@@ -1429,10 +1829,12 @@
             background: linear-gradient(180deg, #FFF5E2, #FCE8C7);
             border-left: 1px dashed #DDE5EF;
         }
+
         html.dark-mode .p-seal {
             background: linear-gradient(180deg, #1E1A10, #141008);
             border-left-color: var(--line);
         }
+
         .p-seal .ring {
             width: 38px;
             height: 38px;
@@ -1445,20 +1847,24 @@
             font-size: 16px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
+
         .p-seal.warn .ring {
             border-color: var(--red);
         }
+
         .p-body {
             padding: 12px 14px;
             flex: 1;
             min-width: 0;
         }
+
         .p-body .top {
             display: flex;
             justify-content: space-between;
             gap: 6px;
             align-items: flex-start;
         }
+
         .p-body h3 {
             margin: 0;
             color: var(--slate);
@@ -1466,11 +1872,13 @@
             font-size: 13.5px;
             font-weight: 700;
         }
+
         .p-body .co {
             font-size: 11px;
             color: var(--muted);
             margin: 2px 0 6px;
         }
+
         .p-foot {
             display: flex;
             justify-content: space-between;
@@ -1480,25 +1888,30 @@
             padding-top: 6px;
             margin-top: 4px;
         }
+
         .p-foot b {
             color: var(--slate);
         }
+
         .p-card.has-photo {
             flex-direction: column;
             cursor: pointer;
         }
+
         .p-card.has-photo .p-media {
             width: 100%;
             aspect-ratio: 16/10;
             background: var(--paper);
             overflow: hidden;
         }
+
         .p-card.has-photo .p-media img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
         }
+
         .p-card.has-photo .p-body {
             padding: 12px 14px;
             width: 100%;
@@ -1514,6 +1927,7 @@
             overflow: hidden;
             flex-shrink: 0;
         }
+
         .account-header::before {
             content: '';
             position: absolute;
@@ -1524,23 +1938,18 @@
             background: radial-gradient(circle, rgba(242, 189, 99, 0.08), transparent 70%);
             pointer-events: none;
         }
-        .account-header .avatar {
+
+        .account-header .profile-pic-wrapper {
+            margin: 0 auto 10px;
+            display: block;
+        }
+
+        .account-header .profile-pic-wrapper .avatar {
             width: 72px;
             height: 72px;
-            border-radius: 50%;
-            background: var(--gradient-gold);
-            margin: 0 auto 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            font-weight: 900;
-            color: var(--navy);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            position: relative;
-            z-index: 1;
-            border: 3px solid rgba(255, 255, 255, 0.2);
+            margin: 0 auto;
         }
+
         .account-header h2 {
             margin: 0;
             font-family: var(--font-ar);
@@ -1549,6 +1958,7 @@
             color: #fff;
             font-size: 20px;
         }
+
         .account-header .acc-email {
             margin: 4px 0 0;
             font-size: 12px;
@@ -1557,6 +1967,7 @@
             z-index: 1;
             opacity: 0.85;
         }
+
         .account-header .acc-badge {
             display: inline-block;
             margin-top: 6px;
@@ -1570,6 +1981,7 @@
             position: relative;
             z-index: 1;
         }
+
         .account-header .acc-stats {
             display: flex;
             gap: 12px;
@@ -1579,10 +1991,12 @@
             padding-top: 14px;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
+
         .account-header .acc-stats .acc-stat {
             flex: 1;
             text-align: center;
         }
+
         .account-header .acc-stats .acc-stat .num {
             font-size: 18px;
             font-weight: 900;
@@ -1590,13 +2004,13 @@
             display: block;
             font-family: var(--font-ar);
         }
+
         .account-header .acc-stats .acc-stat .lbl {
             font-size: 9px;
             color: rgba(255, 255, 255, 0.65);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            /* will be translated via JS */
         }
 
         .account-body {
@@ -1604,9 +2018,11 @@
             flex: 1;
             overflow-y: auto;
         }
+
         .account-body .acc-section {
             margin-bottom: 8px;
         }
+
         .account-body .acc-section .section-label {
             font-size: 11px;
             font-weight: 700;
@@ -1617,8 +2033,8 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            /* will be translated via JS */
         }
+
         .account-body .acc-section .section-divider {
             height: 1px;
             background: var(--line);
@@ -1641,14 +2057,17 @@
             min-height: 52px;
             position: relative;
         }
+
         .acc-card:hover {
             border-color: var(--gold);
             box-shadow: var(--shadow-lg);
             transform: translateY(-2px);
         }
+
         .acc-card:active {
             transform: scale(0.98);
         }
+
         .acc-card .ac-icon {
             width: 38px;
             height: 38px;
@@ -1661,34 +2080,42 @@
             background: var(--paper);
             color: var(--navy);
         }
+
         .acc-card .ac-icon.gold {
             background: var(--gold-soft);
             color: var(--gold);
         }
+
         .acc-card .ac-icon.green {
             background: var(--green-light);
             color: var(--green);
         }
+
         .acc-card .ac-icon.purple {
             background: var(--purple-light);
             color: var(--purple);
         }
+
         .acc-card .ac-icon.orange {
             background: #FFF3E6;
             color: #E67E22;
         }
+
         .acc-card .ac-icon.red {
             background: var(--red-light);
             color: var(--red);
         }
+
         .acc-card .ac-icon.navy {
             background: #E9F0FA;
             color: var(--navy);
         }
+
         .acc-card .ac-info {
             flex: 1;
             min-width: 0;
         }
+
         .acc-card .ac-info .ac-title {
             font-family: var(--font-ar);
             font-size: 13px;
@@ -1696,21 +2123,22 @@
             color: var(--slate);
             display: block;
             line-height: 1.3;
-            /* will be translated via JS */
         }
+
         .acc-card .ac-info .ac-sub {
             font-size: 10px;
             color: var(--muted);
             display: block;
             margin-top: 1px;
-            /* will be translated via JS */
         }
+
         .acc-card .ac-arrow {
             color: var(--muted);
             font-size: 14px;
             flex-shrink: 0;
             opacity: 0.4;
         }
+
         .acc-card .ac-badge {
             font-size: 9px;
             padding: 2px 10px;
@@ -1718,18 +2146,22 @@
             font-weight: 700;
             flex-shrink: 0;
         }
+
         .acc-card .ac-badge.gold {
             background: var(--gold-soft);
             color: #8A6D1B;
         }
+
         .acc-card .ac-badge.green {
             background: var(--green-light);
             color: var(--green);
         }
+
         .acc-card.highlight {
             border-color: var(--gold);
             background: var(--gold-soft);
         }
+
         .acc-card.highlight .ac-icon {
             background: rgba(255, 255, 255, 0.5);
         }
@@ -1738,6 +2170,7 @@
         .assessment-result {
             padding: 16px 14px;
         }
+
         .result-card {
             background: var(--card);
             border-radius: 18px;
@@ -1747,25 +2180,30 @@
             border: 1px solid var(--line);
             transition: all var(--transition);
         }
+
         .result-card:hover {
             box-shadow: var(--shadow-lg);
             transform: translateY(-2px);
         }
+
         .result-card .result-header {
             display: flex;
             align-items: center;
             gap: 12px;
             margin-bottom: 12px;
         }
+
         .result-card .result-header .icon {
             font-size: 32px;
         }
+
         .result-card .result-header h3 {
             font-family: var(--font-ar);
             color: var(--slate);
             margin: 0;
             font-size: 16px;
         }
+
         .result-card .result-header .score-badge {
             margin-right: auto;
             font-size: 24px;
@@ -1776,15 +2214,18 @@
             background: var(--gold-soft);
             color: var(--slate);
         }
+
         .result-card .result-body {
             font-size: 13px;
             line-height: 1.8;
             color: var(--slate);
         }
+
         .result-card .result-body .highlight {
             font-weight: 700;
             color: var(--slate);
         }
+
         .result-card .result-body .recommended-badge {
             display: inline-flex;
             padding: 2px 10px;
@@ -1795,10 +2236,12 @@
             color: #1A6BC4;
             margin: 2px 4px;
         }
+
         html.dark-mode .result-card .result-body .recommended-badge {
             background: #0A1A3A;
             color: #5A9CE8;
         }
+
         .result-card .progress-bar {
             width: 100%;
             height: 10px;
@@ -1807,18 +2250,22 @@
             overflow: hidden;
             margin-top: 10px;
         }
+
         .result-card .progress-bar .fill {
             height: 100%;
             border-radius: 10px;
             transition: width 1.5s ease;
             background: linear-gradient(90deg, var(--green), var(--gold));
         }
+
         .result-card .progress-bar .fill.low {
             background: linear-gradient(90deg, var(--red), #FF6B6B);
         }
+
         .result-card .progress-bar .fill.medium {
             background: linear-gradient(90deg, #FFA726, var(--gold));
         }
+
         .result-card .progress-bar .fill.high {
             background: linear-gradient(90deg, var(--green), #66BB6A);
         }
@@ -1834,6 +2281,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .advice-card::before {
             content: '💡';
             position: absolute;
@@ -1842,6 +2290,7 @@
             bottom: -10px;
             left: -10px;
         }
+
         .advice-card h2 {
             font-family: var(--font-ar);
             color: var(--slate);
@@ -1851,17 +2300,20 @@
             align-items: center;
             gap: 8px;
         }
+
         .advice-card .sub {
             color: var(--muted);
             font-size: 13px;
             margin-bottom: 16px;
         }
+
         .advice-options {
             display: flex;
             gap: 12px;
             margin: 12px 0;
             flex-wrap: wrap;
         }
+
         .advice-option {
             flex: 1;
             min-width: 120px;
@@ -1874,16 +2326,19 @@
             transition: all var(--transition);
             position: relative;
         }
+
         .advice-option:hover {
             border-color: var(--gold);
             transform: translateY(-2px);
             box-shadow: var(--shadow);
         }
+
         .advice-option.active {
             border-color: var(--gold);
             background: var(--gold-soft);
             box-shadow: 0 0 0 3px rgba(242, 189, 99, 0.15);
         }
+
         .advice-option .option-icon {
             font-size: 28px;
             display: block;
@@ -1902,42 +2357,51 @@
             align-items: center;
             justify-content: center;
         }
+
         .advice-option:hover .option-icon {
             transform: translateY(-3px) scale(1.06);
             box-shadow: 0 12px 28px rgba(14, 42, 92, .18);
         }
+
         .advice-option.active .option-icon {
             animation: advice-icon-float 2.4s ease-in-out infinite;
         }
+
         .advice-option .option-icon .app-icon,
         .advice-option .option-icon svg {
             width: 30px;
             height: 30px;
         }
+
         .advice-option .option-icon.icon-navy {
             color: var(--navy);
             background: linear-gradient(145deg, var(--card), var(--paper));
         }
+
         .advice-option .option-icon.icon-green {
             color: #128C7E;
             background: linear-gradient(145deg, #f3fffc, #dcf8ef);
         }
+
         html.dark-mode .advice-option .option-icon.icon-green {
             color: #4CAF8C;
             background: linear-gradient(145deg, #0A1E14, #06100A);
         }
+
         .advice-option .option-title {
             font-size: 13px;
             font-weight: 700;
             color: var(--slate);
             display: block;
         }
+
         .advice-option .option-desc {
             font-size: 10px;
             color: var(--muted);
             display: block;
             margin-top: 2px;
         }
+
         .advice-option .option-badge {
             position: absolute;
             top: -6px;
@@ -1949,6 +2413,7 @@
             padding: 2px 8px;
             border-radius: 10px;
         }
+
         @keyframes advice-icon-float {
             0%,
             100% {
@@ -1962,17 +2427,21 @@
         .advice-form-container {
             display: none;
         }
+
         .advice-form-container.active {
             display: block;
         }
+
         .advice-whatsapp-container {
             display: none;
             text-align: center;
             padding: 20px 0;
         }
+
         .advice-whatsapp-container.active {
             display: block;
         }
+
         .advice-whatsapp-container .wa-big-icon {
             width: 84px;
             height: 84px;
@@ -1987,6 +2456,7 @@
             align-items: center;
             justify-content: center;
         }
+
         .advice-whatsapp-container .wa-big-icon svg {
             width: 42px;
             height: 42px;
@@ -1996,6 +2466,7 @@
             stroke-linecap: round;
             stroke-linejoin: round;
         }
+
         @keyframes whatsapp-float {
             0%,
             100% {
@@ -2005,16 +2476,19 @@
                 transform: translateY(-5px) rotate(2deg);
             }
         }
+
         .advice-whatsapp-container h3 {
             font-family: var(--font-ar);
             color: var(--slate);
             margin: 0 0 8px;
         }
+
         .advice-whatsapp-container p {
             color: var(--muted);
             font-size: 13px;
             margin: 0 0 16px;
         }
+
         .advice-submit-btn {
             width: 100%;
             padding: 14px;
@@ -2034,39 +2508,48 @@
             justify-content: center;
             gap: 8px;
         }
+
         .advice-submit-btn:active {
             transform: scale(0.97);
         }
+
         .advice-submit-btn:hover {
             box-shadow: 0 6px 30px rgba(242, 189, 99, 0.4);
             transform: translateY(-2px);
         }
+
         .advice-submit-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
         }
+
         .char-counter {
             font-size: 11px;
             color: var(--muted);
             text-align: left;
             margin-top: 4px;
         }
+
         .char-counter.warning {
             color: var(--red);
         }
+
         .advice-success {
             text-align: center;
             padding: 30px 20px;
         }
+
         .advice-success .icon {
             font-size: 60px;
             margin-bottom: 12px;
         }
+
         .advice-success h3 {
             font-family: var(--font-ar);
             color: var(--slate);
             margin: 0 0 8px;
         }
+
         .advice-success p {
             color: var(--muted);
             font-size: 13px;
@@ -2093,6 +2576,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .whatsapp-btn::before {
             content: "";
             position: absolute;
@@ -2102,6 +2586,7 @@
             animation: whatsapp-button-shine 3.8s ease-in-out infinite;
             pointer-events: none;
         }
+
         @keyframes whatsapp-button-shine {
             0%,
             55% {
@@ -2112,13 +2597,16 @@
                 transform: translateX(120%)
             }
         }
+
         .whatsapp-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 30px rgba(37, 211, 102, 0.4);
         }
+
         .whatsapp-btn:active {
             transform: scale(0.97);
         }
+
         .whatsapp-btn .wa-icon {
             width: 34px;
             height: 34px;
@@ -2130,6 +2618,7 @@
             align-items: center;
             justify-content: center;
         }
+
         .whatsapp-btn .wa-icon svg {
             width: 24px;
             height: 24px;
@@ -2139,6 +2628,7 @@
             stroke-linecap: round;
             stroke-linejoin: round;
         }
+
         @keyframes whatsapp-icon-breathe {
             0%,
             100% {
@@ -2169,13 +2659,16 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             animation: pulse-fab 2s ease-in-out infinite;
         }
+
         .chat-fab:hover {
             transform: scale(1.1) translateY(-4px);
             box-shadow: 0 12px 40px rgba(14, 42, 92, 0.5);
         }
+
         .chat-fab:active {
             transform: scale(0.95);
         }
+
         .chat-fab .fab-icon {
             font-size: 24px;
             line-height: 1;
@@ -2184,6 +2677,7 @@
             align-items: center;
             justify-content: center;
         }
+
         .chat-fab .fab-badge {
             position: absolute;
             top: -4px;
@@ -2200,6 +2694,7 @@
             box-shadow: 0 2px 8px rgba(201, 84, 62, 0.4);
             animation: bounce-badge 1s ease-in-out infinite;
         }
+
         .chat-fab .pulse-ring {
             position: absolute;
             width: 100%;
@@ -2208,9 +2703,11 @@
             border: 3px solid rgba(242, 189, 99, 0.3);
             animation: ring-pulse 2s ease-out infinite;
         }
+
         .chat-fab .pulse-ring:nth-child(2) {
             animation-delay: 0.5s;
         }
+
         @keyframes pulse-fab {
             0%,
             100% {
@@ -2220,6 +2717,7 @@
                 box-shadow: 0 8px 50px rgba(14, 42, 92, 0.6), 0 0 30px rgba(242, 189, 99, 0.2);
             }
         }
+
         @keyframes ring-pulse {
             0% {
                 transform: scale(1);
@@ -2230,6 +2728,7 @@
                 opacity: 0;
             }
         }
+
         @keyframes bounce-badge {
             0%,
             100% {
@@ -2256,9 +2755,11 @@
             animation: slideUp 0.3s ease-out;
             border: 1px solid var(--line);
         }
+
         .chat-widget.open {
             display: flex;
         }
+
         .chat-widget .chat-header {
             background: var(--gradient-navy);
             color: #fff;
@@ -2268,6 +2769,7 @@
             align-items: center;
             flex-shrink: 0;
         }
+
         .chat-widget .chat-header .chat-title {
             display: flex;
             align-items: center;
@@ -2276,6 +2778,7 @@
             font-weight: 700;
             font-size: 14px;
         }
+
         .chat-widget .chat-header .chat-title .online-dot {
             width: 8px;
             height: 8px;
@@ -2284,6 +2787,7 @@
             display: inline-block;
             animation: pulse-dot 1.5s ease-in-out infinite;
         }
+
         .chat-widget .chat-header .close-chat {
             background: rgba(255, 255, 255, 0.15);
             border: none;
@@ -2298,9 +2802,11 @@
             align-items: center;
             justify-content: center;
         }
+
         .chat-widget .chat-header .close-chat:hover {
             background: rgba(255, 255, 255, 0.25);
         }
+
         .chat-widget .chat-messages {
             flex: 1;
             padding: 10px 14px;
@@ -2311,6 +2817,7 @@
             flex-direction: column;
             gap: 6px;
         }
+
         .chat-widget .chat-messages .msg {
             max-width: 85%;
             padding: 8px 12px;
@@ -2319,24 +2826,28 @@
             line-height: 1.5;
             animation: slideUp 0.3s ease;
         }
+
         .chat-widget .chat-messages .msg.user {
             align-self: flex-end;
             background: var(--gold-soft);
             color: var(--slate);
             border-bottom-right-radius: 4px;
         }
+
         .chat-widget .chat-messages .msg.agent {
             align-self: flex-start;
             background: var(--navy);
             color: #fff;
             border-bottom-left-radius: 4px;
         }
+
         .chat-widget .chat-messages .msg .msg-time {
             font-size: 9px;
             opacity: 0.6;
             margin-top: 3px;
             display: block;
         }
+
         .chat-widget .chat-input-area {
             display: flex;
             gap: 8px;
@@ -2345,6 +2856,7 @@
             background: var(--card);
             flex-shrink: 0;
         }
+
         .chat-widget .chat-input-area input {
             flex: 1;
             border: 1.5px solid var(--line);
@@ -2356,10 +2868,12 @@
             background: var(--paper);
             color: var(--slate);
         }
+
         .chat-widget .chat-input-area input:focus {
             border-color: var(--gold);
             box-shadow: 0 0 0 3px rgba(242, 189, 99, 0.15);
         }
+
         .chat-widget .chat-input-area button {
             background: var(--gradient-gold);
             border: none;
@@ -2375,6 +2889,7 @@
             color: var(--navy);
             flex-shrink: 0;
         }
+
         .chat-widget .chat-input-area button:hover {
             transform: scale(1.05);
             background: #e2af5a;
@@ -2402,18 +2917,22 @@
             user-select: none;
             animation: pulse-fab-wa 2s ease-in-out infinite;
         }
+
         .whatsapp-fab:active {
             cursor: grabbing;
             transition: none;
         }
+
         .whatsapp-fab.dragging {
             box-shadow: 0 14px 40px rgba(37, 211, 102, 0.6);
             animation: none;
         }
+
         .whatsapp-fab .fab-icon {
             position: relative;
             display: flex;
         }
+
         .whatsapp-fab .fab-icon svg {
             width: 26px;
             height: 26px;
@@ -2423,6 +2942,7 @@
             stroke-linecap: round;
             stroke-linejoin: round;
         }
+
         .whatsapp-fab .pulse-ring.wa {
             position: absolute;
             width: 100%;
@@ -2432,9 +2952,11 @@
             animation: ring-pulse 2s ease-out infinite;
             pointer-events: none;
         }
+
         .whatsapp-fab .pulse-ring.wa:nth-child(2) {
             animation-delay: 0.5s;
         }
+
         @keyframes pulse-fab-wa {
             0%,
             100% {
@@ -2452,12 +2974,14 @@
             align-items: center;
             padding: 10px 0;
         }
+
         .wheel-wrapper {
             position: relative;
             width: 280px;
             height: 280px;
             margin: 0 auto;
         }
+
         .wheel-canvas {
             width: 100%;
             height: 100%;
@@ -2466,6 +2990,7 @@
             transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
             cursor: pointer;
         }
+
         .wheel-pointer {
             position: absolute;
             top: -12px;
@@ -2479,6 +3004,7 @@
             z-index: 10;
             filter: drop-shadow(0 2px 8px rgba(201, 84, 62, 0.3));
         }
+
         .wheel-center {
             position: absolute;
             top: 50%;
@@ -2499,17 +3025,21 @@
             cursor: pointer;
             transition: all var(--transition);
         }
+
         .wheel-center:hover {
             transform: translate(-50%, -50%) scale(1.08);
         }
+
         .wheel-center:active {
             transform: translate(-50%, -50%) scale(0.95);
         }
+
         .wheel-center .app-icon {
             width: 30px;
             height: 30px;
             animation: uiPulseSoft 1.8s ease-in-out infinite;
         }
+
         @keyframes uiPulseSoft {
             0%,
             100% {
@@ -2521,6 +3051,7 @@
                 filter: drop-shadow(0 5px 12px rgba(244, 192, 107, .28))
             }
         }
+
         .wheel-result {
             margin-top: 16px;
             padding: 14px 20px;
@@ -2539,18 +3070,22 @@
             transition: all 0.5s ease;
             gap: 10px;
         }
+
         .wheel-result .result-icon {
             font-size: 28px;
         }
+
         .wheel-result.wheel-result-success {
             background: var(--green-light) !important;
             border-color: var(--green) !important;
             animation: celebrate-bounce 0.6s ease-in-out 2;
         }
+
         .wheel-result.wheel-result-fail {
             background: var(--red-light) !important;
             border-color: var(--red) !important;
         }
+
         @keyframes celebrate-bounce {
             0%,
             100% {
@@ -2566,6 +3101,7 @@
                 transform: scale(1.05);
             }
         }
+
         .wheel-spin-btn {
             padding: 12px 30px;
             border: none;
@@ -2581,29 +3117,35 @@
             margin-top: 10px;
             width: 100%;
         }
+
         .wheel-spin-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 30px rgba(242, 189, 99, 0.4);
         }
+
         .wheel-spin-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
         }
+
         .wheel-disabled {
             text-align: center;
             padding: 20px;
             color: var(--muted);
         }
+
         .wheel-disabled .icon {
             font-size: 48px;
             margin-bottom: 12px;
         }
+
         .wheel-disabled h3 {
             font-family: var(--font-ar);
             color: var(--slate);
             margin: 0 0 8px;
         }
+
         .wheel-info {
             font-size: 11px;
             color: var(--muted);
@@ -2622,10 +3164,12 @@
             display: none;
             overflow: hidden;
         }
+
         .wheel-celebration.active {
             display: block;
             pointer-events: auto;
         }
+
         .wheel-celebration .confetti {
             position: absolute;
             width: 12px;
@@ -2634,6 +3178,7 @@
             animation: confetti-fall 3s ease-in forwards;
             top: -20px;
         }
+
         @keyframes confetti-fall {
             0% {
                 transform: translateY(-100px) rotate(0deg);
@@ -2644,6 +3189,7 @@
                 opacity: 0;
             }
         }
+
         .wheel-celebration .celebrate-text {
             position: absolute;
             top: 50%;
@@ -2665,11 +3211,13 @@
             pointer-events: none;
             min-width: 200px;
         }
+
         .wheel-celebration .celebrate-text .icon {
             font-size: 40px;
             display: block;
             margin-bottom: 6px;
         }
+
         .wheel-celebration .celebrate-text .sub {
             font-size: 14px;
             font-weight: 400;
@@ -2688,14 +3236,17 @@
             box-shadow: var(--shadow);
             transition: all var(--transition);
         }
+
         .notif:hover {
             box-shadow: var(--shadow-lg);
             transform: translateX(-4px);
         }
+
         .notif.unread {
             border-color: var(--gold);
             background: var(--gold-soft);
         }
+
         .notif .ic {
             width: 38px;
             height: 38px;
@@ -2708,18 +3259,21 @@
             font-size: 18px;
             flex: 0 0 38px;
         }
+
         .notif h4 {
             margin: 0;
             color: var(--slate);
             font-size: 12.5px;
             font-weight: 700;
         }
+
         .notif p {
             margin: 3px 0 0;
             color: var(--muted);
             font-size: 11px;
             line-height: 1.4;
         }
+
         .notif time {
             display: block;
             color: #A0ACBA;
@@ -2741,16 +3295,19 @@
             margin: 12px 0;
             border: 1px solid var(--line);
         }
+
         .preview-box img {
             max-width: 100%;
             max-height: 350px;
             object-fit: contain;
         }
+
         .preview-box iframe {
             width: 100%;
             height: 320px;
             border: none;
         }
+
         .doc-loading,
         .doc-error {
             height: 100%;
@@ -2776,10 +3333,12 @@
             max-height: 400px;
             overflow-y: auto;
         }
+
         .terms-text ul {
             padding-right: 20px;
             margin: 6px 0;
         }
+
         .terms-text ul li {
             margin-bottom: 4px;
         }
@@ -2799,9 +3358,11 @@
             -webkit-backdrop-filter: blur(6px);
             animation: fadeIn 0.5s ease;
         }
+
         .onboarding-overlay.active {
             display: flex;
         }
+
         .onboarding-overlay .onboarding-card {
             background: var(--card);
             border-radius: var(--radius-xl);
@@ -2812,28 +3373,33 @@
             box-shadow: var(--shadow-xl);
             animation: slideUp 0.5s ease;
         }
+
         .onboarding-overlay .onboarding-card .step-icon {
             font-size: 56px;
             margin-bottom: 12px;
         }
+
         .onboarding-overlay .onboarding-card h2 {
             font-family: var(--font-ar);
             color: var(--slate);
             margin: 0 0 8px;
             font-size: 20px;
         }
+
         .onboarding-overlay .onboarding-card p {
             color: var(--muted);
             font-size: 13px;
             line-height: 1.6;
             margin: 0 0 16px;
         }
+
         .onboarding-overlay .onboarding-card .onboarding-dots {
             display: flex;
             justify-content: center;
             gap: 8px;
             margin: 12px 0;
         }
+
         .onboarding-overlay .onboarding-card .onboarding-dots .dot {
             width: 8px;
             height: 8px;
@@ -2841,6 +3407,7 @@
             background: var(--line);
             transition: all var(--transition);
         }
+
         .onboarding-overlay .onboarding-card .onboarding-dots .dot.active {
             background: var(--gold);
             width: 24px;
@@ -2854,6 +3421,7 @@
             gap: 10px;
             padding: 12px 14px;
         }
+
         .analytics-card {
             background: var(--card);
             border-radius: var(--radius-md);
@@ -2862,30 +3430,36 @@
             box-shadow: var(--shadow);
             transition: all var(--transition);
         }
+
         .analytics-card:hover {
             box-shadow: var(--shadow-lg);
             transform: translateY(-2px);
         }
+
         .analytics-card .analytics-number {
             font-size: 24px;
             font-weight: 900;
             font-family: var(--font-ar);
             color: var(--slate);
         }
+
         .analytics-card .analytics-label {
             font-size: 10px;
             color: var(--muted);
             font-weight: 600;
             margin-top: 2px;
         }
+
         .analytics-card .analytics-change {
             font-size: 10px;
             font-weight: 700;
             margin-top: 4px;
         }
+
         .analytics-card .analytics-change.up {
             color: var(--green);
         }
+
         .analytics-card .analytics-change.down {
             color: var(--red);
         }
@@ -2903,35 +3477,42 @@
             align-items: center;
             transition: all var(--transition);
         }
+
         .appointment-card:hover {
             box-shadow: var(--shadow-lg);
             transform: translateY(-2px);
         }
+
         .appointment-card .appt-info h4 {
             font-family: var(--font-ar);
             color: var(--slate);
             margin: 0;
             font-size: 13px;
         }
+
         .appointment-card .appt-info p {
             font-size: 11px;
             color: var(--muted);
             margin: 2px 0 0;
         }
+
         .appointment-card .appt-status {
             font-size: 10px;
             font-weight: 700;
             padding: 4px 10px;
             border-radius: 20px;
         }
+
         .appointment-card .appt-status.confirmed {
             background: var(--green-light);
             color: var(--green);
         }
+
         .appointment-card .appt-status.pending {
             background: #FFF1D2;
             color: #8A5D13;
         }
+
         .appointment-card .appt-status.cancelled {
             background: var(--red-light);
             color: var(--red);
@@ -2950,13 +3531,16 @@
             cursor: pointer;
             transition: all var(--transition);
         }
+
         .payment-method:hover {
             border-color: var(--gold);
         }
+
         .payment-method.selected {
             border-color: var(--gold);
             background: var(--gold-soft);
         }
+
         .payment-method .pm-icon {
             font-size: 24px;
             width: 40px;
@@ -2968,15 +3552,18 @@
             border-radius: var(--radius-sm);
             flex-shrink: 0;
         }
+
         .payment-method .pm-info {
             flex: 1;
         }
+
         .payment-method .pm-info h4 {
             font-family: var(--font-ar);
             color: var(--slate);
             margin: 0;
             font-size: 13px;
         }
+
         .payment-method .pm-info p {
             font-size: 10px;
             color: var(--muted);
@@ -2987,6 +3574,7 @@
         .profile-edit-section {
             padding: 12px 14px;
         }
+
         .profile-edit-section .field {
             margin-bottom: 12px;
         }
@@ -2998,6 +3586,7 @@
             padding: 12px 14px;
             flex-wrap: wrap;
         }
+
         .export-options .export-btn {
             flex: 1;
             min-width: 100px;
@@ -3012,11 +3601,13 @@
             font-weight: 700;
             color: var(--slate);
         }
+
         .export-options .export-btn:hover {
             border-color: var(--gold);
             box-shadow: var(--shadow);
             transform: translateY(-2px);
         }
+
         .export-options .export-btn .export-icon {
             font-size: 24px;
             display: block;
@@ -3029,6 +3620,7 @@
             color: var(--muted);
             margin-top: 6px;
         }
+
         .progress-bar {
             width: 100%;
             height: 10px;
@@ -3037,12 +3629,14 @@
             overflow: hidden;
             margin-top: 10px;
         }
+
         .progress-bar .fill {
             height: 100%;
             border-radius: 10px;
             transition: width 1.5s ease;
             background: linear-gradient(90deg, var(--green), var(--gold));
         }
+
         .securepath-advisory {
             margin-top: 8px;
             font-size: 11px;
@@ -3057,14 +3651,17 @@
         [dir="ltr"] .notif:hover {
             transform: translateX(4px);
         }
+
         [dir="ltr"] .close-x {
             left: auto;
             right: 20px;
         }
+
         [dir="ltr"] .p-seal {
             border-left: 0;
             border-right: 1px dashed #DDE5EF;
         }
+
         [dir="ltr"] .p-foot,
         [dir="ltr"] .detail-row {
             direction: ltr;
@@ -3188,10 +3785,9 @@
             .account-header {
                 padding: 20px 16px 18px;
             }
-            .account-header .avatar {
+            .account-header .profile-pic-wrapper .avatar {
                 width: 56px;
                 height: 56px;
-                font-size: 22px;
             }
             .account-header h2 {
                 font-size: 17px;
@@ -3223,9 +3819,42 @@
             direction: ltr;
             overflow: hidden;
         }
+
         #sliderTrack {
             direction: ltr !important;
             display: flex !important;
+        }
+
+        /* Profile picture upload button */
+        .profile-pic-upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border: 2px dashed var(--line);
+            border-radius: var(--radius-sm);
+            background: var(--card);
+            cursor: pointer;
+            transition: all var(--transition);
+            font-family: var(--font-ar);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--slate);
+            margin-top: 8px;
+        }
+
+        .profile-pic-upload-btn:hover {
+            border-color: var(--gold);
+            background: var(--gold-soft);
+            transform: translateY(-2px);
+        }
+
+        .profile-pic-upload-btn:active {
+            transform: scale(0.97);
+        }
+
+        .profile-pic-upload-btn input[type="file"] {
+            display: none;
         }
     </style>
 </head>
@@ -3265,9 +3894,8 @@
             <div class="login-card">
                 <h2 id="loginTitle">تسجيل الدخول</h2>
                 <div id="loginError" style="color:var(--red);font-size:12px;margin-bottom:10px;display:none;"></div>
-                <!-- Language toggle button inside login card -->
                 <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
-                    <button id="loginLangToggle" class="lang-toggle" onclick="toggleLanguage()" style="position:static;background:var(--line);color:var(--slate);border:1px solid var(--line);">EN</button>
+                    <button id="loginLangToggle" class="lang-toggle light" onclick="toggleLanguage()" style="background:var(--card);color:var(--slate);border:1px solid var(--line);">EN</button>
                 </div>
                 <div class="field"><label id="loginEmailLabel">اسم المستخدم أو البريد الإلكتروني</label><input type="text" id="loginEmail" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="اسم المستخدم أو البريد الإلكتروني"></div>
                 <div class="field"><label id="loginPassLabel">كلمة المرور</label><input type="password" id="loginPass" autocomplete="current-password" placeholder="••••••••"></div>
@@ -3278,7 +3906,7 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- SIGNUP SCREEN - with language selection                      -->
+        <!-- SIGNUP SCREEN                                                 -->
         <!-- ============================================================ -->
         <div class="screen" id="signup">
             <div class="brand brand-premium">
@@ -3288,7 +3916,6 @@
                 <h2 id="signupTitle">✨ إنشاء حساب جديد</h2>
                 <div id="signupError" style="color:var(--red);font-size:12px;margin-bottom:10px;display:none;"></div>
 
-                <!-- Language Selection at top of form -->
                 <div class="field">
                     <label id="signupLangLabel">🌐 لغة التطبيق</label>
                     <select id="signupLanguage" style="direction:ltr;text-align:right;">
@@ -3344,7 +3971,7 @@
             <div class="sheet">
                 <div class="grabber"></div>
                 <div class="close-x" onclick="closeModal('forgotPasswordModal')">✕</div>
-                <h2 id="forgotTitle"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span> استعادة كلمة المرور</h2>
+                <h2 id="forgotTitle"><span class="app-icon animated"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span> استعادة كلمة المرور</h2>
                 <div class="sub" id="forgotSub">أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين</div>
                 <div id="forgotError" style="color:var(--red);font-size:12px;margin-bottom:10px;display:none;"></div>
                 <div id="forgotSuccess" style="color:var(--green);font-size:12px;margin-bottom:10px;display:none;"></div>
@@ -3365,10 +3992,11 @@
                         <h1 class="name" id="userNameHome">مستخدم</h1>
                     </div>
                     <div class="topbar-right">
+                        <button id="languageToggle" class="lang-toggle" onclick="toggleLanguage()" style="background:rgba(255,255,255,0.1);color:#fff;border-color:rgba(255,255,255,0.2);">EN</button>
                         <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Dark/Light Mode">🌓</button>
                         <div class="bell" onclick="showScreen('notifs')">
                             <span class="bell-symbol icon-gold">
-                                <span class="app-icon"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg></span>
+                                <span class="app-icon animated"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg></span>
                             </span>
                             <div class="dot" id="notifDot"></div>
                         </div>
@@ -3385,22 +4013,22 @@
                 <div class="stats">
                     <div class="stat">
                         <b id="statActiveCount">0</b>
-                        <span class="icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-9"/></svg></span> وثائق سارية</span>
+                        <span class="icon-gold"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-9"/></svg></span> وثائق سارية</span>
                     </div>
                     <div class="stat">
                         <b id="statExpiringCount">0</b>
-                        <span class="icon-orange"><span class="app-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span> تجديد قريب</span>
+                        <span class="icon-orange"><span class="app-icon animated bounce"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span> تجديد قريب</span>
                     </div>
                     <div class="stat">
                         <b id="statDocsCount">0</b>
-                        <span class="icon-green"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span> مستندات مفعلة</span>
+                        <span class="icon-green"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span> مستندات مفعلة</span>
                     </div>
                 </div>
             </div>
 
             <div class="companies-slider-section">
                 <div class="slider-title" id="companiesSliderTitle">
-                    <span class="icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V4h8v3M3 12h18"/></svg></span></span>
+                    <span class="icon-gold"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V4h8v3M3 12h18"/></svg></span></span>
                     شركاؤنا في التأمين <span>·</span> <span id="companiesCount">0</span> شركة
                 </div>
                 <div class="slider-wrapper" id="companiesSlider" role="region" aria-label="Insurance companies">
@@ -3409,7 +4037,7 @@
             </div>
 
             <div class="offers-banner" id="offersBanner" onclick="showScreen('offers')" style="display:none;">
-                <div class="offers-banner-icon icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2 7h20v3H2z"/><path d="M12 7v13M12 7c-4 0-6-2-4-4 2-2 4 1 4 4Zm0 0c4 0 6-2 4-4-2-2-4 1-4 4Z"/></svg></span></div>
+                <div class="offers-banner-icon icon-gold"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2 7h20v3H2z"/><path d="M12 7v13M12 7c-4 0-6-2-4-4 2-2 4 1 4 4Zm0 0c4 0 6-2 4-4-2-2-4 1-4 4Z"/></svg></span></div>
                 <div class="offers-banner-text">
                     <b id="offersBannerTitle">عروض وخصومات حصرية</b>
                     <span id="offersBannerSub">اكتشف أحدث عروض شركائنا في التأمين</span>
@@ -3420,32 +4048,32 @@
             <div class="quick-section">
                 <div class="section-head">
                     <h2 id="quickAccessTitle">
-                        <span class="icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="m4 16 10-10 4 4L8 20l-4 1 1-5Z"/><path d="m13 7 4 4"/></svg></span></span>
+                        <span class="icon-gold"><span class="app-icon animated bounce"><svg viewBox="0 0 24 24"><path d="m4 16 10-10 4 4L8 20l-4 1 1-5Z"/><path d="m13 7 4 4"/></svg></span></span>
                         الوصول السريع
                     </h2>
                 </div>
                 <div class="quick-grid">
                     <div class="quick-card" onclick="openUploadDocModal()">
                         <div class="qicon navy icon-gold">
-                            <span class="app-icon"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M5 20h14"/></svg></span>
+                            <span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M5 20h14"/></svg></span>
                         </div>
                         <span class="quick-label" id="quickUpload">رفع مستند</span>
                     </div>
                     <div class="quick-card" onclick="showScreen('products')">
                         <div class="qicon gold icon-gold">
-                            <span class="app-icon"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8 12 2.5 2.5L16 9"/></svg></span>
+                            <span class="app-icon animated spin"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8 12 2.5 2.5L16 9"/></svg></span>
                         </div>
                         <span class="quick-label" id="quickProducts">المنتجات</span>
                     </div>
                     <div class="quick-card" onclick="runFullAssessment()">
                         <div class="qicon green icon-green">
-                            <span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-9"/></svg></span>
+                            <span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-9"/></svg></span>
                         </div>
                         <span class="quick-label" id="quickAssessment">فحص الحماية</span>
                     </div>
                     <div class="quick-card" onclick="showScreen('advice')">
                         <div class="qicon orange icon-orange">
-                            <span class="app-icon"><svg viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M8 14a6 6 0 1 1 8 0c-1 1-1.5 2-1.5 4h-5C9.5 16 9 15 8 14Z"/></svg></span>
+                            <span class="app-icon animated bounce"><svg viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M8 14a6 6 0 1 1 8 0c-1 1-1.5 2-1.5 4h-5C9.5 16 9 15 8 14Z"/></svg></span>
                         </div>
                         <span class="quick-label" id="quickAdvice">طلب نصيحة</span>
                     </div>
@@ -3455,7 +4083,7 @@
             <div class="quick-section" style="padding-bottom:0;">
                 <div class="section-head">
                     <h2 id="myPoliciesTitle">
-                        <span class="icon-navy"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span></span>
+                        <span class="icon-navy"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span></span>
                         وثائقي التأمينية
                     </h2>
                     <span style="font-size:11px;color:var(--navy-2);cursor:pointer;font-weight:700;" onclick="showScreen('policies')" id="viewAllLink">عرض الكل →</span>
@@ -3477,7 +4105,7 @@
             <div class="page-top">
                 <div class="page-left">
                     <h1 id="assessmentResultTitle">
-                        <span class="icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-9"/></svg></span></span>
+                        <span class="icon-gold"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-9"/></svg></span></span>
                         نتيجة تقييم الحماية
                     </h1>
                     <p id="assessmentResultSub">تحليل شامل لحالتك التأمينية مع توصيات مخصصة</p>
@@ -3494,7 +4122,7 @@
             <div class="page-top">
                 <div class="page-left">
                     <h1 id="adviceTitle">
-                        <span class="icon-orange"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M8 14a6 6 0 1 1 8 0c-1 1-1.5 2-1.5 4h-5C9.5 16 9 15 8 14Z"/></svg></span></span>
+                        <span class="icon-orange"><span class="app-icon animated bounce"><svg viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M8 14a6 6 0 1 1 8 0c-1 1-1.5 2-1.5 4h-5C9.5 16 9 15 8 14Z"/></svg></span></span>
                         طلب نصيحة تأمينية
                     </h1>
                     <p id="adviceSub">اختر طريقة التواصل المفضلة لديك</p>
@@ -3503,19 +4131,19 @@
             </div>
             <div class="advice-card" id="adviceFormContainer">
                 <h2 id="adviceCardTitle">
-                    <span class="icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="m4 16 10-10 4 4L8 20l-4 1 1-5Z"/><path d="m13 7 4 4"/></svg></span></span>
+                    <span class="icon-gold"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="m4 16 10-10 4 4L8 20l-4 1 1-5Z"/><path d="m13 7 4 4"/></svg></span></span>
                     كيف تفضل التواصل؟
                 </h2>
                 <div class="sub" id="adviceCardSub">اختر إحدى الطرق التالية للحصول على استشارتك</div>
                 <div class="advice-options">
                     <div class="advice-option active" id="optText" onclick="selectAdviceOption('text')">
-                        <span class="option-icon icon-navy" aria-hidden="true"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M5 5.5A2.5 2.5 0 0 1 7.5 3h9A2.5 2.5 0 0 1 19 5.5v7A2.5 2.5 0 0 1 16.5 15H12l-4.2 4v-4H7.5A2.5 2.5 0 0 1 5 12.5z"/><path d="M8 8h8M8 11h5"/></svg></span></span>
+                        <span class="option-icon icon-navy" aria-hidden="true"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M5 5.5A2.5 2.5 0 0 1 7.5 3h9A2.5 2.5 0 0 1 19 5.5v7A2.5 2.5 0 0 1 16.5 15H12l-4.2 4v-4H7.5A2.5 2.5 0 0 1 5 12.5z"/><path d="M8 8h8M8 11h5"/></svg></span></span>
                         <span class="option-title" id="optTextTitle">نصيحة نصية</span>
                         <span class="option-desc" id="optTextDesc">اكتب استفسارك وسنرد عليك</span>
                         <span class="option-badge" id="optTextBadge">مفضّل</span>
                     </div>
                     <div class="advice-option" id="optWhatsapp" onclick="selectAdviceOption('whatsapp')">
-                        <span class="option-icon icon-green" aria-hidden="true"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-11.1 6.6L4 20l1.9-4.6A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8.2 8.6c.2-.5.5-.7.9-.7h.7c.2 0 .4.2.5.5l.7 1.7c.1.3 0 .5-.2.7l-.7.6c.5 1 1.3 1.8 2.3 2.3l.6-.7c.2-.2.4-.3.7-.2l1.7.7c.3.1.5.3.5.5v.7c0 .4-.2.7-.7.9-2 .4-5.9-2.6-6.9-5.1-.2-.6-.2-1.3-.1-1.9Z"/></svg></span></span>
+                        <span class="option-icon icon-green" aria-hidden="true"><span class="app-icon animated bounce"><svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-11.1 6.6L4 20l1.9-4.6A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8.2 8.6c.2-.5.5-.7.9-.7h.7c.2 0 .4.2.5.5l.7 1.7c.1.3 0 .5-.2.7l-.7.6c.5 1 1.3 1.8 2.3 2.3l.6-.7c.2-.2.4-.3.7-.2l1.7.7c.3.1.5.3.5.5v.7c0 .4-.2.7-.7.9-2 .4-5.9-2.6-6.9-5.1-.2-.6-.2-1.3-.1-1.9Z"/></svg></span></span>
                         <span class="option-title" id="optWhatsappTitle">واتساب</span>
                         <span class="option-desc" id="optWhatsappDesc">تواصل مباشر عبر واتساب</span>
                         <span class="option-badge" id="optWhatsappBadge">سريع</span>
@@ -3533,7 +4161,7 @@
                             <textarea id="adviceText" placeholder="اكتب استفسارك بالتفصيل... (الحد الأقصى 1000 حرف)" maxlength="1000" oninput="updateCharCount()"></textarea>
                             <div class="char-counter" id="charCount">0 / 1000 حرف</div>
                         </div>
-                        <button class="advice-submit-btn" id="adviceSubmitBtn" onclick="submitAdvice()"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 12 16-8-5 16-3-6-8-2Z"/><path d="m12 14 4-6"/></svg></span><span>إرسال طلب الاستشارة</span></button>
+                        <button class="advice-submit-btn" id="adviceSubmitBtn" onclick="submitAdvice()"><span class="app-icon animated float" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 12 16-8-5 16-3-6-8-2Z"/><path d="m12 14 4-6"/></svg></span><span>إرسال طلب الاستشارة</span></button>
                     </div>
                 </div>
                 <div class="advice-whatsapp-container" id="adviceWhatsappContainer">
@@ -3553,7 +4181,7 @@
             <div class="page-top">
                 <div class="page-left">
                     <h1 id="policiesTitle">
-                        <span class="icon-navy"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span></span>
+                        <span class="icon-navy"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span></span>
                         وثائق التأمين
                     </h1>
                     <p id="policiesSub">متابعة كافة الوثائق والتغطيات الحالية</p>
@@ -3569,7 +4197,7 @@
             <div class="page-top">
                 <div class="page-left">
                     <h1 id="productsTitle">
-                        <span class="icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8 12 2.5 2.5L16 9"/></svg></span></span>
+                        <span class="icon-gold"><span class="app-icon animated spin"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8 12 2.5 2.5L16 9"/></svg></span></span>
                         منتجات التأمين
                     </h1>
                     <p id="productsSub">استكشف أفضل برامج التغطية المتاحة</p>
@@ -3585,7 +4213,7 @@
             <div class="page-top">
                 <div class="page-left">
                     <h1 id="offersTitle">
-                        <span class="icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2 7h20v3H2z"/><path d="M12 7v13M12 7c-4 0-6-2-4-4 2-2 4 1 4 4Zm0 0c4 0 6-2 4-4-2-2-4 1-4 4Z"/></svg></span></span>
+                        <span class="icon-gold"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2 7h20v3H2z"/><path d="M12 7v13M12 7c-4 0-6-2-4-4 2-2 4 1 4 4Zm0 0c4 0 6-2 4-4-2-2-4 1-4 4Z"/></svg></span></span>
                         العروض والخصومات
                     </h1>
                     <p id="offersSub">أحدث العروض الحصرية من شركائنا في التأمين</p>
@@ -3602,12 +4230,12 @@
             <div class="page-top">
                 <div class="page-left">
                     <h1 id="documentsTitle">
-                        <span class="icon-purple"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10H3z"/></svg></span></span>
+                        <span class="icon-purple"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10H3z"/></svg></span></span>
                         المستندات والملفات
                     </h1>
                     <p id="documentsSub">إدارة الهوية والوثائق المرفوعة</p>
                 </div>
-                <div class="page-actions"><button class="btn-gold-small" style="margin:0;padding:8px 12px;font-size:11px;width:auto;" onclick="openUploadDocModal()" id="uploadDocBtn"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M5 20h14"/></svg></span> رفع مستند</button></div>
+                <div class="page-actions"><button class="btn-gold-small" style="margin:0;padding:8px 12px;font-size:11px;width:auto;" onclick="openUploadDocModal()" id="uploadDocBtn"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M5 20h14"/></svg></span> رفع مستند</button></div>
             </div>
             <div class="policies" id="documentsList" style="padding-top:14px;"></div>
         </div>
@@ -3619,7 +4247,7 @@
             <div class="page-top">
                 <div class="page-left">
                     <h1 id="notificationsTitle">
-                        <span class="icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg></span></span>
+                        <span class="icon-gold"><span class="app-icon animated bounce"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg></span></span>
                         الإشعارات والتنبيهات
                     </h1>
                     <p id="notificationsSub">تنبيهات التجديد والمراجعة</p>
@@ -3630,12 +4258,21 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- ACCOUNT SCREEN - ENHANCED with full translation              -->
+        <!-- ACCOUNT SCREEN - ENHANCED with profile picture              -->
         <!-- ============================================================ -->
         <div class="screen" id="account">
             <!-- Header -->
             <div class="account-header">
-                <div class="avatar" id="accAvatar">م</div>
+                <div class="profile-pic-wrapper" onclick="document.getElementById('profilePicInput').click()">
+                    <div class="avatar" id="accAvatarContainer">
+                        <img id="accAvatarImg" src="" alt="Profile" style="display:none;">
+                        <span class="initials" id="accAvatarInitials">م</span>
+                        <div class="upload-overlay">
+                            <span>📷<br><span style="font-size:10px;">تغيير</span></span>
+                        </div>
+                    </div>
+                    <input type="file" id="profilePicInput" accept="image/*" style="display:none;" onchange="uploadProfilePicture(event)">
+                </div>
                 <h2 id="accName">—</h2>
                 <p class="acc-email" id="accEmail">—</p>
                 <span class="acc-badge" id="accBadge">✅ عميل نشط</span>
@@ -3649,99 +4286,93 @@
             <!-- Body -->
             <div class="account-body">
 
-                <!-- الملف الشخصي -->
                 <div class="acc-section">
                     <div class="section-label" id="accountSectionProfile">👤 الملف الشخصي</div>
                     <div class="section-divider"></div>
                     <div class="acc-card" onclick="showScreen('profileEdit')">
-                        <div class="ac-icon navy"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="m4 16 10-10 4 4L8 20l-4 1 1-5Z"/><path d="m13 7 4 4"/></svg></span></div>
+                        <div class="ac-icon navy"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="m4 16 10-10 4 4L8 20l-4 1 1-5Z"/><path d="m13 7 4 4"/></svg></span></div>
                         <div class="ac-info"><span class="ac-title" id="accountEditProfile">تعديل الملف الشخصي</span><span class="ac-sub" id="accountEditProfileSub">تحديث بياناتك الشخصية</span></div>
                         <span class="ac-arrow">›</span>
                     </div>
                 </div>
 
-                <!-- الخدمات التأمينية -->
                 <div class="acc-section">
                     <div class="section-label" id="accountSectionServices">🛡️ الخدمات التأمينية</div>
                     <div class="section-divider"></div>
                     <div class="acc-card" onclick="runFullAssessment()">
-                        <div class="ac-icon gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-9"/></svg></span></div>
+                        <div class="ac-icon gold"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-9"/></svg></span></div>
                         <div class="ac-info"><span class="ac-title" id="accountAssessment">تقييم الحماية الشامل</span><span class="ac-sub" id="accountAssessmentSub">تحليل كامل لحالتك التأمينية</span></div>
                         <span class="ac-arrow">›</span>
                     </div>
                     <div class="acc-card" onclick="showScreen('documents')">
-                        <div class="ac-icon purple"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10H3z"/></svg></span></div>
+                        <div class="ac-icon purple"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10H3z"/></svg></span></div>
                         <div class="ac-info"><span class="ac-title" id="accountDocuments">مستنداتي</span><span class="ac-sub" id="accountDocumentsSub">إدارة الهوية والوثائق المرفوعة</span></div>
                         <span class="ac-arrow">›</span>
                     </div>
                     <div class="acc-card" onclick="showScreen('offers')">
-                        <div class="ac-icon gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2 7h20v3H2z"/><path d="M12 7v13M12 7c-4 0-6-2-4-4 2-2 4 1 4 4Zm0 0c4 0 6-2 4-4-2-2-4 1-4 4Z"/></svg></span></div>
+                        <div class="ac-icon gold"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2 7h20v3H2z"/><path d="M12 7v13M12 7c-4 0-6-2-4-4 2-2 4 1 4 4Zm0 0c4 0 6-2 4-4-2-2-4 1-4 4Z"/></svg></span></div>
                         <div class="ac-info"><span class="ac-title" id="accountOffers">العروض والخصومات</span><span class="ac-sub" id="accountOffersSub">أحدث العروض الحصرية</span></div>
                         <span class="ac-arrow">›</span>
                     </div>
                 </div>
 
-                <!-- الإدارة المالية -->
                 <div class="acc-section">
                     <div class="section-label" id="accountSectionFinance">💳 الإدارة المالية</div>
                     <div class="section-divider"></div>
                     <div class="acc-card" onclick="showScreen('payments')">
-                        <div class="ac-icon green"><span class="app-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M8 12h8"/></svg></span></div>
+                        <div class="ac-icon green"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M8 12h8"/></svg></span></div>
                         <div class="ac-info"><span class="ac-title" id="accountPayments">الدفع والفواتير</span><span class="ac-sub" id="accountPaymentsSub">إدارة المدفوعات والفواتير</span></div>
                         <span class="ac-arrow">›</span>
                     </div>
                     <div class="acc-card" onclick="showScreen('analytics')">
-                        <div class="ac-icon purple"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-9"/></svg></span></div>
+                        <div class="ac-icon purple"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-9"/></svg></span></div>
                         <div class="ac-info"><span class="ac-title" id="accountAnalytics">التحليلات والتقارير</span><span class="ac-sub" id="accountAnalyticsSub">نظرة شاملة على أدائك التأميني</span></div>
                         <span class="ac-arrow">›</span>
                     </div>
                     <div class="acc-card" onclick="showScreen('export')">
-                        <div class="ac-icon orange"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 10v10h16V10"/><path d="M12 3v12M8 11l4 4 4-4"/></svg></span></div>
+                        <div class="ac-icon orange"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M4 10v10h16V10"/><path d="M12 3v12M8 11l4 4 4-4"/></svg></span></div>
                         <div class="ac-info"><span class="ac-title" id="accountExport">تصدير البيانات</span><span class="ac-sub" id="accountExportSub">تصدير بياناتك بصيغ مختلفة</span></div>
                         <span class="ac-arrow">›</span>
                     </div>
                 </div>
 
-                <!-- التواصل والدعم -->
                 <div class="acc-section">
                     <div class="section-label" id="accountSectionSupport">💬 التواصل والدعم</div>
                     <div class="section-divider"></div>
                     <div class="acc-card" onclick="showScreen('appointments')">
-                        <div class="ac-icon navy"><span class="app-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span></div>
+                        <div class="ac-icon navy"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span></div>
                         <div class="ac-info"><span class="ac-title" id="accountAppointments">مواعيدي</span><span class="ac-sub" id="accountAppointmentsSub">إدارة المواعيد مع وكلائنا</span></div>
                         <span class="ac-arrow">›</span>
                     </div>
                     <div class="acc-card" onclick="toggleChat()">
-                        <div class="ac-icon navy"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M5 5.5A2.5 2.5 0 0 1 7.5 3h9A2.5 2.5 0 0 1 19 5.5v7A2.5 2.5 0 0 1 16.5 15H12l-4.2 4v-4H7.5A2.5 2.5 0 0 1 5 12.5z"/><path d="M8 8h8M8 11h5"/></svg></span></div>
+                        <div class="ac-icon navy"><span class="app-icon animated bounce"><svg viewBox="0 0 24 24"><path d="M5 5.5A2.5 2.5 0 0 1 7.5 3h9A2.5 2.5 0 0 1 19 5.5v7A2.5 2.5 0 0 1 16.5 15H12l-4.2 4v-4H7.5A2.5 2.5 0 0 1 5 12.5z"/><path d="M8 8h8M8 11h5"/></svg></span></div>
                         <div class="ac-info"><span class="ac-title" id="accountLiveChat">محادثة مباشرة مع وكيلك</span><span class="ac-sub" id="accountLiveChatSub">تواصل فوري مع فريق الدعم</span></div>
                         <span class="ac-arrow">›</span>
                         <span class="ac-badge gold" id="accountLiveChatBadge">متاح</span>
                     </div>
                 </div>
 
-                <!-- ترفيه ومشاركة -->
                 <div class="acc-section">
                     <div class="section-label" id="accountSectionFun">🎁 ترفيه ومشاركة</div>
                     <div class="section-divider"></div>
                     <div class="acc-card highlight" onclick="openWheelModal()">
-                        <div class="ac-icon gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2 7h20v3H2z"/><path d="M12 7v13M12 7c-4 0-6-2-4-4 2-2 4 1 4 4Zm0 0c4 0 6-2 4-4-2-2-4 1-4 4Z"/></svg></span></div>
+                        <div class="ac-icon gold"><span class="app-icon animated spin"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2 7h20v3H2z"/><path d="M12 7v13M12 7c-4 0-6-2-4-4 2-2 4 1 4 4Zm0 0c4 0 6-2 4-4-2-2-4 1-4 4Z"/></svg></span></div>
                         <div class="ac-info"><span class="ac-title" id="accountWheel">جرب حظك</span><span class="ac-sub" id="accountWheelSub">اربح جوائز حصرية</span></div>
                         <span class="ac-arrow">›</span>
                         <span class="ac-badge gold">🎰 جديد</span>
                     </div>
                     <div class="acc-card" onclick="shareAppLink()">
-                        <div class="ac-icon gold"><span class="app-icon"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8 15.8 6.2M8.2 13.2l7.6 4.6"/></svg></span></div>
+                        <div class="ac-icon gold"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8 15.8 6.2M8.2 13.2l7.6 4.6"/></svg></span></div>
                         <div class="ac-info"><span class="ac-title" id="accountShareApp">مشاركة رابط التطبيق</span><span class="ac-sub" id="accountShareAppSub">ادعُ أصدقائك للانضمام</span></div>
                         <span class="ac-arrow">›</span>
                     </div>
                 </div>
 
-                <!-- الحساب -->
                 <div class="acc-section">
                     <div class="section-label" id="accountSectionAccount">⚙️ الحساب</div>
                     <div class="section-divider"></div>
                     <div class="acc-card" onclick="handleLogout()" style="border-color:var(--red);">
-                        <div class="ac-icon red"><span class="app-icon"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span></div>
+                        <div class="ac-icon red"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span></div>
                         <div class="ac-info"><span class="ac-title" id="accountLogout" style="color:var(--red);">تسجيل الخروج</span><span class="ac-sub" id="accountLogoutSub">إنهاء الجلسة الحالية</span></div>
                         <span class="ac-arrow">›</span>
                     </div>
@@ -3757,7 +4388,7 @@
             <div class="page-top">
                 <div class="page-left">
                     <h1 id="profileEditTitle">
-                        <span class="icon-navy"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="m4 16 10-10 4 4L8 20l-4 1 1-5Z"/><path d="m13 7 4 4"/></svg></span></span>
+                        <span class="icon-navy"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="m4 16 10-10 4 4L8 20l-4 1 1-5Z"/><path d="m13 7 4 4"/></svg></span></span>
                         تعديل الملف الشخصي
                     </h1>
                     <p id="profileEditSub">تحديث بياناتك الشخصية</p>
@@ -3767,6 +4398,22 @@
             <div class="profile-edit-section">
                 <div id="profileEditError" style="color:var(--red);font-size:12px;margin-bottom:10px;display:none;"></div>
                 <div id="profileEditSuccess" style="color:var(--green);font-size:12px;margin-bottom:10px;display:none;"></div>
+
+                <!-- Profile Picture Upload -->
+                <div style="text-align:center;margin-bottom:16px;">
+                    <div class="profile-pic-wrapper" style="margin:0 auto;" onclick="document.getElementById('profilePicEditInput').click()">
+                        <div class="avatar" style="width:80px;height:80px;margin:0 auto;">
+                            <img id="profilePicEditImg" src="" alt="Profile" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%;">
+                            <span class="initials" id="profilePicEditInitials" style="font-size:32px;">م</span>
+                            <div class="upload-overlay">
+                                <span>📷<br><span style="font-size:10px;">تغيير</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="file" id="profilePicEditInput" accept="image/*" style="display:none;" onchange="uploadProfilePictureEdit(event)">
+                    <p style="font-size:10px;color:var(--muted);margin-top:4px;">انقر على الصورة لتغييرها</p>
+                </div>
+
                 <div class="field"><label>الاسم الرباعي <span class="required">*</span></label><input type="text" id="editFullName" placeholder="الاسم الكامل"></div>
                 <div class="field"><label>البريد الإلكتروني <span class="required">*</span></label><input type="email" id="editEmail" placeholder="name@domain.com"></div>
                 <div class="field"><label>رقم الهاتف <span class="required">*</span></label><input type="tel" id="editPhone" placeholder="01012345678"></div>
@@ -3795,7 +4442,7 @@
             <div class="page-top">
                 <div class="page-left">
                     <h1 id="appointmentsTitle">
-                        <span class="icon-navy"><span class="app-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span></span>
+                        <span class="icon-navy"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span></span>
                         مواعيدي
                     </h1>
                     <p id="appointmentsSub">إدارة المواعيد مع وكلائنا</p>
@@ -3812,7 +4459,7 @@
             <div class="page-top">
                 <div class="page-left">
                     <h1 id="paymentsTitle">
-                        <span class="icon-green"><span class="app-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M8 12h8"/></svg></span></span>
+                        <span class="icon-green"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M8 12h8"/></svg></span></span>
                         الدفع والفواتير
                     </h1>
                     <p id="paymentsSub">إدارة المدفوعات والفواتير</p>
@@ -3854,7 +4501,7 @@
             <div class="page-top">
                 <div class="page-left">
                     <h1 id="analyticsTitle">
-                        <span class="icon-purple"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-9"/></svg></span></span>
+                        <span class="icon-purple"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-9"/></svg></span></span>
                         التحليلات والتقارير
                     </h1>
                     <p id="analyticsSub">نظرة شاملة على أدائك التأميني</p>
@@ -3888,7 +4535,7 @@
             <div class="page-top">
                 <div class="page-left">
                     <h1 id="exportTitle">
-                        <span class="icon-orange"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 10v10h16V10"/><path d="M12 3v12M8 11l4 4 4-4"/></svg></span></span>
+                        <span class="icon-orange"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M4 10v10h16V10"/><path d="M12 3v12M8 11l4 4 4-4"/></svg></span></span>
                         تصدير البيانات
                     </h1>
                     <p id="exportSub">تصدير بياناتك بصيغ مختلفة</p>
@@ -3918,23 +4565,23 @@
         <!-- ============================================================ -->
         <div class="navbar" id="mainNavbar">
             <button class="nav-item on" id="nav-home" onclick="switchTab('home')">
-                <span class="nav-icon icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></svg></span></span>
+                <span class="nav-icon icon-gold"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></svg></span></span>
                 <span id="navHome">الرئيسية</span>
             </button>
             <button class="nav-item" id="nav-policies" onclick="switchTab('policies')">
-                <span class="nav-icon icon-navy"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span></span>
+                <span class="nav-icon icon-navy"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span></span>
                 <span id="navPolicies">وثائقي</span>
             </button>
             <button class="nav-item" id="nav-products" onclick="switchTab('products')">
-                <span class="nav-icon icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8 12 2.5 2.5L16 9"/></svg></span></span>
+                <span class="nav-icon icon-gold"><span class="app-icon animated spin"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8 12 2.5 2.5L16 9"/></svg></span></span>
                 <span id="navProducts">المنتجات</span>
             </button>
             <button class="nav-item" id="nav-documents" onclick="switchTab('documents')">
-                <span class="nav-icon icon-purple"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10H3z"/></svg></span></span>
+                <span class="nav-icon icon-purple"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10H3z"/></svg></span></span>
                 <span id="navDocuments">المستندات</span>
             </button>
             <button class="nav-item" id="nav-account" onclick="switchTab('account')">
-                <span class="nav-icon icon-navy"><span class="app-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20c1-4 3-6 7-6s6 2 7 6"/></svg></span></span>
+                <span class="nav-icon icon-navy"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20c1-4 3-6 7-6s6 2 7 6"/></svg></span></span>
                 <span id="navAccount">حسابي</span>
             </button>
         </div>
@@ -3952,7 +4599,7 @@
             </div>
             <div class="chat-input-area">
                 <input type="text" id="chatInputWidget" placeholder="اكتب رسالتك..." onkeydown="if(event.key==='Enter')sendChatMessage()">
-                <button onclick="sendChatMessage()"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg></span></button>
+                <button onclick="sendChatMessage()"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg></span></button>
             </div>
         </div>
 
@@ -3991,7 +4638,7 @@
                 <div class="grabber"></div>
                 <div class="close-x" onclick="closeModal('uploadDocModal')">✕</div>
                 <h2 id="uploadTitle">
-                    <span class="icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M5 20h14"/></svg></span></span>
+                    <span class="icon-gold"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M5 20h14"/></svg></span></span>
                     رفع مستند جديد
                 </h2>
                 <div class="sub" id="uploadSub">سيتم مراجعة المستند وتغيير حالته إلى قيد التحقق</div>
@@ -4001,7 +4648,7 @@
                 </div>
                 <div class="field"><label id="uploadFileLabel">اختر الملف (صورة أو PDF)</label><input type="file" id="upDocFile" accept="image/*,application/pdf"></div><progress id="uploadProgress" max="100" value="0" style="display:none;width:100%;height:8px;margin:-4px 0 12px;border-radius:10px;accent-color:var(--gold);"></progress>
                 <div id="uploadError" style="color:var(--red);font-size:12px;margin-top:8px;display:none;"></div>
-                <div class="actions"><button class="btn-gold" id="uploadBtn" onclick="processDocUpload()"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M5 20h14"/></svg></span> رفع وتأكيد</button></div>
+                <div class="actions"><button class="btn-gold" id="uploadBtn" onclick="processDocUpload()"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M5 20h14"/></svg></span> رفع وتأكيد</button></div>
             </div>
         </div>
 
@@ -4010,7 +4657,7 @@
                 <div class="grabber"></div>
                 <div class="close-x" onclick="closeModal('termsModal')">✕</div>
                 <h2 id="termsTitle">
-                    <span class="icon-navy"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span></span>
+                    <span class="icon-navy"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span></span>
                     الشروط والأحكام
                 </h2>
                 <div class="sub" style="margin-bottom:12px;" id="termsSub">يرجى قراءة الشروط والأحكام بعناية قبل الموافقة</div>
@@ -4029,7 +4676,7 @@
                 <div class="grabber"></div>
                 <div class="close-x" onclick="closeModal('wheelModal')">✕</div>
                 <h2 id="wheelTitle">
-                    <span class="icon-gold"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2 7h20v3H2z"/><path d="M12 7v13M12 7c-4 0-6-2-4-4 2-2 4 1 4 4Zm0 0c4 0 6-2 4-4-2-2-4 1-4 4Z"/></svg></span></span>
+                    <span class="icon-gold"><span class="app-icon animated spin"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2 7h20v3H2z"/><path d="M12 7v13M12 7c-4 0-6-2-4-4 2-2 4 1 4 4Zm0 0c4 0 6-2 4-4-2-2-4 1-4 4Z"/></svg></span></span>
                     جرب حظك
                 </h2>
                 <div class="sub" id="wheelSub">جرب حظك واربح جوائز حصرية</div>
@@ -4041,7 +4688,7 @@
             <div class="sheet">
                 <div class="grabber"></div>
                 <div class="close-x" onclick="closeModal('newAppointmentModal')">✕</div>
-                <h2 id="newApptTitle"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span> حجز موعد جديد</h2>
+                <h2 id="newApptTitle"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span> حجز موعد جديد</h2>
                 <div class="sub" id="newApptSub">اختر تاريخ ووقت مناسبين</div>
                 <div id="newApptError" style="color:var(--red);font-size:12px;margin-bottom:10px;display:none;"></div>
                 <div class="field"><label>نوع الموعد</label>
@@ -4050,7 +4697,7 @@
                 <div class="field"><label>التاريخ</label><input type="date" id="apptDate"></div>
                 <div class="field"><label>الوقت</label><input type="time" id="apptTime"></div>
                 <div class="field"><label>ملاحظات إضافية</label><textarea id="apptNotes" placeholder="أي تفاصيل إضافية..." rows="2"></textarea></div>
-                <button class="btn-primary" onclick="bookAppointment()">📅 حجز الموعد</button>
+                <button class="btn-primary" id="appointmentBtn" onclick="bookAppointment()">📅 حجز الموعد</button>
             </div>
         </div>
 
@@ -4103,7 +4750,8 @@
             language: 'ar',
             selectedPaymentMethod: 'card',
             chatUnsub: null,
-            msgUnsub: null
+            msgUnsub: null,
+            profilePicture: null
         };
 
         var AUTH_READY = null;
@@ -4630,7 +5278,7 @@
         }
 
         // ============================================================ //
-        // SCREEN NAVIGATION (with navbar visibility fix)               //
+        // SCREEN NAVIGATION                                             //
         // ============================================================ //
         function showScreen(id) {
             var target = document.getElementById(id);
@@ -4638,7 +5286,6 @@
             document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
             target.classList.add('active');
 
-            // Conditionally show/hide navbar
             var nav = document.getElementById('mainNavbar');
             if (nav) {
                 if (id === 'login' || id === 'signup') {
@@ -4663,17 +5310,19 @@
                 if (err) { err.style.display = 'none';
                     err.textContent = ''; }
             }
-            // Update language on signup page
             if (id === 'signup') {
                 var langSel = document.getElementById('signupLanguage');
                 if (langSel) langSel.value = STATE.language;
             }
-            // Update login language toggle button text
             if (id === 'login') {
                 var loginLangBtn = document.getElementById('loginLangToggle');
                 if (loginLangBtn) {
                     loginLangBtn.textContent = STATE.language === 'ar' ? 'EN' : 'عربي';
                 }
+            }
+            // Update profile picture on account
+            if (id === 'account' || id === 'profileEdit') {
+                updateProfilePictureUI();
             }
         }
 
@@ -4721,27 +5370,21 @@
         function toggleLanguage() {
             STATE.language = STATE.language === 'ar' ? 'en' : 'ar';
             saveLanguagePreference();
-            // Update all static texts
             updateAllTexts();
-            // Update login page language toggle button
             var loginLangBtn = document.getElementById('loginLangToggle');
             if (loginLangBtn) {
                 loginLangBtn.textContent = STATE.language === 'ar' ? 'EN' : 'عربي';
             }
-            // Update signup language selector
             var signupLang = document.getElementById('signupLanguage');
             if (signupLang) signupLang.value = STATE.language;
-            // If logged in, re-render dynamic content
-            if (STATE.currentUser) {
-                renderAll();
-            } else {
-                // Still update account stats if user is not logged in? Not needed.
-            }
-            // Ensure direction and lang attributes
+            var langBtn = document.getElementById('languageToggle');
+            if (langBtn) langBtn.textContent = STATE.language === 'ar' ? 'EN' : 'عربي';
             document.documentElement.lang = STATE.language;
             document.documentElement.dir = STATE.language === 'ar' ? 'rtl' : 'ltr';
             document.body.dir = document.documentElement.dir;
-            // Force slider rebuild on language change
+            if (STATE.currentUser) {
+                renderAll();
+            }
             setTimeout(function() {
                 if (STATE.currentUser) {
                     renderCompaniesSlider();
@@ -4751,22 +5394,21 @@
         }
 
         function ensureLanguageToggle() {
-            // The global language toggle button is already in the top bar for logged-in users,
-            // but we also have separate toggles on login and signup pages.
-            // We'll ensure the global toggle (in topbar) exists only when logged in.
-            // For login/signup, we've added dedicated buttons/selectors.
-            // This function will not create duplicate global toggles.
-            if (document.getElementById('languageToggle')) return;
-            // Only create global toggle if user is logged in (topbar exists)
             var topbar = document.querySelector('.pro-topbar .topbar-right');
             if (topbar && STATE.currentUser) {
-                var b = document.createElement('button');
-                b.id = 'languageToggle';
-                b.className = 'lang-toggle';
-                b.type = 'button';
-                b.onclick = toggleLanguage;
-                b.textContent = STATE.language === 'ar' ? 'EN' : 'عربي';
-                topbar.insertBefore(b, topbar.firstChild);
+                var existing = document.getElementById('languageToggle');
+                if (!existing) {
+                    var b = document.createElement('button');
+                    b.id = 'languageToggle';
+                    b.className = 'lang-toggle';
+                    b.type = 'button';
+                    b.onclick = toggleLanguage;
+                    b.textContent = STATE.language === 'ar' ? 'EN' : 'عربي';
+                    b.style.cssText = 'background:rgba(255,255,255,0.1);color:#fff;border-color:rgba(255,255,255,0.2);';
+                    topbar.insertBefore(b, topbar.firstChild);
+                } else {
+                    existing.textContent = STATE.language === 'ar' ? 'EN' : 'عربي';
+                }
             }
         }
 
@@ -4917,7 +5559,6 @@
                 employees = parseInt(document.getElementById('regEmployees').value, 10) || 0;
             var terms = document.getElementById('termsCheck'),
                 err = document.getElementById('signupError');
-            // Get language from signup form
             var signupLang = document.getElementById('signupLanguage') ? document.getElementById('signupLanguage').value : 'ar';
             STATE.language = normalizeLanguage(signupLang);
             err.style.display = 'none';
@@ -5011,6 +5652,7 @@
             STATE.currentChat = null;
             STATE.wheelLastSpin = null;
             STATE.wheelResult = null;
+            STATE.profilePicture = null;
             assessmentCache = {};
             activeObjectUrls.forEach(function(u) { try { URL.revokeObjectURL(u); } catch (e) {} });
             activeObjectUrls = [];
@@ -5128,6 +5770,91 @@
         }
 
         // ============================================================ //
+        // PROFILE PICTURE                                               //
+        // ============================================================ //
+        function uploadProfilePicture(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+            if (!file.type.startsWith('image/')) {
+                alert(STATE.language === 'ar' ? 'يرجى اختيار ملف صورة' : 'Please select an image file');
+                return;
+            }
+            if (file.size > MAX_UPLOAD_BYTES) {
+                alert(STATE.language === 'ar' ? 'حجم الصورة أكبر من 10MB' : 'Image size exceeds 10MB');
+                return;
+            }
+            showLoading('profileSaveBtn', STATE.language === 'ar' ? 'جاري رفع الصورة...' : 'Uploading image...');
+            uploadToCloudinary(file, function(pct) {
+                var btn = document.getElementById('profileSaveBtn');
+                if (btn) btn.innerHTML = '<span class="spinner"></span> ' + (STATE.language === 'ar' ? 'جاري الرفع ' : 'Uploading ') + pct + '%';
+            }).then(function(result) {
+                var url = result.secure_url;
+                return db.collection('clients').doc(STATE.currentUser.uid).set({ profilePicture: url }, { merge: true }).then(function() {
+                    STATE.userData.profilePicture = url;
+                    STATE.profilePicture = url;
+                    updateProfilePictureUI();
+                    hideLoading('profileSaveBtn');
+                    var succ = document.getElementById('profileEditSuccess');
+                    if (succ) { succ.textContent = STATE.language === 'ar' ? '✅ تم تحديث الصورة الشخصية بنجاح' : '✅ Profile picture updated successfully';
+                        succ.style.display = 'block';
+                        setTimeout(function() { succ.style.display = 'none'; }, 3000); }
+                });
+            }).catch(function(e) {
+                hideLoading('profileSaveBtn');
+                var err = document.getElementById('profileEditError');
+                if (err) { err.textContent = (STATE.language === 'ar' ? 'فشل رفع الصورة: ' : 'Failed to upload image: ') + friendlyFirebaseError(e);
+                    err.style.display = 'block'; }
+            });
+        }
+
+        function uploadProfilePictureEdit(event) {
+            // Same as uploadProfilePicture but for the edit page
+            uploadProfilePicture(event);
+        }
+
+        function updateProfilePictureUI() {
+            var url = STATE.userData && STATE.userData.profilePicture;
+            var name = STATE.currentUser ? STATE.currentUser.name : '';
+            var initial = name ? name.charAt(0) : 'م';
+
+            // Account header
+            var img = document.getElementById('accAvatarImg');
+            var initials = document.getElementById('accAvatarInitials');
+            if (url) {
+                if (img) { img.src = url;
+                    img.style.display = 'block'; }
+                if (initials) initials.style.display = 'none';
+            } else {
+                if (img) { img.style.display = 'none'; }
+                if (initials) { initials.style.display = 'block';
+                    initials.textContent = initial; }
+            }
+
+            // Profile edit page
+            var editImg = document.getElementById('profilePicEditImg');
+            var editInit = document.getElementById('profilePicEditInitials');
+            if (url) {
+                if (editImg) { editImg.src = url;
+                    editImg.style.display = 'block'; }
+                if (editInit) editInit.style.display = 'none';
+            } else {
+                if (editImg) editImg.style.display = 'none';
+                if (editInit) { editInit.style.display = 'block';
+                    editInit.textContent = initial; }
+            }
+
+            // Home page avatar (if any)
+            var homeAvatar = document.querySelector('.topbar-left .avatar-sm');
+            if (homeAvatar) {
+                if (url) {
+                    homeAvatar.innerHTML = '<img src="' + esc(url) + '" alt="Profile">';
+                } else {
+                    homeAvatar.innerHTML = '<span class="initials">' + esc(initial) + '</span>';
+                }
+            }
+        }
+
+        // ============================================================ //
         // PROFILE EDIT                                                  //
         // ============================================================ //
         function loadProfileForEdit() {
@@ -5152,6 +5879,7 @@
                 document.getElementById('editBusinessActivityField').style.display = isCorp ? 'block' : 'none';
                 document.getElementById('editEmployeesField').style.display = isCorp ? 'block' : 'none';
             };
+            updateProfilePictureUI();
         }
 
         function saveProfile() {
@@ -5656,11 +6384,9 @@
             setText('accStatPolicies', pol.length);
             setText('accStatActive', active.length);
             setText('accStatScore', calc.score + '%');
-            // Translate stats labels
             setText('accStatPoliciesLabel', getText('accStatPolicies'));
             setText('accStatActiveLabel', getText('accStatActive'));
             setText('accStatScoreLabel', getText('accStatScore'));
-            // Badge
             var badge = document.getElementById('accBadge');
             if (badge) {
                 if (calc.score >= 76) badge.textContent = '✅ ' + (STATE.language === 'ar' ? 'محمي بالكامل' : 'Fully Protected');
@@ -5673,10 +6399,11 @@
             var email = (STATE.currentUser && STATE.currentUser.email) || STATE.userData.email || STATE.userData.loginEmail || '';
             setText('accName', name || '—');
             setText('accEmail', email || '—');
-            setText('accAvatar', (name && name.charAt(0)) || 'م');
-            // Live chat badge
+            var initialsEl = document.getElementById('accAvatarInitials');
+            if (initialsEl) initialsEl.textContent = (name && name.charAt(0)) || 'م';
             var liveBadge = document.getElementById('accountLiveChatBadge');
             if (liveBadge) liveBadge.textContent = getText('liveChatBadge');
+            updateProfilePictureUI();
         }
 
         // ============================================================ //
@@ -5713,6 +6440,7 @@
             updateNotificationDot();
             updateAllTexts();
             normalizeIcons();
+            updateProfilePictureUI();
         }
 
         function renderPoliciesList(containerId, list) {
@@ -6991,27 +7719,20 @@
                 var el = document.getElementById(id);
                 if (el) el.textContent = t(key);
             });
-            // Update dynamic parts like login switch and signup switch
             setHTML('loginSwitch', esc(t('loginSwitch')) + '<b onclick="showScreen(\'signup\')">' + esc(t('loginSwitchLink')) + '</b>');
             setHTML('signupSwitch', esc(t('signupSwitch')) + '<b onclick="showScreen(\'login\')">' + esc(t('signupSwitchLink')) + '</b>');
-            // Update language direction
             document.documentElement.lang = STATE.language;
             document.documentElement.dir = STATE.language === 'ar' ? 'rtl' : 'ltr';
             document.body.dir = document.documentElement.dir;
-            // Update login page language toggle
             var loginLangBtn = document.getElementById('loginLangToggle');
             if (loginLangBtn) loginLangBtn.textContent = STATE.language === 'ar' ? 'EN' : 'عربي';
-            // Update signup language selector
             var signupLang = document.getElementById('signupLanguage');
             if (signupLang) signupLang.value = STATE.language;
-            // Update global language toggle if exists
             var langBtn = document.getElementById('languageToggle');
             if (langBtn) langBtn.textContent = STATE.language === 'ar' ? 'EN' : 'عربي';
-            // Update account stats labels via updateAccountStats if logged in
             if (STATE.currentUser) {
                 updateAccountStats();
             }
-            // Update onboarding texts
             updateOnboardingStep(onboardingStep);
         }
 
@@ -7022,10 +7743,14 @@
             setText('userNameHome', name);
             setText('accName', name);
             setText('accEmail', email || '—');
-            setText('accAvatar', name.charAt(0) || '—');
+            var initialsEl = document.getElementById('accAvatarInitials');
+            if (initialsEl) initialsEl.textContent = name.charAt(0) || '—';
+            var editInit = document.getElementById('profilePicEditInitials');
+            if (editInit) editInit.textContent = name.charAt(0) || '—';
             setText('welcomeText', getText('welcomeText'));
             ensureLanguageToggle();
             updateAccountStats();
+            updateProfilePictureUI();
         }
 
         function normalizeIcons(root) {
@@ -7074,6 +7799,7 @@
                 };
                 if (STATE.userData.wheelLastSpin) STATE.wheelLastSpin = STATE.userData.wheelLastSpin;
                 if (STATE.userData.wheelResult) STATE.wheelResult = STATE.userData.wheelResult;
+                if (STATE.userData.profilePicture) STATE.profilePicture = STATE.userData.profilePicture;
                 var stored = STATE.userData.language;
                 if (stored === 'ar' || stored === 'en') STATE.language = stored;
                 updateUserUI(STATE.userData);
@@ -7127,6 +7853,7 @@
                 startChatListener();
                 renderAll();
                 setTimeout(function() { renderCompaniesSlider(); }, 200);
+                updateProfilePictureUI();
             });
         }
 
@@ -7162,30 +7889,40 @@
                     selectPaymentMethod(this.dataset.method);
                 });
             });
-            // Signup language selector - update translations on change
             var signupLang = document.getElementById('signupLanguage');
             if (signupLang) {
                 signupLang.addEventListener('change', function() {
                     var lang = this.value;
                     STATE.language = normalizeLanguage(lang);
                     updateAllTexts();
-                    // Also update login toggle if visible
                     var loginLangBtn = document.getElementById('loginLangToggle');
                     if (loginLangBtn) loginLangBtn.textContent = lang === 'ar' ? 'EN' : 'عربي';
-                    // Save preference
                     saveLanguagePreference();
-                    // Re-render if logged in
                     if (STATE.currentUser) {
                         renderAll();
                     }
                 });
             }
-            // Login language toggle
             var loginLangBtn = document.getElementById('loginLangToggle');
             if (loginLangBtn) {
                 loginLangBtn.onclick = function() {
                     toggleLanguage();
                 };
+            }
+            // Profile picture input handler
+            var picInput = document.getElementById('profilePicInput');
+            if (picInput) {
+                picInput.addEventListener('change', function(e) {
+                    uploadProfilePicture(e);
+                    this.value = '';
+                });
+            }
+            var picEditInput = document.getElementById('profilePicEditInput');
+            if (picEditInput) {
+                picEditInput.addEventListener('change', function(e) {
+                    uploadProfilePictureEdit(e);
+                    this.value = '';
+                });
             }
         }
 
@@ -7251,11 +7988,11 @@
             };
         }
 
-        console.log('✅ SecurePath v3.0 — Fully fixed language translation and UI');
-        console.log('📋 All texts are now fully translatable with proper language switching.');
-        console.log('📋 Account page labels and subtexts are now dynamic.');
-        console.log('📋 Navbar hidden on login/signup.');
-        console.log('📋 Language toggle available on login and signup pages.');
+        console.log('✅ SecurePath v4.0 — Language fix + Profile Picture + Animated Icons');
+        console.log('📋 Language switching now updates ALL texts including dynamic content.');
+        console.log('📷 Profile picture upload added with Cloudinary integration.');
+        console.log('🎨 Icons are now animated with pulse, bounce, float, spin and shimmer effects.');
+        console.log('🔄 All dynamic content re-renders on language change.');
     </script>
 </body>
 </html>
