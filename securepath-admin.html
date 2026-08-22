@@ -397,7 +397,9 @@
           <button data-view="renewals" onclick="showView('renewals',this)"><span class="icon"><i class="fas fa-sync-alt"></i></span><span class="label">التجديدات</span></button>
           <button data-view="offers" onclick="showView('offers',this)"><span class="icon"><i class="fas fa-tags"></i></span><span class="label">العروض</span></button>
           <button data-view="companyAds" onclick="showView('companyAds',this)"><span class="icon"><i class="fas fa-bullhorn"></i></span><span class="label">إعلانات شركات</span></button>
+          <button data-view="leads" onclick="showView('leads',this)"><span class="icon"><i class="fas fa-user-tag"></i></span><span class="label">العملاء المحتملون</span><b id="leadsBadge" class="badge hidden">0</b></button>
           <div class="nav-section">الإعدادات</div>
+          <button data-view="brokerSettings" onclick="showView('brokerSettings',this)"><span class="icon"><i class="fas fa-id-card"></i></span><span class="label">بيانات الوسيط</span></button>
           <button data-view="companies" onclick="showView('companies',this)"><span class="icon"><i class="fas fa-building"></i></span><span class="label">شركات التأمين</span></button>
           <button data-view="types" onclick="showView('types',this)"><span class="icon"><i class="fas fa-list-ul"></i></span><span class="label">أنواع التأمين</span></button>
           <button data-view="products" onclick="showView('products',this)"><span class="icon"><i class="fas fa-box"></i></span><span class="label">المنتجات</span></button>
@@ -493,6 +495,54 @@
               </div>
             </div>
             <div class="grid grid-3" id="adsGrid"></div>
+          </div>
+
+          <!-- Leads (العملاء المحتملون) -->
+          <div id="v-leads" class="view">
+            <div class="stats-row" style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+              <div class="stat-card"><div class="stat-value" id="leadsStatTotal">0</div><div class="stat-label">إجمالي</div></div>
+              <div class="stat-card"><div class="stat-value" id="leadsStatNew">0</div><div class="stat-label">جديد</div></div>
+              <div class="stat-card"><div class="stat-value" id="leadsStatContacted">0</div><div class="stat-label">تم التواصل</div></div>
+              <div class="stat-card"><div class="stat-value" id="leadsStatConverted">0</div><div class="stat-label">تم التحويل</div></div>
+              <div class="stat-card"><div class="stat-value" id="leadsStatRate">0%</div><div class="stat-label">معدل التحويل</div></div>
+            </div>
+            <div class="toolbar">
+              <div class="search"><input id="leadSearch" oninput="renderLeads()" placeholder="ابحث بالاسم أو الهاتف أو الشركة"></div>
+              <div class="actions">
+                <select id="leadStatusFilter" onchange="renderLeads()" style="padding:8px 12px;border-radius:8px;border:1px solid var(--line,#ddd);">
+                  <option value="">كل الحالات</option>
+                  <option value="new">جديد</option>
+                  <option value="contacted">تم التواصل</option>
+                  <option value="quoted">تم عرض السعر</option>
+                  <option value="converted">تم التحويل</option>
+                  <option value="lost">فاقد</option>
+                </select>
+                <select id="leadSourceFilter" onchange="renderLeads()" style="padding:8px 12px;border-radius:8px;border:1px solid var(--line,#ddd);">
+                  <option value="">كل المصادر</option>
+                  <option value="offer">عرض</option>
+                  <option value="company_ad">إعلان شركة</option>
+                  <option value="assessment">تقييم الحماية</option>
+                  <option value="renewal">تجديد</option>
+                  <option value="referral">إحالة</option>
+                </select>
+              </div>
+            </div>
+            <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr>
+              <th>العميل</th><th>الهاتف</th><th>المصدر</th><th>النوع/التفاصيل</th><th>الشركة</th><th>الحالة</th><th>التاريخ</th><th></th>
+            </tr></thead><tbody id="leadsTableBody"></tbody></table></div></div></div>
+          </div>
+
+          <!-- Broker Settings (بيانات الوسيط) -->
+          <div id="v-brokerSettings" class="view">
+            <div style="max-width:560px;background:var(--card,#fff);border-radius:12px;padding:20px;border:1px solid var(--line,#eee);">
+              <h3 style="margin-top:0;">بيانات الوسيط المرخّص</h3>
+              <p style="font-size:12px;color:var(--muted,#888);margin-bottom:16px;">هذه البيانات تظهر للعملاء في التطبيق كإفصاح إلزامي وفق قانون تنظيم الرقابة على التأمين.</p>
+              <div class="field" style="margin-bottom:12px;"><label>اسم الوسيط</label><input id="brokerNameInput" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--line,#ddd);" placeholder="اسم الوسيط الحر"></div>
+              <div class="field" style="margin-bottom:12px;"><label>رقم الترخيص (الهيئة العامة للرقابة المالية)</label><input id="brokerLicenseInput" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--line,#ddd);" placeholder="مثال: FRA-12345"></div>
+              <div class="field" style="margin-bottom:12px;"><label>رقم واتساب التواصل</label><input id="brokerWhatsappInput" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--line,#ddd);" placeholder="201xxxxxxxxx"></div>
+              <button class="btn btn-primary" onclick="saveBrokerSettings()">حفظ البيانات</button>
+              <div id="brokerSettingsMsg" style="font-size:12px;margin-top:10px;"></div>
+            </div>
           </div>
 
           <!-- Messages -->
@@ -707,7 +757,7 @@
     const APP_STATE = {
       clients: [], policies: [], payments: [], claims: [], documents: [],
       messages: [], notifications: [], activity: [], products: [], companies: [],
-      assessments: [], types: [], offers: [], companyAds: [],
+      assessments: [], types: [], offers: [], companyAds: [], leads: [],
        loaded: false, currentUser: null, currentChat: null,
        syncing: false, lastSyncAt: null, syncErrors: []
     };
@@ -1015,6 +1065,8 @@
       startActivityListener();
       startNotificationsListener();
       startDocumentsListener();
+      startLeadsListener();
+      loadBrokerSettings();
        toast(APP_STATE.syncErrors.length ? '⚠️ تم التحميل مع وجود بيانات لم تكتمل' : '✅ تم تحميل البيانات بنجاح', APP_STATE.syncErrors.length > 0);
     }
 
@@ -1070,7 +1122,7 @@
           if (!data.clientId && (data.uid || data.userId)) data.clientId = data.uid || data.userId;
           if (!data.fileName && (data.name || data.docName || data.filename)) data.fileName = data.name || data.docName || data.filename;
           if (!data.fileType && (data.type || data.docType || data.category)) data.fileType = data.type || data.docType || data.category;
-          if (!data.fileUrl && (data.url || data.downloadUrl || data.secure_url)) data.fileUrl = data.url || data.downloadUrl || data.secure_url;
+          if (!data.fileUrl && (data.downloadURL || data.url || data.downloadUrl || data.secure_url)) data.fileUrl = data.downloadURL || data.url || data.downloadUrl || data.secure_url;
           if (!data.verificationStatus) data.verificationStatus = data.status || 'pending';
           if (!data.createdAt && (data.uploadedAt || data.timestamp)) data.createdAt = data.uploadedAt || data.timestamp;
           if (!data.uploadedBy) data.uploadedBy = 'client';
@@ -1079,6 +1131,105 @@
         renderDocuments();
         renderDashboard();
       });
+    }
+
+    // ================================================================
+    // LEADS (العملاء المحتملون) — real-time, feeds the "indirect sale" funnel:
+    // every buy-intent click in the client app (offer/ad/assessment/renewal/referral)
+    // lands here so the broker can follow up and track conversion.
+    // ================================================================
+    function startLeadsListener() {
+      if (listeners.leads) listeners.leads();
+      listeners.leads = db.collection('leads').onSnapshot(snap => {
+        APP_STATE.leads = snap.docs.map(d => ({ ...d.data(), id: d.id })).sort((a, b) => ms(b.createdAt) - ms(a.createdAt));
+        renderLeads();
+        const newCount = APP_STATE.leads.filter(l => (l.status || 'new') === 'new').length;
+        const badge = document.getElementById('leadsBadge');
+        if (badge) { badge.textContent = newCount;
+          badge.classList.toggle('hidden', newCount === 0); }
+      });
+    }
+
+    const LEAD_SOURCE_LABELS = { offer: 'عرض', company_ad: 'إعلان شركة', assessment: 'تقييم الحماية', renewal: 'تجديد', referral: 'إحالة' };
+    const LEAD_STATUS_LABELS = { new: 'جديد', contacted: 'تم التواصل', quoted: 'تم عرض السعر', converted: 'تم التحويل', lost: 'فاقد' };
+
+    function renderLeads() {
+      const body = document.getElementById('leadsTableBody');
+      if (!body) return;
+      const q = (document.getElementById('leadSearch')?.value || '').toLowerCase();
+      const statusF = document.getElementById('leadStatusFilter')?.value || '';
+      const sourceF = document.getElementById('leadSourceFilter')?.value || '';
+      let leads = APP_STATE.leads || [];
+      if (statusF) leads = leads.filter(l => (l.status || 'new') === statusF);
+      if (sourceF) leads = leads.filter(l => l.source === sourceF);
+      if (q) leads = leads.filter(l => [l.clientName, l.phone, l.companyName, l.company, l.message].join(' ').toLowerCase().includes(q));
+      body.innerHTML = leads.length ? leads.map(l => `
+        <tr>
+          <td>${esc(l.clientName || '—')}</td>
+          <td>${esc(l.phone || '—')}</td>
+          <td>${esc(LEAD_SOURCE_LABELS[l.source] || l.source || '—')}</td>
+          <td>${esc(l.message || l.insuranceType || '—')}</td>
+          <td>${esc(l.companyName || l.company || '—')}</td>
+          <td><select onchange="updateLeadStatus('${l.id}', this.value)" style="padding:4px 8px;border-radius:6px;">
+            ${Object.keys(LEAD_STATUS_LABELS).map(s => `<option value="${s}" ${((l.status || 'new') === s) ? 'selected' : ''}>${LEAD_STATUS_LABELS[s]}</option>`).join('')}
+          </select></td>
+          <td>${date(l.createdAt)}</td>
+          <td><button class="btn btn-outline btn-xs" onclick="deleteLead('${l.id}')"><i class="fas fa-trash"></i></button></td>
+        </tr>`).join('') : `<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--muted,#999);">لا يوجد عملاء محتملون بعد</td></tr>`;
+      const total = (APP_STATE.leads || []).length;
+      const newC = (APP_STATE.leads || []).filter(l => (l.status || 'new') === 'new').length;
+      const contactedC = (APP_STATE.leads || []).filter(l => l.status === 'contacted' || l.status === 'quoted').length;
+      const convertedC = (APP_STATE.leads || []).filter(l => l.status === 'converted').length;
+      document.getElementById('leadsStatTotal').textContent = total;
+      document.getElementById('leadsStatNew').textContent = newC;
+      document.getElementById('leadsStatContacted').textContent = contactedC;
+      document.getElementById('leadsStatConverted').textContent = convertedC;
+      document.getElementById('leadsStatRate').textContent = total ? Math.round((convertedC / total) * 100) + '%' : '0%';
+    }
+
+    async function updateLeadStatus(id, status) {
+      await db.collection('leads').doc(id).update({ status, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+      toast('✅ تم تحديث الحالة');
+    }
+
+    async function deleteLead(id) {
+      if (!confirm('هل أنت متأكد من حذف هذا العميل المحتمل؟')) return;
+      await db.collection('leads').doc(id).delete();
+      toast('✅ تم الحذف');
+    }
+
+    // ================================================================
+    // BROKER SETTINGS (بيانات الوسيط المرخّص) — read by the client app
+    // to display the mandatory broker-license disclosure.
+    // ================================================================
+    function loadBrokerSettings() {
+      db.collection('settings').doc('app').get().then(doc => {
+        const data = doc.exists ? doc.data() : {};
+        const nameEl = document.getElementById('brokerNameInput');
+        const licenseEl = document.getElementById('brokerLicenseInput');
+        const waEl = document.getElementById('brokerWhatsappInput');
+        if (nameEl) nameEl.value = data.brokerName || '';
+        if (licenseEl) licenseEl.value = data.brokerLicenseNumber || '';
+        if (waEl) waEl.value = data.brokerWhatsapp || '';
+      }).catch(() => {});
+    }
+
+    async function saveBrokerSettings() {
+      const data = {
+        brokerName: document.getElementById('brokerNameInput').value.trim(),
+        brokerLicenseNumber: document.getElementById('brokerLicenseInput').value.trim(),
+        brokerWhatsapp: document.getElementById('brokerWhatsappInput').value.trim(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      const msg = document.getElementById('brokerSettingsMsg');
+      try {
+        await db.collection('settings').doc('app').set(data, { merge: true });
+        msg.style.color = 'green';
+        msg.textContent = '✅ تم الحفظ بنجاح';
+      } catch (e) {
+        msg.style.color = 'red';
+        msg.textContent = '❌ ' + e.message;
+      }
     }
 
     // ================================================================
@@ -2240,15 +2391,17 @@
       document.querySelectorAll('.nav button').forEach(x => x.classList.remove('active'));
       const target = el || document.querySelector(`[data-view="${view}"]`);
       if (target) target.classList.add('active');
-      const titles = { dashboard: 'لوحة التحكم', clients: 'العملاء', policies: 'الوثائق', payments: 'المدفوعات', claims: 'المطالبات', documents: 'المستندات', renewals: 'التجديدات', companies: 'شركات التأمين', types: 'أنواع التأمين', products: 'المنتجات', reports: 'التقارير', assessments: 'تقييمات الحماية', compliance: 'الامتثال', messages: 'المحادثات', notifications: 'الإشعارات', activity: 'سجل النشاط', offers: 'العروض', companyAds: 'إعلانات شركات' };
-       const icons = { dashboard: 'fa-chart-pie', clients: 'fa-users', policies: 'fa-file-contract', payments: 'fa-coins', claims: 'fa-triangle-exclamation', documents: 'fa-paperclip', renewals: 'fa-arrows-rotate', companies: 'fa-building', types: 'fa-list-check', products: 'fa-box-open', reports: 'fa-chart-column', assessments: 'fa-shield-halved', compliance: 'fa-circle-check', messages: 'fa-comments', notifications: 'fa-bell', activity: 'fa-clock-rotate-left', offers: 'fa-tags', companyAds: 'fa-bullhorn' };
-      const subs = { dashboard: 'نظرة عامة', clients: 'إدارة العملاء', policies: 'إدارة الوثائق', payments: 'إدارة المدفوعات', claims: 'إدارة المطالبات', documents: 'إدارة المستندات', renewals: 'متابعة التجديدات', companies: 'إدارة الشركات', types: 'إدارة الأنواع', products: 'إدارة المنتجات', reports: 'تحليلات', assessments: 'تقييمات الحماية', compliance: 'مركز الامتثال', messages: 'المحادثات', notifications: 'الإشعارات', activity: 'سجل النشاطات', offers: 'العروض', companyAds: 'إدارة إعلانات الشركات' };
+      const titles = { dashboard: 'لوحة التحكم', clients: 'العملاء', policies: 'الوثائق', payments: 'المدفوعات', claims: 'المطالبات', documents: 'المستندات', renewals: 'التجديدات', companies: 'شركات التأمين', types: 'أنواع التأمين', products: 'المنتجات', reports: 'التقارير', assessments: 'تقييمات الحماية', compliance: 'الامتثال', messages: 'المحادثات', notifications: 'الإشعارات', activity: 'سجل النشاط', offers: 'العروض', companyAds: 'إعلانات شركات', leads: 'العملاء المحتملون', brokerSettings: 'بيانات الوسيط' };
+       const icons = { dashboard: 'fa-chart-pie', clients: 'fa-users', policies: 'fa-file-contract', payments: 'fa-coins', claims: 'fa-triangle-exclamation', documents: 'fa-paperclip', renewals: 'fa-arrows-rotate', companies: 'fa-building', types: 'fa-list-check', products: 'fa-box-open', reports: 'fa-chart-column', assessments: 'fa-shield-halved', compliance: 'fa-circle-check', messages: 'fa-comments', notifications: 'fa-bell', activity: 'fa-clock-rotate-left', offers: 'fa-tags', companyAds: 'fa-bullhorn', leads: 'fa-user-tag', brokerSettings: 'fa-id-card' };
+      const subs = { dashboard: 'نظرة عامة', clients: 'إدارة العملاء', policies: 'إدارة الوثائق', payments: 'إدارة المدفوعات', claims: 'إدارة المطالبات', documents: 'إدارة المستندات', renewals: 'متابعة التجديدات', companies: 'إدارة الشركات', types: 'إدارة الأنواع', products: 'إدارة المنتجات', reports: 'تحليلات', assessments: 'تقييمات الحماية', compliance: 'مركز الامتثال', messages: 'المحادثات', notifications: 'الإشعارات', activity: 'سجل النشاطات', offers: 'العروض', companyAds: 'إدارة إعلانات الشركات', leads: 'متابعة فرص البيع', brokerSettings: 'إفصاح الترخيص للعملاء' };
       document.getElementById('title').textContent = titles[view] || view;
        document.getElementById('pageIcon').innerHTML = `<i class="fas ${icons[view] || 'fa-chart-pie'}" aria-hidden="true"></i>`;
       document.getElementById('pageSub').textContent = subs[view] || '';
        toggleSidebar(false);
        if (window.location.hash !== '#' + view) history.replaceState(null, '', '#' + view);
       if (view === 'dashboard') renderDashboard();
+      if (view === 'leads') renderLeads();
+      if (view === 'brokerSettings') loadBrokerSettings();
     }
 
     // ================================================================
