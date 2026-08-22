@@ -17,7 +17,7 @@
        ================================================================ */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --navy: #0E2A5C; --navy-dark: #071D40; --navy-light: #1a3f7a;
+       --navy: #0E2A5C; --navy-dark: #071D40; --navy-light: #1a3f7a; --navy-50: #f2f6fb; --navy-100: #e7eef8; --navy-200: #cbd8e8;
       --gold: #F2BD63; --gold-light: #FFD98F; --gold-soft: #FFF2D7;
       --white: #ffffff; --paper: #F5F8FC; --paper-dark: #E8EEF6;
       --line: #E2E9F2; --line-soft: #EEF2F7;
@@ -37,24 +37,24 @@
       --font: 'Cairo', sans-serif; --font-heading: 'Tajawal', sans-serif;
     }
     [data-theme="dark"] {
-      --navy: #0a1a2f; --navy-dark: #030d1a; --navy-light: #1a2f4a;
-      --paper: #0f1724; --paper-dark: #1a2234;
-      --line: #2a3a4a; --line-soft: #1e2a3a;
-      --text: #e5e7eb; --text-secondary: #9ca3af; --muted: #6b7280;
-      --white: #1a2234; --gold-soft: #2d2416;
+       --navy: #102542; --navy-dark: #071321; --navy-light: #1d4168; --navy-50: #14263b; --navy-100: #1a3048; --navy-200: #2d4660;
+       --paper: #0b1220; --paper-dark: #121d2e;
+       --line: #263b52; --line-soft: #1b2b40;
+       --text: #edf3fb; --text-secondary: #b6c4d6; --muted: #8295aa;
+       --white: #142338; --gold-soft: #3a2d19;
       --shadow-sm: 0 2px 8px rgba(0,0,0,0.6);
       --shadow-md: 0 4px 16px rgba(0,0,0,0.7);
       --shadow-lg: 0 8px 30px rgba(0,0,0,0.8);
       --shadow-xl: 0 16px 48px rgba(0,0,0,0.95);
-      --blue-light: #1a2a4a; --green-light: #0a2a1a; --red-light: #2a1a0a; --purple-light: #1a0a2a;
+       --blue-light: #173658; --green-light: #123b2c; --red-light: #45251f; --purple-light: #302653;
     }
-    body { margin: 0; background: var(--paper); color: var(--text); font-family: var(--font); min-height: 100vh; transition: background var(--transition-base), color var(--transition-base); }
+     body { margin: 0; background: var(--paper); color: var(--text); font-family: var(--font); min-height: 100vh; transition: background var(--transition-base), color var(--transition-base); }
     button { cursor: pointer; border: none; outline: none; font: inherit; }
     input, select, textarea { font: inherit; outline: none; font-family: var(--font); }
     .hidden { display: none !important; }
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: var(--paper); }
-    ::-webkit-scrollbar-thumb { background: var(--navy-200); border-radius: var(--radius-full); }
+     ::-webkit-scrollbar-thumb { background: var(--navy-light); border-radius: var(--radius-full); }
     h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); font-weight: 800; color: var(--text); }
     .text-muted { color: var(--muted); }
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 22px; border-radius: var(--radius-md); font-weight: 700; font-size: 13px; transition: all var(--transition-bounce); border: 1.5px solid transparent; }
@@ -117,7 +117,13 @@
     .topbar .topbar-left .page-icon { width: 36px; height: 36px; border-radius: var(--radius-md); background: linear-gradient(135deg, var(--gold-soft), var(--gold-soft)); display: grid; place-items: center; font-size: 18px; color: var(--navy); }
     .topbar h1 { font-size: 18px; margin: 0; color: var(--text); }
     .topbar .topbar-sub { font-size: 11px; color: var(--muted); }
-    .topbar .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+     .topbar .actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+     .menu-toggle { display: none; width: 38px; height: 38px; border-radius: var(--radius-md); background: var(--gold-soft); color: var(--navy); font-size: 17px; }
+     .connection-status { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 11px; padding: 6px 10px; border-radius: var(--radius-full); background: var(--paper); border: 1px solid var(--line-soft); }
+     .connection-status::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 3px var(--green-light); }
+     .connection-status.offline::before { background: var(--red); box-shadow: 0 0 0 3px var(--red-light); }
+     .sidebar-overlay { display: none; position: fixed; inset: 0; z-index: 90; background: rgba(7,29,64,.52); backdrop-filter: blur(3px); }
+     .sidebar-overlay.show { display: block; }
     .content { padding: 28px 32px 40px; max-width: 1440px; margin: 0 auto; }
     .view { display: none; animation: viewFadeIn 0.35s ease; }
     .view.active { display: block; }
@@ -138,6 +144,13 @@
     [data-theme="dark"] .stat-card { background: linear-gradient(135deg, var(--paper-dark) 0%, var(--navy-dark) 100%); }
     .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
     .stat-card .stat-icon { font-size: 26px; display: block; }
+     .stat-card .stat-icon { width: 46px; height: 46px; margin: 0 auto 10px; display: grid; place-items: center; border-radius: 15px; color: var(--navy); background: var(--gold-soft); }
+     .stat-card:nth-child(4n+1) .stat-icon { color: var(--blue); background: var(--blue-light); }
+     .stat-card:nth-child(4n+2) .stat-icon { color: var(--green); background: var(--green-light); }
+     .stat-card:nth-child(4n+3) .stat-icon { color: var(--red); background: var(--red-light); }
+     .stat-card:nth-child(4n) .stat-icon { color: #9b7be0; background: var(--purple-light); }
+     .stat-card.clickable { cursor: pointer; }
+     .stat-card.clickable:focus-visible, .nav button:focus-visible, .btn:focus-visible, .modal-close:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
     .stat-card .label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; }
     .stat-card .value { font-family: var(--font-heading); font-size: 30px; font-weight: 900; color: var(--text); }
     .stat-card .sub { font-size: 11px; font-weight: 500; }
@@ -162,6 +175,10 @@
     .badge-gold { background: var(--gold-soft); color: #8A6D1B; }
     [data-theme="dark"] .badge-warning { background: #3a2a0a; color: #f5c542; }
     [data-theme="dark"] .badge-gray { background: #2a2a2a; color: var(--muted); }
+     [data-theme="dark"] .badge-gold { color: var(--gold-light); }
+     [data-theme="dark"] .badge-info { color: #8fc4ff; }
+     [data-theme="dark"] .badge-success { color: #7de0b2; }
+     [data-theme="dark"] .badge-danger { color: #ff9b8a; }
 
     .type-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 12px; border-radius: var(--radius-full); font-size: 10px; font-weight: 700; }
     .type-badge.medical { background: var(--blue-light); color: #1a6bc4; }
@@ -193,6 +210,16 @@
     .toolbar .search::before { content: '\f002'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; opacity: 0.5; color: var(--muted); }
     .toolbar .search input { width: 100%; padding: 8px 36px 8px 14px; border: 2px solid var(--line); border-radius: var(--radius-md); transition: var(--transition-base); background: var(--paper); font-size: 13px; color: var(--text); }
     .toolbar .search input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px var(--gold-soft); background: var(--white); }
+     [data-theme="dark"] .field input, [data-theme="dark"] .field select, [data-theme="dark"] .field textarea,
+     [data-theme="dark"] .modal .field input, [data-theme="dark"] .modal .field select, [data-theme="dark"] .modal .field textarea,
+     [data-theme="dark"] .toolbar .search input, [data-theme="dark"] .composer input { background: #0d1929; color: var(--text); }
+     [data-theme="dark"] select option { background: #142338; color: var(--text); }
+     [data-theme="dark"] .btn-outline { color: var(--text-secondary); border-color: #38516c; }
+     [data-theme="dark"] .btn-outline:hover { color: var(--gold-light); background: #2a261c; border-color: var(--gold); }
+     [data-theme="dark"] .topbar .topbar-left .page-icon { color: var(--gold-light); background: #3a2d19; }
+     [data-theme="dark"] .type-card .icon { color: var(--gold-light); background: #3a2d19; box-shadow: inset 0 0 0 1px rgba(255,217,143,.12); }
+     [data-theme="dark"] .product-card .image { background: linear-gradient(135deg, #1a3048, #0d1929); }
+     [data-theme="dark"] tr:hover td, [data-theme="dark"] .list-item:hover, [data-theme="dark"] .company-card:hover { background: #1b2d43; }
     .toolbar .actions { display: flex; gap: 6px; flex-wrap: wrap; }
 
     /* ===== OVERLAY / MODAL ===== */
@@ -247,7 +274,7 @@
     .type-card { border: 2px solid var(--line-soft); border-radius: var(--radius-lg); padding: 20px 16px; text-align: center; transition: var(--transition-bounce); background: var(--white); }
     [data-theme="dark"] .type-card { background: var(--paper-dark); border-color: var(--line); }
     .type-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--gold); }
-    .type-card .icon { font-size: 32px; display: block; margin-bottom: 6px; }
+     .type-card .icon { width: 54px; height: 54px; margin: 0 auto 10px; border-radius: 18px; display: grid; place-items: center; font-size: 24px; color: var(--navy); background: var(--gold-soft); box-shadow: inset 0 0 0 1px rgba(14,42,92,.06); }
     .type-card h4 { font-size: 14px; margin: 0; }
     .type-card p { font-size: 12px; color: var(--muted); margin: 4px 0 8px; }
 
@@ -318,8 +345,9 @@
     #unauthorized .box .btn { width: 100%; justify-content: center; }
 
     @media (max-width: 1200px) { .payment-summary { grid-template-columns: repeat(2, 1fr); } .grid-4 { grid-template-columns: repeat(2, 1fr); } .grid-3 { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 992px) { .sidebar { width: var(--sidebar-collapsed); padding: 12px 8px; } .sidebar .brand .brand-name, .sidebar .brand .brand-sub { display: none; } .sidebar .nav button .label { display: none; } .sidebar .nav button .icon { width: 100%; font-size: 18px; } .sidebar .nav button { padding: 10px; justify-content: center; } .sidebar .nav button .badge { position: absolute; top: 2px; left: 2px; font-size: 8px; padding: 1px 6px; min-width: 14px; } .sidebar .footer { display: none; } .main { margin-right: var(--sidebar-collapsed); width: calc(100% - var(--sidebar-collapsed)); } .modal .form-grid { grid-template-columns: 1fr; } }
-    @media (max-width: 768px) { .payment-summary { grid-template-columns: 1fr; } .grid, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } .content { padding: 14px; } .topbar { padding: 10px 14px; flex-direction: column; align-items: stretch; gap: 6px; min-height: auto; } .topbar h1 { font-size: 16px; } .topbar .actions { justify-content: flex-start; } .toolbar { flex-direction: column; align-items: stretch; padding: 10px 14px; } .toolbar .search { max-width: 100%; } .modal { padding: 18px 14px; } .login-box { padding: 24px 16px; } }
+     @media (max-width: 992px) { .sidebar { width: var(--sidebar-collapsed); padding: 12px 8px; } .sidebar .brand .brand-name, .sidebar .brand .brand-sub { display: none; } .sidebar .nav button .label { display: none; } .sidebar .nav button .icon { width: 100%; font-size: 18px; } .sidebar .nav button { padding: 10px; justify-content: center; } .sidebar .nav button .badge { position: absolute; top: 2px; left: 2px; font-size: 8px; padding: 1px 6px; min-width: 14px; } .sidebar .footer { display: none; } .main { margin-right: var(--sidebar-collapsed); width: calc(100% - var(--sidebar-collapsed)); } .modal .form-grid { grid-template-columns: 1fr; } }
+     @media (max-width: 768px) { .payment-summary { grid-template-columns: 1fr; } .grid, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } .content { padding: 14px; } .topbar { padding: 10px 14px; flex-direction: row; align-items: center; gap: 8px; } .topbar .topbar-left { min-width: 0; flex: 1; } .topbar .topbar-left > div:last-child { min-width: 0; } .topbar h1, .topbar-sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .topbar h1 { font-size: 16px; } .topbar .actions { justify-content: flex-end; } .topbar .actions .btn:not(#darkModeToggle) { display: none; } .menu-toggle { display: grid; place-items: center; } .connection-status { display: none; } .sidebar { width: min(290px, 86vw); transform: translateX(110%); transition: transform var(--transition-base); box-shadow: var(--shadow-xl); } .sidebar.open { transform: translateX(0); } .sidebar .brand .brand-name, .sidebar .brand .brand-sub, .sidebar .nav button .label { display: block; } .sidebar .nav button .icon { width: 24px; font-size: 16px; } .sidebar .nav button { padding: 10px 12px; justify-content: flex-start; } .sidebar .footer { display: block; } .main { margin-right: 0; width: 100%; } .toolbar { flex-direction: column; align-items: stretch; padding: 10px 14px; } .toolbar .search { max-width: 100%; } .modal { padding: 18px 14px; } .login-box { padding: 24px 16px; } }
+     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
   </style>
 </head>
 <body>
@@ -386,10 +414,12 @@
       </aside>
 
       <!-- Main -->
-      <main class="main">
+       <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar(false)"></div>
+       <main class="main">
         <header class="topbar">
-          <div class="topbar-left"><div class="page-icon" id="pageIcon"><i class="fas fa-chart-pie"></i></div><div><h1 id="title">لوحة التحكم</h1><div class="topbar-sub" id="pageSub">نظرة عامة</div></div></div>
+           <div class="topbar-left"><button class="menu-toggle" aria-label="فتح القائمة" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button><div class="page-icon" id="pageIcon"><i class="fas fa-chart-pie"></i></div><div><h1 id="title">لوحة التحكم</h1><div class="topbar-sub" id="pageSub">نظرة عامة</div></div></div>
           <div class="actions">
+             <span class="connection-status" id="connectionStatus">متصل</span>
             <button class="btn btn-outline btn-sm" id="darkModeToggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
             <button class="btn btn-dark btn-sm" onclick="openModal('clientModal')"><i class="fas fa-user-plus"></i> عميل</button>
             <button class="btn btn-primary btn-sm" onclick="openPolicyModal()"><i class="fas fa-file-signature"></i> وثيقة</button>
@@ -400,15 +430,15 @@
           <!-- Dashboard -->
           <div id="v-dashboard" class="view active">
             <div class="grid grid-4">
-              <div class="card stat-card"><span class="stat-icon"><i class="fas fa-user-friends"></i></span><div class="label">العملاء</div><div class="value" id="sClients">0</div><div class="sub blue">CRM</div></div>
-              <div class="card stat-card"><span class="stat-icon"><i class="fas fa-file-contract"></i></span><div class="label">الوثائق</div><div class="value" id="sPolicies">0</div><div class="sub green" id="sActive">0 سارية</div></div>
-              <div class="card stat-card"><span class="stat-icon"><i class="fas fa-exclamation-triangle"></i></span><div class="label">المطالبات</div><div class="value" id="sClaims">0</div><div class="sub red">مفتوحة</div></div>
-              <div class="card stat-card"><span class="stat-icon"><i class="fas fa-comment-dots"></i></span><div class="label">رسائل جديدة</div><div class="value" id="sMessages">0</div><div class="sub gold">Real-time</div></div>
+               <div class="card stat-card clickable" role="button" tabindex="0" onclick="showView('clients')" onkeydown="if(event.key==='Enter')showView('clients')"><span class="stat-icon"><i class="fas fa-user-friends"></i></span><div class="label">العملاء</div><div class="value" id="sClients">0</div><div class="sub blue">CRM</div></div>
+               <div class="card stat-card clickable" role="button" tabindex="0" onclick="showView('policies')" onkeydown="if(event.key==='Enter')showView('policies')"><span class="stat-icon"><i class="fas fa-file-contract"></i></span><div class="label">الوثائق</div><div class="value" id="sPolicies">0</div><div class="sub green" id="sActive">0 سارية</div></div>
+               <div class="card stat-card clickable" role="button" tabindex="0" onclick="showView('claims')" onkeydown="if(event.key==='Enter')showView('claims')"><span class="stat-icon"><i class="fas fa-exclamation-triangle"></i></span><div class="label">المطالبات</div><div class="value" id="sClaims">0</div><div class="sub red">مفتوحة</div></div>
+               <div class="card stat-card clickable" role="button" tabindex="0" onclick="showView('messages')" onkeydown="if(event.key==='Enter')showView('messages')"><span class="stat-icon"><i class="fas fa-comment-dots"></i></span><div class="label">رسائل جديدة</div><div class="value" id="sMessages">0</div><div class="sub gold">Real-time</div></div>
             </div>
             <div class="grid grid-4" style="margin-top:20px">
-              <div class="card stat-card"><span class="stat-icon"><i class="fas fa-hourglass-half"></i></span><div class="label">تنتهي قريباً</div><div class="value" id="sExpiring">0</div><div class="sub red">45 يوم</div></div>
-              <div class="card stat-card"><span class="stat-icon"><i class="fas fa-coins"></i></span><div class="label">المدفوعات</div><div class="value" id="sPayments">0</div><div class="sub green">EGP</div></div>
-              <div class="card stat-card"><span class="stat-icon"><i class="fas fa-paperclip"></i></span><div class="label">المستندات</div><div class="value" id="sDocs">0</div><div class="sub blue">ملفات</div></div>
+               <div class="card stat-card clickable" role="button" tabindex="0" onclick="showView('renewals')" onkeydown="if(event.key==='Enter')showView('renewals')"><span class="stat-icon"><i class="fas fa-hourglass-half"></i></span><div class="label">تنتهي قريباً</div><div class="value" id="sExpiring">0</div><div class="sub red">45 يوم</div></div>
+               <div class="card stat-card clickable" role="button" tabindex="0" onclick="showView('payments')" onkeydown="if(event.key==='Enter')showView('payments')"><span class="stat-icon"><i class="fas fa-coins"></i></span><div class="label">المدفوعات</div><div class="value" id="sPayments">0</div><div class="sub green">EGP</div></div>
+               <div class="card stat-card clickable" role="button" tabindex="0" onclick="showView('documents')" onkeydown="if(event.key==='Enter')showView('documents')"><span class="stat-icon"><i class="fas fa-paperclip"></i></span><div class="label">المستندات</div><div class="value" id="sDocs">0</div><div class="sub blue">ملفات</div></div>
               <div class="card stat-card"><span class="stat-icon"><i class="fas fa-user-cog"></i></span><div class="label">المستخدم</div><div class="value" id="sAgent" style="font-size:20px">—</div><div class="sub gold">Admin</div></div>
             </div>
             <div class="grid grid-2" style="margin-top:20px">
@@ -472,7 +502,7 @@
 
           <!-- Renewals -->
           <div id="v-renewals" class="view">
-            <div class="toolbar"><div class="search"><input id="renewalSearch" oninput="renderRenewals()" placeholder="ابحث بالعميل"></div><div class="actions"><button class="btn btn-primary" onclick="runRenewalReminders()"><i class="fas fa-bell"></i> تذكيرات</button></div></div>
+             <div class="toolbar"><div class="search"><input id="renewalSearch" oninput="renderRenewals()" placeholder="ابحث بالعميل"></div><div class="actions"><button class="btn btn-primary" id="runRenewalBtn" onclick="runRenewalReminders()"><i class="fas fa-bell"></i> تذكيرات</button></div></div>
             <div class="card"><div class="card-body p-0"><div class="table-wrap"><table><thead><tr><th>العميل</th><th>الوثيقة</th><th>الشركة</th><th>الانتهاء</th><th>المتبقي</th><th>إجراء</th></tr></thead><tbody id="renewalsBody"></tbody></table></div></div></div>
           </div>
 
@@ -678,7 +708,8 @@
       clients: [], policies: [], payments: [], claims: [], documents: [],
       messages: [], notifications: [], activity: [], products: [], companies: [],
       assessments: [], types: [], offers: [], companyAds: [],
-      loaded: false, currentUser: null, currentChat: null
+       loaded: false, currentUser: null, currentChat: null,
+       syncing: false, lastSyncAt: null, syncErrors: []
     };
     let selectedFile = null;
     let listeners = { messages: null, activity: null, notifications: null, documents: null };
@@ -695,6 +726,15 @@
     const formatBytes = (b) => { if (!Number.isFinite(b) || b < 0) return '—'; if (b < 1024) return b + ' B'; if (b < 1048576) return (b / 1024).toFixed(1) + ' KB'; return (b / 1048576).toFixed(2) + ' MB'; };
 
     const clientName = (id) => { if (!id) return '—'; const c = APP_STATE.clients.find(x => x.id === id || x.uid === id || x.clientId === id); return c ? (c.fullName || c.name || c.username || id) : id; };
+     const $ = (id) => document.getElementById(id);
+     function setConnectionState(state, message) {
+       const el = $('connectionStatus');
+       if (!el) return;
+       const online = state === 'online';
+       el.textContent = message || (online ? 'متصل' : 'غير متصل');
+       el.classList.toggle('offline', !online);
+       el.title = APP_STATE.lastSyncAt ? `آخر مزامنة: ${date(APP_STATE.lastSyncAt)}` : '';
+     }
 
     // ===== Insurance Types (40+ Types) =====
     const ALL_INSURANCE_TYPES = [
@@ -743,7 +783,20 @@
     const getType = (id) => { let t = APP_STATE.types.find(x => x.id === id); if (!t) t = ALL_INSURANCE_TYPES.find(x => x.id === id); return t || null; };
     const getTypeName = (id) => { const t = getType(id); return t ? t.name : id || '—'; };
     const getTypeColor = (id) => { const t = getType(id); return t ? t.color : 'other'; };
-    const getTypeIcon = (id) => { const t = getType(id); return t ? t.icon : '📄'; };
+     const ICON_BY_TYPE = {
+       life: 'fa-heart-pulse', medical: 'fa-hospital', health: 'fa-heart-pulse',
+       car: 'fa-car-side', property: 'fa-house', travel: 'fa-plane-departure',
+       engineering: 'fa-gears', liability: 'fa-scale-balanced', marine: 'fa-ship',
+       agriculture: 'fa-wheat-awn', cyber: 'fa-shield-halved', investment: 'fa-chart-line',
+       pension: 'fa-person-cane', export: 'fa-box-open', micro: 'fa-seedling',
+       takaful: 'fa-handshake', other: 'fa-file-shield'
+     };
+     const iconHTML = (typeOrColor) => {
+       const t = typeof typeOrColor === 'object' ? typeOrColor : getType(typeOrColor);
+       const cls = ICON_BY_TYPE[t?.color] || 'fa-file-shield';
+       return `<i class="fas ${cls}" aria-hidden="true"></i>`;
+     };
+     const getTypeIcon = (id) => iconHTML(id);
     const getTypeBadge = (id) => `<span class="type-badge ${getTypeColor(id)}">${esc(getTypeName(id))}</span>`;
 
     const getCompanyName = (id) => {
@@ -770,7 +823,17 @@
     }
 
     function openModal(id) { const el = document.getElementById(id); if (el) el.classList.add('show'); }
-    function closeModal(id) { const el = document.getElementById(id); if (el) el.classList.remove('show'); }
+     function closeModal(id) { const el = document.getElementById(id); if (el) el.classList.remove('show'); }
+     function toggleSidebar(force) {
+       const sidebar = document.querySelector('.sidebar');
+       const overlay = document.getElementById('sidebarOverlay');
+       if (!sidebar) return;
+       const open = typeof force === 'boolean' ? force : !sidebar.classList.contains('open');
+       sidebar.classList.toggle('open', open);
+       if (overlay) overlay.classList.toggle('show', open);
+       const toggle = document.querySelector('.menu-toggle');
+       if (toggle) toggle.innerHTML = open ? '<i class="fas fa-xmark"></i>' : '<i class="fas fa-bars"></i>';
+     }
 
     function showLoading(btnId, text) {
       const btn = document.getElementById(btnId);
@@ -914,7 +977,12 @@
           }
           return data;
         });
-      } catch (e) { console.error('❌ Load ' + name + ' error:', e); return []; }
+       } catch (e) {
+         console.error('❌ Load ' + name + ' error:', e);
+         APP_STATE.syncErrors.push({ collection: name, message: e.message });
+         setConnectionState('offline', 'تعذر المزامنة');
+         return [];
+       }
     }
 
     async function refreshCollection(name) {
@@ -927,6 +995,9 @@
     }
 
     async function loadAllData() {
+       APP_STATE.syncing = true;
+       APP_STATE.syncErrors = [];
+       setConnectionState('online', 'جاري المزامنة…');
       const names = ['clients', 'policies', 'payments', 'claims', 'documents', 'messages', 'notifications', 'activity', 'products', 'companies', 'insuranceAssessments', 'insuranceTypes', 'offers', 'companyAds'];
       const results = await Promise.all(names.map(n => loadCollection(n)));
       names.forEach((n, i) => {
@@ -935,19 +1006,23 @@
         else APP_STATE[n] = results[i];
       });
       APP_STATE.loaded = true;
+       APP_STATE.syncing = false;
+       APP_STATE.lastSyncAt = new Date();
+       setConnectionState(APP_STATE.syncErrors.length ? 'offline' : 'online', APP_STATE.syncErrors.length ? 'مزامنة جزئية' : 'متصل');
       renderAll();
       refreshAllSelects();
       startMessagesListener();
       startActivityListener();
       startNotificationsListener();
       startDocumentsListener();
-      toast('✅ تم تحميل البيانات بنجاح');
+       toast(APP_STATE.syncErrors.length ? '⚠️ تم التحميل مع وجود بيانات لم تكتمل' : '✅ تم تحميل البيانات بنجاح', APP_STATE.syncErrors.length > 0);
     }
 
     function refreshAllData() {
       if (!APP_STATE.loaded) { toast('⚠️ لم يتم تحميل البيانات بعد'); return; }
       toast('🔄 جاري التحديث...');
-      APP_STATE.loaded = false;
+       APP_STATE.loaded = false;
+       APP_STATE.syncing = true;
       loadAllData().catch(e => { APP_STATE.loaded = true; toast('❌ فشل التحديث: ' + e.message, true); });
     }
 
@@ -1045,7 +1120,7 @@
         if (!s) return;
         const val = s.value;
         s.innerHTML = '<option value="">اختر النوع</option>';
-        types.forEach(t => s.innerHTML += `<option value="${t.id}">${t.icon || '📄'} ${esc(t.name)}</option>`);
+         types.forEach(t => s.innerHTML += `<option value="${t.id}">${iconHTML(t)} ${esc(t.name)}</option>`);
         if (val && types.some(t => t.id === val)) s.value = val;
       });
     }
@@ -1472,7 +1547,7 @@
       const colorMap = { investment: 'var(--gold)', health: 'var(--green)', takaful: 'var(--purple)', micro: 'var(--green)', pension: 'var(--blue)', export: 'var(--red)', engineering: 'var(--blue)', medical: 'var(--blue)', life: '#b8306a', property: '#b86a1a', car: '#1a8a4a', marine: '#1a6a6a', travel: '#6a3ab8', liability: '#b84a1a', cyber: '#7a2a7a', other: 'var(--line)' };
       const html = filtered.map(t => {
         const count = APP_STATE.policies.filter(p => p.type === t.id).length;
-        return `<div class="type-card" style="border-color:${colorMap[t.color]||'var(--line)'}"><div class="icon">${t.icon}</div><h4>${esc(t.name)}</h4><p>${esc(t.description||'')}</p><span class="badge badge-info">${count} وثيقة</span></div>`;
+         return `<div class="type-card" style="border-color:${colorMap[t.color]||'var(--line)'}"><div class="icon">${iconHTML(t)}</div><h4>${esc(t.name)}</h4><p>${esc(t.description||'')}</p><span class="badge badge-info">${count} وثيقة</span></div>`;
       }).join('');
       document.getElementById('typesGrid').innerHTML = html;
     }
@@ -2158,6 +2233,7 @@
     }
 
     function showView(view, el) {
+       if (!view) view = 'dashboard';
       document.querySelectorAll('.view').forEach(x => x.classList.remove('active'));
       const node = document.getElementById('v-' + view);
       if (node) node.classList.add('active');
@@ -2165,11 +2241,13 @@
       const target = el || document.querySelector(`[data-view="${view}"]`);
       if (target) target.classList.add('active');
       const titles = { dashboard: 'لوحة التحكم', clients: 'العملاء', policies: 'الوثائق', payments: 'المدفوعات', claims: 'المطالبات', documents: 'المستندات', renewals: 'التجديدات', companies: 'شركات التأمين', types: 'أنواع التأمين', products: 'المنتجات', reports: 'التقارير', assessments: 'تقييمات الحماية', compliance: 'الامتثال', messages: 'المحادثات', notifications: 'الإشعارات', activity: 'سجل النشاط', offers: 'العروض', companyAds: 'إعلانات شركات' };
-      const icons = { dashboard: '📊', clients: '👤', policies: '📄', payments: '💰', claims: '⚠️', documents: '📎', renewals: '🔄', companies: '🏢', types: '📑', products: '📦', reports: '📈', assessments: '🛡️', compliance: '✅', messages: '💬', notifications: '🔔', activity: '📋', offers: '🎯', companyAds: '📢' };
+       const icons = { dashboard: 'fa-chart-pie', clients: 'fa-users', policies: 'fa-file-contract', payments: 'fa-coins', claims: 'fa-triangle-exclamation', documents: 'fa-paperclip', renewals: 'fa-arrows-rotate', companies: 'fa-building', types: 'fa-list-check', products: 'fa-box-open', reports: 'fa-chart-column', assessments: 'fa-shield-halved', compliance: 'fa-circle-check', messages: 'fa-comments', notifications: 'fa-bell', activity: 'fa-clock-rotate-left', offers: 'fa-tags', companyAds: 'fa-bullhorn' };
       const subs = { dashboard: 'نظرة عامة', clients: 'إدارة العملاء', policies: 'إدارة الوثائق', payments: 'إدارة المدفوعات', claims: 'إدارة المطالبات', documents: 'إدارة المستندات', renewals: 'متابعة التجديدات', companies: 'إدارة الشركات', types: 'إدارة الأنواع', products: 'إدارة المنتجات', reports: 'تحليلات', assessments: 'تقييمات الحماية', compliance: 'مركز الامتثال', messages: 'المحادثات', notifications: 'الإشعارات', activity: 'سجل النشاطات', offers: 'العروض', companyAds: 'إدارة إعلانات الشركات' };
       document.getElementById('title').textContent = titles[view] || view;
-      document.getElementById('pageIcon').textContent = icons[view] || '📊';
+       document.getElementById('pageIcon').innerHTML = `<i class="fas ${icons[view] || 'fa-chart-pie'}" aria-hidden="true"></i>`;
       document.getElementById('pageSub').textContent = subs[view] || '';
+       toggleSidebar(false);
+       if (window.location.hash !== '#' + view) history.replaceState(null, '', '#' + view);
       if (view === 'dashboard') renderDashboard();
     }
 
@@ -2237,6 +2315,32 @@
       const ab = document.getElementById('createAdBtn');
       if (ab) { ab.textContent = 'حفظ'; ab.onclick = saveAd; }
       refreshAllSelects();
+       const initialView = window.location.hash.replace('#', '');
+       if (document.getElementById('v-' + initialView)) showView(initialView);
+       else showView('dashboard');
+       window.addEventListener('hashchange', () => {
+         const view = window.location.hash.replace('#', '');
+         if (document.getElementById('v-' + view)) showView(view);
+       });
+       setConnectionState(navigator.onLine ? 'online' : 'offline', navigator.onLine ? 'متصل' : 'غير متصل');
+       document.querySelectorAll('.overlay').forEach(overlay => overlay.addEventListener('click', e => {
+         if (e.target === overlay) overlay.classList.remove('show');
+       }));
+       document.addEventListener('keydown', e => {
+         if (e.key === 'Escape') {
+           document.querySelectorAll('.overlay.show').forEach(x => x.classList.remove('show'));
+           toggleSidebar(false);
+         }
+       });
+       window.addEventListener('online', () => {
+         const el = document.getElementById('connectionStatus');
+         if (el) { el.textContent = 'متصل'; el.classList.remove('offline'); }
+       });
+       window.addEventListener('offline', () => {
+         const el = document.getElementById('connectionStatus');
+         if (el) { el.textContent = 'غير متصل'; el.classList.add('offline'); }
+         toast('⚠️ لا يوجد اتصال بالإنترنت', true);
+       });
     });
   </script>
 </body>
