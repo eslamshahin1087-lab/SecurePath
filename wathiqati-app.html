@@ -3958,6 +3958,7 @@
                 </div>
                 <img class="brand-logo-full" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 80'><path d='M30,15 L55,25 L55,50 C55,65 30,75 30,75 C30,75 5,65 5,50 L5,25 Z' fill='%23F2BD63'/><path d='M30,22 L47,30 L47,48 C47,58 30,66 30,66 C30,66 13,58 13,48 L13,30 Z' fill='%230E2A5C'/><text x='70' y='42' font-family='Tajawal,sans-serif' font-weight='900' font-size='24' fill='%23FFFFFF'>SecurePath</text><text x='72' y='58' font-family='Cairo,sans-serif' font-size='10' fill='%23FFF2D7' letter-spacing='1'>INSURANCE ADVISORY</text></svg>">
                 <div class="brand-tagline securepath-advisory" id="loginTagline">مرحباً في منظومتك التأمينية الرقمية</div>
+                <p id="brokerDisclosureFooter" style="font-size:9px;color:rgba(255,255,255,0.65);margin-top:8px;line-height:1.6;padding:0 10px;">هذا التطبيق منصة تعريفية بخدمات وسيط تأمين حر مرخّص من الهيئة العامة للرقابة المالية، ولا يمثل شركة تأمين بعينها.</p>
             </div>
             <div class="login-card">
                 <h2 id="loginTitle">تسجيل الدخول</h2>
@@ -4312,6 +4313,66 @@
         </div>
 
         <!-- ============================================================ -->
+        <!-- COMPARE OFFERS SCREEN                                         -->
+        <!-- ============================================================ -->
+        <div class="screen" id="compareOffers">
+            <div class="page-top">
+                <div class="page-left">
+                    <h1 id="compareOffersTitle">
+                        <span class="icon-gold"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M9 3v18M15 3v18"/><path d="M4 8h5M15 8h5M4 16h5M15 16h5"/></svg></span></span>
+                        قارن عروض التأمين
+                    </h1>
+                    <p id="compareOffersSub">اختر نوع التأمين لمقارنة العروض المتاحة من شركات مختلفة</p>
+                </div>
+                <div class="page-actions"><button class="btn-gold-small" onclick="showScreen('home')" id="compareOffersBackBtn"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></svg></span> العودة</button></div>
+            </div>
+            <div style="padding:0 14px;">
+                <select id="compareTypeFilter" onchange="renderCompareOffers()" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);margin-bottom:12px;"></select>
+            </div>
+            <div id="compareOffersList" style="padding:0 14px 14px;"></div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- INSURANCE TIPS SCREEN                                         -->
+        <!-- ============================================================ -->
+        <div class="screen" id="insuranceTips">
+            <div class="page-top">
+                <div class="page-left">
+                    <h1 id="insuranceTipsTitle">
+                        <span class="icon-navy"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2Z"/></svg></span></span>
+                        نصائح تأمينية
+                    </h1>
+                    <p id="insuranceTipsSub">دليل مبسط يساعدك تختار التغطية المناسبة لك</p>
+                </div>
+                <div class="page-actions"><button class="btn-gold-small" onclick="showScreen('home')" id="insuranceTipsBackBtn"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></svg></span> العودة</button></div>
+            </div>
+            <div id="insuranceTipsList" style="padding:0 14px 14px;"></div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- REFERRAL SCREEN                                               -->
+        <!-- ============================================================ -->
+        <div class="screen" id="referral">
+            <div class="page-top">
+                <div class="page-left">
+                    <h1 id="referralTitle">
+                        <span class="icon-navy"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span></span>
+                        ادعُ أصدقاءك
+                    </h1>
+                    <p id="referralSub">شارك رابطك الخاص، وكل صديق يسجّل عن طريقك بيقرّبنا نساعدكم أكتر</p>
+                </div>
+                <div class="page-actions"><button class="btn-gold-small" onclick="showScreen('account')" id="referralBackBtn"><span class="app-icon"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></svg></span> العودة</button></div>
+            </div>
+            <div style="padding:0 14px 14px;">
+                <div style="background:var(--card);border-radius:var(--radius-md);padding:18px;border:1px solid var(--line);text-align:center;">
+                    <p id="referralCodeLabel" style="font-size:12px;color:var(--muted);margin-bottom:6px;">كود الدعوة الخاص بك</p>
+                    <div id="referralCodeValue" style="font-size:22px;font-weight:900;letter-spacing:2px;color:var(--navy);margin-bottom:14px;">—</div>
+                    <button class="btn-primary" onclick="shareReferralLink()" id="referralShareBtn">📤 مشاركة رابط الدعوة</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
         <!-- DOCUMENTS SCREEN                                              -->
         <!-- ============================================================ -->
         <div class="screen" id="documents">
@@ -4405,6 +4466,21 @@
                      <div class="acc-card" onclick="showScreen('companyAds')">
                          <div class="ac-icon navy"><span class="app-icon animated"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h10M7 13h6"/></svg></span></div>
                          <div class="ac-info"><span class="ac-title" id="accountCompanyAds">إعلانات شركات التأمين</span><span class="ac-sub" id="accountCompanyAdsSub">إعلانات الشركات المضافة من الأدمن</span></div>
+                         <span class="ac-arrow">›</span>
+                     </div>
+                     <div class="acc-card" onclick="showScreen('compareOffers')">
+                         <div class="ac-icon gold"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M9 3v18M15 3v18"/><path d="M4 8h5M15 8h5M4 16h5M15 16h5"/></svg></span></div>
+                         <div class="ac-info"><span class="ac-title" id="accountCompare">قارن عروض التأمين</span><span class="ac-sub" id="accountCompareSub">قارن الأسعار والتغطيات بسهولة</span></div>
+                         <span class="ac-arrow">›</span>
+                     </div>
+                     <div class="acc-card" onclick="showScreen('insuranceTips')">
+                         <div class="ac-icon purple"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2Z"/></svg></span></div>
+                         <div class="ac-info"><span class="ac-title" id="accountTips">نصائح تأمينية</span><span class="ac-sub" id="accountTipsSub">دليلك لاختيار التأمين المناسب</span></div>
+                         <span class="ac-arrow">›</span>
+                     </div>
+                     <div class="acc-card" onclick="showScreen('referral')">
+                         <div class="ac-icon green"><span class="app-icon animated float"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span></div>
+                         <div class="ac-info"><span class="ac-title" id="accountReferral">ادعُ أصدقاءك</span><span class="ac-sub" id="accountReferralSub">شارك رابطك واكسب مكافآت</span></div>
                          <span class="ac-arrow">›</span>
                      </div>
                 </div>
@@ -4763,6 +4839,8 @@
                     <p>بتقديمها أو بإدخالها يقوم المستخدم بتقديم البيانات والمعلومات والمستندات التي تكون صحيحة ودقيقة وكاملة، ويضمن أن جميع البيانات التي يدخلها أو يقدمها هي صحيحة وحديثة، وأنه مخول قانوناً بتقديمها، ويتحمل وحده المسؤولية القانونية الكاملة عن صحة البيانات، وأي تغيير يطرأ عليها، كما يلتزم المستخدم بتحديث بياناته كلما كانت غير محدثة أو غير صحيحة أو مضللة أو منتحلة، وقد تنشأ أضرار أو مسؤوليات نتيجة تقديم بيانات غير صحيحة أو مشاركة البيانات ومعالجتها وجمعها على الموافقة.</p>
                     <p><strong>ثانياً: الموافقة على جمع ومعالجة البيانات الشخصية</strong></p>
                     <p>يمنح المستخدم موافقته الصريحة والواضحة على هذه الشروط والأحكام، ويمنح التطبيق الموافقة على جمع بياناته الشخصية ومعالجتها وحفظها واستخدامها بالقدر اللازم لتقديم الخدمات التي يوفرها، وذلك داخل جمهورية مصر العربية، ومشاركة البيانات والمعلومات التي قام بإدخالها مع شركات التأمين المرخص لها أو الجهات أو الوسطاء المرخص لهم قانوناً، وذلك للأغراض التالية: دراسة احتياجات المستخدم لتقديم الحل أو التغطية التأمينية الأنسب لاحتياجاته، المساعدة في اختيار الخدمات أو العروض التي يطلبها المستخدم، التواصل مع المستخدم بشأن الخدمات المقدمة، تحسين جودة الخدمات المقدمة من خلال التطبيق. وذلك بالقدر اللازم فقط لتحقيق الأغراض المشار إليها، وفقاً لأحكام القوانين واللوائح النافذة ذات الصلة، بما في ذلك قانون حماية البيانات الشخصية المصري رقم 151 لسنة 2020.</p>
+                    <p><strong id="termsThirdTitle">ثالثاً: صفة التطبيق ونطاق عمله</strong></p>
+                    <p id="termsThirdText">هذا التطبيق منصة تعريفية إلكترونية يقدمها وسيط تأمين حر مرخّص من الهيئة العامة للرقابة المالية بجمهورية مصر العربية، ولا يُعد شركة تأمين ولا يصدر وثائق تأمين بنفسه. تُعرض من خلال التطبيق منتجات وعروض من عدة شركات تأمين مرخصة دون تفضيل أو حصرية لشركة بعينها، ويقتصر دور التطبيق على تقديم المعلومات والتواصل الأولي وتيسير التواصل مع الوسيط أو شركة التأمين المعنية؛ على أن يتم إتمام التعاقد النهائي وسداد الأقساط وإصدار الوثيقة مباشرة عبر القنوات الرسمية المعتمدة من الشركة أو الوسيط المرخص، وفقاً لأحكام قانون تنظيم الرقابة على التأمين ("قانون التأمين الموحد").</p>
                 </div>
                 <div class="actions" style="margin-top:12px;"><button class="btn-gold" onclick="closeModal('termsModal')" id="termsAgreeBtn">تم الاطلاع والموافقة</button></div>
             </div>
@@ -4841,6 +4919,7 @@
             insuranceAssessments: {},
             offers: [],
             companyAds: [],
+            brokerSettings: null,
             appointments: [],
             invoices: [],
             wheelLastSpin: null,
@@ -4945,6 +5024,24 @@
                 companyAdsBackBtn: 'العودة',
                 noCompanyAds: 'لا توجد إعلانات حالياً',
                 noCompanyAdsText: 'ستظهر هنا إعلانات شركات التأمين التي يضيفها الأدمن',
+                accountCompare: 'قارن عروض التأمين',
+                accountCompareSub: 'قارن الأسعار والتغطيات بسهولة',
+                compareOffersTitle: 'قارن عروض التأمين',
+                compareOffersSub: 'اختر نوع التأمين لمقارنة العروض المتاحة من شركات مختلفة',
+                compareOffersBackBtn: 'العودة',
+                accountTips: 'نصائح تأمينية',
+                accountTipsSub: 'دليلك لاختيار التأمين المناسب',
+                insuranceTipsTitle: 'نصائح تأمينية',
+                insuranceTipsSub: 'دليل مبسط يساعدك تختار التغطية المناسبة لك',
+                insuranceTipsBackBtn: 'العودة',
+                accountReferral: 'ادعُ أصدقاءك',
+                accountReferralSub: 'شارك رابطك واكسب مكافآت',
+                referralTitle: 'ادعُ أصدقاءك',
+                referralSub: 'شارك رابطك الخاص، وكل صديق يسجّل عن طريقك بيقرّبنا نساعدكم أكتر',
+                referralBackBtn: 'العودة',
+                referralCodeLabel: 'كود الدعوة الخاص بك',
+                referralShareBtn: '📤 مشاركة رابط الدعوة',
+                brokerDisclosure: 'هذا التطبيق منصة تعريفية بخدمات وسيط تأمين حر مرخّص من الهيئة العامة للرقابة المالية، ولا يمثل شركة تأمين بعينها. يتم عرض عروض من عدة شركات مرخصة، ويتم إتمام التعاقد النهائي مباشرة مع الشركة أو الوسيط المرخص.',
                 accountOffers: 'العروض والخصومات',
                 noOffers: 'لا توجد عروض حالياً',
                 noOffersText: 'سيتم إضافة عروض وخصومات جديدة قريباً',
@@ -5160,6 +5257,24 @@
                 companyAdsBackBtn: 'Back',
                 noCompanyAds: 'No advertisements right now',
                 noCompanyAdsText: 'Insurance company advertisements added by the admin will appear here',
+                accountCompare: 'Compare Insurance Offers',
+                accountCompareSub: 'Compare prices and coverage easily',
+                compareOffersTitle: 'Compare Insurance Offers',
+                compareOffersSub: 'Choose an insurance type to compare available offers from different companies',
+                compareOffersBackBtn: 'Back',
+                accountTips: 'Insurance Tips',
+                accountTipsSub: 'Your guide to choosing the right insurance',
+                insuranceTipsTitle: 'Insurance Tips',
+                insuranceTipsSub: 'A simple guide to help you pick the right coverage',
+                insuranceTipsBackBtn: 'Back',
+                accountReferral: 'Invite Friends',
+                accountReferralSub: 'Share your link and earn rewards',
+                referralTitle: 'Invite Friends',
+                referralSub: 'Share your unique link — every friend who signs up through it helps us serve you both better',
+                referralBackBtn: 'Back',
+                referralCodeLabel: 'Your referral code',
+                referralShareBtn: '📤 Share referral link',
+                brokerDisclosure: 'This app is an informational platform for the services of an independent insurance broker licensed by the Financial Regulatory Authority, and does not represent any single insurance company. Offers from several licensed companies are shown here, and the final contract is completed directly with the licensed company or broker.',
                 accountOffers: 'Offers & Discounts',
                 accountOffersSub: 'Latest exclusive offers',
                 accountCompanyAds: 'Insurance Company Ads',
@@ -5425,6 +5540,9 @@
                 updateAllTexts(); }
             if (id === 'documents') renderDocumentsList(STATE.documents);
              if (id === 'companyAds') renderCompanyAdsList();
+             if (id === 'compareOffers') renderCompareOffers();
+             if (id === 'insuranceTips') renderInsuranceTips();
+             if (id === 'referral') renderReferralScreen();
             if (id === 'login') {
                 var err = document.getElementById('loginError');
                 if (err) { err.style.display = 'none';
@@ -5491,6 +5609,7 @@
             STATE.language = STATE.language === 'ar' ? 'en' : 'ar';
             saveLanguagePreference();
             updateAllTexts();
+            applyBrokerDisclosure();
             var loginLangBtn = document.getElementById('loginLangToggle');
             if (loginLangBtn) {
                 loginLangBtn.textContent = STATE.language === 'ar' ? 'EN' : 'عربي';
@@ -5713,10 +5832,20 @@
             if (clientType === 'corporate') { data.businessName = businessName;
                 data.businessActivity = businessActivity;
                 data.employees = employees; }
+            var refCode = getReferralCode();
+            if (refCode) data.referredBy = refCode;
             showLoading('signupBtn', STATE.language === 'ar' ? 'جاري التسجيل...' : 'Signing up...');
             auth.createUserWithEmailAndPassword(email, pass).then(function(cred) {
                 return db.collection('clients').doc(cred.user.uid).set(data, { merge: true }).then(function() { return cred; });
             }).then(function(cred) {
+                if (refCode) {
+                    db.collection('leads').add({
+                        source: 'referral', status: 'new', referredCode: refCode,
+                        clientId: cred.user.uid, clientName: fullName, phone: phone,
+                        message: STATE.language === 'ar' ? 'تسجيل جديد عن طريق دعوة' : 'New signup via referral',
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(), updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }).catch(function() {});
+                }
                 return finishClientLogin(cred, email).then(function() { hideLoading('signupBtn'); });
             }).catch(function(e) {
                 hideLoading('signupBtn');
@@ -6477,7 +6606,7 @@
             if (result.recommendations && result.recommendations.length) {
                 html += '<p>' + esc(t('assessmentRecommendationsText')) + '</p><ul style="padding-right:20px;margin:6px 0;">';
                 result.recommendations.forEach(function(r) {
-                    html += '<li style="margin-bottom:8px">' + r.icon + ' <strong>' + esc(r.name) + '</strong> <span class="recommended-badge">' + esc(r.severity) + '</span><br><span style="font-size:12px;color:var(--muted)">' + esc(r.reason) + '</span></li>';
+                    html += '<li style="margin-bottom:8px">' + r.icon + ' <strong>' + esc(r.name) + '</strong> <span class="recommended-badge">' + esc(r.severity) + '</span><br><span style="font-size:12px;color:var(--muted)">' + esc(r.reason) + '</span><br><button class="btn-gold-small" style="margin-top:6px;padding:6px 12px;font-size:11px;" onclick="requestQuoteFromAssessment(\'' + esc((r.name || '').replace(/'/g, '')) + '\',\'' + esc((r.severity || '').replace(/'/g, '')) + '\')">' + (lang === 'ar' ? '💬 اطلب عرض سعر' : '💬 Request a quote') + '</button></li>';
                 });
                 html += '</ul>';
             } else html += '<p style="color:var(--green)">' + esc(t('assessmentExcellent')) + '</p>';
@@ -6488,6 +6617,13 @@
             c.innerHTML = html;
             showScreen('assessmentResult');
             normalizeIcons(c);
+        }
+
+        function requestQuoteFromAssessment(coverageName, severity) {
+            var lang = STATE.language || 'ar';
+            var msg = lang === 'ar' ? 'مرحباً، عملت تقييم الحماية في التطبيق وظهرلي إني محتاج: ' + coverageName + '. حابب أعرف عروض الأسعار المتاحة.' :
+                'Hello, I completed the protection assessment in the app and it showed I need: ' + coverageName + '. I would like to see available quotes.';
+            openBrokerWhatsApp(msg, 'assessment', { insuranceType: coverageName, message: coverageName, severity: severity || '' });
         }
 
         // ============================================================ //
@@ -6576,9 +6712,21 @@
                     warn = d > 0 && d <= 45,
                     expired = d < 0,
                     badge = expired ? getText('badgeExpired') : (warn ? getText('badgeExpiring') : getText('badgeActive')),
-                    sealIcon = expired ? iconSvg('info', 'icon-red') : warn ? iconSvg('info', 'icon-orange') : iconSvg('shield', 'icon-green');
-                return '<div class="p-card" onclick="openPolicyModal(\'' + esc(p.id) + '\')"><div class="p-seal ' + ((warn || expired) ? 'warn' : '') + '"><div class="ring">' + sealIcon + '</div></div><div class="p-body"><div class="top"><h3>' + esc(p.type || p.typeName || (lang === 'ar' ? 'تأمين' : 'Insurance')) + '</h3><span class="badge ' + ((warn || expired) ? 'warn' : 'ok') + '">' + esc(badge) + '</span></div><div class="co">' + esc(p.company || p.companyName || (lang === 'ar' ? 'شركة تأمين' : 'Insurance Company')) + '</div><div class="p-foot"><span>' + (lang === 'ar' ? 'رقم الوثيقة: ' : 'Policy #: ') + '<b>' + esc(p.policyNumber || '--') + '</b></span><span>' + ((expired) ? getText('expired') : (lang === 'ar' ? 'متبقي: ' : 'Remaining: ') + '<b>' + d + ' ' + getText('daysRemaining') + '</b>') + '</span></div></div></div>';
+                    sealIcon = expired ? iconSvg('info', 'icon-red') : warn ? iconSvg('info', 'icon-orange') : iconSvg('shield', 'icon-green'),
+                    renewBtn = (warn || expired) ? '<button class="btn-gold-small" style="margin-top:6px;padding:5px 10px;font-size:11px;" onclick="event.stopPropagation();requestRenewalQuote(\'' + esc(p.id) + '\')">' + (lang === 'ar' ? '🔄 جدّد الآن' : '🔄 Renew now') + '</button>' : '';
+                return '<div class="p-card" onclick="openPolicyModal(\'' + esc(p.id) + '\')"><div class="p-seal ' + ((warn || expired) ? 'warn' : '') + '"><div class="ring">' + sealIcon + '</div></div><div class="p-body"><div class="top"><h3>' + esc(p.type || p.typeName || (lang === 'ar' ? 'تأمين' : 'Insurance')) + '</h3><span class="badge ' + ((warn || expired) ? 'warn' : 'ok') + '">' + esc(badge) + '</span></div><div class="co">' + esc(p.company || p.companyName || (lang === 'ar' ? 'شركة تأمين' : 'Insurance Company')) + '</div><div class="p-foot"><span>' + (lang === 'ar' ? 'رقم الوثيقة: ' : 'Policy #: ') + '<b>' + esc(p.policyNumber || '--') + '</b></span><span>' + ((expired) ? getText('expired') : (lang === 'ar' ? 'متبقي: ' : 'Remaining: ') + '<b>' + d + ' ' + getText('daysRemaining') + '</b>') + '</span></div>' + renewBtn + '</div></div>';
             }).join('');
+        }
+
+        function requestRenewalQuote(policyId) {
+            var p = (STATE.policies || []).find(function(x) { return x.id === policyId; });
+            if (!p) return;
+            var lang = STATE.language || 'ar',
+                typeName = p.type || p.typeName || (lang === 'ar' ? 'وثيقتي' : 'my policy'),
+                companyName = p.company || p.companyName || '';
+            var msg = lang === 'ar' ? 'مرحباً، وثيقة "' + typeName + '"' + (companyName ? ' من ' + companyName : '') + ' هتنتهي قريب، حابب أجدّدها أو أشوف عروض أفضل.' :
+                'Hello, my "' + typeName + '"' + (companyName ? ' policy from ' + companyName : ' policy') + ' is expiring soon, I would like to renew it or see better offers.';
+            openBrokerWhatsApp(msg, 'renewal', { insuranceType: typeName, company: p.company || '', companyName: companyName, message: typeName, policyId: policyId });
         }
 
         function renderProductsList() {
@@ -6609,6 +6757,84 @@
                 }
                 return true;
             }).sort(function(a, b) { return dateMillis(b.createdAt) - dateMillis(a.createdAt); });
+        }
+
+        // ============================================================ //
+        // COMPARE OFFERS (side-by-side quote comparison by type)        //
+        // ============================================================ //
+        function renderCompareOffers() {
+            var lang = STATE.language || 'ar';
+            var sel = document.getElementById('compareTypeFilter');
+            var offers = visibleOffers();
+            var types = Array.from(new Set(offers.map(function(o) { return o.type || o.typeName || (lang === 'ar' ? 'عام' : 'General'); })));
+            if (sel && !sel.dataset.built) {
+                sel.innerHTML = '<option value="">' + (lang === 'ar' ? 'كل الأنواع' : 'All types') + '</option>' +
+                    types.map(function(ty) { return '<option value="' + esc(ty) + '">' + esc(ty) + '</option>'; }).join('');
+                sel.dataset.built = '1';
+            }
+            var chosen = sel ? sel.value : '';
+            var filtered = chosen ? offers.filter(function(o) { return (o.type || o.typeName) === chosen; }) : offers;
+            var c = document.getElementById('compareOffersList');
+            if (!c) return;
+            if (!filtered.length) { c.innerHTML = '<div class="empty-state">' + iconSvg('chart', 'icon-gold') + '<h3>' + (lang === 'ar' ? 'لا توجد عروض للمقارنة' : 'No offers to compare') + '</h3><p>' + (lang === 'ar' ? 'جرّب نوع تأمين آخر' : 'Try another insurance type') + '</p></div>'; return; }
+            c.innerHTML = '<table style="width:100%;border-collapse:collapse;font-size:12px;">' +
+                '<thead><tr style="background:var(--card);"><th style="padding:8px;text-align:right;border-bottom:1px solid var(--line);">' + (lang === 'ar' ? 'الشركة' : 'Company') + '</th><th style="padding:8px;text-align:right;border-bottom:1px solid var(--line);">' + (lang === 'ar' ? 'العرض' : 'Offer') + '</th><th style="padding:8px;text-align:right;border-bottom:1px solid var(--line);">' + (lang === 'ar' ? 'الخصم' : 'Discount') + '</th><th style="padding:8px;text-align:right;border-bottom:1px solid var(--line);"></th></tr></thead><tbody>' +
+                filtered.map(function(o) {
+                    return '<tr><td style="padding:8px;border-bottom:1px solid var(--line);">' + esc(o.companyName || o.company || '—') + '</td><td style="padding:8px;border-bottom:1px solid var(--line);">' + esc(o.name || '—') + '</td><td style="padding:8px;border-bottom:1px solid var(--line);font-weight:800;color:var(--gold-dark,#b8860b);">' + esc(o.discount ? (o.discount + '%') : '—') + '</td><td style="padding:8px;border-bottom:1px solid var(--line);"><button class="btn-gold-small" style="padding:5px 10px;font-size:11px;" onclick="requestOfferViaWhatsApp(\'' + esc(o.id) + '\')">' + (lang === 'ar' ? 'اطلب' : 'Request') + '</button></td></tr>';
+                }).join('') + '</tbody></table>';
+        }
+
+        // ============================================================ //
+        // INSURANCE TIPS (educational content to build trust pre-sale)  //
+        // ============================================================ //
+        var INSURANCE_TIPS = [
+            { icon: 'shield', titleAr: 'إزاي تختار تأمين طبي مناسب؟', titleEn: 'How to choose the right medical insurance?', bodyAr: 'قارن بين حدود التغطية، الشبكة الطبية المعتمدة، ونسبة التحمل قبل ما تقرر — مش بس السعر.', bodyEn: 'Compare coverage limits, the approved medical network, and the deductible — not just the price.' },
+            { icon: 'car', titleAr: 'تأمين شامل ولا ضد الغير؟', titleEn: 'Comprehensive vs third-party car insurance?', bodyAr: 'التأمين ضد الغير أرخص لكنه بيغطي بس أضرار الطرف التاني. الشامل بيغطي سيارتك كمان — اختار حسب عمر وقيمة سيارتك.', bodyEn: 'Third-party is cheaper but only covers the other party. Comprehensive also covers your own car — choose based on your car\'s age and value.' },
+            { icon: 'document', titleAr: 'راجع وثيقتك قبل التجديد', titleEn: 'Review your policy before renewal', bodyAr: 'ظروفك بتتغير كل سنة (دخل، عائلة، ممتلكات) — التجديد فرصة تراجع التغطية مش بس تكرر نفس الوثيقة.', bodyEn: 'Your circumstances change every year (income, family, assets) — renewal is a chance to review coverage, not just repeat the same policy.' },
+            { icon: 'lightbulb', titleAr: 'ليه محتاج وسيط تأمين مرخص؟', titleEn: 'Why work with a licensed insurance broker?', bodyAr: 'الوسيط المرخص من الهيئة العامة للرقابة المالية بيقارنلك بين شركات مختلفة، وبيساعدك وقت المطالبات كمان — من غير ما تدفع أي مقابل إضافي.', bodyEn: 'A broker licensed by the Financial Regulatory Authority compares offers across companies for you, and helps you through claims — at no extra cost to you.' }
+        ];
+        function renderInsuranceTips() {
+            var lang = STATE.language || 'ar';
+            var c = document.getElementById('insuranceTipsList');
+            if (!c) return;
+            c.innerHTML = INSURANCE_TIPS.map(function(tip) {
+                return '<div class="p-card"><div class="p-seal"><div class="ring">' + iconSvg(tip.icon, 'icon-navy') + '</div></div><div class="p-body"><div class="top"><h3>' + esc(lang === 'ar' ? tip.titleAr : tip.titleEn) + '</h3></div><p style="font-size:12px;color:var(--muted);margin-top:4px;line-height:1.7">' + esc(lang === 'ar' ? tip.bodyAr : tip.bodyEn) + '</p></div></div>';
+            }).join('');
+        }
+
+        // ============================================================ //
+        // REFERRAL PROGRAM                                              //
+        // ============================================================ //
+        function getReferralCode() {
+            try { return sessionStorage.getItem('SecurePath_ref') || ''; } catch (e) { return ''; }
+        }
+        function captureReferralCode() {
+            try {
+                var params = new URLSearchParams(window.location.search);
+                var ref = params.get('ref');
+                if (ref) sessionStorage.setItem('SecurePath_ref', ref);
+            } catch (e) {}
+        }
+        function myReferralCode() {
+            if (!STATE.currentUser) return '';
+            return STATE.currentUser.uid.slice(0, 8).toUpperCase();
+        }
+        function renderReferralScreen() {
+            var el = document.getElementById('referralCodeValue');
+            if (el) el.textContent = myReferralCode() || '—';
+        }
+        function shareReferralLink() {
+            var lang = STATE.language || 'ar';
+            var code = myReferralCode();
+            if (!code) return;
+            var link = window.location.origin + window.location.pathname + '?ref=' + code;
+            var msg = lang === 'ar' ? 'بستخدم تطبيق واثيقتي لإدارة تأميناتي بسهولة، جرّبه من الرابط ده: ' + link :
+                'I use the Wathiqati app to manage my insurance easily, try it here: ' + link;
+            if (navigator.share) {
+                navigator.share({ text: msg }).catch(function() {});
+            } else {
+                window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(msg), '_blank');
+            }
         }
 
         function renderOffersBanner() {
@@ -6667,20 +6893,76 @@
                 var body = '<div class="top"><h3>' + esc(title || (lang === 'ar' ? 'إعلان شركة' : 'Company advertisement')) + '</h3><span class="badge gold">' + esc(company) + '</span></div>' +
                     (description ? '<p style="font-size:11px;color:var(--muted);margin:6px 0;line-height:1.7">' + esc(description) + '</p>' : '') +
                     '<div class="p-foot"><span>' + esc(ad.ctaText || (lang === 'ar' ? 'اعرف المزيد' : 'Learn more')) + '</span><span>' + esc(formatDate(ad.createdAt)) + '</span></div>';
-                return url ? '<div class="p-card has-photo"><div class="p-media"><img src="' + esc(url) + '" alt="' + esc(company) + '" loading="lazy" onerror="this.style.display=\'none\'"></div><div class="p-body">' + body + '</div></div>' :
-                    '<div class="p-card"><div class="p-seal"><div class="ring">' + iconSvg('briefcase', 'icon-gold') + '</div></div><div class="p-body">' + body + '</div></div>';
+                var onclickAttr = ' onclick="handleAdClick(\'' + esc(ad.id || '') + '\',\'' + esc(ad.link || '') + '\',\'' + esc((title || '').replace(/'/g, '')) + '\',\'' + esc((company || '').replace(/'/g, '')) + '\')"';
+                return url ? '<div class="p-card has-photo"' + onclickAttr + '><div class="p-media"><img src="' + esc(url) + '" alt="' + esc(company) + '" loading="lazy" onerror="this.style.display=\'none\'"></div><div class="p-body">' + body + '</div></div>' :
+                    '<div class="p-card"' + onclickAttr + '><div class="p-seal"><div class="ring">' + iconSvg('briefcase', 'icon-gold') + '</div></div><div class="p-body">' + body + '</div></div>';
             }).join('');
+        }
+
+        function handleAdClick(adId, link, title, company) {
+            logLead('company_ad', { adId: adId, companyName: company || '', message: title || '' });
+            if (link) { window.open(link, '_blank'); return; }
+            var lang = STATE.language || 'ar';
+            var msg = lang === 'ar' ? 'مرحباً، شفت إعلان "' + title + '" من ' + company + ' وحابب أعرف تفاصيل أكتر.' :
+                'Hello, I saw the ad "' + title + '" from ' + company + ' and would like more details.';
+            window.open('https://api.whatsapp.com/send?phone=' + getBrokerWhatsappNumber() + '&text=' + encodeURIComponent(msg), '_blank');
+        }
+
+        // Reads the broker's WhatsApp number / license info configured by the admin
+        // (Firestore settings/app), falling back to the app's default number if not set yet.
+        function getBrokerWhatsappNumber() {
+            return (STATE.brokerSettings && STATE.brokerSettings.brokerWhatsapp) || '201123152500';
+        }
+        function loadBrokerSettings() {
+            return db.collection('settings').doc('app').get().then(function(doc) {
+                STATE.brokerSettings = doc.exists ? doc.data() : {};
+                applyBrokerDisclosure();
+            }).catch(function() { STATE.brokerSettings = {}; });
+        }
+        function applyBrokerDisclosure() {
+            var s = STATE.brokerSettings || {},
+                lang = STATE.language || 'ar',
+                el = document.getElementById('brokerDisclosureFooter');
+            if (!el) return;
+            var base = getText('brokerDisclosure');
+            var extra = s.brokerLicenseNumber ? (lang === 'ar' ? ' — رقم الترخيص: ' + s.brokerLicenseNumber : ' — License No.: ' + s.brokerLicenseNumber) : '';
+            el.textContent = base + extra;
+        }
+
+        // Central helper for the "indirect sale" funnel: every point where a client shows buying
+        // intent (offer click, ad click, assessment gap, renewal, quote-compare, referral signup)
+        // gets logged to Firestore "leads" so the admin/broker can follow up and track conversion.
+        function logLead(source, details) {
+            if (!STATE.currentUser) return Promise.resolve();
+            var name = displayClientName(STATE.userData || {}, (STATE.currentUser.email || '').split('@')[0]);
+            var payload = Object.assign({
+                clientId: STATE.currentUser.uid,
+                clientName: name || '—',
+                phone: (STATE.userData && STATE.userData.phone) || '',
+                source: source,
+                status: 'new',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }, details || {});
+            return db.collection('leads').add(payload).catch(function(e) { console.warn('Lead log failed', e); });
+        }
+
+        function openBrokerWhatsApp(message, leadSource, leadDetails) {
+            var number = getBrokerWhatsappNumber();
+            window.open('https://api.whatsapp.com/send?phone=' + number + '&text=' + encodeURIComponent(message), '_blank');
+            if (leadSource) logLead(leadSource, leadDetails || {});
         }
 
         function requestOfferViaWhatsApp(id) {
             var o = (STATE.offers || []).find(function(x) { return x.id === id; });
             if (!o) return;
-            var number = '201123152500';
+            var number = getBrokerWhatsappNumber();
             var name = o.name || (STATE.language === 'ar' ? 'عرض' : 'Offer');
             var msg = STATE.language === 'ar' ? 'مرحباً، أريد الاستفسار عن العرض: ' + name + (o.code ? ' (الكود: ' + o.code + ')' : '') :
                 'Hello, I would like to ask about the offer: ' + name + (o.code ? ' (Code: ' + o.code + ')' : '');
             window.open('https://api.whatsapp.com/send?phone=' + number + '&text=' + encodeURIComponent(msg), '_blank');
             if (STATE.currentUser) db.collection('activity').add({ clientId: STATE.currentUser.uid, action: 'offer_whatsapp_click', description: name, offerId: id, timestamp: firebase.firestore.FieldValue.serverTimestamp() }).catch(function() {});
+            logLead('offer', { insuranceType: o.type || o.typeName || '', company: o.company || '', companyName: o.companyName || '', message: name });
         }
 
         // ============================================================ //
@@ -7290,10 +7572,11 @@
         }
 
         function openWhatsApp() {
-            var number = '201123152500',
+            var number = getBrokerWhatsappNumber(),
                 msg = STATE.language === 'ar' ? 'مرحباً، أريد الحصول على استشارة تأمينية من SecurePath' : 'Hello, I want to get insurance advice from SecurePath';
             window.open('https://api.whatsapp.com/send?phone=' + number + '&text=' + encodeURIComponent(msg), '_blank');
             if (STATE.currentUser) db.collection('activity').add({ clientId: STATE.currentUser.uid, action: 'whatsapp_click', description: msg, timestamp: firebase.firestore.FieldValue.serverTimestamp() }).catch(function() {});
+            logLead('consultation', { message: msg });
         }
 
         function resetAdviceForm() {
@@ -7759,6 +8042,23 @@
              companyAdsSub: 'companyAdsSub',
              companyAdsNav: 'companyAdsNav',
              companyAdsBackBtn: 'companyAdsBackBtn',
+             accountCompare: 'accountCompare',
+             accountCompareSub: 'accountCompareSub',
+             compareOffersTitle: 'compareOffersTitle',
+             compareOffersSub: 'compareOffersSub',
+             compareOffersBackBtn: 'compareOffersBackBtn',
+             accountTips: 'accountTips',
+             accountTipsSub: 'accountTipsSub',
+             insuranceTipsTitle: 'insuranceTipsTitle',
+             insuranceTipsSub: 'insuranceTipsSub',
+             insuranceTipsBackBtn: 'insuranceTipsBackBtn',
+             accountReferral: 'accountReferral',
+             accountReferralSub: 'accountReferralSub',
+             referralTitle: 'referralTitle',
+             referralSub: 'referralSub',
+             referralBackBtn: 'referralBackBtn',
+             referralCodeLabel: 'referralCodeLabel',
+             referralShareBtn: 'referralShareBtn',
             accountOffers: 'accountOffers',
             accountOffersSub: 'accountOffersSub',
              accountCompanyAds: 'accountCompanyAds',
@@ -8115,10 +8415,12 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             loadThemePreference();
+            captureReferralCode();
             try { STATE.language = normalizeLanguage((localStorage.getItem('SecurePath_language') || 'ar')); } catch (e) { STATE.language = 'ar'; }
             initFormBindings();
             ensureLanguageToggle();
             updateAllTexts();
+            loadBrokerSettings();
             updateCharCount();
             initDraggableWhatsappFab();
             AUTH_READY = auth.setPersistence(firebase.auth.Auth.Persistence.NONE)
